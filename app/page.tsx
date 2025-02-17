@@ -1,11 +1,61 @@
-import { Button } from "@/components/ui/button";
+import { Button } from "@/components/shadcn/button";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/shadcn/card";
+import { ChevronRight } from "lucide-react";
 import Image from "next/image";
-
+import StatsCard from "@/modules/dashboard/components/stats-card";
+import RevenueGoalCard from "@/modules/dashboard/components/revenue-goal-card";
+import RecentOrdersCard from "@/modules/dashboard/components/recent-orders-card";
 export default function Home() {
   return (
     <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
       <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start">
-        <Button>Click me</Button>
+        <Button>Button primary</Button>
+        <Button size="sm">Button primary large</Button>
+        <Button variant="secondary">Button secondary</Button>
+        <Button variant="destructive">Button destructive</Button>
+        <Button variant="ghost">Button ghost</Button>
+
+        <Button variant="outline">Button outline</Button>
+        <Button variant="link">Button link</Button>
+
+        <Button disabled variant="secondary">
+          Button secondary disabled
+        </Button>
+        <Button disabled variant="destructive">
+          Button destructive disabled
+        </Button>
+        <Button disabled variant="ghost">
+          Button ghost disabled
+        </Button>
+
+        <Button variant="default" size="icon">
+          <ChevronRight />
+        </Button>
+
+        <Card className="shadow-inner-bottom">
+          <CardHeader>
+            <CardTitle>Revenue goal for this month</CardTitle>
+            <CardDescription>Card Description</CardDescription>
+          </CardHeader>
+          <CardContent>
+            <p>$ 2,13,090.24</p>
+          </CardContent>
+          <CardFooter>
+            <p>+16,24% last week</p>
+          </CardFooter>
+        </Card>
+
+        <StatsCard amount={213090.24} percentageChange={16.24} />
+        <RevenueGoalCard />
+        <RecentOrdersCard />
+
         <Image
           className="dark:invert"
           src="/next.svg"
