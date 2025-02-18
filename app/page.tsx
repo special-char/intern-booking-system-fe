@@ -12,6 +12,8 @@ import Image from "next/image";
 import StatsCard from "@/modules/dashboard/components/stats-card";
 import RevenueGoalCard from "@/modules/dashboard/components/revenue-goal-card";
 import RecentOrdersCard from "@/modules/dashboard/components/recent-orders-card";
+import { NavigationSidebar } from "@/modules/layout/components/navigation-sidebar";
+import { SidebarProvider } from "@/components/shadcn/sidebar";
 export default function Home() {
   return (
     <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
@@ -55,6 +57,9 @@ export default function Home() {
         <StatsCard amount={213090.24} percentageChange={16.24} />
         <RevenueGoalCard />
         <RecentOrdersCard />
+        <SidebarProvider>
+          <NavigationSidebar />
+        </SidebarProvider>
 
         <Image
           className="dark:invert"
