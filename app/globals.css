@@ -3,6 +3,8 @@
 @plugin "tailwindcss-animate";
 
 
+
+
 :root {
   --background: hsl(210, 40%, 98%);
   --foreground: hsl(217, 19%, 27%);
@@ -21,6 +23,8 @@
   --ring:	hsl(230, 94%, 82%);
   --muted-foreground: hsl(215, 16%, 47%);
   --popover-foreground: hsl(229, 84%, 5%);
+
+
 
   /* These colors below have not been updated to match the Figma design yet */
   --popover: hsl(0 0% 100%);
@@ -64,11 +68,13 @@
   --radius-md: calc(var(--radius) - 2px);
   --radius-lg: var(--radius);
   --radius-xl: calc(var(--radius) + 4px);
+  
 }
 
 @layer base {
   * {
     @apply border-border outline-ring/50;
+    
   }
   body {
     @apply bg-background text-foreground;
@@ -107,6 +113,7 @@
   --color-slate-50: hsl(210, 40%, 98%);
   --color-text-primary-brand: hsl(243, 75%, 59%);
   --shadow-side-nav: inset 0 -1px 0 #B5B5B5, inset -1px 0 0 #E3E3E3, inset 1px 0 0 #E3E3E3, inset 0 1px 0 #E3E3E3;
+  --color-indigo-950: hsl(244, 47%, 20%);
 }
 
 @layer base {

@@ -2,6 +2,10 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 
+import { SidebarProvider } from "@/components/shadcn/sidebar";
+import { NavigationSidebar } from "@/modules/layout/components/navigation-sidebar";
+import { Header } from "@/modules/layout/components/header";
+import { SidebarInset } from "@/components/shadcn/sidebar";
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
@@ -27,7 +31,15 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        {children}
+        <div className="[--header-height:calc(theme(spacing.16))]">
+          <SidebarProvider className="flex flex-col">
+            <Header />
+            <div className="flex flex-1">
+              <NavigationSidebar />
+              <SidebarInset>{children}</SidebarInset>
+            </div>
+          </SidebarProvider>
+        </div>
       </body>
     </html>
   );
