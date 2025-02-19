@@ -1,3 +1,5 @@
+"use client";
+
 import { Info, TrendingDown, TrendingUp } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Card, CardContent, CardHeader } from "@/components/shadcn/card";
@@ -7,12 +9,16 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/shadcn/tooltip";
+import { animate, useMotionValue, useMotionValueEvent } from "motion/react";
+import { useState, useEffect } from "react";
 
 interface StatsCardProps {
   amount: number;
   percentageChange: number;
   period?: string;
   className?: string;
+  title: string;
+  description: string;
 }
 
 export default function StatsCard({
@@ -20,38 +26,40 @@ export default function StatsCard({
   percentageChange,
   period = "last week",
   className,
+  title,
+  description,
 }: StatsCardProps) {
   const isPositive = percentageChange > 0;
-
-  const formatCurrency = (value: number) => {
-    return new Intl.NumberFormat("en-US", {
+  const currencyFormatter = (val: number) =>
+    new Intl.NumberFormat("en-US", {
       style: "currency",
       currency: "USD",
       minimumFractionDigits: 2,
-    }).format(value);
-  };
+    }).format(val);
+
+  const percentFormatter = (val: number) => `${val.toFixed(2)}%`;
 
   return (
     <Card className={cn(className)}>
       <CardHeader>
         <div className="flex items-center gap-2">
-          <h2 className="text-sm font-medium text-text-secondary">
-            Revenue goal for this month
-          </h2>
+          <h2 className="text-sm font-medium text-text-secondary">{title}</h2>
           <TooltipProvider>
             <Tooltip>
               <TooltipTrigger>
                 <Info className="h-4 w-4 text-text-secondary" />
               </TooltipTrigger>
               <TooltipContent>
-                <p>Revenue goal for this month</p>
+                <p>{description}</p>
               </TooltipContent>
             </Tooltip>
           </TooltipProvider>
         </div>
       </CardHeader>
       <CardContent>
-        <div className="text-2xl font-bold mb-3">{formatCurrency(amount)}</div>
+        <div className="text-2xl font-bold mb-3">
+          <AnimatedNumber value={amount} formatFn={currencyFormatter} />
+        </div>
 
         <div className="flex items-center gap-2">
           <div
@@ -62,11 +70,45 @@ export default function StatsCard({
           >
             {isPositive && <TrendingUp className="h-[18px] w-[18px]" />}
             {!isPositive && <TrendingDown />}
-            {Math.abs(percentageChange).toFixed(2)}%
+            <AnimatedNumber
+              value={Math.abs(percentageChange)}
+              formatFn={percentFormatter}
+            />
           </div>
           <span className="text-muted-foreground">{period}</span>
         </div>
       </CardContent>
     </Card>
   );
+}
+
+interface AnimatedNumberProps {
+  value: number;
+  isCurrency?: boolean;
+  formatFn?: (val: number) => string;
+  duration?: number;
+}
+
+export function AnimatedNumber({
+  value,
+  formatFn,
+  duration = 1,
+}: AnimatedNumberProps) {
+  const motionValue = useMotionValue(0);
+  const [displayValue, setDisplayValue] = useState(0);
+
+  useMotionValueEvent(motionValue, "change", (latest) => {
+    setDisplayValue(latest);
+  });
+
+  useEffect(() => {
+    const controls = animate(motionValue, value, { duration });
+    return () => {
+      controls.stop();
+    };
+  }, [value, duration, motionValue]);
+
+  const formatted = formatFn ? formatFn(displayValue) : displayValue.toString();
+
+  return <span>{formatted}</span>;
 }

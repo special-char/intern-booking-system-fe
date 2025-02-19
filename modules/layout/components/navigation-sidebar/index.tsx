@@ -18,7 +18,6 @@ export function NavigationSidebar({
 }: React.ComponentProps<typeof Sidebar>) {
   return (
     <Sidebar
-      variant="inset"
       className="top-[var(--header-height)] !h-[calc(100svh-var(--header-height))] py-8 px-4 bg-slate-50"
       {...props}
     >
