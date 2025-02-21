@@ -6,6 +6,12 @@ import {
 } from "@/components/shadcn/tabs";
 import AppointmentsTemplate from "@/modules/dashboard/templates/appointments-template";
 import OrdersTemplate from "@/modules/dashboard/templates/orders-template";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Treadcommand | Dashboard",
+  description: "Treadcommand | Dashboard",
+};
 
 export default function Home() {
   return (

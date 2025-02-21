@@ -100,15 +100,15 @@ export const menuItems = {
       isExpandable: true,
       items: [
         {
-          title: "Sub-menu 1",
+          title: "List view",
+          url: "/orders/list-view",
+        },
+        {
+          title: "Calendar view",
           url: "#",
         },
         {
-          title: "Sub-menu 2",
-          url: "#",
-        },
-        {
-          title: "Sub-menu 3",
+          title: "Map view",
           url: "#",
         },
       ],

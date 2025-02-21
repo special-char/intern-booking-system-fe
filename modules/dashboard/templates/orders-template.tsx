@@ -1,6 +1,6 @@
-import { OrdersStats } from "../../components/orders-stats";
-import RecentOrdersCard from "../../components/recent-orders-card";
-import RevenueGoalCard from "../../components/revenue-goal-card";
+import { OrdersStats } from "../components/orders-stats";
+import RecentOrdersCard from "../components/recent-orders-card";
+import RevenueGoalCard from "../components/revenue-goal-card";
 
 export default function OrdersTemplate() {
   return (
