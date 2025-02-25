@@ -1,6 +1,6 @@
 "use client";
 
-import { Bell } from "lucide-react";
+import { Bell, LogOutIcon } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -71,36 +71,39 @@ export function Header() {
                 </Avatar>
               </Button>
             </DropdownMenuTrigger>
-            <DropdownMenuContent className="w-80" align="end">
-              <DropdownMenuLabel className="font-normal">
-                <div className="flex flex-col space-y-4">
-                  <p className="text-xs font-medium leading-none text-muted-foreground">
+            <DropdownMenuContent className="min-w-40" align="end">
+              <DropdownMenuLabel className="font-normal py-2 px-3">
+                <div className="flex flex-col space-y-2">
+                  <p className="text-[10px] leading-none text-text-primary">
                     USER
                   </p>
-                  <p className="text-sm font-medium leading-none">
+                  <p className="text-sm font-medium leading-none text-text-primary">
                     {user.name}
                   </p>
                 </div>
               </DropdownMenuLabel>
-              <DropdownMenuSeparator />
               <DropdownMenuGroup>
-                <DropdownMenuItem className="flex flex-col items-start">
-                  <p className="text-xs font-medium leading-none text-muted-foreground">
+                <DropdownMenuLabel className="flex flex-col items-start py-2 space-y-2 px-3">
+                  <p className="text-[10px] leading-none text-text-primary">
                     EMAIL
                   </p>
-                  <p className="mt-1 text-sm">{user.email}</p>
-                </DropdownMenuItem>
-                <DropdownMenuItem className="flex flex-col items-start">
-                  <p className="text-xs font-medium leading-none text-muted-foreground">
+                  <p className="text-sm font-medium leading-none text-text-primary">
+                    {user.email}
+                  </p>
+                </DropdownMenuLabel>
+                <DropdownMenuLabel className="flex flex-col items-start py-2 space-y-2 px-3">
+                  <p className="text-[10px] leading-none text-text-primary">
                     STORE ID
                   </p>
-                  <p className="mt-1 text-sm">{user.storeId}</p>
-                </DropdownMenuItem>
+                  <p className="text-sm font-medium leading-none text-text-primary">
+                    {user.storeId}
+                  </p>
+                </DropdownMenuLabel>
               </DropdownMenuGroup>
-              <DropdownMenuSeparator />
+              <DropdownMenuSeparator className="border-border-primary" />
               <DropdownMenuItem className="flex items-center justify-between">
                 Logout
-                <span className="text-lg">→</span>
+                <LogOutIcon />
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
