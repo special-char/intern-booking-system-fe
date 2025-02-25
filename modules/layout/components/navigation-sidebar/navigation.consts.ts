@@ -115,21 +115,28 @@ export const menuItems = {
     },
     {
       title: "Service pricing",
-      url: "#",
       icon: CircleDollarSign,
       isActive: false,
       isExpandable: true,
       items: [
         {
-          title: "Sub-menu 1",
+          title: "Trip charge",
           url: "#",
         },
         {
-          title: "Sub-menu 2",
+          title: "Install",
           url: "#",
         },
         {
-          title: "Sub-menu 3",
+          title: "Patch repair",
+          url: "/service-pricing/patch-repair",
+        },
+        {
+          title: "Balance & rotation",
+          url: "#",
+        },
+        {
+          title: "Fees",
           url: "#",
         },
       ],

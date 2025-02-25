@@ -1,9 +1,8 @@
 @import "tailwindcss";
 
+@custom-variant dark (&:is(.dark *));
+
 @plugin "tailwindcss-animate";
-
-
-
 
 :root {
   --background: hsl(210, 40%, 98%);
@@ -23,8 +22,6 @@
   --ring:	hsl(230, 94%, 82%);
   --muted-foreground: hsl(215, 16%, 47%);
   --popover-foreground: hsl(229, 84%, 5%);
-
-
 
   /* These colors below have not been updated to match the Figma design yet */
   --popover: hsl(0 0% 100%);
@@ -69,13 +66,12 @@
   --radius-lg: var(--radius);
   --radius-xl: calc(var(--radius) + 4px);
 
-  
 }
 
 @layer base {
   * {
     @apply border-border outline-ring/50;
-    
+
   }
   body {
     @apply bg-background text-foreground;
@@ -107,6 +103,9 @@
   --color-text-secondary: hsl(220, 9%, 46%);
   --color-text-success-primary: hsl(142, 76%, 36%);
   --color-icon-fg: 	hsl(217, 19%, 27%);
+  --color-icon-fg-brand: 	hsl(243, 75%, 59%);
+  --color-brand-primary-100: hsl(226, 100%, 94%);
+  --color-brand-primary-300: hsl(230, 94%, 82%);
   --color-text-placeholder: hsl(218, 11%, 65%);
   --color-bg-secondary: hsl(210, 20%, 98%);
   --color-bg-secondary-hover: hsl(220, 14%, 96%);
@@ -123,15 +122,17 @@
   --color-gray-200: hsl(220, 13%, 91%);
   --color-button-secondary-bg: 	hsl(210, 20%, 98%);
   --color-border-primary: hsl(216, 12%, 84%);
-  --color-green-100: 	hsl(141, 84%, 93%);
+  --color-green-100: hsl(141, 84%, 93%);
+  --color-green-600: hsl(142, 76%, 36%);
   --color-green-700: hsl(142, 72%, 29%);
   --color-lime-100: hsl(80, 89%, 89%);
   --color-lime-700: hsl(86, 78%, 27%);
   --color-red-100: 	hsl(0, 93%, 94%);
+  --color-red-600: 	hsl(0, 72%, 51%);
   --color-red-700: 	hsl(0, 74%, 42%);
   --color-yellow-100:	hsl(55, 97%, 88%);
   --color-yellow-600: 	hsl(41, 96%, 40%);
-  
+
 }
 
 @layer base {

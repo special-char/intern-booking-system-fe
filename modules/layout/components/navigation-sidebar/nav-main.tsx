@@ -26,7 +26,7 @@ export function NavMain({
 }: {
   items: {
     title: string;
-    url: string;
+    url?: string;
     icon?: LucideIcon;
     isActive?: boolean;
     isExpandable?: boolean;
@@ -43,6 +43,10 @@ export function NavMain({
       <SidebarMenu>
         {items.map((item) => {
           const isActive = pathname === item.url;
+          const isChildActive = item.items?.some(
+            (subItem) => pathname === subItem.url
+          );
+          const shouldExpand = item.isActive || isChildActive;
 
           return (
             <Fragment key={item.title}>
@@ -50,7 +54,7 @@ export function NavMain({
                 <Collapsible
                   key={item.title}
                   asChild
-                  defaultOpen={item.isActive}
+                  defaultOpen={shouldExpand}
                   className="group/collapsible"
                 >
                   <SidebarMenuItem>
@@ -77,6 +81,7 @@ export function NavMain({
                             <SidebarMenuSubItem
                               key={subItem.title}
                               className={cn(
+                                "text-text-primary",
                                 isActive &&
                                   "bg-white text-text-primary-brand font-semibold shadow-side-nav rounded-lg"
                               )}
@@ -107,17 +112,24 @@ export function NavMain({
                     asChild
                     className="py-3 pl-5 pr-4 text-[13px] font-medium text-text-primary cursor-pointer min-h-10"
                   >
-                    <Link
-                      href={item.url}
-                      className={cn(
-                        "hover:bg-white hover:text-text-primary-brand hover:shadow-side-nav",
-                        isActive &&
-                          "bg-white text-text-primary-brand font-semibold shadow-side-nav"
-                      )}
-                    >
-                      {item.icon && <item.icon />}
-                      <span>{item.title}</span>
-                    </Link>
+                    {item.url ? (
+                      <Link
+                        href={item.url}
+                        className={cn(
+                          "hover:bg-white hover:text-text-primary-brand hover:shadow-side-nav",
+                          isActive &&
+                            "bg-white text-text-primary-brand font-semibold shadow-side-nav"
+                        )}
+                      >
+                        {item.icon && <item.icon />}
+                        <span>{item.title}</span>
+                      </Link>
+                    ) : (
+                      <div className="flex items-center gap-2">
+                        {item.icon && <item.icon />}
+                        <span>{item.title}</span>
+                      </div>
+                    )}
                   </SidebarMenuButton>
                 </SidebarMenuItem>
               )}
