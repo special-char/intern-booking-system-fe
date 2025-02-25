@@ -21,7 +21,7 @@ export function NavigationSidebar({
       className="top-[var(--header-height)] !h-[calc(100svh-var(--header-height))] py-8 px-4 bg-slate-50"
       {...props}
     >
-      <SidebarContent>
+      <SidebarContent className="overflow-x-hidden">
         <NavMain items={menuItems.navMain} />
       </SidebarContent>
       <SidebarFooter>
