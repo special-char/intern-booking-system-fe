@@ -36,7 +36,7 @@ export default function RootLayout({
             <Header />
             <div className="flex flex-1">
               <NavigationSidebar />
-              <SidebarInset>{children}</SidebarInset>
+              <SidebarInset className="max-w-full">{children}</SidebarInset>
             </div>
           </SidebarProvider>
         </div>
