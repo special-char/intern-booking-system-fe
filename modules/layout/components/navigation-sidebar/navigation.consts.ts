@@ -38,7 +38,7 @@ export const menuItems = {
     },
     {
       title: "Tire pricing ",
-      url: "#",
+      url: "/tire-pricing",
       icon: Tag,
       isActive: false,
       isExpandable: false,

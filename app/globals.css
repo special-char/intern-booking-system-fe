@@ -131,8 +131,8 @@
   --color-red-600: 	hsl(0, 72%, 51%);
   --color-red-700: 	hsl(0, 74%, 42%);
   --color-yellow-100:	hsl(55, 97%, 88%);
-  --color-yellow-600: 	hsl(41, 96%, 40%);
-
+  --color-yellow-600: hsl(41, 96%, 40%);
+  --color-icon-error: hsl(0, 72%, 51%)
 }
 
 @layer base {
