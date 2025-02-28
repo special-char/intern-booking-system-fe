@@ -7,16 +7,17 @@ import {
   DropdownMenuContent,
   DropdownMenuTrigger,
 } from "@/components/shadcn/dropdown-menu";
-import { ColumnDef } from "@tanstack/react-table";
+import { ColumnDef, FilterFn } from "@tanstack/react-table";
 import { MoreVertical, Pencil, Trash2 } from "lucide-react";
-import { SortableHeader } from "./sortable-header";
+import { SortableHeader } from "@/components/common/table/sortable-header";
 import { dateRangeFilterFn } from "./date-filter";
-import { multiValueFilterFn } from "./filter-options-button";
+import { multiValueFilterFn } from "@/components/common/table/filter-options-button";
 import {
   Avatar,
   AvatarFallback,
   AvatarImage,
 } from "@/components/shadcn/avatar";
+
 export type Order = {
   id: string;
   date: string;
@@ -55,7 +56,7 @@ export const columns: ColumnDef<Order, string>[] = [
     },
     accessorKey: "payment",
     header: "Payment",
-    filterFn: multiValueFilterFn,
+    filterFn: multiValueFilterFn as FilterFn<Order>,
     cell: ({ row }) => {
       const payment = row.getValue("payment") as string;
       return (
@@ -71,7 +72,7 @@ export const columns: ColumnDef<Order, string>[] = [
       label: "Order Status",
     },
     header: "Order Status",
-    filterFn: multiValueFilterFn,
+    filterFn: multiValueFilterFn as FilterFn<Order>,
     cell: ({ row }) => {
       const orderStatus = row.getValue("orderStatus") as string;
       let statusClasses = "";
@@ -151,7 +152,7 @@ export const columns: ColumnDef<Order, string>[] = [
         </div>
       );
     },
-    filterFn: multiValueFilterFn,
+    filterFn: multiValueFilterFn as FilterFn<Order>,
   },
   {
     accessorKey: "appointmentDate",

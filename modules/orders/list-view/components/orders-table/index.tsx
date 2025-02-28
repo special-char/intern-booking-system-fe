@@ -14,14 +14,17 @@ import {
 import { useState } from "react";
 
 import { Tabs, TabsList, TabsTrigger } from "@/components/shadcn/tabs";
-import { ContentTable } from "./content-table";
-import { Pagination } from "./pagination";
+import { ContentTable } from "@/components/common/table/content-table";
+
 import { Card } from "@/components/shadcn/card";
 import { DateFilter } from "./date-filter";
-import { FilterOptionsButton } from "./filter-options-button";
+import { FilterOptionsButton } from "@/components/common/table/filter-options-button";
 import { SortButton } from "./sort-button";
-import { ColumnVisibilityButton } from "./column-visibility-button";
-import { ClearFiltersButton } from "./clear-filters-button";
+import { ColumnVisibilityButton } from "@/components/common/table/column-visibility-button";
+
+import { PaginationTable } from "@/components/common/table/pagination-table";
+import { ClearTableFiltersButton } from "@/components/common/table/clear-table-filters-button";
+import { filters } from "./filter-options";
 
 interface OrdersTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
@@ -89,16 +92,16 @@ export function OrdersTable<TData, TValue>({
             </TabsList>
           </Tabs>
           <div className="flex items-center gap-2">
-            <ClearFiltersButton table={table} />
+            <ClearTableFiltersButton table={table} />
             <DateFilter table={table} />
-            <FilterOptionsButton table={table} />
+            <FilterOptionsButton table={table} filters={filters} />
             <SortButton table={table} />
             <ColumnVisibilityButton table={table} />
           </div>
         </div>
-        <ContentTable table={table} />
+        <ContentTable table={table} columns={columns} />
       </Card>
-      <Pagination table={table} />
+      <PaginationTable table={table} />
     </div>
   );
 }

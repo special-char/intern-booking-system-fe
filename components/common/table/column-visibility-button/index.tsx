@@ -9,19 +9,27 @@ import {
 } from "@/components/shadcn/dropdown-menu";
 import { Button } from "@/components/shadcn/button";
 import { Columns3 } from "lucide-react";
+import { cn } from "@/lib/utils";
 
 interface ColumnVisibilityButtonProps<TData> {
   table: Table<TData>;
+  label?: string;
 }
 
 export function ColumnVisibilityButton<TData>({
   table,
+  label,
 }: ColumnVisibilityButtonProps<TData>) {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button variant="secondary" size="sm" className="h-8 w-8">
+        <Button
+          variant="secondary"
+          size="sm"
+          className={cn("h-8 w-8", label && "w-fit")}
+        >
           <Columns3 className="w-4 h-4" />
+          {label}
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent>

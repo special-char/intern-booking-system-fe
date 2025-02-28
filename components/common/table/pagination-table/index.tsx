@@ -20,11 +20,11 @@ import {
 import { Select } from "@/components/shadcn/select";
 import { Table as TableType } from "@tanstack/react-table";
 
-interface PaginationProps<TData> {
+interface PaginationTableProps<TData> {
   table: TableType<TData>;
 }
 
-export function Pagination<TData>({ table }: PaginationProps<TData>) {
+export function PaginationTable<TData>({ table }: PaginationTableProps<TData>) {
   return (
     <div className="flex items-center justify-between">
       <p className="text-sm text-text-primary">

@@ -4,13 +4,13 @@ import { Table } from "@tanstack/react-table";
 import { Button } from "@/components/shadcn/button";
 import { X } from "lucide-react";
 
-interface ClearFiltersButtonProps<TData> {
+interface ClearTableFiltersButtonProps<TData> {
   table: Table<TData>;
 }
 
-export function ClearFiltersButton<TData>({
+export function ClearTableFiltersButton<TData>({
   table,
-}: ClearFiltersButtonProps<TData>) {
+}: ClearTableFiltersButtonProps<TData>) {
   const hasFilters = table.getState().columnFilters.length > 0;
 
   if (!hasFilters) {

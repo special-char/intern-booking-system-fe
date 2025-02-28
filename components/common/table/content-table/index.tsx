@@ -6,15 +6,18 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/shadcn/table";
-import { flexRender } from "@tanstack/react-table";
-import { columns } from "./columns";
+import { flexRender, ColumnDef } from "@tanstack/react-table";
 import { Table as TableType } from "@tanstack/react-table";
 
-interface ContentTableProps<TData> {
+interface ContentTableProps<TData, TValue> {
   table: TableType<TData>;
+  columns: ColumnDef<TData, TValue>[];
 }
 
-export function ContentTable<TData>({ table }: ContentTableProps<TData>) {
+export function ContentTable<TData, TValue>({
+  table,
+  columns,
+}: ContentTableProps<TData, TValue>) {
   return (
     <Table>
       <TableHeader>

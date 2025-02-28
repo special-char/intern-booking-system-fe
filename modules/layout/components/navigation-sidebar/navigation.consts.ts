@@ -58,16 +58,12 @@ export const menuItems = {
       isExpandable: true,
       items: [
         {
-          title: "Sub-menu 1",
+          title: "Vans",
           url: "#",
         },
         {
-          title: "Sub-menu 2",
-          url: "#",
-        },
-        {
-          title: "Sub-menu 3",
-          url: "#",
+          title: "Technicians",
+          url: "/vans-techs/technicians",
         },
       ],
     },

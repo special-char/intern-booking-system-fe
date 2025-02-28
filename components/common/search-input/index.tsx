@@ -1,9 +1,9 @@
 import { Input } from "@/components/shadcn/input";
 import { Search } from "lucide-react";
-
-export default function SearchInput() {
+import { cn } from "@/lib/utils";
+export default function SearchInput({ className }: { className?: string }) {
   return (
-    <div className="relative w-full max-w-sm">
+    <div className={cn("relative w-full max-w-sm", className)}>
       <Input
         leftIcon={<Search size={16} className="text-text-placeholder" />}
         type="text"
