@@ -52,14 +52,13 @@ export const menuItems = {
     },
     {
       title: "Vans/Techs",
-      url: "#",
       icon: Truck,
       isActive: false,
       isExpandable: true,
       items: [
         {
           title: "Vans",
-          url: "#",
+          url: "/vans-techs/vans",
         },
         {
           title: "Technicians",
