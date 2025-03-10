@@ -16,6 +16,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/shadcn/dropdown-menu";
 import { Logo } from "@/icons/logo";
+import { logout } from "@/lib/data/cookies";
 
 interface User {
   name: string;
@@ -101,7 +102,10 @@ export function Header() {
                 </DropdownMenuLabel>
               </DropdownMenuGroup>
               <DropdownMenuSeparator className="border-border-primary" />
-              <DropdownMenuItem className="flex items-center justify-between">
+              <DropdownMenuItem
+                className="flex items-center justify-between"
+                onClick={logout}
+              >
                 Logout
                 <LogOutIcon />
               </DropdownMenuItem>
