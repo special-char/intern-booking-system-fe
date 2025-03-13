@@ -3,7 +3,7 @@ import { UserIcon } from "lucide-react";
 import { columns } from "../components/van-table/columns";
 import { VansTable } from "../components/van-table";
 import { AddVan } from "../components/add-van";
-
+import { Pagination } from "@/types/common";
 export function VansTemplate() {
   const data = [
     {
@@ -98,6 +98,12 @@ export function VansTemplate() {
     },
   ];
 
+  const pagination: Pagination = {
+    pageIndex: 1,
+    pageSize: 10,
+    totalCount: data.length,
+  };
+
   return (
     <div className="py-8 px-6">
       <div className="flex justify-between items-center">
@@ -110,7 +116,7 @@ export function VansTemplate() {
           <AddVan />
         </div>
       </div>
-      <VansTable columns={columns} data={data} />
+      <VansTable columns={columns} data={data} pagination={pagination} />
     </div>
   );
 }

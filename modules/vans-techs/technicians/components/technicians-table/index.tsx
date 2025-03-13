@@ -23,13 +23,16 @@ import {
 import { Technician } from "./columns";
 import { useState } from "react";
 import { filters } from "./filter-options";
+import { Pagination } from "@/types/common";
 
 export function TechniciansTable({
   columns,
   data,
+  pagination,
 }: {
   columns: ColumnDef<Technician, string>[];
   data: Technician[];
+  pagination: Pagination;
 }) {
   const [sorting, setSorting] = useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
@@ -72,7 +75,7 @@ export function TechniciansTable({
         </div>
         <ContentTable table={table} columns={columns} />
       </Card>
-      <PaginationTable table={table} />
+      <PaginationTable table={table} pagination={pagination} />
     </div>
   );
 }

@@ -3,6 +3,7 @@ import { UserIcon } from "lucide-react";
 import { TechniciansTable } from "../components/technicians-table";
 import { columns } from "../components/technicians-table/columns";
 import { AddTechnician } from "../components/add-technician";
+import { Pagination } from "@/types/common";
 
 export function TechniciansTemplate() {
   const data = [
@@ -98,6 +99,12 @@ export function TechniciansTemplate() {
     },
   ];
 
+  const pagination: Pagination = {
+    pageIndex: 1,
+    pageSize: 10,
+    totalCount: data.length,
+  };
+
   return (
     <div className="py-8 px-6">
       <div className="flex justify-between items-center">
@@ -110,7 +117,7 @@ export function TechniciansTemplate() {
           <AddTechnician />
         </div>
       </div>
-      <TechniciansTable columns={columns} data={data} />
+      <TechniciansTable columns={columns} data={data} pagination={pagination} />
     </div>
   );
 }

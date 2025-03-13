@@ -25,15 +25,18 @@ import { ColumnVisibilityButton } from "@/components/common/table/column-visibil
 import { PaginationTable } from "@/components/common/table/pagination-table";
 import { ClearTableFiltersButton } from "@/components/common/table/clear-table-filters-button";
 import { filters } from "./filter-options";
+import { Pagination } from "@/types/common";
 
 interface OrdersTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
+  pagination: Pagination;
 }
 
 export function OrdersTable<TData, TValue>({
   columns,
   data,
+  pagination,
 }: OrdersTableProps<TData, TValue>) {
   const [sorting, setSorting] = useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
@@ -51,10 +54,12 @@ export function OrdersTable<TData, TValue>({
       columnFilters,
     },
     onColumnFiltersChange: setColumnFilters,
+    manualPagination: true,
+    pageCount: Math.ceil(pagination.totalCount / pagination.pageSize),
     initialState: {
       pagination: {
-        pageIndex: 0,
-        pageSize: 20,
+        pageIndex: pagination.pageIndex,
+        pageSize: pagination.pageSize,
       },
     },
   });
@@ -101,7 +106,7 @@ export function OrdersTable<TData, TValue>({
         </div>
         <ContentTable table={table} columns={columns} />
       </Card>
-      <PaginationTable table={table} />
+      <PaginationTable table={table} pagination={pagination} />
     </div>
   );
 }

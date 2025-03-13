@@ -1,13 +1,8 @@
 import { SelectGroup } from "@/components/shadcn/select";
-
 import { SelectContent } from "@/components/shadcn/select";
-
 import { SelectValue } from "@/components/shadcn/select";
-
 import { SelectItem } from "@/components/shadcn/select";
-
 import { SelectTrigger } from "@/components/shadcn/select";
-
 import {
   Pagination as ShadcnPagination,
   PaginationContent,
@@ -19,92 +14,86 @@ import {
 } from "@/components/shadcn/pagination";
 import { Select } from "@/components/shadcn/select";
 import { Table as TableType } from "@tanstack/react-table";
-
+import { Pagination } from "@/types/common";
+import { useUpdateQueryParams } from "@/hooks/use-update-query-params";
 interface PaginationTableProps<TData> {
   table: TableType<TData>;
+  pagination: Pagination;
 }
 
-export function PaginationTable<TData>({ table }: PaginationTableProps<TData>) {
+function getPaginationRange(
+  currentPage: number,
+  totalPages: number
+): (number | string)[] {
+  if (totalPages <= 5) {
+    return Array.from({ length: totalPages }, (_, i) => i + 1);
+  }
+
+  if (currentPage <= 3) {
+    return [1, 2, 3, "...", totalPages];
+  } else if (currentPage >= totalPages - 2) {
+    return [1, "...", totalPages - 2, totalPages - 1, totalPages];
+  } else {
+    return [1, "...", currentPage, "...", totalPages];
+  }
+}
+
+export function PaginationTable<TData>({
+  table,
+  pagination,
+}: PaginationTableProps<TData>) {
+  const totalPages = table.getPageCount();
+  const { pageIndex, pageSize, totalCount } = pagination;
+  const currentPage = pageIndex;
+
+  const paginationRange = getPaginationRange(currentPage, totalPages);
+  const { updateQueryParams } = useUpdateQueryParams();
+
   return (
     <div className="flex items-center justify-between">
       <p className="text-sm text-text-primary">
-        Showing{" "}
-        {table.getState().pagination.pageSize *
-          table.getState().pagination.pageIndex +
-          1}{" "}
-        to{" "}
-        {Math.min(
-          table.getState().pagination.pageSize *
-            (table.getState().pagination.pageIndex + 1),
-          table.getFilteredRowModel().rows.length
-        )}
+        Showing {pageSize * pageIndex} of {totalCount}
       </p>
       <ShadcnPagination className="justify-end w-fit mx-0">
         <PaginationContent>
           <PaginationItem>
             <PaginationPrevious
-              href="#"
-              onClick={(e) => {
-                e.preventDefault();
-                table.previousPage();
-              }}
+              href={`?page=${currentPage - 1}`}
               className={
-                !table.getCanPreviousPage()
+                currentPage <= 1 ? "pointer-events-none opacity-50" : ""
+              }
+            />
+          </PaginationItem>
+          {paginationRange.map((page, idx) => (
+            <PaginationItem key={idx}>
+              {page === "..." ? (
+                <PaginationEllipsis />
+              ) : (
+                <PaginationLink
+                  href={`?page=${page}`}
+                  isActive={currentPage === page}
+                >
+                  {page}
+                </PaginationLink>
+              )}
+            </PaginationItem>
+          ))}
+          <PaginationItem>
+            <PaginationNext
+              href={`?page=${currentPage + 1}`}
+              className={
+                currentPage >= totalPages
                   ? "pointer-events-none opacity-50"
                   : ""
               }
             />
           </PaginationItem>
-          {Array.from({ length: table.getPageCount() }, (_, i) => i + 1)
-            .slice(0, 3)
-            .map((pageNumber) => (
-              <PaginationItem key={pageNumber}>
-                <PaginationLink
-                  href="#"
-                  onClick={(e) => {
-                    e.preventDefault();
-                    table.setPageIndex(pageNumber - 1);
-                  }}
-                  isActive={
-                    table.getState().pagination.pageIndex === pageNumber - 1
-                  }
-                >
-                  {pageNumber}
-                </PaginationLink>
-              </PaginationItem>
-            ))}
-          {table.getPageCount() > 3 && (
-            <PaginationItem>
-              <PaginationEllipsis />
-            </PaginationItem>
-          )}
-          {table.getPageCount() > 3 && (
-            <PaginationItem>
-              <PaginationLink
-                href="#"
-                onClick={(e) => {
-                  e.preventDefault();
-                  table.setPageIndex(table.getPageCount() - 1);
-                }}
-              >
-                {table.getPageCount()}
-              </PaginationLink>
-            </PaginationItem>
-          )}
-          <PaginationItem>
-            <PaginationNext
-              href="#"
-              onClick={(e) => {
-                e.preventDefault();
-                table.nextPage();
-              }}
-              className={
-                !table.getCanNextPage() ? "pointer-events-none opacity-50" : ""
-              }
-            />
-          </PaginationItem>
         </PaginationContent>
-        <Select onValueChange={(value) => table.setPageSize(Number(value))}>
+        <Select
+          onValueChange={(value) => {
+            updateQueryParams({ page: "1", limit: value });
+          }}
+        >
           <SelectTrigger className="w-[120px] text-sm">
             <SelectValue placeholder="20/page" />
           </SelectTrigger>

@@ -16,7 +16,15 @@ export const metadata: Metadata = {
   description: "Treadcommand | Orders",
 };
 
-export default function ListView() {
+export default async function ListView({
+  searchParams,
+}: {
+  searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
+}) {
+  const params = await searchParams;
+  const page = params.page ? parseInt(params.page as string) : 1;
+  const limit = params.limit ? parseInt(params.limit as string) : 20;
+
   return (
     <Tabs defaultValue="list" className="px-6 py-8 gap-5">
       <div className="flex justify-between">
@@ -40,7 +48,7 @@ export default function ListView() {
         <SearchInput />
       </div>
       <TabsContent value="list">
-        <OrdersListViewTemplate />
+        <OrdersListViewTemplate page={page} limit={limit} />
       </TabsContent>
       <TabsContent value="calendar">
         <CalendarViewTemplate />

@@ -23,13 +23,15 @@ import {
 import { Van } from "./columns";
 import { useState } from "react";
 import { filters } from "./filter-options";
-
+import { Pagination } from "@/types/common";
 export function VansTable({
   columns,
   data,
+  pagination,
 }: {
   columns: ColumnDef<Van, string>[];
   data: Van[];
+  pagination: Pagination;
 }) {
   const [sorting, setSorting] = useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
@@ -72,7 +74,7 @@ export function VansTable({
         </div>
         <ContentTable table={table} columns={columns} />
       </Card>
-      <PaginationTable table={table} />
+      <PaginationTable table={table} pagination={pagination} />
     </div>
   );
 }

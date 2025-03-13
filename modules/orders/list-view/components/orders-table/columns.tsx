@@ -18,17 +18,7 @@ import {
   AvatarImage,
 } from "@/components/shadcn/avatar";
 
-export type Order = {
-  id: string;
-  date: string;
-  orderNumber: string;
-  payment: "Paid" | "Not Paid";
-  orderStatus: "Delivered" | "Pending" | "Cancelled" | "Shipped";
-  totalAmount: number;
-  qboStatus: "Synced" | "Pending" | "Failed";
-  appointmentDate: string;
-  technician: string;
-};
+import { Order } from "@/types/order";
 
 export const columns: ColumnDef<Order, string>[] = [
   {
@@ -108,7 +98,7 @@ export const columns: ColumnDef<Order, string>[] = [
       label: "Total Amount",
     },
     header: ({ column }) => (
-      <SortableHeader column={column} className="justify-end w-full">
+      <SortableHeader column={column} className="w-full">
         <div className="text-right">Total Amount</div>
       </SortableHeader>
     ),
