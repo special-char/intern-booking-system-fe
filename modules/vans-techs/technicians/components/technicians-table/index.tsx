@@ -37,6 +37,8 @@ export function TechniciansTable({
   const [sorting, setSorting] = useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
 
+  console.log("data", data);
+
   const table = useReactTable({
     data,
     columns,

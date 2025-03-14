@@ -1,16 +1,8 @@
 "use client";
 
-import { Button } from "@/components/shadcn/button";
-import { Pencil, Trash2 } from "lucide-react";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "@/components/shadcn/dropdown-menu";
 import { ColumnDef } from "@tanstack/react-table";
-import { MoreVertical } from "lucide-react";
 import { SortableHeader } from "@/components/common/table/sortable-header";
+import { TechniciansActions } from "./technicians-actions";
 
 export type Technician = {
   id: string;
@@ -81,31 +73,21 @@ export const columns: ColumnDef<Technician, string>[] = [
     meta: {
       label: "Actions",
     },
-    cell: () => {
-      return (
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button
-              variant="ghost"
-              className="p-0 h-fit flex items-center justify-center"
-              size="sm"
-            >
-              <span className="sr-only">Open menu</span>
-              <MoreVertical className="h-4 w-4" />
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align="end">
-            <DropdownMenuItem>
-              <Pencil />
-              Edit
-            </DropdownMenuItem>
-            <DropdownMenuItem>
-              <Trash2 />
-              Delete
-            </DropdownMenuItem>
-          </DropdownMenuContent>
-        </DropdownMenu>
-      );
+    cell: ({ row }) => {
+      console.log(row.original.name);
+      // TODO: Fill with the correct values when backend is ready
+      const initialValues = {
+        id: row.original.id,
+        fullName: row.original.name,
+        email: "john.doe@example.com",
+        password: "password",
+        mobilePhone: "+1234567890",
+        twilioPhone: "+1234567890",
+        profilePhoto: "none",
+        assignMobileTireVan: "van1",
+      };
+
+      return <TechniciansActions initialValues={initialValues} />;
     },
   },
 ];

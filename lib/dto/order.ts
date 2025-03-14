@@ -8,7 +8,7 @@ export type OrderPaginationDTO = {
   limit: number;
 };
 
-export const mapMedusaOrdersToDTO = (
+export const mapOrdersToDTO = (
   response: HttpTypes.AdminOrderListResponse
 ): OrderPaginationDTO => {
   const orders = response.orders.map((order) => ({
@@ -35,8 +35,8 @@ export const mapMedusaOrdersToDTO = (
   };
 };
 
-const getPaymentStatus = (status: string): "Paid" | "Not Paid" =>
+export const getPaymentStatus = (status: string): "Paid" | "Not Paid" =>
   status === "authorized" ? "Paid" : "Not Paid";
 
-const getOrderStatus = (status: string): "Pending" | "Delivered" =>
+export const getOrderStatus = (status: string): "Pending" | "Delivered" =>
   status === "pending" ? "Pending" : "Delivered";

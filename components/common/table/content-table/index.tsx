@@ -44,7 +44,6 @@ export function ContentTable<TData, TValue>({
             <TableRow
               key={row.id}
               data-state={row.getIsSelected() && "selected"}
-              className="capitalize"
             >
               {row.getVisibleCells().map((cell) => (
                 <TableCell key={cell.id}>

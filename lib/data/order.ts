@@ -1,5 +1,5 @@
 import { sdk } from "../config";
-import { mapMedusaOrdersToDTO } from "../dto/order";
+import { mapOrdersToDTO } from "../dto/order";
 import { getAuthHeaders } from "./cookies";
 
 export async function getOrderList({
@@ -43,7 +43,7 @@ export async function getOrderListDTO({
       return null;
     }
 
-    return mapMedusaOrdersToDTO(orders);
+    return mapOrdersToDTO(orders);
   } catch (error) {
     console.error(error);
     return null;

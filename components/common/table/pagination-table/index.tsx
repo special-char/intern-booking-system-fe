@@ -48,11 +48,15 @@ export function PaginationTable<TData>({
 
   const paginationRange = getPaginationRange(currentPage, totalPages);
   const { updateQueryParams } = useUpdateQueryParams();
+  const adjustedPageIndex = pageIndex - 1;
+  const startIndex = adjustedPageIndex * pageSize;
+  const currentPageCount =
+    startIndex < totalCount ? Math.min(pageSize, totalCount - startIndex) : 0;
 
   return (
     <div className="flex items-center justify-between">
       <p className="text-sm text-text-primary">
-        Showing {pageSize * pageIndex} of {totalCount}
+        Showing {currentPageCount} of {totalCount}
       </p>
       <ShadcnPagination className="justify-end w-fit mx-0">
         <PaginationContent>
