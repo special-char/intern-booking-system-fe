@@ -4,18 +4,9 @@ import { ColumnDef } from "@tanstack/react-table";
 
 import { SortableHeader } from "@/components/common/table/sortable-header";
 import VanActions from "./van-actions";
+import { TireVanDTO } from "@/types/tire-vans";
 
-export type Van = {
-  id: string;
-  vehicleId: string;
-  year: string;
-  make: string;
-  model: string;
-  trim: string;
-  capacity: string;
-};
-
-export const columns: ColumnDef<Van, string>[] = [
+export const columns: ColumnDef<TireVanDTO, string>[] = [
   {
     header: ({ column }) => (
       <SortableHeader column={column}>Vehicle ID</SortableHeader>

@@ -26,10 +26,22 @@ import {
   addTechnicianFormDefaultValues,
   addTechnicianFormInitialValues,
 } from "./add-technician-form.consts";
-import { Van } from "../van-table/columns";
+import { TireVanDTO } from "@/types/tire-vans";
+import { createTireVan, updateTireVan } from "@/lib/data/vans";
+import { useEffect, useState } from "react";
+
 type AddTechnicianFormType = z.infer<typeof addTechnicianFormSchema>;
 
-export function AddVanForm({ van }: { van?: Van }) {
+export function AddVanForm({
+  van,
+  isEdit,
+  setIsOpen,
+}: {
+  van?: TireVanDTO;
+  isEdit?: boolean;
+  setIsOpen: (isOpen: boolean) => void;
+}) {
+  const [isSuccess, setIsSuccess] = useState(false);
   const form = useForm<AddTechnicianFormType>({
     resolver: zodResolver(addTechnicianFormSchema),
     defaultValues: van
@@ -37,14 +49,39 @@ export function AddVanForm({ van }: { van?: Van }) {
       : addTechnicianFormDefaultValues,
   });
 
-  const onSubmit = (values: AddTechnicianFormType) => {
-    console.log("Form values:", values);
+  const {
+    formState: { isSubmitting },
+  } = form;
+
+  const onSubmit = async (values: AddTechnicianFormType) => {
+    const formData = {
+      display_id: values.vehicleId,
+      capacity: values.tireCapacity,
+      name: "test",
+    };
+
+    if (isEdit && van) {
+      console.log("run");
+      const updatedVan = await updateTireVan(formData, van.id);
+      setIsSuccess(updatedVan.isSuccess);
+    } else {
+      const newVan = await createTireVan(formData);
+      setIsSuccess(newVan.isSuccess);
+    }
   };
+
+  useEffect(() => {
+    if (isSuccess) {
+      form.reset();
+      setIsSuccess(false);
+      setIsOpen(false);
+    }
+  }, [form, isSuccess, setIsOpen]);
 
   return (
     <SheetContent className="sm:max-w-[500px]">
       <SheetHeader>
-        <SheetTitle>Add Van</SheetTitle>
+        <SheetTitle>{isEdit ? "Edit Van" : "Add Van"}</SheetTitle>
       </SheetHeader>
 
       <Form {...form}>
@@ -116,7 +153,7 @@ export function AddVanForm({ van }: { van?: Van }) {
             <Button variant="secondary" type="button" className="w-full">
               Cancel
             </Button>
-            <Button type="submit" className="w-full">
+            <Button type="submit" className="w-full" disabled={isSubmitting}>
               Save
             </Button>
           </SheetFooter>

@@ -9,10 +9,26 @@ import {
 } from "@/components/shadcn/dropdown-menu";
 import { Sheet } from "@/components/shadcn/sheet";
 import { AddVanForm } from "../add-van-form";
-import { Van } from "./columns";
+import { TireVanDTO } from "@/types/tire-vans";
+import { deleteTireVan } from "@/lib/data/vans";
 
-export default function VanActions({ van }: { van: Van }) {
+export default function VanActions({
+  van,
+}: {
+  van: TireVanDTO & { id: string };
+}) {
   const [isSheetOpen, setSheetOpen] = useState(false);
+  const [isDeleting, setIsDeleting] = useState(false);
+
+  const handleDelete = async () => {
+    setIsDeleting(true);
+    try {
+      await deleteTireVan(van.id);
+    } catch (error) {
+      console.error("Error deleting tire van:", error);
+    }
+    setIsDeleting(false);
+  };
 
   return (
     <>
@@ -36,7 +52,7 @@ export default function VanActions({ van }: { van: Van }) {
             <Pencil />
             Edit
           </DropdownMenuItem>
-          <DropdownMenuItem>
+          <DropdownMenuItem onClick={handleDelete} disabled={isDeleting}>
             <Trash2 />
             Delete
           </DropdownMenuItem>
@@ -44,7 +60,7 @@ export default function VanActions({ van }: { van: Van }) {
       </DropdownMenu>
 
       <Sheet open={isSheetOpen} onOpenChange={setSheetOpen}>
-        <AddVanForm van={van} />
+        <AddVanForm van={van} setIsOpen={setSheetOpen} isEdit />
       </Sheet>
     </>
   );

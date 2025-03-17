@@ -20,17 +20,18 @@ import {
   useReactTable,
 } from "@tanstack/react-table";
 
-import { Van } from "./columns";
 import { useState } from "react";
 import { filters } from "./filter-options";
 import { Pagination } from "@/types/common";
+import { TireVanDTO } from "@/types/tire-vans";
+
 export function VansTable({
   columns,
   data,
   pagination,
 }: {
-  columns: ColumnDef<Van, string>[];
-  data: Van[];
+  columns: ColumnDef<TireVanDTO, string>[];
+  data: TireVanDTO[];
   pagination: Pagination;
 }) {
   const [sorting, setSorting] = useState<SortingState>([]);
@@ -64,7 +65,7 @@ export function VansTable({
           <div className="flex items-center justify-end gap-2 w-full">
             <ClearTableFiltersButton table={table} />
 
-            <FilterOptionsButton<Van>
+            <FilterOptionsButton<TireVanDTO>
               label="Filter"
               table={table}
               filters={filters}
