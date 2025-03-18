@@ -13,7 +13,8 @@ import { animate, useMotionValue, useMotionValueEvent } from "motion/react";
 import { useState, useEffect } from "react";
 
 interface StatsCardProps {
-  amount: number;
+  amount?: number;
+  dollarAmount?: number;
   percentageChange: number;
   period?: string;
   className?: string;
@@ -23,6 +24,7 @@ interface StatsCardProps {
 
 export default function StatsCard({
   amount,
+  dollarAmount,
   percentageChange,
   period = "last week",
   className,
@@ -58,7 +60,10 @@ export default function StatsCard({
       </CardHeader>
       <CardContent>
         <div className="text-2xl font-bold mb-3">
-          <AnimatedNumber value={amount} formatFn={currencyFormatter} />
+          <AnimatedNumber
+            value={amount ?? dollarAmount ?? 0}
+            formatFn={dollarAmount ? currencyFormatter : undefined}
+          />
         </div>
 
         <div className="flex items-center gap-2">

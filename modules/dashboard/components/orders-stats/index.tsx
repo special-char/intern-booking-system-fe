@@ -1,27 +1,99 @@
+import { getOrderList } from "@/lib/data/order";
 import StatsCard from "@/modules/dashboard/components/stats-card";
+import {
+  getEndOfDay,
+  getEndOfCurrentWeek,
+  getPercentageChange,
+  getStartOfCurrentWeek,
+  getStartOfDay,
+} from "./utilts";
 
-export function OrdersStats() {
+export async function OrdersStats() {
+  const now = new Date();
+
+  const startOfToday = getStartOfDay(now);
+  const endOfToday = getEndOfDay(now);
+
+  const ordersTodayRes = await getOrderList({
+    page: 1,
+    limit: 9999,
+    filters: {
+      created_at: {
+        $gte: startOfToday.toISOString(),
+        $lte: endOfToday.toISOString(),
+      },
+      order: "-created_at",
+    },
+  });
+
+  const todayOrdersCount = (ordersTodayRes?.orders ?? []).length;
+
+  const startOfWeek = getStartOfCurrentWeek(now);
+  const endOfWeek = getEndOfCurrentWeek(now);
+
+  const ordersThisWeekRes = await getOrderList({
+    page: 1,
+    limit: 9999,
+    filters: {
+      created_at: {
+        $gte: startOfWeek.toISOString(),
+        $lte: endOfWeek.toISOString(),
+      },
+      order: "-created_at",
+    },
+  });
+
+  const thisWeekValue = (ordersThisWeekRes?.orders ?? []).reduce(
+    (acc, order) => acc + order.summary.current_order_total,
+    0
+  );
+
+  const thisWeekOrdersCount = (ordersThisWeekRes?.orders ?? []).length;
+
+  const lastWeekEnd = new Date(startOfWeek.getTime() - 1);
+  const lastWeekStart = getStartOfCurrentWeek(lastWeekEnd);
+
+  const ordersLastWeekRes = await getOrderList({
+    page: 1,
+    limit: 9999,
+    filters: {
+      created_at: {
+        $gte: lastWeekStart.toISOString(),
+        $lte: lastWeekEnd.toISOString(),
+      },
+      order: "-created_at",
+    },
+  });
+
+  const lastWeekValue = (ordersLastWeekRes?.orders ?? []).reduce(
+    (acc, order) => acc + order.summary.current_order_total,
+    0
+  );
+
+  const changeThisWeek = getPercentageChange(lastWeekValue, thisWeekValue);
+
   const data = [
     {
-      amount: 1000,
-      percentageChange: 10,
+      dollarAmount: thisWeekValue,
+      percentageChange: changeThisWeek,
       period: "last week",
-      title: "Revenue goal for this month",
+      title: "Revenue goal for all orders",
       description: "Revenue goal for this month",
     },
+
     {
-      amount: 1000,
-      percentageChange: 10,
+      amount: thisWeekOrdersCount,
+      percentageChange: changeThisWeek,
       period: "last week",
       title: "Orders this week",
-      description: "Revenue goal for this month",
+      description: "Suma wartości zamówień z tego tygodnia",
     },
     {
-      amount: 1000,
-      percentageChange: 10,
+      amount: todayOrdersCount,
+      percentageChange: changeThisWeek,
       period: "last week",
       title: "Orders today",
-      description: "Revenue goal for this month",
+      description: "Suma wartości zamówień z dzisiaj",
     },
   ];
 
