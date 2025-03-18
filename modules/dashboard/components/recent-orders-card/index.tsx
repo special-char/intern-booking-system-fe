@@ -6,54 +6,14 @@ import {
   CardTitle,
 } from "@/components/shadcn/card";
 import { Avatar, AvatarFallback } from "@/components/shadcn/avatar";
+import { HttpTypes } from "@medusajs/types";
+import { formatRelativeTime } from "@/utils/format-relative-time";
 
-interface Order {
-  initials: string;
-  name: string;
-  amount: number;
-  timestamp: string;
-}
-
-const orders: Order[] = [
-  {
-    initials: "HM",
-    name: "Henry Matties",
-    amount: 1159.34,
-    timestamp: "5 minutes ago",
-  },
-  {
-    initials: "RS",
-    name: "Rob Silvia",
-    amount: 1159.34,
-    timestamp: "5 minutes ago",
-  },
-  {
-    initials: "JH",
-    name: "Jerry Horton",
-    amount: 1159.34,
-    timestamp: "5 minutes ago",
-  },
-  {
-    initials: "SG",
-    name: "Sophia Garcia",
-    amount: 1159.34,
-    timestamp: "5 minutes ago",
-  },
-  {
-    initials: "EN",
-    name: "Ethan Nguyen",
-    amount: 1159.34,
-    timestamp: "5 minutes ago",
-  },
-  {
-    initials: "OP",
-    name: "Olivia Patel",
-    amount: 1159.34,
-    timestamp: "5 minutes ago",
-  },
-];
-
-export default function RecentOrdersCard() {
+export default function RecentOrdersCard({
+  orders,
+}: {
+  orders: HttpTypes.AdminOrder[];
+}) {
   return (
     <Card className="w-full max-w-md">
       <CardHeader className="pb-4">
@@ -66,24 +26,26 @@ export default function RecentOrdersCard() {
       </CardHeader>
       <CardContent className="grid gap-4">
         {orders.map((order) => (
-          <div key={order.name} className="flex items-center justify-between">
+          <div key={order.id} className="flex items-center justify-between">
             <div className="flex items-center gap-3">
               <Avatar className="h-10 w-10 bg-avatar-bg-alt text-text-primary rounded-xl">
                 <AvatarFallback className="bg-avatar-bg-alt">
-                  {order.initials}
+                  {order.shipping_address?.first_name?.charAt(0)}
+                  {order.shipping_address?.last_name?.charAt(0)}
                 </AvatarFallback>
               </Avatar>
               <div className="grid gap-0.5">
                 <span className="font-medium text-sm text-popover-foreground">
-                  {order.name}
+                  {order.shipping_address?.first_name}{" "}
+                  {order.shipping_address?.last_name}
                 </span>
                 <span className="text-xs text-muted-foreground">
-                  {order.timestamp}
+                  {formatRelativeTime(order.created_at)}
                 </span>
               </div>
             </div>
             <span className="font-bold text-sm text-[#3E9B4F]">
-              ${order.amount.toFixed(2)}
+              ${order.summary.current_order_total.toFixed(2)}
             </span>
           </div>
         ))}

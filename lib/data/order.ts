@@ -17,6 +17,9 @@ export async function getOrderList({
       {
         limit,
         offset,
+        fields:
+          "*customer, shipping_address.first_name, shipping_address.last_name",
+        order: "-created_at",
       },
       {
         ...authHeaders,
