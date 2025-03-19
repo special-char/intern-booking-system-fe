@@ -6,34 +6,80 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/shadcn/table";
-import { flexRender, ColumnDef } from "@tanstack/react-table";
+import { cn } from "@/lib/utils";
+import { flexRender, ColumnDef, HeaderGroup } from "@tanstack/react-table";
 import { Table as TableType } from "@tanstack/react-table";
 
 interface ContentTableProps<TData, TValue> {
   table: TableType<TData>;
   columns: ColumnDef<TData, TValue>[];
+  isHeaderGrouping?: boolean
+  rowCn?: string
 }
 
 export function ContentTable<TData, TValue>({
   table,
   columns,
+  isHeaderGrouping,
+  rowCn
 }: ContentTableProps<TData, TValue>) {
+  const headerGroups: HeaderGroup<TData>[] = table.getHeaderGroups()
+  const maxHeaderDepth: number = headerGroups.length
+
   return (
     <Table>
       <TableHeader>
-        {table.getHeaderGroups().map((headerGroup) => (
+        {headerGroups.map((headerGroup, groupIndex) => (
           <TableRow key={headerGroup.id}>
             {headerGroup.headers.map((header) => {
-              return (
-                <TableHead key={header.id} className="uppercase">
-                  {header.isPlaceholder
-                    ? null
-                    : flexRender(
+              const centerVertical: boolean = !!header.column.columnDef.meta?.center?.vertical;
+              const centerHorizontal: boolean = !!header.column.columnDef.meta?.center?.horizontal;
+              const border: boolean = !!header.column.columnDef.meta?.border;
+
+              const thClassName: string = cn("uppercase", border && "border-r border-[var(--color-border)]", centerHorizontal && "text-center")
+
+              if (!isHeaderGrouping) {
+                return (
+                  <TableHead
+                    key={header.id}
+                    className={thClassName}
+                  >
+                    {header.isPlaceholder
+                      ? null
+                      : flexRender(
                         header.column.columnDef.header,
                         header.getContext()
                       )}
+                  </TableHead>
+                );
+              }
+
+              if (centerVertical) {
+                // render first row
+                if (!groupIndex) {
+                  return (
+                    <TableHead
+                      key={header.id}
+                      rowSpan={maxHeaderDepth}
+                      className={thClassName}
+                    >
+                      {flexRender(header.column.columnDef.header, header.getContext())}
+                    </TableHead>
+                  )
+                }
+                // skip the vertically aligned columns in subsequent rows
+                return null
+              }
+
+              return (
+                <TableHead
+                  key={header.id}
+                  colSpan={header.colSpan}
+                  className={thClassName}
+                >
+                  {header.isPlaceholder ? null : flexRender(header.column.columnDef.header, header.getContext())}
                 </TableHead>
-              );
+              )
             })}
           </TableRow>
         ))}
@@ -44,9 +90,10 @@ export function ContentTable<TData, TValue>({
             <TableRow
               key={row.id}
               data-state={row.getIsSelected() && "selected"}
+              className={cn(rowCn)}
             >
               {row.getVisibleCells().map((cell) => (
-                <TableCell key={cell.id}>
+                <TableCell key={cell.id} className={cn(cell.column.columnDef.meta?.border && "border-r border-[var(--color-border)]")}>
                   {flexRender(cell.column.columnDef.cell, cell.getContext())}
                 </TableCell>
               ))}

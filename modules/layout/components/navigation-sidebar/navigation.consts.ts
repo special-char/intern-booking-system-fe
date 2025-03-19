@@ -31,7 +31,7 @@ export const menuItems = {
     },
     {
       title: "Tire Brands",
-      url: "#",
+      url: "/tire-brands",
       icon: BadgeCheck,
       isActive: false,
       isExpandable: false,

@@ -2,16 +2,8 @@
 
 import {
   ColumnDef,
-  ColumnFiltersState,
-  getCoreRowModel,
-  getFilteredRowModel,
-  getPaginationRowModel,
-  getSortedRowModel,
-  SortingState,
-  useReactTable,
 } from "@tanstack/react-table";
 
-import { useState } from "react";
 
 import { Tabs, TabsList, TabsTrigger } from "@/components/shadcn/tabs";
 import { ContentTable } from "@/components/common/table/content-table";
@@ -26,6 +18,7 @@ import { PaginationTable } from "@/components/common/table/pagination-table";
 import { ClearTableFiltersButton } from "@/components/common/table/clear-table-filters-button";
 import { filters } from "./filter-options";
 import { Pagination } from "@/types/common";
+import { useTable } from "@/hooks/use-table";
 
 interface OrdersTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
@@ -38,31 +31,20 @@ export function OrdersTable<TData, TValue>({
   data,
   pagination,
 }: OrdersTableProps<TData, TValue>) {
-  const [sorting, setSorting] = useState<SortingState>([]);
-  const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
-
-  const table = useReactTable({
+  const { table } = useTable({
     data,
     columns,
-    getCoreRowModel: getCoreRowModel(),
-    getPaginationRowModel: getPaginationRowModel(),
-    onSortingChange: setSorting,
-    getSortedRowModel: getSortedRowModel(),
-    getFilteredRowModel: getFilteredRowModel(),
-    state: {
-      sorting,
-      columnFilters,
-    },
-    onColumnFiltersChange: setColumnFilters,
-    manualPagination: true,
-    pageCount: Math.ceil(pagination.totalCount / pagination.pageSize),
-    initialState: {
-      pagination: {
-        pageIndex: pagination.pageIndex,
-        pageSize: pagination.pageSize,
+    config: {
+      manualPagination: true,
+      pageCount: Math.ceil(pagination.totalCount / pagination.pageSize),
+      initialState: {
+        pagination: {
+          pageIndex: pagination.pageIndex,
+          pageSize: pagination.pageSize,
+        },
       },
-    },
-  });
+    }
+  })
 
   return (
     <div className="space-y-5">

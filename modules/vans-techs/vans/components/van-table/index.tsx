@@ -11,19 +11,12 @@ import { ClearTableFiltersButton } from "@/components/common/table/clear-table-f
 
 import {
   ColumnDef,
-  ColumnFiltersState,
-  getCoreRowModel,
-  getFilteredRowModel,
-  getPaginationRowModel,
-  getSortedRowModel,
-  SortingState,
-  useReactTable,
 } from "@tanstack/react-table";
 
-import { useState } from "react";
 import { filters } from "./filter-options";
 import { Pagination } from "@/types/common";
 import { TireVanDTO } from "@/types/tire-vans";
+import { useTable } from "@/hooks/use-table";
 
 export function VansTable({
   columns,
@@ -34,29 +27,7 @@ export function VansTable({
   data: TireVanDTO[];
   pagination: Pagination;
 }) {
-  const [sorting, setSorting] = useState<SortingState>([]);
-  const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
-
-  const table = useReactTable({
-    data,
-    columns,
-    getCoreRowModel: getCoreRowModel(),
-    getPaginationRowModel: getPaginationRowModel(),
-    onSortingChange: setSorting,
-    getSortedRowModel: getSortedRowModel(),
-    getFilteredRowModel: getFilteredRowModel(),
-    state: {
-      sorting,
-      columnFilters,
-    },
-    onColumnFiltersChange: setColumnFilters,
-    initialState: {
-      pagination: {
-        pageIndex: 0,
-        pageSize: 20,
-      },
-    },
-  });
+  const { table } = useTable({ data, columns })
 
   return (
     <div className="space-y-5 mt-6">

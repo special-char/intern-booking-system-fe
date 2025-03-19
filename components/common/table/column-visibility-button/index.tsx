@@ -34,7 +34,6 @@ export function ColumnVisibilityButton<TData>({
       </DropdownMenuTrigger>
       <DropdownMenuContent>
         {table.getAllLeafColumns().map((column) => {
-          // @ts-expect-error - meta is not typed
           const label = column.columnDef.meta?.label;
 
           if (!column.getCanHide?.()) {
