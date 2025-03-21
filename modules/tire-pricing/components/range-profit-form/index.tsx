@@ -10,24 +10,28 @@ import { CircleDollarSign } from "lucide-react";
 
 import { Card, CardTitle, CardHeader } from "@/components/shadcn/card";
 import {
-  rangeProfitFormDefaultValues,
   rangeProfitFormSchema,
 } from "./range-profit-form.consts";
 import { Form } from "@/components/shadcn/form";
 import { Tooltip } from "@/components/common/tooltip";
 
-export default function RangeProfitForm() {
+interface RangeProfitFormProps {
+  minProfit: number;
+  maxProfit: number;
+}
+
+export default function RangeProfitForm({ minProfit, maxProfit }: RangeProfitFormProps) {
   const form = useForm<z.infer<typeof rangeProfitFormSchema>>({
     resolver: zodResolver(rangeProfitFormSchema),
-    defaultValues: rangeProfitFormDefaultValues,
+    defaultValues: rangeProfitFormSchema.parse({ minProfit, maxProfit }),
   });
 
   function onChange(values: z.infer<typeof rangeProfitFormSchema>) {
     console.log(values);
   }
 
-  const minProfit = form.watch("minProfit");
-  const maxProfit = form.watch("maxProfit");
+  const minProfitWatch = form.watch("minProfit");
+  const maxProfitWatch = form.watch("maxProfit");
 
   return (
     <Form {...form}>
@@ -46,7 +50,7 @@ export default function RangeProfitForm() {
               <Input
                 wrapperClassName="w-full"
                 leftIcon={<CircleDollarSign size={16} />}
-                value={minProfit}
+                value={minProfitWatch}
                 onChange={(e) =>
                   form.setValue("minProfit", Number(e.target.value))
                 }
@@ -54,7 +58,7 @@ export default function RangeProfitForm() {
               <Input
                 wrapperClassName="w-full"
                 leftIcon={<CircleDollarSign size={16} />}
-                value={maxProfit}
+                value={maxProfitWatch}
                 onChange={(e) =>
                   form.setValue("maxProfit", Number(e.target.value))
                 }
@@ -64,7 +68,7 @@ export default function RangeProfitForm() {
             <Range
               min={0}
               max={100}
-              value={[minProfit, maxProfit]}
+              value={[minProfitWatch, maxProfitWatch]}
               onValueChange={(value) => {
                 form.setValue("minProfit", value[0]);
                 form.setValue("maxProfit", value[1]);

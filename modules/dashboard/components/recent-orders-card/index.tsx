@@ -6,14 +6,12 @@ import {
   CardTitle,
 } from "@/components/shadcn/card";
 import { Avatar, AvatarFallback } from "@/components/shadcn/avatar";
-import { HttpTypes } from "@medusajs/types";
 import { formatRelativeTime } from "@/utils/time";
+import { getOrderList } from "@/lib/data/order";
 
-export default function RecentOrdersCard({
-  orders,
-}: {
-  orders: HttpTypes.AdminOrder[];
-}) {
+export default async function RecentOrdersCard() {
+  const orders = await getOrderList({ page: 1, limit: 10 });
+
   return (
     <Card className="w-full max-w-md">
       <CardHeader className="pb-4">
@@ -25,7 +23,7 @@ export default function RecentOrdersCard({
         </div>
       </CardHeader>
       <CardContent className="grid gap-4">
-        {orders.map((order) => (
+        {orders?.orders.map((order) => (
           <div key={order.id} className="flex items-center justify-between">
             <div className="flex items-center gap-3">
               <Avatar className="h-10 w-10 bg-avatar-bg-alt text-text-primary rounded-xl">

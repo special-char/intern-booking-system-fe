@@ -8,7 +8,7 @@ import { useTable } from "@/hooks/use-table";
 import { TireSupplier } from "@/types/tire-supplier";
 import { ContentTable } from "@/components/common/table/content-table";
 
-export default function TireSupplierConnectionStatusSkeleton() {
+export function TireSupplierConnectionStatusSkeleton() {
   const columns = getColumns({ isLoading: true });
   const { data } = getTableLoadingData(3)
 
@@ -17,7 +17,7 @@ export default function TireSupplierConnectionStatusSkeleton() {
   return (
     <Card>
       <CardHeader>
-        <Skeleton variant="input" className="h-4 w-1/6" />
+        <Skeleton variant="default" className="h-4 w-1/6" />
       </CardHeader>
       <CardContent>
         <div className="mt-5">

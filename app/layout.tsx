@@ -3,6 +3,7 @@ import { redirect } from "next/navigation";
 import "./globals.css";
 import { Geist, Geist_Mono } from "next/font/google";
 import { Metadata } from "next";
+import { Providers } from "./providers";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -37,7 +38,9 @@ export default async function Layout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        {admin ? dashboard : login}
+        <Providers>
+          {admin ? dashboard : login}
+        </Providers>
       </body>
     </html>
   );

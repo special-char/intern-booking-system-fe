@@ -31,7 +31,7 @@ export function TimeMarkers({
           >
             <div className="h-2 w-px bg-muted-foreground/50"></div>
             <span className="-translate-x-[50%]">
-              {isLoading ? <Skeleton variant="input" className="w-7 h-2 mt-1" /> : marker.label}
+              {isLoading ? <Skeleton variant="default" className="w-7 h-2 mt-1" /> : marker.label}
             </span>
           </div>
         )

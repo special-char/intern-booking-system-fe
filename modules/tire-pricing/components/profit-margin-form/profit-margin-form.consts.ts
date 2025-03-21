@@ -5,7 +5,3 @@ export const profitMarginFormSchema = z.object({
     message: "Number must be greater than 0.",
   }),
 });
-
-export const profitMarginFormDefaultValues = profitMarginFormSchema.parse({
-  profitMargin: 25,
-});

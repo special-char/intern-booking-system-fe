@@ -9,7 +9,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import {
   tireDetailsFormSchema,
   tireDetailsFormDefaultValues,
-} from "./tire-details-form.consts";
+} from "./consts";
 import {
   Form,
   FormControl,
@@ -46,7 +46,7 @@ export default function TireDetailsForm({ tire }: TireDetailsSheetProps) {
   return (
     <SheetContent className="sm:max-w-md">
       <SheetHeader>
-        <SheetTitle>{tire.title}</SheetTitle>
+        <SheetTitle>{tire?.title}</SheetTitle>
       </SheetHeader>
       <Form {...form}>
         <form

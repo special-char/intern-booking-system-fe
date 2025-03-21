@@ -3,11 +3,11 @@ import { Card, CardContent, CardHeader } from '@/components/shadcn/card';
 import { Input } from '@/components/shadcn/input';
 import { Skeleton } from '@/components/shadcn/skeleton';
 
-export default function TireSupplierOrderCutoffSkeleton() {
+export function TireSupplierOrderCutoffSkeleton() {
   return (
     <Card>
       <CardHeader>
-        <Skeleton variant="input" className="h-4 w-1/4" />
+        <Skeleton variant="default" className="h-4 w-1/4" />
       </CardHeader>
       <CardContent>
         <div className="relative 2xl:w-1/3 mt-5">

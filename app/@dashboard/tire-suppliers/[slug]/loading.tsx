@@ -1,8 +1,8 @@
-import TireSupplierAutoPaySkeleton from "@/modules/tire-suppliers/components/auto-pay/skeleton";
-import TireSupplierConnectionKeySkeleton from "@/modules/tire-suppliers/components/connection-key/skeleton";
-import TireSupplierConnectionStatusSkeleton from "@/modules/tire-suppliers/components/connection-status/skeleton";
-import TireSupplierOrderCutoffSkeleton from "@/modules/tire-suppliers/components/order-cutoff/skeleton";
-import TireSupplierReceivingSkeleton from "@/modules/tire-suppliers/components/receiving/skeleton";
+import { TireSupplierAutoPaySkeleton } from "@/modules/tire-suppliers/components/auto-pay/skeleton";
+import { TireSupplierConnectionKeySkeleton } from "@/modules/tire-suppliers/components/connection-key/skeleton";
+import { TireSupplierConnectionStatusSkeleton } from "@/modules/tire-suppliers/components/connection-status/skeleton";
+import { TireSupplierOrderCutoffSkeleton } from "@/modules/tire-suppliers/components/order-cutoff/skeleton";
+import { TireSupplierReceivingSkeleton } from "@/modules/tire-suppliers/components/receiving/skeleton";
 
 export default function TireSuppliersLoading() {
   return (

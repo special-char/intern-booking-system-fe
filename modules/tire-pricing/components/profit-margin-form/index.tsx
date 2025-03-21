@@ -1,6 +1,5 @@
 "use client";
 
-import { profitMarginFormDefaultValues } from "./profit-margin-form.consts";
 
 import { useForm } from "react-hook-form";
 import { profitMarginFormSchema } from "./profit-margin-form.consts";
@@ -16,10 +15,16 @@ import { Form } from "@/components/shadcn/form";
 import { Tooltip } from "@/components/common/tooltip";
 import { PercentIcon } from "lucide-react";
 
-export default function ProfitMarginForm() {
+interface ProfitMarginFormProps {
+  margin: number
+}
+
+export default function ProfitMarginForm({ margin }: ProfitMarginFormProps) {
   const form = useForm<z.infer<typeof profitMarginFormSchema>>({
     resolver: zodResolver(profitMarginFormSchema),
-    defaultValues: profitMarginFormDefaultValues,
+    defaultValues: profitMarginFormSchema.parse({
+      profitMargin: margin,
+    }),
   });
 
   function onChange(values: z.infer<typeof profitMarginFormSchema>) {

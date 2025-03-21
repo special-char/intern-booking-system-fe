@@ -21,7 +21,7 @@ export function getColumns({ isLoading }: GetColumnsInterface): ColumnDef<TireSu
       accessorKey: "name",
       cell: ({ row }) => {
         if (isLoading) {
-          return <Skeleton variant="input" />
+          return <Skeleton variant="default" />
         }
         return row.original.name
       }
@@ -31,7 +31,7 @@ export function getColumns({ isLoading }: GetColumnsInterface): ColumnDef<TireSu
       accessorKey: "lastChecked",
       cell: ({ row }) => {
         if (isLoading) {
-          return <Skeleton variant="input" />
+          return <Skeleton variant="default" />
         }
         return new Date(row.original.lastChecked).toLocaleString("en-US", {
           month: "short",
@@ -48,7 +48,7 @@ export function getColumns({ isLoading }: GetColumnsInterface): ColumnDef<TireSu
       accessorKey: "status",
       cell: ({ row }) => {
         if (isLoading) {
-          return <Skeleton variant="input" className={cn(row.index < 2 ? "bg-green-100" : "bg-red-100")} />
+          return <Skeleton variant="default" className={cn(row.index < 2 ? "bg-green-100" : "bg-red-100")} />
         }
         return (
           <StatusBadge

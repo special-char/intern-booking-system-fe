@@ -8,8 +8,3 @@ export const rangeProfitFormSchema = z.object({
     message: "Number must be greater than 0.",
   }),
 });
-
-export const rangeProfitFormDefaultValues = rangeProfitFormSchema.parse({
-  minProfit: 25,
-  maxProfit: 50,
-});

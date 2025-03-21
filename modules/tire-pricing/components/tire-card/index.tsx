@@ -1,10 +1,10 @@
 import { Button } from "@/components/shadcn/button";
 import { ChevronRightIcon, Trash2Icon } from "lucide-react";
 import Image from "next/image";
-import TireDetailsForm from "./tire-details-form";
 import { Sheet, SheetTrigger } from "@/components/shadcn/sheet";
 import { Tire } from "@/types/tire";
 import { Checkbox } from "@/components/shadcn/checkbox";
+import TireDetailsForm from "../tire-details-form";
 
 interface TireCardProps {
   tire: Tire;
@@ -22,10 +22,10 @@ export default function TireCard({
   onSelect,
 }: TireCardProps) {
   return (
-    <div className="flex items-center justify-between gap-3">
+    <div className="flex items-center justify-between">
       {isAddMode && (
         <Checkbox
-          className="ml-4"
+          className="mr-3"
           checked={selected}
           onCheckedChange={(checked: boolean) =>
             onSelect && onSelect(tire.sku, checked)

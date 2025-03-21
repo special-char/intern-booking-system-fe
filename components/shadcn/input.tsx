@@ -33,10 +33,10 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
 
     if (loading) {
       return (
-        <div className="relative border rounded-md h-9 px-3 py-2 flex items-center bg-background">
-          <Skeleton variant="input" className={cn("h-5 w-[70%] rounded-md absolute", leftIcon ? "right-3" : "left-3")} />
+        <div className={cn("relative border rounded-md h-9 px-3 py-2 flex items-center bg-background", wrapperClassName)}>
+          <Skeleton variant="default" className={cn("h-5 rounded-md absolute", leftIcon ? "left-10" : "left-3", leftIcon ? "w-[calc(70%-1rem)]" : "w-[70%]")} />
           {(rightIcon || leftIcon) && (
-            <div className="absolute right-3 top-1/2 -translate-y-1/2">
+            <div className={cn("absolute", leftIcon ? "left-3" : "right-3")}>
               {rightIcon || leftIcon}
             </div>
           )}

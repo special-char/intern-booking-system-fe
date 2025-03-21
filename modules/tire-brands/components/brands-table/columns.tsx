@@ -35,7 +35,7 @@ export function getColumns({ isLoading, onStatusChange, onPreferredSupplierChang
       },
       cell: ({ row }) => {
         if (isLoading) {
-          return <Skeleton variant="input" />
+          return <Skeleton variant="default" />
         }
         return <Image src={row.original.logoUrl} width={100} height={10} alt={row.original.name} />
       }
@@ -51,7 +51,7 @@ export function getColumns({ isLoading, onStatusChange, onPreferredSupplierChang
       },
       cell: ({ row }) => {
         if (isLoading) {
-          return <Skeleton variant="input" />
+          return <Skeleton variant="default" />
         }
 
         const status: boolean = row.getValue("status") as boolean;
@@ -79,7 +79,7 @@ export function getColumns({ isLoading, onStatusChange, onPreferredSupplierChang
       },
       cell: ({ row }) => {
         if (isLoading) {
-          return <Skeleton variant="input" />
+          return <Skeleton variant="default" />
         }
 
         const id: string = row.original.id;

@@ -15,15 +15,18 @@ import { Button } from "@/components/shadcn/button";
 import { Sheet } from "@/components/shadcn/sheet";
 import { Input } from "@/components/shadcn/input";
 import { Search } from "lucide-react";
-import TireCard from "./tire-card";
-import { Tire } from "@/types/tire";
 import { useState } from "react";
+import { useQuery } from "@tanstack/react-query";
+import { getTires } from "@/mocks/tire";
+import { TireCardSkeleton } from "../tire-card/skeleton";
+import TireCard from "../tire-card";
 
-interface AddTireSheetProps {
-  tires: Tire[];
-}
+export default function AddTireSheet() {
+  const { isFetching, error, data: tires } = useQuery({
+    queryKey: ['repoData'],
+    queryFn: () => getTires(false)
+  })
 
-export default function AddTireSheet({ tires }: AddTireSheetProps) {
   const [selectedTires, setSelectedTires] = useState<string[]>([]);
 
   const handleSelect = (tireId: string, selected: boolean) => {
@@ -38,9 +41,8 @@ export default function AddTireSheet({ tires }: AddTireSheetProps) {
 
   const buttonText =
     selectedTires.length > 0
-      ? `Add ${selectedTires.length} tire${
-          selectedTires.length !== 1 ? "s" : ""
-        }`
+      ? `Add ${selectedTires.length} tire${selectedTires.length !== 1 ? "s" : ""
+      }`
       : "Add selected tire";
 
   return (
@@ -50,32 +52,46 @@ export default function AddTireSheet({ tires }: AddTireSheetProps) {
           Add tire
         </Button>
       </SheetTrigger>
-      <SheetContent>
+      <SheetContent className="bg-card">
         <SheetHeader>
           <SheetTitle>Add tire</SheetTitle>
         </SheetHeader>
-        <div className="px-4 py-1">
-          <Input
-            rightIcon={<Search size={16} className="text-text-placeholder" />}
-            type="text"
-            placeholder="Search tire"
-          />
-        </div>
-
-        {tires.map((tire) => (
-          <TireCard
-            key={tire.title}
-            tire={tire}
-            isAddMode
-            selected={selectedTires.includes(tire.sku)}
-            onSelect={handleSelect}
-          />
-        ))}
-        <SheetFooter>
-          <Button onClick={handleAddTire}>
-            <PlusIcon /> {buttonText}
-          </Button>
-        </SheetFooter>
+        {error ? (
+          <div className="text-center">Failed to fetch tires</div>
+        ) : (
+          <>
+            <div className="py-1 px-4 flex flex-col gap-4 mt-4">
+              <Input
+                loading={isFetching}
+                rightIcon={<Search size={16} className="text-text-placeholder" />}
+                type="text"
+                placeholder="Search tire"
+              />
+              {isFetching ? (
+                <>
+                  {Array.from({ length: 9 }).map((_, index) => <TireCardSkeleton isAddMode key={index} />)}
+                </>
+              ) : (
+                <>
+                  {tires?.map((tire) => (
+                    <TireCard
+                      key={tire.title}
+                      tire={tire}
+                      isAddMode
+                      selected={selectedTires.includes(tire.sku)}
+                      onSelect={handleSelect}
+                    />
+                  ))}
+                </>
+              )}
+            </div>
+            <SheetFooter>
+              <Button onClick={handleAddTire}>
+                <PlusIcon /> {buttonText}
+              </Button>
+            </SheetFooter>
+          </>
+        )}
       </SheetContent>
     </Sheet>
   );

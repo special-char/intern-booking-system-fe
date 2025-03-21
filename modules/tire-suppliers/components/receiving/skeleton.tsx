@@ -4,16 +4,16 @@ import { Input } from '@/components/shadcn/input';
 import { Skeleton } from '@/components/shadcn/skeleton';
 import { TIME_MARKER_EVERY } from '../../templates/tire-supplier-template';
 
-export default function TireSupplierReceivingSkeleton() {
+export function TireSupplierReceivingSkeleton() {
   return (
     <Card>
       <CardHeader>
-        <Skeleton variant="input" className="h-4 w-1/12" />
+        <Skeleton variant="default" className="h-4 w-1/12" />
       </CardHeader>
       <CardContent>
         <div className="flex mt-5 gap-x-3">
-          <Skeleton variant="input" className="h-10 w-1/10" />
-          <Skeleton variant="input" className="h-10 w-1/10" />
+          <Skeleton variant="default" className="h-10 w-1/10" />
+          <Skeleton variant="default" className="h-10 w-1/10" />
         </div>
         <>
           <div className="flex justify-between gap-x-4 mt-5">
@@ -41,8 +41,8 @@ export default function TireSupplierReceivingSkeleton() {
             />
           </div>
           <div className="mt-3 text-sm">
-            <Skeleton variant="input" className="h-4 w-1/4" />
-            <Skeleton variant="input" className="h-20 w-full mt-3" />
+            <Skeleton variant="default" className="h-4 w-1/4" />
+            <Skeleton variant="default" className="h-20 w-full mt-3" />
           </div>
         </>
       </CardContent>

@@ -1,21 +1,27 @@
+import { Suspense } from "react";
 import { OrdersStats } from "../components/orders-stats";
+import { OrdersStatsSkeleton } from "../components/orders-stats/skeleton";
+import { RevenueGoalCardTemplate } from "../components/revenue-goal-card/template";
+import { RevenueGoalCardSkeleton } from "../components/revenue-goal-card/skeleton";
 import RecentOrdersCard from "../components/recent-orders-card";
-import RevenueGoalCard from "../components/revenue-goal-card";
-import { HttpTypes } from "@medusajs/types";
+import { RecentOrdersCardSkeleton } from "../components/recent-orders-card/skeleton";
 
-export default function OrdersTemplate({
-  orders,
-}: {
-  orders: HttpTypes.AdminOrder[];
-}) {
+export default function OrdersTemplate() {
+
   return (
     <div className="grid grid-cols-8 gap-5">
       <div className="lg:col-span-6 col-span-8">
-        <OrdersStats />
+        <Suspense fallback={<OrdersStatsSkeleton />}>
+          <OrdersStats />
+        </Suspense>
       </div>
       <div className="lg:col-span-2 space-y-5 lg:-mt-10 col-span-8">
-        <RevenueGoalCard />
-        <RecentOrdersCard orders={orders} />
+        <Suspense fallback={<RevenueGoalCardSkeleton />}>
+          <RevenueGoalCardTemplate />
+        </Suspense>
+        <Suspense fallback={<RecentOrdersCardSkeleton />}>
+          <RecentOrdersCard />
+        </Suspense>
       </div>
     </div>
   );

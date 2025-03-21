@@ -1,7 +1,7 @@
 import { TireSupplier } from "@/types/tire-supplier";
 
 
-export const MOCKED_TIRE_SUPPLIERS: TireSupplier[] = [
+export const MOCK_TIRE_SUPPLIERS: TireSupplier[] = [
   {
     autoPay: false,
     connectionKey: 'secret-key',
@@ -150,13 +150,13 @@ export const MOCKED_TIRE_SUPPLIERS: TireSupplier[] = [
 
 export async function mockFetchTireSuppliers(): Promise<TireSupplier[]> {
   return new Promise((resolve) => setTimeout(() => {
-    resolve(MOCKED_TIRE_SUPPLIERS);
+    resolve(MOCK_TIRE_SUPPLIERS);
   }, 100)) as Promise<TireSupplier[]>;
 }
 
 export async function mockFetchTireSupplierBySlug(slug: string): Promise<TireSupplier | null> {
   return new Promise(resolve => setTimeout(() => {
-    resolve(MOCKED_TIRE_SUPPLIERS.find(supplier => supplier.slug === slug) ?? null);
+    resolve(MOCK_TIRE_SUPPLIERS.find(supplier => supplier.slug === slug) ?? null);
   }, 100)) as Promise<TireSupplier | null>;
 }
 
