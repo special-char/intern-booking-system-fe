@@ -12,11 +12,13 @@ import { Columns3 } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 interface ColumnVisibilityButtonProps<TData> {
+  disabled?: boolean
   table: Table<TData>;
   label?: string;
 }
 
 export function ColumnVisibilityButton<TData>({
+  disabled,
   table,
   label,
 }: ColumnVisibilityButtonProps<TData>) {
@@ -24,6 +26,7 @@ export function ColumnVisibilityButton<TData>({
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <Button
+          disabled={disabled}
           variant="secondary"
           size="sm"
           className={cn("h-8 w-8", label && "w-fit")}

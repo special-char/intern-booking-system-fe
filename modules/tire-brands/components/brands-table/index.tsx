@@ -18,7 +18,7 @@ export interface TireBrandTableProps extends TableProps {
 
 //TODO: pass columns as props when api is ready; get rid of mocks, tableData state, and handlers (since they will be handled as server actions)
 //TODO: handle filters
-export function TireBrandTable({ data, isLoading, suppliers, pagination }: TireBrandTableProps) {
+export function TireBrandTable({ data, isLoading = false, suppliers, pagination }: TireBrandTableProps) {
   const [tableData, setTableData] = useState<TireBrand[]>(data);
 
   //temp solution thus not memoized, no render issues tho
@@ -69,6 +69,7 @@ export function TireBrandTable({ data, isLoading, suppliers, pagination }: TireB
       <Card>
         <div className="flex items-center justify-end px-4 py-2">
           <FilterOptionsButton<TireBrand>
+            disabled={isLoading}
             label="Filter"
             table={table}
             filters={[]}

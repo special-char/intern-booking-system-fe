@@ -40,12 +40,14 @@ export interface FilterGroup {
 }
 
 export interface ReusableFilterDropdownProps<TData> {
+  disabled?: boolean
   table: Table<TData>;
   filters: FilterGroup[];
   label?: string;
 }
 
 export function FilterOptionsButton<TData>({
+  disabled,
   table,
   filters,
   label,
@@ -107,6 +109,7 @@ export function FilterOptionsButton<TData>({
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <Button
+          disabled={disabled}
           variant="secondary"
           className={cn("h-8", label ? "w-fit" : "w-8")}
         >

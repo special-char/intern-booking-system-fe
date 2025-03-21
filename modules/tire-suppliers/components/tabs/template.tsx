@@ -9,5 +9,5 @@ export default async function TireSuppliersTabsTemplate() {
     return <div>No tire suppliers found</div>;
   }
 
-  return <TireSuppliersTabs suppliers={suppliers} active={suppliers[0].slug} />
+  return <TireSuppliersTabs suppliers={suppliers} initActive={suppliers[0].slug} />
 }

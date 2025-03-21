@@ -1,6 +1,6 @@
 import { Pagination } from '@/types/common';
 export interface GetColumnsInterface {
-  isLoading?: boolean
+  isLoading: boolean
 }
 
 export interface TableProps {

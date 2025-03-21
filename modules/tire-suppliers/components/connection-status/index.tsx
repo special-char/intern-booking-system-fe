@@ -6,6 +6,7 @@ import { getColumns } from "./columns";
 import { ContentTable } from "@/components/common/table/content-table";
 import { useTable } from "@/hooks/use-table";
 import { Tooltip } from "@/components/common/tooltip";
+import { useMemo } from "react";
 
 interface TireSupplierConnectionStatusProps {
   functionalities: TireSupplier['functionalities']
@@ -13,7 +14,7 @@ interface TireSupplierConnectionStatusProps {
 }
 
 export default function TireSupplierConnectionStatus({ isLoading, functionalities }: TireSupplierConnectionStatusProps) {
-  const columns = getColumns({ isLoading });
+  const columns = useMemo(() => getColumns({ isLoading }), []);
 
   const { table } = useTable({ data: functionalities, columns })
 

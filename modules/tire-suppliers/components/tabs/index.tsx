@@ -6,18 +6,22 @@ import { useParams, useRouter } from "next/navigation"
 import { useEffect, useState } from "react";
 
 interface TireSuppliersTabsProps {
-  active: string
+  initActive: string
   suppliers: TireSupplier[]
 }
 
-export function TireSuppliersTabs({ active, suppliers }: TireSuppliersTabsProps) {
+export function TireSuppliersTabs({ initActive, suppliers }: TireSuppliersTabsProps) {
   const { slug } = useParams()
   const router = useRouter()
-  const [activeSlug, setActiveSlug] = useState((slug as string) ?? active)
+  const [activeSlug, setActiveSlug] = useState((slug as string) ?? initActive)
 
   useEffect(() => {
-    handleTabChange(activeSlug, "replace")
-  }, [])
+    if (!slug) {
+      return handleTabChange(initActive, "replace")
+    }
+    setActiveSlug(slug as string)
+  }, [slug])
+
 
   function handleTabChange(slug: string, type: "replace" | "push"): void {
     setActiveSlug(slug)

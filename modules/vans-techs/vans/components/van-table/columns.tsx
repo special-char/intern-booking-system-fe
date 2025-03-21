@@ -5,53 +5,94 @@ import { ColumnDef } from "@tanstack/react-table";
 import { SortableHeader } from "@/components/common/table/sortable-header";
 import VanActions from "./van-actions";
 import { TireVanDTO } from "@/types/tire-vans";
+import { GetColumnsInterface } from "@/types/table";
+import { LoadingHeader } from "@/components/common/table/loading-header";
+import { LoadingCell } from "@/components/common/table/loading-cell";
 
-export const columns: ColumnDef<TireVanDTO, string>[] = [
-  {
-    header: ({ column }) => (
-      <SortableHeader column={column}>Vehicle ID</SortableHeader>
-    ),
-    accessorKey: "vehicleId",
-    meta: {
-      label: "Vehicle ID",
+export function getColumns({ isLoading }: GetColumnsInterface): ColumnDef<TireVanDTO, string>[] {
+  return [
+    {
+      header: ({ column }) => (
+        <LoadingHeader isLoading={isLoading}>
+          <SortableHeader column={column}>Vehicle ID</SortableHeader>
+        </LoadingHeader>
+      ),
+      accessorKey: "vehicleId",
+      meta: {
+        label: "Vehicle ID",
+      },
+      cell: ({ row }) => {
+        return (
+          <LoadingCell isLoading={isLoading}>
+            {row.original.vehicleId}
+          </LoadingCell>
+        )
+      }
     },
-  },
-  {
-    header: ({ column }) => (
-      <SortableHeader column={column}>Year & Make</SortableHeader>
-    ),
-    accessorKey: "year-make",
-    accessorFn: (row) => `${row.year} ${row.make}`,
-    meta: {
-      label: "Year & Make",
+    {
+      header: ({ column }) => (
+        <LoadingHeader isLoading={isLoading}>
+          <SortableHeader column={column}>Year & Make</SortableHeader>
+        </LoadingHeader>
+      ),
+      accessorKey: "year-make",
+      accessorFn: (row) => `${row.year} ${row.make}`,
+      meta: {
+        label: "Year & Make",
+      },
+      cell: ({ row }) => {
+        return (
+          <LoadingCell isLoading={isLoading}>
+            {row.original.year}
+          </LoadingCell>
+        )
+      }
     },
-  },
-  {
-    header: ({ column }) => (
-      <SortableHeader column={column}>Model / TRIM</SortableHeader>
-    ),
-    accessorKey: "model-trim",
-    accessorFn: (row) => `${row.model} ${row.trim}`,
-    meta: {
-      label: "Model / TRIM",
+    {
+      header: ({ column }) => (
+        <LoadingHeader isLoading={isLoading}>
+          <SortableHeader column={column}>Model / TRIM</SortableHeader>
+        </LoadingHeader>
+      ),
+      accessorKey: "model-trim",
+      accessorFn: (row) => `${row.model} ${row.trim}`,
+      meta: {
+        label: "Model / TRIM",
+      },
+      cell: ({ row }) => {
+        return (
+          <LoadingCell isLoading={isLoading}>
+            {row.original.model}
+          </LoadingCell>
+        )
+      }
     },
-  },
-  {
-    header: ({ column }) => (
-      <SortableHeader column={column}>Tire Capacity</SortableHeader>
-    ),
-    accessorKey: "capacity",
-    meta: {
-      label: "TireCapacity",
+    {
+      header: ({ column }) => (
+        <LoadingHeader isLoading={isLoading}>
+          <SortableHeader column={column}>Tire Capacity</SortableHeader>
+        </LoadingHeader>
+      ),
+      accessorKey: "capacity",
+      meta: {
+        label: "TireCapacity",
+      },
+      cell: ({ row }) => {
+        return (
+          <LoadingCell isLoading={isLoading}>
+            {row.original.capacity}
+          </LoadingCell>
+        )
+      }
     },
-  },
-  {
-    id: "actions",
-    meta: {
-      label: "Actions",
+    {
+      id: "actions",
+      meta: {
+        label: "Actions",
+      },
+      cell: ({ row }) => {
+        return <VanActions van={row.original} disabled={isLoading} />;
+      },
     },
-    cell: ({ row }) => {
-      return <VanActions van={row.original} />;
-    },
-  },
-];
+  ]
+}

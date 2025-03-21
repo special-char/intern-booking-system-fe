@@ -115,7 +115,7 @@ export function NavMain({
                   >
                     {item.url ? (
                       <Link
-                        href={item.url}
+                        href={item.matchNested && isActive ? pathname : item.url}
                         className={cn(
                           "hover:bg-white hover:text-text-primary-brand hover:shadow-side-nav",
                           isActive &&

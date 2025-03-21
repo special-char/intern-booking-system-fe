@@ -1,19 +1,13 @@
 import SearchInput from "@/components/common/search-input";
 import { UserIcon } from "lucide-react";
-import { columns } from "../components/van-table/columns";
-import { VansTable } from "../components/van-table";
 import { AddVan } from "../components/add-van";
-import { Pagination } from "@/types/common";
-import { getTireVansDTO } from "@/lib/data/vans";
+import { getTableLoadingData } from "@/utils/get-table-loading-data";
+import { VansTable, VansTableProps } from "../components/van-table";
+import { Suspense } from "react";
+import { VansTableTemplate } from "../components/van-table/template";
 
 export async function VansTemplate() {
-  const data = await getTireVansDTO({ page: 1, limit: 10 });
-
-  const pagination: Pagination = {
-    pageIndex: 1,
-    pageSize: 10,
-    totalCount: data.length,
-  };
+  const { data, pagination } = getTableLoadingData()
 
   return (
     <div className="py-8 px-6">
@@ -27,7 +21,9 @@ export async function VansTemplate() {
           <AddVan />
         </div>
       </div>
-      <VansTable columns={columns} data={data} pagination={pagination} />
+      <Suspense fallback={<VansTable data={data as VansTableProps['data']} pagination={pagination} isLoading />}>
+        <VansTableTemplate />
+      </Suspense>
     </div>
   );
 }

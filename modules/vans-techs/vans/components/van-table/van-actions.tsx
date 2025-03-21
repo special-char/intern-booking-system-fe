@@ -12,11 +12,12 @@ import { AddVanForm } from "../add-van-form";
 import { TireVanDTO } from "@/types/tire-vans";
 import { deleteTireVan } from "@/lib/data/vans";
 
-export default function VanActions({
-  van,
-}: {
+interface VanActionsProps {
+  disabled?: boolean
   van: TireVanDTO & { id: string };
-}) {
+}
+
+export default function VanActions({ van, disabled }: VanActionsProps) {
   const [isSheetOpen, setSheetOpen] = useState(false);
   const [isDeleting, setIsDeleting] = useState(false);
 
@@ -35,6 +36,7 @@ export default function VanActions({
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
           <Button
+            disabled={disabled}
             variant="ghost"
             className="p-0 h-fit flex items-center justify-center"
             size="sm"

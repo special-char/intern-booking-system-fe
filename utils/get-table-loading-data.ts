@@ -5,14 +5,14 @@ interface GetTableLoadingDataReturnInterface {
   pagination: Pagination;
 }
 
-export function getTableLoadingData(length: number = 7): GetTableLoadingDataReturnInterface {
+export function getTableLoadingData(length: number = 10): GetTableLoadingDataReturnInterface {
   const data: { id: string }[] = Array.from({ length }, (_, i) => ({
     id: i.toString(),
   }))
 
   const pagination: Pagination = {
     pageIndex: 1,
-    pageSize: 10,
+    pageSize: 20,
     totalCount: length,
   };
 

@@ -12,6 +12,8 @@ import { GetColumnsInterface } from "@/types/table";
 import Image from "next/image";
 import { getTableLoadingData } from "@/utils/get-table-loading-data";
 import { TireSupplier } from "@/types/tire-supplier";
+import { LoadingHeader } from "@/components/common/table/loading-header";
+import { LoadingCell } from "@/components/common/table/loading-cell";
 
 interface GetTireBrandColumnsInterface extends GetColumnsInterface {
   onStatusChange: (id: string, status: boolean) => void
@@ -25,7 +27,10 @@ export const LOADING_SUPPLIERS: TireSupplier[] = getTableLoadingData(4).data as 
 export function getColumns({ isLoading, onStatusChange, onPreferredSupplierChange, onSuppliersChange, suppliers }: GetTireBrandColumnsInterface): ColumnDef<TireBrand, string>[] {
   return [
     {
-      header: ({ column }) => <SortableHeader column={column}>Tire brand</SortableHeader>,
+      header: ({ column }) =>
+        <LoadingHeader isLoading={isLoading}>
+          <SortableHeader column={column}>Tire brand</SortableHeader>
+        </LoadingHeader>,
       accessorKey: "name",
       meta: {
         center: {
@@ -34,14 +39,18 @@ export function getColumns({ isLoading, onStatusChange, onPreferredSupplierChang
         border: true
       },
       cell: ({ row }) => {
-        if (isLoading) {
-          return <Skeleton variant="default" />
-        }
-        return <Image src={row.original.logoUrl} width={100} height={10} alt={row.original.name} />
+        return (
+          <LoadingCell isLoading={isLoading}>
+            <Image src={row.original.logoUrl} width={100} height={10} alt={row.original.name} />
+          </LoadingCell>
+        )
       }
     },
     {
-      header: ({ column }) => <SortableHeader column={column}>Status</SortableHeader>,
+      header: ({ column }) =>
+        <LoadingHeader isLoading={isLoading}>
+          <SortableHeader column={column}>Status</SortableHeader>
+        </LoadingHeader>,
       accessorKey: "status",
       meta: {
         center: {
@@ -50,25 +59,27 @@ export function getColumns({ isLoading, onStatusChange, onPreferredSupplierChang
         border: true,
       },
       cell: ({ row }) => {
-        if (isLoading) {
-          return <Skeleton variant="default" />
-        }
-
         const status: boolean = row.getValue("status") as boolean;
         const id: string = row.original.id;
+
         return (
-          <Switch
-            checked={status}
-            size="large"
-            onCheckedChange={(checked) => {
-              onStatusChange(id, checked);
-            }}
-          />
+          <LoadingCell isLoading={isLoading}>
+            <Switch
+              checked={status}
+              size="large"
+              onCheckedChange={(checked) => {
+                onStatusChange(id, checked);
+              }}
+            />
+          </LoadingCell>
         );
       },
     },
     {
-      header: ({ column }) => <SortableHeader column={column}>Preferred suppliers</SortableHeader>,
+      header: ({ column }) =>
+        <LoadingHeader isLoading={isLoading}>
+          <SortableHeader column={column}>Preferred suppliers</SortableHeader>
+        </LoadingHeader>,
       accessorKey: "preferredSuplier",
       accessorFn: (row) => suppliers?.find(({ id }) => id === row.preferredSuplierId)?.name || "",
       meta: {
@@ -85,34 +96,35 @@ export function getColumns({ isLoading, onStatusChange, onPreferredSupplierChang
         const id: string = row.original.id;
         const preferredSupplierId: string | null = row.original.preferredSuplierId;
 
-        if (!row.original.suppliers.length) {
-          return "—"
-        }
-
         return (
-          <Select
-            onValueChange={(value) => {
-              onPreferredSupplierChange(id, value);
-            }}
-            defaultValue={preferredSupplierId ?? undefined}
-          >
-            <SelectTrigger variant={preferredSupplierId ? "primary" : undefined}>
-              <SelectValue placeholder="Select" />
-            </SelectTrigger>
-            <SelectContent>
-              {row.original.suppliers.map((supplier) => (
-                <SelectItem key={supplier.id} value={supplier.id}>
-                  {supplier.name}
-                </SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
-        );
+          <LoadingCell isLoading={isLoading}>
+            {!row.original.suppliers.length ? "—" : (
+              <Select
+                onValueChange={(value) => {
+                  onPreferredSupplierChange(id, value);
+                }}
+                defaultValue={preferredSupplierId ?? undefined}
+              >
+                <SelectTrigger variant={preferredSupplierId ? "primary" : undefined}>
+                  <SelectValue placeholder="Select" />
+                </SelectTrigger>
+                <SelectContent>
+                  {row.original.suppliers.map((supplier) => (
+                    <SelectItem key={supplier.id} value={supplier.id}>
+                      {supplier.name}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            )}
+          </LoadingCell>
+        )
+
       },
     },
     {
       accessorKey: "suppliers",
-      header: "Tire suppliers",
+      header: () => <LoadingHeader isLoading={isLoading}>Tire suppliers</LoadingHeader>,
       meta: {
         center: {
           horizontal: true

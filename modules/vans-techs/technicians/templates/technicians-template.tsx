@@ -1,29 +1,15 @@
 import SearchInput from "@/components/common/search-input";
 import { UserIcon } from "lucide-react";
-import { TechniciansTable } from "../components/technicians-table";
-import { columns } from "../components/technicians-table/columns";
 
-import { Pagination } from "@/types/common";
-import { getTechniciansDTO } from "@/lib/data/technicians";
+import { PaginatedData } from "@/types/common";
 import { TechnicianFormModal } from "../components/technician-form-modal";
+import { getTableLoadingData } from "@/utils/get-table-loading-data";
+import { TechniciansTable } from "../components/technicians-table";
+import { Suspense } from "react";
+import { TechniciansTableTemplate } from "../components/technicians-table/template";
 
-export async function TechniciansTemplate({
-  page,
-  limit,
-}: {
-  page: number;
-  limit: number;
-}) {
-  const { technicians, count } = await getTechniciansDTO({
-    page,
-    limit,
-  });
-
-  const pagination: Pagination = {
-    pageIndex: page,
-    pageSize: limit,
-    totalCount: count,
-  };
+export async function TechniciansTemplate(props: PaginatedData) {
+  const { data, pagination } = getTableLoadingData()
 
   return (
     <div className="py-8 px-6">
@@ -37,11 +23,9 @@ export async function TechniciansTemplate({
           <TechnicianFormModal />
         </div>
       </div>
-      <TechniciansTable
-        columns={columns}
-        data={technicians}
-        pagination={pagination}
-      />
+      <Suspense fallback={<TechniciansTable data={data as TechniciansTable['data']} pagination={pagination} isLoading />}>
+        <TechniciansTableTemplate {...props} />
+      </Suspense>
     </div>
   );
 }

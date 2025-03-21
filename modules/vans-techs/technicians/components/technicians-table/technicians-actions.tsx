@@ -12,11 +12,12 @@ import { Sheet } from "@/components/shadcn/sheet";
 import { deleteTechnician } from "@/lib/data/technicians";
 import { ConfirmDialog } from "@/components/common/confirm-dialog";
 
-export function TechniciansActions({
-  initialValues,
-}: {
+interface TechniciansActionsProps {
+  disabled?: boolean
   initialValues: TechnicianFormType & { id: string };
-}) {
+}
+
+export function TechniciansActions({ disabled, initialValues }: TechniciansActionsProps) {
   const [isSheetOpen, setSheetOpen] = useState(false);
   const [isDeleting, setIsDeleting] = useState(false);
   const [isAlertOpen, setIsAlertOpen] = useState(false);
@@ -37,6 +38,7 @@ export function TechniciansActions({
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
           <Button
+            disabled={disabled}
             variant="ghost"
             className="p-0 h-fit flex items-center justify-center"
             size="sm"
