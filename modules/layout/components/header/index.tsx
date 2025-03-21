@@ -43,7 +43,7 @@ function getInitials(name: string) {
 export function Header() {
   return (
     <header className="flex sticky top-0 z-50 w-full items-center border-b bg-indigo-950">
-      <div className="flex h-[var(--header-height)] w-full items-center gap-2 px-9 max-w-screen-2xl mx-auto">
+      <div className="flex h-[var(--header-height)] w-full items-center gap-2 px-9">
         <Link href="/" className="mr-4 flex items-center space-x-2">
           <Logo />
         </Link>

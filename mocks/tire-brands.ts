@@ -64,7 +64,7 @@ const MOCKED_TIRE_BRANDS: TireBrand[] = [
 async function mockFetchTireBrands(): Promise<TireBrand[]> {
   return new Promise(resolve => setTimeout(() => {
     resolve(MOCKED_TIRE_BRANDS);
-  }, 300)) as Promise<TireBrand[]>;
+  }, 100)) as Promise<TireBrand[]>;
 }
 
 export async function getTireBrands(): Promise<TireBrand[] | null> {

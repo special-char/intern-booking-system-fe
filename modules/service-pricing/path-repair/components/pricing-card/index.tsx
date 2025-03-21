@@ -5,16 +5,11 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/shadcn/card";
-import { InfoIcon } from "lucide-react";
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from "@/components/shadcn/tooltip";
+
 import { Button } from "@/components/shadcn/button";
 import { Undo2Icon } from "lucide-react";
 import { useFormContext } from "react-hook-form";
+import { Tooltip } from "@/components/common/tooltip";
 
 interface PricingCardProps {
   children: React.ReactNode;
@@ -34,16 +29,9 @@ export default function PricingCard({
       <CardHeader>
         <CardTitle className="flex items-center gap-2 text-text-primary font-semibold">
           {title}
-          <TooltipProvider>
-            <Tooltip>
-              <TooltipTrigger>
-                <InfoIcon className="w-3 h-3" />
-              </TooltipTrigger>
-              <TooltipContent>
-                <p>{description}</p>
-              </TooltipContent>
-            </Tooltip>
-          </TooltipProvider>
+          <Tooltip>
+            <p>{description}</p>
+          </Tooltip>
         </CardTitle>
       </CardHeader>
       <CardContent className="mt-4">

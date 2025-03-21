@@ -19,6 +19,7 @@ import {
 } from "@/components/shadcn/avatar";
 
 import { Order } from "@/types/order";
+import { StatusBadge } from "@/components/common/table/status-badge";
 
 export const columns: ColumnDef<Order, string>[] = [
   {
@@ -65,31 +66,19 @@ export const columns: ColumnDef<Order, string>[] = [
     filterFn: multiValueFilterFn as FilterFn<Order>,
     cell: ({ row }) => {
       const orderStatus = row.getValue("orderStatus") as string;
-      let statusClasses = "";
-      switch (orderStatus) {
-        case "Delivered":
-          statusClasses = "bg-green-100 text-green-700";
-          break;
-        case "Shipped":
-          statusClasses = "bg-lime-100 text-lime-700";
-          break;
-        case "Pending":
-          statusClasses = "bg-yellow-100 text-yellow-700";
-          break;
-        case "Cancelled":
-          statusClasses = "bg-red-100 text-red-700";
-          break;
-        default:
-          statusClasses = "bg-gray-100 text-gray-700";
+      if (orderStatus === "Delivered") {
+        return <StatusBadge level="success" label={orderStatus} />
       }
-
-      return (
-        <div
-          className={`inline-block px-2.5 py-0.5 rounded-full font-medium text-xs ${statusClasses}`}
-        >
-          {orderStatus}
-        </div>
-      );
+      if (orderStatus === "Shipped") {
+        return <StatusBadge className="bg-lime-100 text-lime-700" label={orderStatus} />
+      }
+      if (orderStatus === "Pending") {
+        return <StatusBadge level="warning" label={orderStatus} />
+      }
+      if (orderStatus === "Cancelled") {
+        return <StatusBadge level="error" label={orderStatus} />
+      }
+      return <StatusBadge level="default" label={orderStatus} />
     },
   },
   {

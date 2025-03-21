@@ -34,6 +34,7 @@ export function NavMain({
       title: string;
       url: string;
     }[];
+    matchNested?: boolean
   }[];
 }) {
   const pathname = usePathname();
@@ -42,7 +43,7 @@ export function NavMain({
     <SidebarGroup className="p-0">
       <SidebarMenu>
         {items.map((item) => {
-          const isActive = pathname === item.url;
+          const isActive = item.matchNested ? pathname.includes(item.url ?? "") : pathname === item.url;
           const isChildActive = item.items?.some(
             (subItem) => pathname === subItem.url
           );
@@ -64,7 +65,7 @@ export function NavMain({
                         className={cn(
                           "py-3 pl-5 pr-3 text-[13px] font-medium text-text-primary cursor-pointer min-h-10 hover:bg-white hover:text-text-primary-brand hover:shadow-side-nav",
                           isActive &&
-                            "bg-white text-text-primary-brand font-semibold shadow-side-nav"
+                          "bg-white text-text-primary-brand font-semibold shadow-side-nav"
                         )}
                       >
                         {item.icon && <item.icon />}
@@ -83,7 +84,7 @@ export function NavMain({
                               className={cn(
                                 "text-text-primary",
                                 isActive &&
-                                  "bg-white text-text-primary-brand font-semibold shadow-side-nav rounded-lg"
+                                "bg-white text-text-primary-brand font-semibold shadow-side-nav rounded-lg"
                               )}
                             >
                               <SidebarMenuSubButton
@@ -118,7 +119,7 @@ export function NavMain({
                         className={cn(
                           "hover:bg-white hover:text-text-primary-brand hover:shadow-side-nav",
                           isActive &&
-                            "bg-white text-text-primary-brand font-semibold shadow-side-nav"
+                          "bg-white text-text-primary-brand font-semibold shadow-side-nav"
                         )}
                       >
                         {item.icon && <item.icon />}

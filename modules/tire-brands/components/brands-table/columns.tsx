@@ -3,13 +3,15 @@
 import { ColumnDef } from "@tanstack/react-table";
 
 import { SortableHeader } from "@/components/common/table/sortable-header";
-import { TireSupplier, TireBrand } from "@/types/tire-brand";
+import { TireBrand } from "@/types/tire-brand";
 import { Switch } from "@/components/shadcn/switch";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/shadcn/select";
 import { Checkbox } from "@/components/shadcn/checkbox";
 import { Skeleton } from "@/components/shadcn/skeleton";
 import { GetColumnsInterface } from "@/types/table";
 import Image from "next/image";
+import { getTableLoadingData } from "@/utils/get-table-loading-data";
+import { TireSupplier } from "@/types/tire-supplier";
 
 interface GetTireBrandColumnsInterface extends GetColumnsInterface {
   onStatusChange: (id: string, status: boolean) => void
@@ -18,10 +20,7 @@ interface GetTireBrandColumnsInterface extends GetColumnsInterface {
   suppliers?: TireSupplier[]
 }
 
-export const LOADING_SUPPLIERS: TireSupplier[] = Array.from({ length: 4 }, (_, i) => ({
-  id: i.toString(),
-  name: ""
-}));
+export const LOADING_SUPPLIERS: TireSupplier[] = getTableLoadingData(4).data as TireSupplier[];
 
 export function getColumns({ isLoading, onStatusChange, onPreferredSupplierChange, onSuppliersChange, suppliers }: GetTireBrandColumnsInterface): ColumnDef<TireBrand, string>[] {
   return [

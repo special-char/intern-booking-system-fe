@@ -6,7 +6,7 @@ const skeletonVariants = cva(
   {
     variants: {
       variant: {
-        input: "bg-[var(--border-input)] w-1/2 h-8",
+        input: "bg-[var(--border-input)] w-1/2 h-6",
       }
     }
   }

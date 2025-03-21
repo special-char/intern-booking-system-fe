@@ -1,9 +1,9 @@
 import SearchInput from "@/components/common/search-input";
 import { UserIcon } from "lucide-react";
-import { TireBrandTableTemplate } from "../components/tire-brand-table/template";
+import { TireBrandTableTemplate } from "../components/brands-table/template";
 import { Suspense } from "react";
-import { getTableLoadingData } from "@/utils/getTableLoadingData";
-import { TireBrandTable, TireBrandTableProps } from "../components/tire-brand-table";
+import { getTableLoadingData } from "@/utils/get-table-loading-data";
+import { TireBrandTable, TireBrandTableProps } from "../components/brands-table";
 
 export function TireBrandsTemplate() {
   const { data, pagination } = getTableLoadingData()

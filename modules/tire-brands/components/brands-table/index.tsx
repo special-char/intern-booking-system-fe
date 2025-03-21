@@ -1,14 +1,15 @@
 "use client"
 
 import { Card } from "@/components/shadcn/card";
-import { TireSupplier, TireBrand } from "@/types/tire-brand";
+import { TireBrand } from "@/types/tire-brand";
 import { useState } from "react";
-import { getColumns } from "./columns";
 import { ContentTable } from "@/components/common/table/content-table";
 import { PaginationTable } from "@/components/common/table/pagination-table";
 import { FilterOptionsButton } from "@/components/common/table/filter-options-button";
 import { TableProps } from "@/types/table";
 import { useTable } from "@/hooks/use-table";
+import { getColumns } from "./columns";
+import { TireSupplier } from "@/types/tire-supplier";
 
 export interface TireBrandTableProps extends TableProps {
   data: TireBrand[];

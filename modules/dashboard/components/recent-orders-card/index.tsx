@@ -7,7 +7,7 @@ import {
 } from "@/components/shadcn/card";
 import { Avatar, AvatarFallback } from "@/components/shadcn/avatar";
 import { HttpTypes } from "@medusajs/types";
-import { formatRelativeTime } from "@/utils/format-relative-time";
+import { formatRelativeTime } from "@/utils/time";
 
 export default function RecentOrdersCard({
   orders,

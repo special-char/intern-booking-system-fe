@@ -12,7 +12,6 @@ import {
   FormMessage,
 } from "@/components/shadcn/form";
 import { Input } from "@/components/shadcn/input";
-import { InfoIcon } from "lucide-react";
 
 import PricingCard from "../pricing-card";
 import {
@@ -20,13 +19,9 @@ import {
   balanceAndRotationFormDefaultValues,
 } from "./balance-and-rotation-form.consts";
 
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from "@/components/shadcn/tooltip";
+
 import PriceInputField from "../common/price-input-field";
+import { Tooltip } from "@/components/common/tooltip";
 
 export default function BalanceAndRotationForm() {
   const form = useForm<z.infer<typeof balanceAndRotationFormSchema>>({
@@ -50,62 +45,34 @@ export default function BalanceAndRotationForm() {
               <p></p>
               <p className="text-xs text-text-secondary flex items-center justify-between">
                 Job Duration (min){" "}
-                <TooltipProvider>
-                  <Tooltip>
-                    <TooltipTrigger>
-                      <InfoIcon className="w-3 h-3" />
-                    </TooltipTrigger>
-                    <TooltipContent>
-                      This is a tooltip. It will display additional information
-                      about the item.
-                    </TooltipContent>
-                  </Tooltip>
-                </TooltipProvider>
+                <Tooltip>
+                  This is a tooltip. It will display additional information
+                  about the item.
+                </Tooltip>
               </p>
               <p className="text-xs text-text-secondary flex items-center justify-between">
                 Price{" "}
-                <TooltipProvider>
-                  <Tooltip>
-                    <TooltipTrigger>
-                      <InfoIcon className="w-3 h-3" />
-                    </TooltipTrigger>
-                    <TooltipContent>
-                      This is a tooltip. It will display additional information
-                      about the item.
-                    </TooltipContent>
-                  </Tooltip>
-                </TooltipProvider>
+                <Tooltip>
+                  This is a tooltip. It will display additional information
+                  about the item.
+                </Tooltip>
               </p>
               <p className="text-xs text-text-secondary flex items-center justify-between">
                 Flex Discount{" "}
-                <TooltipProvider>
-                  <Tooltip>
-                    <TooltipTrigger>
-                      <InfoIcon className="w-3 h-3" />
-                    </TooltipTrigger>
-                    <TooltipContent>
-                      This is a tooltip. It will display additional information
-                      about the item.
-                    </TooltipContent>
-                  </Tooltip>
-                </TooltipProvider>
+                <Tooltip>
+                  This is a tooltip. It will display additional information
+                  about the item.
+                </Tooltip>
               </p>
             </div>
 
             <div className="grid grid-cols-4 gap-4 mb-4">
               <div className="flex items-center gap-1 text-sm text-text-secondary">
                 Balance
-                <TooltipProvider>
-                  <Tooltip>
-                    <TooltipTrigger>
-                      <InfoIcon className="w-3 h-3" />
-                    </TooltipTrigger>
-                    <TooltipContent>
-                      This is a tooltip. It will display additional information
-                      about the item.
-                    </TooltipContent>
-                  </Tooltip>
-                </TooltipProvider>
+                <Tooltip>
+                  This is a tooltip. It will display additional information
+                  about the item.
+                </Tooltip>
               </div>
 
               <FormField

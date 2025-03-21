@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { Info, X, SquarePen } from "lucide-react";
+import { X, SquarePen } from "lucide-react";
 import {
   Dialog,
   DialogContent,
@@ -11,13 +11,8 @@ import {
 import { Button } from "@/components/shadcn/button";
 import { motion, useMotionValue, useTransform, animate } from "framer-motion";
 import { Card, CardContent, CardHeader } from "@/components/shadcn/card";
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from "@/components/shadcn/tooltip";
 import RevenueGoalForm from "./revenue-goal-form";
+import { Tooltip } from "@/components/common/tooltip";
 
 interface RevenueGoalCardProps {
   initialCurrent?: number;
@@ -80,16 +75,9 @@ export default function RevenueGoalCard({
               <h2 className="text-sm text-text-secondary font-medium">
                 Revenue goal for all orders
               </h2>
-              <TooltipProvider>
-                <Tooltip>
-                  <TooltipTrigger asChild>
-                    <Info className="w-4 h-4 text-text-secondary" />
-                  </TooltipTrigger>
-                  <TooltipContent>
-                    <p>{tooltip}</p>
-                  </TooltipContent>
-                </Tooltip>
-              </TooltipProvider>
+              <Tooltip>
+                <p>{tooltip}</p>
+              </Tooltip>
             </div>
           </div>
         </CardHeader>

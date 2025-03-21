@@ -1,16 +1,12 @@
 "use client";
 
-import { Info, TrendingDown, TrendingUp } from "lucide-react";
+import { TrendingDown, TrendingUp } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Card, CardContent, CardHeader } from "@/components/shadcn/card";
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from "@/components/shadcn/tooltip";
+
 import { animate, useMotionValue, useMotionValueEvent } from "motion/react";
 import { useState, useEffect } from "react";
+import { Tooltip } from "@/components/common/tooltip";
 
 interface StatsCardProps {
   amount?: number;
@@ -46,16 +42,9 @@ export default function StatsCard({
       <CardHeader>
         <div className="flex items-center gap-2">
           <h2 className="text-sm font-medium text-text-secondary">{title}</h2>
-          <TooltipProvider>
-            <Tooltip>
-              <TooltipTrigger>
-                <Info className="h-4 w-4 text-text-secondary" />
-              </TooltipTrigger>
-              <TooltipContent>
-                <p>{description}</p>
-              </TooltipContent>
-            </Tooltip>
-          </TooltipProvider>
+          <Tooltip>
+            <p>{description}</p>
+          </Tooltip>
         </div>
       </CardHeader>
       <CardContent>

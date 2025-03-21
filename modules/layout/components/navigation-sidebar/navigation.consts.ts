@@ -24,10 +24,11 @@ export const menuItems = {
     },
     {
       title: "Tire suppliers",
-      url: "#",
+      url: "/tire-suppliers",
       icon: ChartPie,
       isActive: false,
       isExpandable: false,
+      matchNested: true,
     },
     {
       title: "Tire Brands",

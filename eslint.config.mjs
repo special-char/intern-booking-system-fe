@@ -17,7 +17,8 @@ const eslintConfig = [
       'unused-imports': UnusedImports
     },
     rules: {
-      'unused-imports/no-unused-imports': 'error'
+      'unused-imports/no-unused-imports': 'error',
+      'react-hooks/exhaustive-deps': 'off'
     }
   }
 ];

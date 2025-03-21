@@ -1,8 +1,9 @@
 import { Pagination } from "@/types/common";
-import { TireSupplier, TireBrand } from "@/types/tire-brand";
+import { TireBrand } from "@/types/tire-brand";
 import { TireBrandTable } from ".";
 import { getTireSuppliers } from "@/mocks/tire-suppliers";
 import { getTireBrands } from "@/mocks/tire-brands";
+import { TireSupplier } from "@/types/tire-supplier";
 
 
 export async function TireBrandTableTemplate() {

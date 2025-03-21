@@ -6,17 +6,15 @@ import { Input } from "@/components/shadcn/input";
 import { z } from "zod";
 import { Range } from "@/components/shadcn/slider";
 import { CardContent } from "@/components/shadcn/card";
-import { TooltipContent } from "@/components/shadcn/tooltip";
-import { TooltipTrigger } from "@/components/shadcn/tooltip";
-import { InfoIcon, CircleDollarSign } from "lucide-react";
-import { TooltipProvider } from "@/components/shadcn/tooltip";
-import { Tooltip } from "@/components/shadcn/tooltip";
+import { CircleDollarSign } from "lucide-react";
+
 import { Card, CardTitle, CardHeader } from "@/components/shadcn/card";
 import {
   rangeProfitFormDefaultValues,
   rangeProfitFormSchema,
 } from "./range-profit-form.consts";
 import { Form } from "@/components/shadcn/form";
+import { Tooltip } from "@/components/common/tooltip";
 
 export default function RangeProfitForm() {
   const form = useForm<z.infer<typeof rangeProfitFormSchema>>({
@@ -39,16 +37,9 @@ export default function RangeProfitForm() {
             <CardTitle className="text-sm font-medium text-text-secondary">
               Min/Max Profit ($)
             </CardTitle>
-            <TooltipProvider>
-              <Tooltip>
-                <TooltipTrigger>
-                  <InfoIcon className="h-4 w-4 text-muted-foreground" />
-                </TooltipTrigger>
-                <TooltipContent>
-                  <p>Set your desired profit margin percentage</p>
-                </TooltipContent>
-              </Tooltip>
-            </TooltipProvider>
+            <Tooltip>
+              <p>Set your desired profit margin percentage</p>
+            </Tooltip>
           </CardHeader>
           <CardContent>
             <div className="flex justify-between gap-3 mb-4 mt-1 w-full">

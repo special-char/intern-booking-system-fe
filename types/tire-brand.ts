@@ -1,3 +1,5 @@
+import { TireSupplier } from "./tire-supplier";
+
 export interface TireBrand {
   id: string;
   logoUrl: string
@@ -7,7 +9,3 @@ export interface TireBrand {
   suppliers: TireSupplier[]
 }
 
-export interface TireSupplier {
-  id: string;
-  name: string
-}
