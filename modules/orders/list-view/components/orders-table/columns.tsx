@@ -20,179 +20,236 @@ import {
 
 import { Order } from "@/types/order";
 import { StatusBadge } from "@/components/common/table/status-badge";
+import { GetColumnsInterface } from "@/types/table";
+import { LoadingHeader } from "@/components/common/table/loading-header";
+import { LoadingCell } from "@/components/common/table/loading-cell";
+import { ReactNode } from "react";
 
-export const columns: ColumnDef<Order, string>[] = [
-  {
-    accessorKey: "orderNumber",
-    meta: {
-      label: "Order",
-    },
-    header: ({ column }) => (
-      <SortableHeader column={column}>Order</SortableHeader>
-    ),
-  },
-  {
-    accessorKey: "date",
-    meta: {
-      label: "Date",
-    },
-    header: ({ column }) => (
-      <SortableHeader column={column}>Date</SortableHeader>
-    ),
-    filterFn: dateRangeFilterFn,
-  },
-  {
-    meta: {
-      label: "Payment",
-    },
-    accessorKey: "payment",
-    header: "Payment",
-    filterFn: multiValueFilterFn as FilterFn<Order>,
-    cell: ({ row }) => {
-      const payment = row.getValue("payment") as string;
-      return (
-        <div className="font-medium bg-gray-50 border border-gray-200 rounded-full w-fit px-2.5 py-0.5 text-xs">
-          {payment}
-        </div>
-      );
-    },
-  },
-  {
-    accessorKey: "orderStatus",
-    meta: {
-      label: "Order Status",
-    },
-    header: "Order Status",
-    filterFn: multiValueFilterFn as FilterFn<Order>,
-    cell: ({ row }) => {
-      const orderStatus = row.getValue("orderStatus") as string;
-      if (orderStatus === "Delivered") {
-        return <StatusBadge level="success" label={orderStatus} />
+export function getColumns({ isLoading }: GetColumnsInterface): ColumnDef<Order, string>[] {
+  return [
+    {
+      accessorKey: "orderNumber",
+      meta: {
+        label: "Order",
+      },
+      header: ({ column }) => (
+        <LoadingHeader isLoading={isLoading}>
+          <SortableHeader column={column}>Order</SortableHeader>
+        </LoadingHeader>
+      ),
+      cell: ({ row }) => {
+        return (
+          <LoadingCell isLoading={isLoading}>
+            {row.original.orderNumber}
+          </LoadingCell>
+        )
       }
-      if (orderStatus === "Shipped") {
-        return <StatusBadge className="bg-lime-100 text-lime-700" label={orderStatus} />
-      }
-      if (orderStatus === "Pending") {
-        return <StatusBadge level="warning" label={orderStatus} />
-      }
-      if (orderStatus === "Cancelled") {
-        return <StatusBadge level="error" label={orderStatus} />
-      }
-      return <StatusBadge level="default" label={orderStatus} />
     },
-  },
-  {
-    accessorKey: "totalAmount",
-    meta: {
-      label: "Total Amount",
+    {
+      accessorKey: "date",
+      meta: {
+        label: "Date",
+      },
+      header: ({ column }) => (
+        <LoadingHeader isLoading={isLoading}>
+          <SortableHeader column={column}>Date</SortableHeader>
+        </LoadingHeader>
+      ),
+      filterFn: dateRangeFilterFn,
+      cell: ({ row }) => {
+        return (
+          <LoadingCell isLoading={isLoading}>
+            {row.original.date}
+          </LoadingCell>
+        )
+      }
     },
-    header: ({ column }) => (
-      <SortableHeader column={column} className="w-full">
-        <div className="text-right">Total Amount</div>
-      </SortableHeader>
-    ),
-    cell: ({ row }) => {
-      const amount = parseFloat(row.getValue("totalAmount"));
-      const formatted = new Intl.NumberFormat("en-US", {
-        style: "currency",
-        currency: "USD",
-      }).format(amount);
+    {
+      meta: {
+        label: "Payment",
+      },
+      accessorKey: "payment",
+      header: () => <LoadingHeader isLoading={isLoading}>Payment</LoadingHeader>,
+      filterFn: multiValueFilterFn as FilterFn<Order>,
+      cell: ({ row }) => {
+        const payment = row.getValue("payment") as string;
+        return (
+          <LoadingCell isLoading={isLoading}>
+            <div className="font-medium bg-gray-50 border border-gray-200 rounded-full w-fit px-2.5 py-0.5 text-xs">
+              {payment}
+            </div>
+          </LoadingCell>
+        )
+      },
+    },
+    {
+      accessorKey: "orderStatus",
+      meta: {
+        label: "Order Status",
+      },
+      header: () => <LoadingHeader isLoading={isLoading}>Order Status</LoadingHeader>,
+      filterFn: multiValueFilterFn as FilterFn<Order>,
+      cell: ({ row }) => {
+        return (
+          <LoadingCell isLoading={isLoading}>
+            {renderOrderStatus(row.getValue("orderStatus") as string)}
+          </LoadingCell>
+        )
+      },
+    },
+    {
+      accessorKey: "totalAmount",
+      meta: {
+        label: "Total Amount",
+      },
+      header: ({ column }) => (
+        <LoadingHeader isLoading={isLoading}>
+          <SortableHeader column={column} className="w-full">
+            <div className="text-right">Total Amount</div>
+          </SortableHeader>
+        </LoadingHeader>
+      ),
+      cell: ({ row }) => {
+        const amount = parseFloat(row.getValue("totalAmount"));
+        const formatted = new Intl.NumberFormat("en-US", {
+          style: "currency",
+          currency: "USD",
+        }).format(amount);
 
-      return <div className="text-center font-medium">{formatted}</div>;
+        return (
+          <LoadingCell isLoading={isLoading}>
+            <div className="text-center font-medium">{formatted}</div>
+          </LoadingCell>
+        )
+      },
     },
-  },
-  {
-    accessorKey: "qboStatus",
-    meta: {
-      label: "QBO Status",
+    {
+      accessorKey: "qboStatus",
+      meta: {
+        label: "QBO Status",
+      },
+      header: () => <LoadingHeader isLoading={isLoading}>QBO Status</LoadingHeader>,
+      cell: ({ row }) => {
+        return (
+          <LoadingCell isLoading={isLoading}>
+            {renderQBOStatus(row.getValue("qboStatus") as string)}
+          </LoadingCell>
+        )
+      },
+      filterFn: multiValueFilterFn as FilterFn<Order>,
     },
-    header: "QBO Status",
-    cell: ({ row }) => {
-      const qboStatus = row.getValue("qboStatus") as string;
-      let statusClasses = "";
-      switch (qboStatus) {
-        case "Synced":
-          statusClasses = "bg-green-100 text-green-700";
-          break;
-        case "Pending":
-          statusClasses = "bg-yellow-100 text-yellow-700";
-          break;
-        case "Failed":
-          statusClasses = "bg-red-100 text-red-700";
-          break;
-        default:
-          statusClasses = "bg-gray-100 text-gray-700";
+    {
+      accessorKey: "appointmentDate",
+      meta: {
+        label: "Appointment",
+      },
+      header: ({ column }) => (
+        <LoadingHeader isLoading={isLoading}>
+          <SortableHeader column={column}>Appointment</SortableHeader>
+        </LoadingHeader>
+      ),
+      cell: ({ row }) => {
+        return (
+          <LoadingCell isLoading={isLoading}>
+            {row.original.appointmentDate}
+          </LoadingCell>
+        )
       }
-      return (
-        <div
-          className={`inline-block px-2.5 py-0.5 rounded-full font-medium text-xs ${statusClasses}`}
-        >
-          {qboStatus}
-        </div>
-      );
     },
-    filterFn: multiValueFilterFn as FilterFn<Order>,
-  },
-  {
-    accessorKey: "appointmentDate",
-    meta: {
-      label: "Appointment",
+    {
+      accessorKey: "technician",
+      meta: {
+        label: "Technician",
+      },
+      header: () => <LoadingHeader isLoading={isLoading}>Technician</LoadingHeader>,
+      cell: ({ row }) => {
+        const technician = row.getValue("technician") as string;
+        return (
+          <LoadingCell isLoading={isLoading}>
+            <Avatar className="w-6 h-6">
+              <AvatarImage src="https://github.com/shadcn.png" />
+              <AvatarFallback>
+                {technician
+                  ?.split(" ")
+                  .map((name) => name[0])
+                  .join("")}
+              </AvatarFallback>
+            </Avatar>
+          </LoadingCell>
+        )
+
+      },
     },
-    header: ({ column }) => (
-      <SortableHeader column={column}>Appointment</SortableHeader>
-    ),
-  },
-  {
-    accessorKey: "technician",
-    meta: {
-      label: "Technician",
+    {
+      id: "actions",
+      meta: {
+        label: "Actions",
+      },
+      cell: () => {
+        return (
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button
+                disabled={isLoading}
+                variant="ghost"
+                className="p-0 h-fit flex items-center justify-center"
+                size="sm"
+              >
+                <span className="sr-only">Open menu</span>
+                <MoreVertical className="h-4 w-4" />
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end">
+              <DropdownMenuItem>
+                <Pencil />
+                Edit
+              </DropdownMenuItem>
+              <DropdownMenuItem>
+                <Trash2 />
+                Delete
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
+        );
+      },
     },
-    header: "Technician",
-    cell: ({ row }) => {
-      const technician = row.getValue("technician") as string;
-      return (
-        <Avatar className="w-6 h-6">
-          <AvatarImage src="https://github.com/shadcn.png" />
-          <AvatarFallback>
-            {technician
-              .split(" ")
-              .map((name) => name[0])
-              .join("")}
-          </AvatarFallback>
-        </Avatar>
-      );
-    },
-  },
-  {
-    id: "actions",
-    meta: {
-      label: "Actions",
-    },
-    cell: () => {
-      return (
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button
-              variant="ghost"
-              className="p-0 h-fit flex items-center justify-center"
-              size="sm"
-            >
-              <span className="sr-only">Open menu</span>
-              <MoreVertical className="h-4 w-4" />
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align="end">
-            <DropdownMenuItem>
-              <Pencil />
-              Edit
-            </DropdownMenuItem>
-            <DropdownMenuItem>
-              <Trash2 />
-              Delete
-            </DropdownMenuItem>
-          </DropdownMenuContent>
-        </DropdownMenu>
-      );
-    },
-  },
-];
+  ]
+}
+
+function renderOrderStatus(orderStatus: string): ReactNode {
+  if (orderStatus === "Delivered") {
+    return <StatusBadge level="success" label={orderStatus} />
+  }
+  if (orderStatus === "Shipped") {
+    return <StatusBadge className="bg-lime-100 text-lime-700" label={orderStatus} />
+  }
+  if (orderStatus === "Pending") {
+    return <StatusBadge level="warning" label={orderStatus} />
+  }
+  if (orderStatus === "Cancelled") {
+    return <StatusBadge level="error" label={orderStatus} />
+  }
+  return <StatusBadge level="default" label={orderStatus} />
+}
+
+function renderQBOStatus(qboStatus: string): ReactNode {
+  let statusClasses = "";
+  switch (qboStatus) {
+    case "Synced":
+      statusClasses = "bg-green-100 text-green-700";
+      break;
+    case "Pending":
+      statusClasses = "bg-yellow-100 text-yellow-700";
+      break;
+    case "Failed":
+      statusClasses = "bg-red-100 text-red-700";
+      break;
+    default:
+      statusClasses = "bg-gray-100 text-gray-700";
+  }
+  return (
+    <div className={`inline-block px-2.5 py-0.5 rounded-full font-medium text-xs ${statusClasses}`}>
+      {qboStatus}
+    </div>
+  );
+}

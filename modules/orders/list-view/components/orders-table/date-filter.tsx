@@ -10,6 +10,7 @@ import { Row } from "@tanstack/react-table";
 import { CalendarIcon } from "lucide-react";
 
 interface DateFilterProps<TData> {
+  disabled?: boolean
   table: Table<TData>;
 }
 
@@ -27,7 +28,7 @@ export function dateRangeFilterFn<TData>(
   return rowDate >= filterDate;
 }
 
-export function DateFilter<TData>({ table }: DateFilterProps<TData>) {
+export function DateFilter<TData>({ disabled, table }: DateFilterProps<TData>) {
   const handleValueChange = (value: string) => {
     const days = parseInt(value, 10);
     const threshold = new Date();
@@ -43,7 +44,7 @@ export function DateFilter<TData>({ table }: DateFilterProps<TData>) {
 
   return (
     <Select onValueChange={handleValueChange}>
-      <SelectTrigger className="w-fit gap-2 bg-button-secondary-bg text-[13px] h-8">
+      <SelectTrigger disabled={disabled} className="w-fit gap-2 bg-button-secondary-bg text-[13px] h-8">
         <CalendarIcon className="w-3 h-3" />
         <SelectValue placeholder="Select a date" />
       </SelectTrigger>

@@ -1,29 +1,15 @@
-import { getOrderListDTO } from "@/lib/data/order";
-import { OrdersTable } from "../components/orders-table";
-import { columns } from "../components/orders-table/columns";
+import { PaginatedData } from "@/types/common";
+import { OrdersTableTemplate } from "../components/orders-table/template";
+import { Suspense } from "react";
+import { getTableLoadingData } from "@/utils/get-table-loading-data";
+import { OrdersTable, OrdersTableProps } from "../components/orders-table";
 
-export const OrdersListViewTemplate = async ({
-  page,
-  limit,
-}: {
-  page: number;
-  limit: number;
-}) => {
-  const data = await getOrderListDTO({ page, limit });
-
-  if (!data) {
-    return <div>No orders found</div>;
-  }
+export async function OrdersListViewTemplate(props: PaginatedData) {
+  const { data, pagination } = getTableLoadingData()
 
   return (
-    <OrdersTable
-      columns={columns}
-      data={data?.orders}
-      pagination={{
-        pageIndex: page,
-        pageSize: limit,
-        totalCount: data.count,
-      }}
-    />
+    <Suspense fallback={<OrdersTable data={data as OrdersTableProps['data']} pagination={pagination} isLoading />}>
+      <OrdersTableTemplate {...props} />
+    </Suspense>
   );
-};
+}
