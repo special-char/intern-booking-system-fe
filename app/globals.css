@@ -143,3 +143,9 @@
     @apply bg-background text-foreground;
   }
 }
+
+
+/* Hide routing container on the map */
+.leaflet-routing-container {
+  display: none !important;
+}

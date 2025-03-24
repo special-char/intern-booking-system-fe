@@ -107,6 +107,10 @@ export const menuItems = {
           title: "Map view",
           url: "#",
         },
+        {
+          title: "Route view",
+          url: "/orders/route-view",
+        },
       ],
     },
     {
