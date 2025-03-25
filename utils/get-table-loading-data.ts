@@ -1,8 +1,8 @@
-import { Pagination } from "@/types/common";
+import { PaginationInterface } from "@/types/pagination";
 
 interface GetTableLoadingDataReturnInterface {
   data: { id: string }[];
-  pagination: Pagination;
+  pagination: PaginationInterface;
 }
 
 export function getTableLoadingData(length: number = 10): GetTableLoadingDataReturnInterface {
@@ -10,7 +10,7 @@ export function getTableLoadingData(length: number = 10): GetTableLoadingDataRet
     id: i.toString(),
   }))
 
-  const pagination: Pagination = {
+  const pagination: PaginationInterface = {
     pageIndex: 1,
     pageSize: 20,
     totalCount: length,

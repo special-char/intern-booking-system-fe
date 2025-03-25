@@ -4,6 +4,7 @@ import { SidebarProvider } from "@/components/shadcn/sidebar";
 import { NavigationSidebar } from "@/modules/layout/components/navigation-sidebar";
 import { Header } from "@/modules/layout/components/header";
 import { SidebarInset } from "@/components/shadcn/sidebar";
+import { DashboardTabs } from "@/modules/dashboard/common/components/tabs";
 
 export default async function Layout({
   children,
@@ -16,7 +17,10 @@ export default async function Layout({
         <Header />
         <div className="flex flex-1">
           <NavigationSidebar />
-          <SidebarInset className="max-w-full">{children}</SidebarInset>
+          <SidebarInset className="max-w-full">
+            <DashboardTabs />
+            {children}
+          </SidebarInset>
         </div>
       </SidebarProvider>
     </div>

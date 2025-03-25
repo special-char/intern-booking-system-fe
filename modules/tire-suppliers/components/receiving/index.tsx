@@ -42,7 +42,7 @@ export default function TireSupplierReceiving({ data: { from, max, min, notes, r
       <CardContent>
         <RadioGroup
           defaultValue={receiving}
-          className="flex mt-5"
+          className="flex mt-5 flex-wrap"
           onValueChange={onReceivingChange}
         >
           {["routeDelivery", "willCall"].map((value) => (
@@ -57,7 +57,7 @@ export default function TireSupplierReceiving({ data: { from, max, min, notes, r
         </RadioGroup>
         {receiving === "routeDelivery" && (
           <>
-            <div className="flex justify-between gap-x-4 mt-5">
+            <div className="flex justify-between gap-x-4 mt-5 flex-wrap">
               <div className="grow">
                 <TimeInput
                   min={min}

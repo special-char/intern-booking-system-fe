@@ -21,7 +21,7 @@ export default function DebouncedRange({
   onChange,
   value,
 }: DebouncedRangeProps) {
-  const { localValue, handleChange } = useDebouncedInput<[number, number]>({
+  const { localValue, onChange: handleChange } = useDebouncedInput<[number, number]>({
     initialValue: value,
     wait: wait === "none" ? 0 : wait,
     onChange

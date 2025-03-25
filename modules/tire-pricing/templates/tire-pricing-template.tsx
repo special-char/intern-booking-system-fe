@@ -8,7 +8,7 @@ import { RecommendedTiresCardTemplate } from "../components/recommended-tires-ca
 import RecommendedTiresCardSkeleton from "../components/recommended-tires-card/skeleton";
 export function TirePricingTemplate() {
   return (
-    <div className="py-8 px-6 space-y-4">
+    <div className="py-8 px-6 space-y-5">
       <div className="flex justify-between items-center">
         <p className="font-semibold text-2xl">Tire Pricing</p>
         <SearchInput />

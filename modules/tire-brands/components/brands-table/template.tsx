@@ -1,4 +1,4 @@
-import { Pagination } from "@/types/common";
+import { PaginationInterface } from "@/types/pagination";
 import { TireBrand } from "@/types/tire-brand";
 import { TireBrandTable } from ".";
 import { getTireSuppliers } from "@/mocks/tire-suppliers";
@@ -14,7 +14,7 @@ export async function TireBrandTableTemplate() {
     return <div>No tire brands found</div>;
   }
 
-  const pagination: Pagination = {
+  const pagination: PaginationInterface = {
     pageIndex: 1,
     pageSize: 10,
     totalCount: data.length,

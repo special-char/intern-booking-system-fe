@@ -1,11 +1,11 @@
 import { getOrderListDTO } from "@/lib/data/order";
-import { PaginatedData, Pagination } from "@/types/common";
+import { PaginatedDataInterface, PaginationInterface } from "@/types/pagination";
 import { OrdersTable } from ".";
 
-export async function OrdersTableTemplate({ page, limit }: PaginatedData) {
+export async function OrdersTableTemplate({ page, limit }: PaginatedDataInterface) {
   const { orders, count } = await getOrderListDTO({ page, limit }) ?? {};
 
-  const pagination: Pagination = {
+  const pagination: PaginationInterface = {
     pageIndex: page,
     pageSize: limit,
     totalCount: count ?? 0,

@@ -21,6 +21,7 @@ export const menuItems = {
       icon: Grid2X2,
       isActive: false,
       isExpandable: false,
+      matchNested: true,
     },
     {
       title: "Tire suppliers",
@@ -101,11 +102,11 @@ export const menuItems = {
         },
         {
           title: "Calendar view",
-          url: "#",
+          url: "/orders/calendar-view",
         },
         {
           title: "Map view",
-          url: "#",
+          url: "/orders/map-view",
         },
         {
           title: "Route view",
@@ -121,11 +122,11 @@ export const menuItems = {
       items: [
         {
           title: "Trip charge",
-          url: "#",
+          url: "/service-pricing/trip-charge",
         },
         {
           title: "Install",
-          url: "#",
+          url: "/service-pricing/install",
         },
         {
           title: "Patch repair",
@@ -133,11 +134,11 @@ export const menuItems = {
         },
         {
           title: "Balance & rotation",
-          url: "#",
+          url: "/service-pricing/balance-rotation",
         },
         {
           title: "Fees",
-          url: "#",
+          url: "/service-pricing/fees",
         },
       ],
     },

@@ -6,6 +6,7 @@ export type InputProps = Omit<React.ComponentProps<"input">, "size"> & {
   size?: "small" | "default" | "large";
   leftIcon?: React.ReactNode;
   rightIcon?: React.ReactNode;
+  skeletonClassName?: string;
   wrapperClassName?: string;
   caption?: string;
   loading?: boolean
@@ -21,6 +22,7 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
       rightIcon,
       wrapperClassName,
       loading,
+      skeletonClassName,
       ...props
     },
     ref
@@ -34,7 +36,7 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
     if (loading) {
       return (
         <div className={cn("relative border rounded-md h-9 px-3 py-2 flex items-center bg-background", wrapperClassName)}>
-          <Skeleton variant="default" className={cn("h-5 rounded-md absolute", leftIcon ? "left-10" : "left-3", leftIcon ? "w-[calc(70%-1rem)]" : "w-[70%]")} />
+          <Skeleton variant="default" className={cn("h-5 rounded-md absolute", leftIcon ? "left-10" : "left-3", leftIcon ? "w-[calc(70%-1rem)]" : "w-[70%]", skeletonClassName)} />
           {(rightIcon || leftIcon) && (
             <div className={cn("absolute", leftIcon ? "left-3" : "right-3")}>
               {rightIcon || leftIcon}

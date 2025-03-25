@@ -21,7 +21,7 @@ export default function DebouncedSlider({
   onChange,
   value,
 }: DebouncedSliderProps) {
-  const { localValue, handleChange } = useDebouncedInput<number[]>({
+  const { localValue, onChange: handleChange } = useDebouncedInput<number[]>({
     initialValue: value,
     wait: wait === "none" ? 0 : wait,
     onChange

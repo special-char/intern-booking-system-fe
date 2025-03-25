@@ -7,7 +7,6 @@ import { TireBrand } from "@/types/tire-brand";
 import { Switch } from "@/components/shadcn/switch";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/shadcn/select";
 import { Checkbox } from "@/components/shadcn/checkbox";
-import { Skeleton } from "@/components/shadcn/skeleton";
 import { GetColumnsInterface } from "@/types/table";
 import Image from "next/image";
 import { getTableLoadingData } from "@/utils/get-table-loading-data";
@@ -89,16 +88,12 @@ export function getColumns({ isLoading, onStatusChange, onPreferredSupplierChang
         border: true
       },
       cell: ({ row }) => {
-        if (isLoading) {
-          return <Skeleton variant="default" />
-        }
-
         const id: string = row.original.id;
         const preferredSupplierId: string | null = row.original.preferredSuplierId;
 
         return (
           <LoadingCell isLoading={isLoading}>
-            {!row.original.suppliers.length ? "—" : (
+            {!row.original.suppliers?.length ? "—" : (
               <Select
                 onValueChange={(value) => {
                   onPreferredSupplierChange(id, value);

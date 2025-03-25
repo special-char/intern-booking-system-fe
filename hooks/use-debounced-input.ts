@@ -8,7 +8,7 @@ interface UseDebouncedInputInterface<T> {
 
 interface UseDebouncedInputReturnInterface<T> {
   localValue: T
-  handleChange: (value: T) => void;
+  onChange: (value: T) => void;
 }
 
 export function useDebouncedInput<T>({ initialValue, wait, onChange }: UseDebouncedInputInterface<T>): UseDebouncedInputReturnInterface<T> {
@@ -38,6 +38,6 @@ export function useDebouncedInput<T>({ initialValue, wait, onChange }: UseDeboun
 
   return {
     localValue,
-    handleChange,
+    onChange: handleChange,
   }
 }

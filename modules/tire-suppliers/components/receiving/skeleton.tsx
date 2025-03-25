@@ -11,12 +11,12 @@ export function TireSupplierReceivingSkeleton() {
         <Skeleton variant="default" className="h-4 w-1/12" />
       </CardHeader>
       <CardContent>
-        <div className="flex mt-5 gap-x-3">
-          <Skeleton variant="default" className="h-10 w-1/10" />
-          <Skeleton variant="default" className="h-10 w-1/10" />
+        <div className="flex mt-5 gap-x-3 flex-wrap">
+          <Skeleton variant="default" className="h-10 max-w-30 grow" />
+          <Skeleton variant="default" className="h-10 max-w-30 grow" />
         </div>
         <>
-          <div className="flex justify-between gap-x-4 mt-5">
+          <div className="flex justify-between gap-x-4 mt-5 flex-wrap">
             <div className="grow">
               <Input
                 disabled

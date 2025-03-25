@@ -14,11 +14,11 @@ import {
 } from "@/components/shadcn/pagination";
 import { Select } from "@/components/shadcn/select";
 import { Table as TableType } from "@tanstack/react-table";
-import { Pagination } from "@/types/common";
+import { PaginationInterface } from "@/types/pagination";
 import { useUpdateQueryParams } from "@/hooks/use-update-query-params";
 interface PaginationTableProps<TData> {
   table: TableType<TData>;
-  pagination: Pagination;
+  pagination: PaginationInterface;
 }
 
 function getPaginationRange(

@@ -1,14 +1,14 @@
 import SearchInput from "@/components/common/search-input";
 import { UserIcon } from "lucide-react";
 
-import { PaginatedData } from "@/types/common";
+import { PaginatedDataInterface } from "@/types/pagination";
 import { TechnicianFormModal } from "../components/technician-form-modal";
 import { getTableLoadingData } from "@/utils/get-table-loading-data";
 import { TechniciansTable } from "../components/technicians-table";
 import { Suspense } from "react";
 import { TechniciansTableTemplate } from "../components/technicians-table/template";
 
-export async function TechniciansTemplate(props: PaginatedData) {
+export async function TechniciansTemplate(props: PaginatedDataInterface) {
   const { data, pagination } = getTableLoadingData()
 
   return (

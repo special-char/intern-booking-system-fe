@@ -21,29 +21,41 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
 
+export interface NavMainItem {
+  title: string;
+  url?: string;
+  icon?: LucideIcon;
+  isActive?: boolean;
+  isExpandable?: boolean;
+  items?: {
+    title: string;
+    url: string;
+  }[];
+  matchNested?: boolean
+}
+
 export function NavMain({
   items,
 }: {
-  items: {
-    title: string;
-    url?: string;
-    icon?: LucideIcon;
-    isActive?: boolean;
-    isExpandable?: boolean;
-    items?: {
-      title: string;
-      url: string;
-    }[];
-    matchNested?: boolean
-  }[];
+  items: NavMainItem[];
 }) {
   const pathname = usePathname();
+
+  function getIsActiveItem(item: NavMainItem): boolean {
+    if (item.url === "/") {
+      return ["/", "/appointments"].some(p => p === pathname)
+    }
+    if (item.matchNested) {
+      return pathname.includes(item.url ?? "")
+    }
+    return pathname === item.url
+  }
 
   return (
     <SidebarGroup className="p-0">
       <SidebarMenu>
         {items.map((item) => {
-          const isActive = item.matchNested ? pathname.includes(item.url ?? "") : pathname === item.url;
+          const isActive: boolean = getIsActiveItem(item);
           const isChildActive = item.items?.some(
             (subItem) => pathname === subItem.url
           );
