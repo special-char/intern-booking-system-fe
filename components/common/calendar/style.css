@@ -1,0 +1,96 @@
+@import 'tailwindcss/theme.css' layer(theme);
+
+.rbc-calendar {
+  @apply rounded-lg border;
+  @apply overflow-hidden;
+}
+
+.rbc-time-header-gutter,
+.rbc-time-column,
+.rbc-time-content > * + * > *,
+.rbc-time-header-content,
+.rbc-header {
+  border-color: var(--border) !important;
+}
+
+.rbc-time-header-gutter {
+  @apply w-full min-w-15 max-w-15;
+}
+
+.rbc-row {
+  @apply min-w-[230px] !min-h-29;
+}
+
+.rbc-time-header-content {
+  @apply !ml-0;
+}
+
+.rbc-time-content {
+  @apply border-t-0;
+}
+
+.rbc-timeslot-group {
+  @apply min-h-22 border-b-0;
+}
+
+.rbc-time-content > div:not(.rbc-time-gutter) .rbc-timeslot-group {
+  @apply border-b;
+}
+
+.rbc-time-content > div:not(.rbc-time-gutter) .rbc-timeslot-group:has(+ .rbc-events-container) {
+  @apply !border-b-0;
+}
+
+.rbc-time-slot,
+.rbc-day-slot .rbc-time-slot {
+  @apply w-15 border-0;
+}
+
+.rbc-time-header-content .rbc-row.rbc-row-resource {
+  @apply border-b-0;
+}
+
+.rbc-events-container {
+  @apply !mr-0;
+}
+
+.rbc-toolbar,
+.rbc-allday-cell {
+  @apply hidden;
+}
+
+.rbc-day-bg,
+.rbc-today,
+.rbc-time-view .rbc-allday-cell {
+  @apply bg-white;
+}
+
+.rbc-time-view,
+.rbc-time-header,
+.rbc-day-slot,
+.rbc-time-slot,
+.rbc-day-bg,
+.rbc-time-view .rbc-allday-cell,
+.rbc-header + .rbc-header,
+.rbc-day-bg + .rbc-day-bg {
+  @apply border-none;
+}
+
+/* must be 1px more than row width in order to match borders (react big calendar wierd internal styling includes negative pixels margins) */
+.rbc-day-slot {
+  @apply !min-w-[231px];
+}
+
+.rbc-label {
+  @apply text-xs font-light text-gray-500;
+}
+
+/* Current Time Indicator */
+.rbc-current-time-indicator {
+  @apply h-1 bg-[hsla(243,75%,59%,1)] !block;
+  border: 1px hsla(243, 75%, 59%, 1) !important;
+}
+
+.rbc-time-content > .rbc-time-gutter + div .rbc-current-time-indicator::before {
+  @apply absolute -top-1 w-2.5 h-2.5 bg-[hsla(243,75%,59%,1)] rounded-full content-[''];
+}

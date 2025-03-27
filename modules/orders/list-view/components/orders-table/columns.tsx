@@ -18,7 +18,7 @@ import {
   AvatarImage,
 } from "@/components/shadcn/avatar";
 
-import { Order } from "@/types/order";
+import { Order } from "@/types/orders/order";
 import { StatusBadge } from "@/components/common/table/status-badge";
 import { GetColumnsInterface } from "@/types/table";
 import { LoadingHeader } from "@/components/common/table/loading-header";

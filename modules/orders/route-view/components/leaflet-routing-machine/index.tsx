@@ -5,7 +5,7 @@ import ReactDOMServer from "react-dom/server";
 import L from "leaflet";
 import "leaflet-routing-machine";
 import { useMap } from "react-leaflet";
-import { OrdersRouteView } from "@/types/order";
+import { OrdersRouteView } from "@/types/orders/orders-route-view";
 import { generateUniqueColors } from "@/utils/get-random-color";
 import { House } from "lucide-react";
 import { createRoutingPlan } from "./leaflet-routing-helpers";

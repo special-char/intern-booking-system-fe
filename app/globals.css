@@ -1,4 +1,4 @@
-@import "tailwindcss";
+@import 'tailwindcss';
 
 @custom-variant dark (&:is(.dark *));
 
@@ -8,7 +8,7 @@
   --background: hsl(210, 40%, 98%);
   --foreground: hsl(217, 19%, 27%);
   --card: hsl(0 0% 100%);
-  --card-foreground:hsl(229, 84%, 5%);
+  --card-foreground: hsl(229, 84%, 5%);
   --border: hsl(214, 32%, 91%);
   --secondary-border: hsl(216, 12%, 84%);
   --border-input: hsl(220, 13%, 91%);
@@ -19,7 +19,7 @@
   --secondary-foreground: hsl(217, 19%, 27%);
   --destructive: hsl(0, 84%, 60%);
   --destructive-foreground: hsl(0, 0%, 98%);
-  --ring:	hsl(230, 94%, 82%);
+  --ring: hsl(230, 94%, 82%);
   --muted-foreground: hsl(215, 16%, 47%);
   --popover-foreground: hsl(229, 84%, 5%);
 
@@ -65,13 +65,23 @@
   --radius-md: calc(var(--radius) - 2px);
   --radius-lg: var(--radius);
   --radius-xl: calc(var(--radius) + 4px);
-
+  --color-purple-50: hsla(270, 100%, 98%, 1);
+  --color-purple-600: hsla(271, 81%, 56%, 1);
+  --color-orange-50: hsla(33, 100%, 96%, 1);
+  --color-orange-600: hsla(21, 90%, 48%, 1);
+  --color-gray-50: hsla(210, 20%, 98%, 1);
+  --color-gray-100: hsla(220, 14%, 96%, 1);
+  --color-gray-300: hsla(216, 12%, 84%, 1);
+  --color-gray-500: hsla(220, 9%, 46%, 1);
+  --color-gray-600: hsla(215, 14%, 34%, 1);
+  --color-gray-700: hsla(217, 19%, 27%, 1);
+  --color-cyan-300: hsla(187, 92%, 69%, 1);
+  --color-cyan-500: hsla(189, 94%, 43%, 1);
 }
 
 @layer base {
   * {
     @apply border-border outline-ring/50;
-
   }
   body {
     @apply bg-background text-foreground;
@@ -102,37 +112,39 @@
   --color-text-primary: hsl(217, 19%, 27%);
   --color-text-secondary: hsl(220, 9%, 46%);
   --color-text-success-primary: hsl(142, 76%, 36%);
-  --color-icon-fg: 	hsl(217, 19%, 27%);
-  --color-icon-fg-brand: 	hsl(243, 75%, 59%);
+  --color-icon-fg: hsl(217, 19%, 27%);
+  --color-icon-fg-brand: hsl(243, 75%, 59%);
   --color-brand-primary-100: hsl(226, 100%, 94%);
   --color-brand-primary-300: hsl(230, 94%, 82%);
   --color-text-placeholder: hsl(218, 11%, 65%);
   --color-bg-secondary: hsl(210, 20%, 98%);
   --color-bg-secondary-hover: hsl(220, 14%, 96%);
-  --color-avatar-bg-alt: 	hsl(141, 84%, 93%);
+  --color-avatar-bg-alt: hsl(141, 84%, 93%);
   --color-slate-50: hsl(210, 40%, 98%);
-  --color-slate-100: 	hsl(210, 40%, 96%);
+  --color-slate-100: hsl(210, 40%, 96%);
   --color-text-primary-brand: hsl(243, 75%, 59%);
-  --shadow-side-nav: inset 0 -1px 0 #B5B5B5, inset -1px 0 0 #E3E3E3, inset 1px 0 0 #E3E3E3, inset 0 1px 0 #E3E3E3;
+  --shadow-side-nav: inset 0 -1px 0 #b5b5b5, inset -1px 0 0 #e3e3e3, inset 1px 0 0 #e3e3e3,
+    inset 0 1px 0 #e3e3e3;
   --color-indigo-950: hsl(244, 47%, 20%);
   --color-tabs-bg-default: hsl(220, 14%, 96%);
   --shadow-tabs: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
-  --shadow-card: 0 1px 2px rgba(0, 0, 0, 0.05), inset 0 -1px 0 #B5B5B5, inset -1px 0 0 #E3E3E3, inset 1px 0 0 #E3E3E3;
+  --shadow-card: 0 1px 2px rgba(0, 0, 0, 0.05), inset 0 -1px 0 #b5b5b5, inset -1px 0 0 #e3e3e3,
+    inset 1px 0 0 #e3e3e3;
   --color-gray-50: hsl(210, 20%, 98%);
   --color-gray-200: hsl(220, 13%, 91%);
-  --color-button-secondary-bg: 	hsl(210, 20%, 98%);
+  --color-button-secondary-bg: hsl(210, 20%, 98%);
   --color-border-primary: hsl(216, 12%, 84%);
   --color-green-100: hsl(141, 84%, 93%);
   --color-green-600: hsl(142, 76%, 36%);
   --color-green-700: hsl(142, 72%, 29%);
   --color-lime-100: hsl(80, 89%, 89%);
   --color-lime-700: hsl(86, 78%, 27%);
-  --color-red-100: 	hsl(0, 93%, 94%);
-  --color-red-600: 	hsl(0, 72%, 51%);
-  --color-red-700: 	hsl(0, 74%, 42%);
-  --color-yellow-100:	hsl(55, 97%, 88%);
+  --color-red-100: hsl(0, 93%, 94%);
+  --color-red-600: hsl(0, 72%, 51%);
+  --color-red-700: hsl(0, 74%, 42%);
+  --color-yellow-100: hsl(55, 97%, 88%);
   --color-yellow-600: hsl(41, 96%, 40%);
-  --color-icon-error: hsl(0, 72%, 51%)
+  --color-icon-error: hsl(0, 72%, 51%);
 }
 
 @layer base {
@@ -143,7 +155,6 @@
     @apply bg-background text-foreground;
   }
 }
-
 
 /* Hide routing container on the map */
 .leaflet-routing-container {

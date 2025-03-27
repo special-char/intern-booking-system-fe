@@ -1,0 +1,18 @@
+@import 'tailwindcss/theme.css' layer(theme);
+
+.rbc-event {
+  @apply bg-transparent !border-none !outline-none py-0 px-1 !min-h-14;
+}
+
+.rbc-event.event-lunch {
+  @apply !p-0;
+}
+
+.rbc-event.event-idle,
+.rbc-event.event-lunch {
+  @apply rounded-none;
+}
+
+.rbc-event-label {
+  @apply hidden;
+}

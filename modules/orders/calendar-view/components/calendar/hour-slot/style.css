@@ -1,0 +1,13 @@
+@import 'tailwindcss/theme.css' layer(theme);
+
+.wrapper {
+  @apply text-center;
+}
+
+.wrapper.current-hour .rbc-time-slot {
+  @apply bg-[hsla(243,75%,59%,1)] rounded-lg text-xs px-1 w-[80%] mx-auto;
+}
+
+.wrapper.current-hour .rbc-time-slot span {
+  @apply text-white text-xs flex min-h-5 items-center justify-center;
+}

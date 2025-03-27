@@ -3,7 +3,7 @@
 import React, { useState } from "react";
 import { MapContainer, TileLayer } from "react-leaflet";
 import dynamic from "next/dynamic";
-import { OrdersRouteView } from "@/types/order";
+import { OrdersRouteView } from "@/types/orders/orders-route-view";
 import "leaflet/dist/leaflet.css";
 import "leaflet-routing-machine/dist/leaflet-routing-machine.css";
 import { Skeleton } from "@/components/shadcn/skeleton";

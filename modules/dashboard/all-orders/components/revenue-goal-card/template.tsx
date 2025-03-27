@@ -1,4 +1,4 @@
-import { getRevenueGoal } from "@/mocks/orders";
+import { getRevenueGoal } from "@/mocks/orders/orders";
 import RevenueGoalCard from ".";
 
 export async function RevenueGoalCardTemplate() {

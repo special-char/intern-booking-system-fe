@@ -1,4 +1,4 @@
-import { OrdersRouteView } from "@/types/order";
+import { OrdersRouteView } from "@/types/orders/orders-route-view";
 
 const MOCKED_ORDERS_ROUTE_VIEW: OrdersRouteView[] = [
   {

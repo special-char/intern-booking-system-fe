@@ -14,7 +14,7 @@ import { ClearTableFiltersButton } from "@/components/common/table/clear-table-f
 import { filters } from "./filter-options";
 import { useTable } from "@/hooks/use-table";
 import { TableProps } from "@/types/table";
-import { Order } from "@/types/order";
+import { Order } from "@/types/orders/order";
 import { useMemo } from "react";
 import { Skeleton } from "@/components/shadcn/skeleton";
 

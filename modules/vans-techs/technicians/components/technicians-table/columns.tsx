@@ -133,7 +133,6 @@ export function getColumns({ isLoading }: GetColumnsInterface): ColumnDef<Techni
         label: "Actions",
       },
       cell: ({ row }) => {
-        console.log(row.original.name);
         // TODO: Fill with the correct values when backend is ready
         const initialValues = {
           id: row.original.id,

@@ -1,4 +1,4 @@
-import { Order } from "@/types/order";
+import { Order } from "@/types/orders/order";
 import { HttpTypes } from "@medusajs/types";
 
 export type OrderPaginationDTO = {
