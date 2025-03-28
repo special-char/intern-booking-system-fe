@@ -49,3 +49,16 @@ export function getDailyTimeRange(ordersCalendar: OrdersCalendar) {
   }
 }
 
+export function getJobsNum({ ordersCalendar, type, beforeHour, afterHour }: { ordersCalendar: OrdersCalendar, type: "installation" | "inspection", beforeHour?: number, afterHour?: number }) {
+  return ordersCalendar.data.reduce((acc, curr) => {
+    return acc + curr.events.filter((e) => {
+      if (beforeHour) {
+        return e.type === type && new Date(e.start).getHours() < beforeHour
+      }
+      if (afterHour) {
+        return e.type === type && new Date(e.start).getHours() > afterHour
+      }
+      return e.type === type
+    }).length
+  }, 0)
+}

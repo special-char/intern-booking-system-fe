@@ -1,7 +1,7 @@
 import { Suspense } from "react";
 import { Card, CardContent } from "@/components/shadcn/card";
 import { OrdersCalendarTemplate } from "../components/calendar/template";
-import { Header } from "../components/calendar/header";
+import { Header } from "../components/calendar/components/header";
 import { OrdersCalendarSkeleton } from "../components/calendar/skeleton";
 
 interface OrdersCalendarViewTemplateProps {

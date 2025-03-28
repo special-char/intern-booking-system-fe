@@ -2,9 +2,9 @@
 
 import { Views } from "react-big-calendar"
 import "react-big-calendar/lib/css/react-big-calendar.css"
-import { Event } from "../event"
-import { TechnicianHeader } from "../technician-header"
-import { HourSlot } from "../hour-slot"
+import { Event } from "../components/event"
+import { TechnicianHeader } from "../components/technician-header"
+import { HourSlot } from "../components/hour-slot"
 import { Calendar } from "@/components/common/calendar"
 import { OrdersCalendar } from "@/types/orders/orders-calendar"
 import { useMemo } from "react"
@@ -12,6 +12,7 @@ import "./style.css"
 
 const LOADING_ORDERS_CALENDAR: OrdersCalendar = {
   date: new Date().toISOString().split('T')[0],
+  isRouted: true,
   data: [
     {
       technician: {

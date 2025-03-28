@@ -1,4 +1,5 @@
 import { OrdersCalendar } from "@/types/orders/orders-calendar";
+import moment from "moment";
 
 const MOCK_ORDERS_CALENDAR: OrdersCalendar = {
   date: new Date().toISOString().split('T')[0],
@@ -245,7 +246,8 @@ const MOCK_ORDERS_CALENDAR: OrdersCalendar = {
         },
       ],
     }
-  ]
+  ],
+  isRouted: true
 }
 
 async function mockFetchOrdersCalendar(): Promise<OrdersCalendar> {
@@ -256,9 +258,11 @@ async function mockFetchOrdersCalendar(): Promise<OrdersCalendar> {
   ) as Promise<OrdersCalendar>;
 }
 
-export async function getOrdersCalendar({ date: _date }: { date: string }): Promise<OrdersCalendar | null> {
+export async function getOrdersCalendar({ date }: { date: string }): Promise<OrdersCalendar | null> {
   try {
-    return await mockFetchOrdersCalendar();
+    const mockOrdersCalendar: OrdersCalendar = await mockFetchOrdersCalendar();
+    const isToday: boolean = moment(date).isSame(moment(), "day");
+    return { ...mockOrdersCalendar, isRouted: isToday };
   } catch (error) {
     console.error(error);
     return null;
