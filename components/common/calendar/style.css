@@ -1,8 +1,7 @@
 @import 'tailwindcss/theme.css' layer(theme);
 
 .rbc-calendar {
-  @apply rounded-lg border;
-  @apply overflow-hidden;
+  @apply rounded-lg border overflow-hidden bg-white;
 }
 
 .rbc-time-header-gutter,

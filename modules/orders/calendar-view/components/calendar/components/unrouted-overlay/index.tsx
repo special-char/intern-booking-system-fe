@@ -20,7 +20,7 @@ export function UnroutedOverlay({ ordersCalendar }: UnroutedOverlayProps) {
 
   return (
     <>
-      <div className="absolute left-15 top-29 right-0 h-132 bg-yellow-50 flex justify-center items-center border-yellow-300 border-2 rounded-sm z-999">
+      <div className="absolute left-15 top-29 right-0 h-132 bg-yellow-50 flex justify-center items-center border-yellow-300 border-2 rounded-sm z-11">
         <UnroutedOverlayContent
           jobsTotal={installationsMorning + inspectionsMorning}
           label="Morning flex"
@@ -28,7 +28,7 @@ export function UnroutedOverlay({ ordersCalendar }: UnroutedOverlayProps) {
           inspections={inspectionsMorning}
         />
       </div>
-      <div className="absolute left-15 top-161 right-0 h-[38.55rem] bg-red-50 flex justify-center items-center border-red-300 border-2 rounded-sm z-999">
+      <div className="absolute left-15 top-161 right-0 h-[38.55rem] bg-red-50 flex justify-center items-center border-red-300 border-2 rounded-sm z-11">
         <UnroutedOverlayContent
           jobsTotal={installationsAfternoon + inspectionsAfternoon}
           label="Afternoon flex"

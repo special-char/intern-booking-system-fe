@@ -30,23 +30,25 @@ export function Calendar<TEvent extends object, TResource extends object>({ time
   }, [])
 
   return (
-    <RBCalendar
-      {...props}
-      localizer={localizer}
-      getNow={() => currentTime}
-      components={{
-        ...props.components,
-        // eslint-disable-next-line
-        timeSlotWrapper: (wrapperProps: any) => {
-          const Component: ComponentType | undefined = props.components?.timeSlotWrapper
-          if (!Component) {
-            return null
-          }
-          const isCurrentHour: boolean = moment(currentTime).isSame(wrapperProps.value, "hour")
-          return <Component {...wrapperProps} isCurrentHour={isCurrentHour} />
-        },
-      }}
-    />
+    <div className="grid">
+      <RBCalendar
+        {...props}
+        localizer={localizer}
+        getNow={() => currentTime}
+        components={{
+          ...props.components,
+          // eslint-disable-next-line
+          timeSlotWrapper: (wrapperProps: any) => {
+            const Component: ComponentType | undefined = props.components?.timeSlotWrapper
+            if (!Component) {
+              return null
+            }
+            const isCurrentHour: boolean = moment(currentTime).isSame(wrapperProps.value, "hour")
+            return <Component {...wrapperProps} isCurrentHour={isCurrentHour} />
+          },
+        }}
+      />
+    </div>
   )
 }
 

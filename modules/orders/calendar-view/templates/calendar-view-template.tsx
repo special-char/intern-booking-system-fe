@@ -1,29 +1,30 @@
-import { Suspense } from "react";
-import { Card, CardContent } from "@/components/shadcn/card";
-import { OrdersCalendarTemplate } from "../components/calendar/template";
-import { Header } from "../components/calendar/components/header";
-import { OrdersCalendarSkeleton } from "../components/calendar/skeleton";
+import { OrdersCalendarTemplate } from "../components/calendar/template"
+import { Header } from "../components/calendar/components/header"
+import { Suspense } from "react"
+import { OrdersCalendarSkeleton } from "../components/calendar/skeleton"
+import { FiltersPanel } from "../components/filters-panel"
+
 
 interface OrdersCalendarViewTemplateProps {
   date: string
+  filters: Record<string, boolean>
 }
 
-export async function OrdersCalendarViewTemplate({ date }: OrdersCalendarViewTemplateProps) {
+export async function OrdersCalendarViewTemplate({ date, filters }: OrdersCalendarViewTemplateProps) {
   return (
-    <div className="grid grid-cols-8">
-      <div className="col-span-8 lg:col-span-2">
+    <div className="flex flex-col lg:flex-row gap-5">
+      <div className="order-1 lg:order-none">
+        <FiltersPanel date={date} />
       </div>
-      <div className="col-span-8 lg:col-span-6">
-        <div className="mb-4">
+      <div className="grow order-none lg:order-1">
+        <div className="mb-5">
           <Header date={date} />
         </div>
-        <Card>
-          <CardContent className="p-4">
-            <Suspense fallback={<OrdersCalendarSkeleton />}>
-              <OrdersCalendarTemplate date={date} />
-            </Suspense>
-          </CardContent>
-        </Card>
+        <div className="border border-t-0 shadow-card rounded-lg">
+          <Suspense key={`${date}-${JSON.stringify(filters)}`} fallback={<OrdersCalendarSkeleton />}>
+            <OrdersCalendarTemplate date={date} />
+          </Suspense>
+        </div>
       </div>
     </div>
   )
