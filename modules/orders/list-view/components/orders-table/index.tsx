@@ -43,7 +43,7 @@ export function OrdersTable({ data, pagination, isLoading = false }: OrdersTable
   return (
     <div className="space-y-5">
       <Card>
-        <div className="flex items-center justify-between p-4">
+        <div className="flex items-center justify-between p-4 max-w-full overflow-x-scroll overflow-y-hidden">
           {isLoading ? (
             <Skeleton variant="default" />
           ) : (

@@ -2,16 +2,17 @@
 
 import { Views } from "react-big-calendar"
 import "react-big-calendar/lib/css/react-big-calendar.css"
-import { Event } from "../components/event"
+import { Event, EventProps } from "../components/event"
 import { TechnicianHeader } from "../components/technician-header"
 import { HourSlot } from "../components/hour-slot"
 import { Calendar } from "@/components/common/calendar"
 import { OrdersCalendar } from "@/types/orders/orders-calendar"
 import { useMemo } from "react"
 import "./style.css"
+import { getLocaleDateString } from "@/utils/date"
 
 const LOADING_ORDERS_CALENDAR: OrdersCalendar = {
-  date: new Date().toISOString().split('T')[0],
+  date: getLocaleDateString(),
   isRouted: true,
   data: [
     {
@@ -22,8 +23,8 @@ const LOADING_ORDERS_CALENDAR: OrdersCalendar = {
       events: [
         {
           id: "1",
-          start: `${new Date().toISOString().split('T')[0]}T08:00:00`,
-          end: `${new Date().toISOString().split('T')[0]}T09:00:00`,
+          start: `${getLocaleDateString()}T08:00:00`,
+          end: `${getLocaleDateString()}T09:00:00`,
           title: "",
           type: "load",
         },
@@ -37,8 +38,8 @@ const LOADING_ORDERS_CALENDAR: OrdersCalendar = {
       events: [
         {
           id: "2",
-          start: `${new Date().toISOString().split('T')[0]}T08:00:00`,
-          end: `${new Date().toISOString().split('T')[0]}T09:00:00`,
+          start: `${getLocaleDateString()}T08:00:00`,
+          end: `${getLocaleDateString()}T09:00:00`,
           title: "",
           type: "load",
         },
@@ -52,8 +53,8 @@ const LOADING_ORDERS_CALENDAR: OrdersCalendar = {
       events: [
         {
           id: "3",
-          start: `${new Date().toISOString().split('T')[0]}T08:00:00`,
-          end: `${new Date().toISOString().split('T')[0]}T09:00:00`,
+          start: `${getLocaleDateString()}T08:00:00`,
+          end: `${getLocaleDateString()}T09:00:00`,
           title: "",
           type: "load",
         },
@@ -67,15 +68,15 @@ const LOADING_ORDERS_CALENDAR: OrdersCalendar = {
       events: [
         {
           id: "4",
-          start: `${new Date().toISOString().split('T')[0]}T08:00:00`,
-          end: `${new Date().toISOString().split('T')[0]}T09:00:00`,
+          start: `${getLocaleDateString()}T08:00:00`,
+          end: `${getLocaleDateString()}T09:00:00`,
           title: "",
           type: "load",
         },
       ],
     },
   ]
-}
+} as OrdersCalendar
 
 export function OrdersCalendarSkeleton() {
   const events = useMemo(() => {
@@ -113,10 +114,10 @@ export function OrdersCalendarSkeleton() {
         views={[Views.DAY]}
         step={60}
         timeslots={1}
-        min={new Date(`${new Date().toISOString().split('T')[0]}T07:00:00`)}
-        max={new Date(`${new Date().toISOString().split('T')[0]}T12:00:00`)}
+        min={new Date(`${getLocaleDateString()}T07:00:00`)}
+        max={new Date(`${getLocaleDateString()}T12:00:00`)}
         components={{
-          event: (props) => <Event {...props} isLoading />,
+          event: (props) => <Event {...props as unknown as EventProps} isLoading />,
           resourceHeader: (props) => <TechnicianHeader {...props} isLoading />,
           //eslint-disable-next-line
           timeSlotWrapper: (props: any) => <HourSlot {...props} isLoading />,

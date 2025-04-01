@@ -1,3 +1,5 @@
+import { getFormattedDate } from "@/modules/orders/calendar-view/utils";
+
 interface HeaderProps {
   date: string
 }
@@ -9,11 +11,7 @@ export function Header({ date }: HeaderProps) {
     const dateObj: Date = new Date(date);
     const year: string = new Intl.DateTimeFormat("en-US", { year: "numeric" }).format(dateObj);
 
-    const mainDate: string = new Intl.DateTimeFormat("en-US", {
-      weekday: "long",
-      day: "2-digit",
-      month: "long",
-    }).format(dateObj);
+    const mainDate: string = getFormattedDate(date);
 
     return { mainDate, year };
   }

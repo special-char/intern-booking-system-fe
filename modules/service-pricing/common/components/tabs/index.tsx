@@ -16,7 +16,7 @@ export function ServicePricingTabs() {
     <Tabs
       value={activeTab}
       onValueChange={onTabChange}
-      className="py-5"
+      className="px-3 py-5 max-w-full overflow-x-scroll overflow-y-hidden"
     >
       <TabsList>
         <TabsTrigger value="trip-charge">Trip Charge</TabsTrigger>

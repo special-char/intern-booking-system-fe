@@ -9,14 +9,20 @@ export function useCalendarData({ ordersCalendar }: UseCalendarDataInterface) {
   const events = useMemo(() => {
     return ordersCalendar.data.flatMap(({ events, technician }) =>
       events.map((event) => ({
-        id: event.id,
-        title: event.title,
-        start: new Date(event.start),
+        createdAt: event.createdAt,
+        customer: event.customer,
         end: new Date(event.end),
-        type: event.type,
-        resourceId: technician.id,
+        id: event.id,
+        invoice: event.invoice,
+        location: event.location,
+        notes: event.notes,
         originalEvent: event,
+        resourceId: technician.id,
+        start: new Date(event.start),
         technician,
+        title: event.title,
+        type: event.type,
+        vehicleDetail: event.vehicleDetail,
       })),
     )
   }, [ordersCalendar])

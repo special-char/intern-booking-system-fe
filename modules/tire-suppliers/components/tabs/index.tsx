@@ -22,7 +22,7 @@ export function TireSuppliersTabs({ initActive, suppliers }: TireSuppliersTabsPr
     <Tabs
       value={activeTab}
       onValueChange={onTabChange}
-      className="px-3 py-5"
+      className="px-3 py-5 max-w-full overflow-x-scroll overflow-y-hidden"
     >
       <TabsList>
         {suppliers.map(supplier => (

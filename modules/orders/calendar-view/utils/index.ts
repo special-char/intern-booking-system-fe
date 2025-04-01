@@ -62,3 +62,20 @@ export function getJobsNum({ ordersCalendar, type, beforeHour, afterHour }: { or
     }).length
   }, 0)
 }
+
+export function getFormattedDate(date: string, includeYear?: boolean): string {
+  return new Intl.DateTimeFormat("en-US", {
+    weekday: "long",
+    day: "2-digit",
+    month: "long",
+    year: includeYear ? "numeric" : undefined,
+  }).format(new Date(date))
+}
+
+export function getFormattedHour(date: string): string {
+  return new Intl.DateTimeFormat("en-US", {
+    hour: "numeric",
+    minute: "numeric",
+    hour12: true
+  }).format(new Date(date))
+}

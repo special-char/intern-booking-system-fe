@@ -1,0 +1,5 @@
+@import 'tailwindcss/theme.css' layer(theme);
+
+[role='dialog'][data-state='open'] button.top-7 {
+  @apply top-6;
+}

@@ -1,8 +1,10 @@
+import { Technician } from "@/modules/vans-techs/technicians/components/technicians-table/columns";
 import { OrdersCalendar } from "@/types/orders/orders-calendar";
+import { getLocaleDateString } from "@/utils/date";
 import moment from "moment";
 
 const MOCK_ORDERS_CALENDAR: OrdersCalendar = {
-  date: new Date().toISOString().split('T')[0],
+  date: getLocaleDateString(),
   data: [
     {
       technician: {
@@ -11,60 +13,228 @@ const MOCK_ORDERS_CALENDAR: OrdersCalendar = {
       },
       events: [
         {
+          createdAt: getLocaleDateString(),
           id: "1",
-          start: `${new Date().toISOString().split('T')[0]}T07:30:00`,
-          end: `${new Date().toISOString().split('T')[0]}T08:30:00`,
+          start: `${getLocaleDateString()}T07:30:00`,
+          end: `${getLocaleDateString()}T08:30:00`,
           title: "Load Van (10 tires)",
           type: "load",
+          customer: {
+            id: "1",
+            name: "Jeff Goldblum",
+            phone: "555-555-5555",
+          },
+          location: {
+            street: "1356 West Elm St",
+            city: "Orlando",
+            state: "FL",
+            zipCode: "32771"
+          },
+          invoice: {
+            sum: 235
+          },
+          notes: "Gate code 8344, enter from Turtle Creek Lane. Sometimes the gate won't open but stay there and someone will come out to open it.",
+          vehicleDetail: {
+            id: "1",
+            name: "Land Rover Velor Super Sport",
+            year: 2020
+          }
         },
         {
+          createdAt: getLocaleDateString(),
           id: "2",
-          start: `${new Date().toISOString().split('T')[0]}T09:00:00`,
-          end: `${new Date().toISOString().split('T')[0]}T11:00:00`,
+          start: `${getLocaleDateString()}T09:00:00`,
+          end: `${getLocaleDateString()}T11:00:00`,
           title: "2 tires installation",
           type: "installation",
+          customer: {
+            id: "2",
+            name: "Jeff Goldblum",
+            phone: "555-555-5555",
+          },
+          location: {
+            street: "1356 West Elm St",
+            city: "Orlando",
+            state: "FL",
+            zipCode: "32771"
+          },
+          invoice: {
+            sum: 235
+          },
+          notes: "Gate code 8344, enter from Turtle Creek Lane. Sometimes the gate won't open but stay there and someone will come out to open it.",
+          vehicleDetail: {
+            id: "2",
+            name: "Land Rover Velor Super Sport",
+            year: 2020
+          }
         },
         {
+          createdAt: getLocaleDateString(),
           id: "3",
-          start: `${new Date().toISOString().split('T')[0]}T10:30:00`,
-          end: `${new Date().toISOString().split('T')[0]}T11:00:00`,
+          start: `${getLocaleDateString()}T10:30:00`,
+          end: `${getLocaleDateString()}T11:00:00`,
           title: "Idle Time",
           type: "idle",
+          customer: {
+            id: "3",
+            name: "Jeff Goldblum",
+            phone: "555-555-5555",
+          },
+          location: {
+            street: "1356 West Elm St",
+            city: "Orlando",
+            state: "FL",
+            zipCode: "32771"
+          },
+          invoice: {
+            sum: 235
+          },
+          notes: "Gate code 8344, enter from Turtle Creek Lane. Sometimes the gate won't open but stay there and someone will come out to open it.",
+          vehicleDetail: {
+            id: "3",
+            name: "Land Rover Velor Super Sport",
+            year: 2020
+          }
         },
         {
+          createdAt: getLocaleDateString(),
           id: "4",
-          start: `${new Date().toISOString().split('T')[0]}T11:00:00`,
-          end: `${new Date().toISOString().split('T')[0]}T13:00:00`,
+          start: `${getLocaleDateString()}T11:00:00`,
+          end: `${getLocaleDateString()}T13:00:00`,
           title: "4 tires installation",
           type: "installation",
+          customer: {
+            id: "4",
+            name: "Jeff Goldblum",
+            phone: "555-555-5555",
+          },
+          location: {
+            street: "1356 West Elm St",
+            city: "Orlando",
+            state: "FL",
+            zipCode: "32771"
+          },
+          invoice: {
+            sum: 235
+          },
+          notes: "Gate code 8344, enter from Turtle Creek Lane. Sometimes the gate won't open but stay there and someone will come out to open it.",
+          vehicleDetail: {
+            id: "4",
+            name: "Land Rover Velor Super Sport",
+            year: 2020
+          }
         },
         {
+          createdAt: getLocaleDateString(),
           id: "5",
-          start: `${new Date().toISOString().split('T')[0]}T13:00:00`,
-          end: `${new Date().toISOString().split('T')[0]}T14:00:00`,
+          start: `${getLocaleDateString()}T13:00:00`,
+          end: `${getLocaleDateString()}T14:00:00`,
           title: "Lunch Time",
           type: "lunch",
+          customer: {
+            id: "5",
+            name: "Jeff Goldblum",
+            phone: "555-555-5555",
+          },
+          location: {
+            street: "1356 West Elm St",
+            city: "Orlando",
+            state: "FL",
+            zipCode: "32771"
+          },
+          invoice: {
+            sum: 235
+          },
+          notes: "Gate code 8344, enter from Turtle Creek Lane. Sometimes the gate won't open but stay there and someone will come out to open it.",
+          vehicleDetail: {
+            id: "5",
+            name: "Land Rover Velor Super Sport",
+            year: 2020
+          }
         },
         {
+          createdAt: getLocaleDateString(),
           id: "6",
-          start: `${new Date().toISOString().split('T')[0]}T15:00:00`,
-          end: `${new Date().toISOString().split('T')[0]}T15:30:00`,
+          start: `${getLocaleDateString()}T15:00:00`,
+          end: `${getLocaleDateString()}T15:30:00`,
           title: "Tire inspection",
           type: "inspection",
+          customer: {
+            id: "6",
+            name: "Jeff Goldblum",
+            phone: "555-555-5555",
+          },
+          location: {
+            street: "1356 West Elm St",
+            city: "Orlando",
+            state: "FL",
+            zipCode: "32771"
+          },
+          invoice: {
+            sum: 235
+          },
+          notes: "Gate code 8344, enter from Turtle Creek Lane. Sometimes the gate won't open but stay there and someone will come out to open it.",
+          vehicleDetail: {
+            id: "6",
+            name: "Land Rover Velor Super Sport",
+            year: 2020
+          }
         },
         {
+          createdAt: getLocaleDateString(),
           id: "7",
-          start: `${new Date().toISOString().split('T')[0]}T16:30:00`,
-          end: `${new Date().toISOString().split('T')[0]}T17:00:00`,
+          start: `${getLocaleDateString()}T16:30:00`,
+          end: `${getLocaleDateString()}T17:00:00`,
           title: "Idle Time",
           type: "idle",
+          customer: {
+            id: "7",
+            name: "Jeff Goldblum",
+            phone: "555-555-5555",
+          },
+          location: {
+            street: "1356 West Elm St",
+            city: "Orlando",
+            state: "FL",
+            zipCode: "32771"
+          },
+          invoice: {
+            sum: 235
+          },
+          notes: "Gate code 8344, enter from Turtle Creek Lane. Sometimes the gate won't open but stay there and someone will come out to open it.",
+          vehicleDetail: {
+            id: "7",
+            name: "Land Rover Velor Super Sport",
+            year: 2020
+          }
         },
         {
+          createdAt: getLocaleDateString(),
           id: "8",
-          start: `${new Date().toISOString().split('T')[0]}T17:00:00`,
-          end: `${new Date().toISOString().split('T')[0]}T18:00:00`,
+          start: `${getLocaleDateString()}T17:00:00`,
+          end: `${getLocaleDateString()}T18:00:00`,
           title: "4 tires installation",
           type: "installation",
+          customer: {
+            id: "8",
+            name: "Jeff Goldblum",
+            phone: "555-555-5555",
+          },
+          location: {
+            street: "1356 West Elm St",
+            city: "Orlando",
+            state: "FL",
+            zipCode: "32771"
+          },
+          invoice: {
+            sum: 235
+          },
+          notes: "Gate code 8344, enter from Turtle Creek Lane. Sometimes the gate won't open but stay there and someone will come out to open it.",
+          vehicleDetail: {
+            id: "8",
+            name: "Land Rover Velor Super Sport",
+            year: 2020
+          }
         },
       ],
     },
@@ -75,60 +245,228 @@ const MOCK_ORDERS_CALENDAR: OrdersCalendar = {
       },
       events: [
         {
+          createdAt: getLocaleDateString(),
           id: "9",
-          start: `${new Date().toISOString().split('T')[0]}T07:30:00`,
-          end: `${new Date().toISOString().split('T')[0]}T08:30:00`,
+          start: `${getLocaleDateString()}T07:30:00`,
+          end: `${getLocaleDateString()}T08:30:00`,
           title: "Load Van (10 tires)",
           type: "load",
+          customer: {
+            id: "9",
+            name: "Jeff Goldblum",
+            phone: "555-555-5555",
+          },
+          location: {
+            street: "1356 West Elm St",
+            city: "Orlando",
+            state: "FL",
+            zipCode: "32771"
+          },
+          invoice: {
+            sum: 235
+          },
+          notes: "Gate code 8344, enter from Turtle Creek Lane. Sometimes the gate won't open but stay there and someone will come out to open it.",
+          vehicleDetail: {
+            id: "9",
+            name: "Land Rover Velor Super Sport",
+            year: 2020
+          }
         },
         {
+          createdAt: getLocaleDateString(),
           id: "10",
-          start: `${new Date().toISOString().split('T')[0]}T09:00:00`,
-          end: `${new Date().toISOString().split('T')[0]}T10:30:00`,
+          start: `${getLocaleDateString()}T09:00:00`,
+          end: `${getLocaleDateString()}T10:30:00`,
           title: "Tire inspection",
           type: "inspection",
+          customer: {
+            id: "10",
+            name: "Jeff Goldblum",
+            phone: "555-555-5555",
+          },
+          location: {
+            street: "1356 West Elm St",
+            city: "Orlando",
+            state: "FL",
+            zipCode: "32771"
+          },
+          invoice: {
+            sum: 235
+          },
+          notes: "Gate code 8344, enter from Turtle Creek Lane. Sometimes the gate won't open but stay there and someone will come out to open it.",
+          vehicleDetail: {
+            id: "10",
+            name: "Land Rover Velor Super Sport",
+            year: 2020
+          }
         },
         {
+          createdAt: getLocaleDateString(),
           id: "11",
-          start: `${new Date().toISOString().split('T')[0]}T12:00:00`,
-          end: `${new Date().toISOString().split('T')[0]}T12:30:00`,
+          start: `${getLocaleDateString()}T12:00:00`,
+          end: `${getLocaleDateString()}T12:30:00`,
           title: "Idle Time",
           type: "idle",
+          customer: {
+            id: "11",
+            name: "Jeff Goldblum",
+            phone: "555-555-5555",
+          },
+          location: {
+            street: "1356 West Elm St",
+            city: "Orlando",
+            state: "FL",
+            zipCode: "32771"
+          },
+          invoice: {
+            sum: 235
+          },
+          notes: "Gate code 8344, enter from Turtle Creek Lane. Sometimes the gate won't open but stay there and someone will come out to open it.",
+          vehicleDetail: {
+            id: "11",
+            name: "Land Rover Velor Super Sport",
+            year: 2020
+          }
         },
         {
+          createdAt: getLocaleDateString(),
           id: "12",
-          start: `${new Date().toISOString().split('T')[0]}T12:30:00`,
-          end: `${new Date().toISOString().split('T')[0]}T13:00:00`,
+          start: `${getLocaleDateString()}T12:30:00`,
+          end: `${getLocaleDateString()}T13:00:00`,
           title: "2 tires installation",
           type: "installation",
+          customer: {
+            id: "12",
+            name: "Jeff Goldblum",
+            phone: "555-555-5555",
+          },
+          location: {
+            street: "1356 West Elm St",
+            city: "Orlando",
+            state: "FL",
+            zipCode: "32771"
+          },
+          invoice: {
+            sum: 235
+          },
+          notes: "Gate code 8344, enter from Turtle Creek Lane. Sometimes the gate won't open but stay there and someone will come out to open it.",
+          vehicleDetail: {
+            id: "12",
+            name: "Land Rover Velor Super Sport",
+            year: 2020
+          }
         },
         {
+          createdAt: getLocaleDateString(),
           id: "13",
-          start: `${new Date().toISOString().split('T')[0]}T13:00:00`,
-          end: `${new Date().toISOString().split('T')[0]}T14:00:00`,
+          start: `${getLocaleDateString()}T13:00:00`,
+          end: `${getLocaleDateString()}T14:00:00`,
           title: "Lunch Time",
           type: "lunch",
+          customer: {
+            id: "13",
+            name: "Jeff Goldblum",
+            phone: "555-555-5555",
+          },
+          location: {
+            street: "1356 West Elm St",
+            city: "Orlando",
+            state: "FL",
+            zipCode: "32771"
+          },
+          invoice: {
+            sum: 235
+          },
+          notes: "Gate code 8344, enter from Turtle Creek Lane. Sometimes the gate won't open but stay there and someone will come out to open it.",
+          vehicleDetail: {
+            id: "13",
+            name: "Land Rover Velor Super Sport",
+            year: 2020
+          }
         },
         {
+          createdAt: getLocaleDateString(),
           id: "14",
-          start: `${new Date().toISOString().split('T')[0]}T14:30:00`,
-          end: `${new Date().toISOString().split('T')[0]}T17:00:00`,
+          start: `${getLocaleDateString()}T14:30:00`,
+          end: `${getLocaleDateString()}T17:00:00`,
           title: "4 tires installation",
           type: "installation",
+          customer: {
+            id: "14",
+            name: "Jeff Goldblum",
+            phone: "555-555-5555",
+          },
+          location: {
+            street: "1356 West Elm St",
+            city: "Orlando",
+            state: "FL",
+            zipCode: "32771"
+          },
+          invoice: {
+            sum: 235
+          },
+          notes: "Gate code 8344, enter from Turtle Creek Lane. Sometimes the gate won't open but stay there and someone will come out to open it.",
+          vehicleDetail: {
+            id: "14",
+            name: "Land Rover Velor Super Sport",
+            year: 2020
+          }
         },
         {
+          createdAt: getLocaleDateString(),
           id: "15",
-          start: `${new Date().toISOString().split('T')[0]}T18:00:00`,
-          end: `${new Date().toISOString().split('T')[0]}T18:30:00`,
+          start: `${getLocaleDateString()}T18:00:00`,
+          end: `${getLocaleDateString()}T18:30:00`,
           title: "Idle Time",
           type: "idle",
+          customer: {
+            id: "15",
+            name: "Jeff Goldblum",
+            phone: "555-555-5555",
+          },
+          location: {
+            street: "1356 West Elm St",
+            city: "Orlando",
+            state: "FL",
+            zipCode: "32771"
+          },
+          invoice: {
+            sum: 235
+          },
+          notes: "Gate code 8344, enter from Turtle Creek Lane. Sometimes the gate won't open but stay there and someone will come out to open it.",
+          vehicleDetail: {
+            id: "15",
+            name: "Land Rover Velor Super Sport",
+            year: 2020
+          }
         },
         {
+          createdAt: getLocaleDateString(),
           id: "16",
-          start: `${new Date().toISOString().split('T')[0]}T18:30:00`,
-          end: `${new Date().toISOString().split('T')[0]}T19:00:00`,
+          start: `${getLocaleDateString()}T18:30:00`,
+          end: `${getLocaleDateString()}T19:00:00`,
           title: "Tire inspection",
           type: "inspection",
+          customer: {
+            id: "16",
+            name: "Jeff Goldblum",
+            phone: "555-555-5555",
+          },
+          location: {
+            street: "1356 West Elm St",
+            city: "Orlando",
+            state: "FL",
+            zipCode: "32771"
+          },
+          invoice: {
+            sum: 235
+          },
+          notes: "Gate code 8344, enter from Turtle Creek Lane. Sometimes the gate won't open but stay there and someone will come out to open it.",
+          vehicleDetail: {
+            id: "16",
+            name: "Land Rover Velor Super Sport",
+            year: 2020
+          }
         },
       ],
     },
@@ -139,53 +477,200 @@ const MOCK_ORDERS_CALENDAR: OrdersCalendar = {
       },
       events: [
         {
+          createdAt: getLocaleDateString(),
           id: "17",
-          start: `${new Date().toISOString().split('T')[0]}T07:30:00`,
-          end: `${new Date().toISOString().split('T')[0]}T08:30:00`,
+          start: `${getLocaleDateString()}T07:30:00`,
+          end: `${getLocaleDateString()}T08:30:00`,
           title: "Load Van (10 tires)",
           type: "load",
+          customer: {
+            id: "17",
+            name: "Jeff Goldblum",
+            phone: "555-555-5555",
+          },
+          location: {
+            street: "1356 West Elm St",
+            city: "Orlando",
+            state: "FL",
+            zipCode: "32771"
+          },
+          invoice: {
+            sum: 235
+          },
+          notes: "Gate code 8344, enter from Turtle Creek Lane. Sometimes the gate won't open but stay there and someone will come out to open it.",
+          vehicleDetail: {
+            id: "17",
+            name: "Land Rover Velor Super Sport",
+            year: 2020
+          }
         },
         {
+          createdAt: getLocaleDateString(),
           id: "18",
-          start: `${new Date().toISOString().split('T')[0]}T09:30:00`,
-          end: `${new Date().toISOString().split('T')[0]}T11:00:00`,
+          start: `${getLocaleDateString()}T09:30:00`,
+          end: `${getLocaleDateString()}T11:00:00`,
           title: "3 tires installation",
           type: "installation",
+          customer: {
+            id: "18",
+            name: "Jeff Goldblum",
+            phone: "555-555-5555",
+          },
+          location: {
+            street: "1356 West Elm St",
+            city: "Orlando",
+            state: "FL",
+            zipCode: "32771"
+          },
+          invoice: {
+            sum: 235
+          },
+          notes: "Gate code 8344, enter from Turtle Creek Lane. Sometimes the gate won't open but stay there and someone will come out to open it.",
+          vehicleDetail: {
+            id: "18",
+            name: "Land Rover Velor Super Sport",
+            year: 2020
+          }
         },
         {
+          createdAt: getLocaleDateString(),
           id: "19",
-          start: `${new Date().toISOString().split('T')[0]}T11:30:00`,
-          end: `${new Date().toISOString().split('T')[0]}T12:30:00`,
+          start: `${getLocaleDateString()}T11:30:00`,
+          end: `${getLocaleDateString()}T12:30:00`,
           title: "Tire inspection",
           type: "inspection",
+          customer: {
+            id: "19",
+            name: "Jeff Goldblum",
+            phone: "555-555-5555",
+          },
+          location: {
+            street: "1356 West Elm St",
+            city: "Orlando",
+            state: "FL",
+            zipCode: "32771"
+          },
+          invoice: {
+            sum: 235
+          },
+          notes: "Gate code 8344, enter from Turtle Creek Lane. Sometimes the gate won't open but stay there and someone will come out to open it.",
+          vehicleDetail: {
+            id: "19",
+            name: "Land Rover Velor Super Sport",
+            year: 2020
+          }
         },
         {
+          createdAt: getLocaleDateString(),
           id: "20",
-          start: `${new Date().toISOString().split('T')[0]}T12:30:00`,
-          end: `${new Date().toISOString().split('T')[0]}T13:30:00`,
+          start: `${getLocaleDateString()}T12:30:00`,
+          end: `${getLocaleDateString()}T13:30:00`,
           title: "Lunch time",
           type: "lunch",
+          customer: {
+            id: "20",
+            name: "Jeff Goldblum",
+            phone: "555-555-5555",
+          },
+          location: {
+            street: "1356 West Elm St",
+            city: "Orlando",
+            state: "FL",
+            zipCode: "32771"
+          },
+          invoice: {
+            sum: 235
+          },
+          notes: "Gate code 8344, enter from Turtle Creek Lane. Sometimes the gate won't open but stay there and someone will come out to open it.",
+          vehicleDetail: {
+            id: "20",
+            name: "Land Rover Velor Super Sport",
+            year: 2020
+          }
         },
         {
+          createdAt: getLocaleDateString(),
           id: "21",
-          start: `${new Date().toISOString().split('T')[0]}T14:00:00`,
-          end: `${new Date().toISOString().split('T')[0]}T15:30:00`,
+          start: `${getLocaleDateString()}T14:00:00`,
+          end: `${getLocaleDateString()}T15:30:00`,
           title: "3 tires installation",
           type: "installation",
+          customer: {
+            id: "21",
+            name: "Jeff Goldblum",
+            phone: "555-555-5555",
+          },
+          location: {
+            street: "1356 West Elm St",
+            city: "Orlando",
+            state: "FL",
+            zipCode: "32771"
+          },
+          invoice: {
+            sum: 235
+          },
+          notes: "Gate code 8344, enter from Turtle Creek Lane. Sometimes the gate won't open but stay there and someone will come out to open it.",
+          vehicleDetail: {
+            id: "21",
+            name: "Land Rover Velor Super Sport",
+            year: 2020
+          }
         },
         {
+          createdAt: getLocaleDateString(),
           id: "22",
-          start: `${new Date().toISOString().split('T')[0]}T17:00:00`,
-          end: `${new Date().toISOString().split('T')[0]}T17:30:00`,
+          start: `${getLocaleDateString()}T17:00:00`,
+          end: `${getLocaleDateString()}T17:30:00`,
           title: "Idle time",
           type: "idle",
+          customer: {
+            id: "22",
+            name: "Jeff Goldblum",
+            phone: "555-555-5555",
+          },
+          location: {
+            street: "1356 West Elm St",
+            city: "Orlando",
+            state: "FL",
+            zipCode: "32771"
+          },
+          invoice: {
+            sum: 235
+          },
+          notes: "Gate code 8344, enter from Turtle Creek Lane. Sometimes the gate won't open but stay there and someone will come out to open it.",
+          vehicleDetail: {
+            id: "22",
+            name: "Land Rover Velor Super Sport",
+            year: 2020
+          }
         },
         {
+          createdAt: getLocaleDateString(),
           id: "23",
-          start: `${new Date().toISOString().split('T')[0]}T17:30:00`,
-          end: `${new Date().toISOString().split('T')[0]}T18:30:00`,
+          start: `${getLocaleDateString()}T17:30:00`,
+          end: `${getLocaleDateString()}T18:30:00`,
           title: "3 tires installation",
           type: "installation",
+          customer: {
+            id: "23",
+            name: "Jeff Goldblum",
+            phone: "555-555-5555",
+          },
+          location: {
+            street: "1356 West Elm St",
+            city: "Orlando",
+            state: "FL",
+            zipCode: "32771"
+          },
+          invoice: {
+            sum: 235
+          },
+          notes: "Gate code 8344, enter from Turtle Creek Lane. Sometimes the gate won't open but stay there and someone will come out to open it.",
+          vehicleDetail: {
+            id: "23",
+            name: "Land Rover Velor Super Sport",
+            year: 2020
+          }
         },
       ],
     },
@@ -196,53 +681,200 @@ const MOCK_ORDERS_CALENDAR: OrdersCalendar = {
       },
       events: [
         {
+          createdAt: getLocaleDateString(),
           id: "24",
-          start: `${new Date().toISOString().split('T')[0]}T07:30:00`,
-          end: `${new Date().toISOString().split('T')[0]}T08:30:00`,
+          start: `${getLocaleDateString()}T07:30:00`,
+          end: `${getLocaleDateString()}T08:30:00`,
           title: "Load Van (10 tires)",
           type: "load",
+          customer: {
+            id: "24",
+            name: "Jeff Goldblum",
+            phone: "555-555-5555",
+          },
+          location: {
+            street: "1356 West Elm St",
+            city: "Orlando",
+            state: "FL",
+            zipCode: "32771"
+          },
+          invoice: {
+            sum: 235
+          },
+          notes: "Gate code 8344, enter from Turtle Creek Lane. Sometimes the gate won't open but stay there and someone will come out to open it.",
+          vehicleDetail: {
+            id: "24",
+            name: "Land Rover Velor Super Sport",
+            year: 2020
+          }
         },
         {
+          createdAt: getLocaleDateString(),
           id: "25",
-          start: `${new Date().toISOString().split('T')[0]}T09:00:00`,
-          end: `${new Date().toISOString().split('T')[0]}T11:00:00`,
+          start: `${getLocaleDateString()}T09:00:00`,
+          end: `${getLocaleDateString()}T11:00:00`,
           title: "4 tires installation",
           type: "installation",
+          customer: {
+            id: "25",
+            name: "Jeff Goldblum",
+            phone: "555-555-5555",
+          },
+          location: {
+            street: "1356 West Elm St",
+            city: "Orlando",
+            state: "FL",
+            zipCode: "32771"
+          },
+          invoice: {
+            sum: 235
+          },
+          notes: "Gate code 8344, enter from Turtle Creek Lane. Sometimes the gate won't open but stay there and someone will come out to open it.",
+          vehicleDetail: {
+            id: "25",
+            name: "Land Rover Velor Super Sport",
+            year: 2020
+          }
         },
         {
+          createdAt: getLocaleDateString(),
           id: "26",
-          start: `${new Date().toISOString().split('T')[0]}T11:30:00`,
-          end: `${new Date().toISOString().split('T')[0]}T12:30:00`,
+          start: `${getLocaleDateString()}T11:30:00`,
+          end: `${getLocaleDateString()}T12:30:00`,
           title: "Tire inspection",
           type: "inspection",
+          customer: {
+            id: "26",
+            name: "Jeff Goldblum",
+            phone: "555-555-5555",
+          },
+          location: {
+            street: "1356 West Elm St",
+            city: "Orlando",
+            state: "FL",
+            zipCode: "32771"
+          },
+          invoice: {
+            sum: 235
+          },
+          notes: "Gate code 8344, enter from Turtle Creek Lane. Sometimes the gate won't open but stay there and someone will come out to open it.",
+          vehicleDetail: {
+            id: "26",
+            name: "Land Rover Velor Super Sport",
+            year: 2020
+          }
         },
         {
+          createdAt: getLocaleDateString(),
           id: "27",
-          start: `${new Date().toISOString().split('T')[0]}T13:00:00`,
-          end: `${new Date().toISOString().split('T')[0]}T14:00:00`,
+          start: `${getLocaleDateString()}T13:00:00`,
+          end: `${getLocaleDateString()}T14:00:00`,
           title: "Tire inspection",
           type: "inspection",
+          customer: {
+            id: "27",
+            name: "Jeff Goldblum",
+            phone: "555-555-5555",
+          },
+          location: {
+            street: "1356 West Elm St",
+            city: "Orlando",
+            state: "FL",
+            zipCode: "32771"
+          },
+          invoice: {
+            sum: 235
+          },
+          notes: "Gate code 8344, enter from Turtle Creek Lane. Sometimes the gate won't open but stay there and someone will come out to open it.",
+          vehicleDetail: {
+            id: "27",
+            name: "Land Rover Velor Super Sport",
+            year: 2020
+          }
         },
         {
+          createdAt: getLocaleDateString(),
           id: "28",
-          start: `${new Date().toISOString().split('T')[0]}T14:30:00`,
-          end: `${new Date().toISOString().split('T')[0]}T15:30:00`,
+          start: `${getLocaleDateString()}T14:30:00`,
+          end: `${getLocaleDateString()}T15:30:00`,
           title: "Lunch time",
           type: "lunch",
+          customer: {
+            id: "28",
+            name: "Jeff Goldblum",
+            phone: "555-555-5555",
+          },
+          location: {
+            street: "1356 West Elm St",
+            city: "Orlando",
+            state: "FL",
+            zipCode: "32771"
+          },
+          invoice: {
+            sum: 235
+          },
+          notes: "Gate code 8344, enter from Turtle Creek Lane. Sometimes the gate won't open but stay there and someone will come out to open it.",
+          vehicleDetail: {
+            id: "28",
+            name: "Land Rover Velor Super Sport",
+            year: 2020
+          }
         },
         {
+          createdAt: getLocaleDateString(),
           id: "29",
-          start: `${new Date().toISOString().split('T')[0]}T16:00:00`,
-          end: `${new Date().toISOString().split('T')[0]}T16:30:00`,
+          start: `${getLocaleDateString()}T16:00:00`,
+          end: `${getLocaleDateString()}T16:30:00`,
           title: "Idle time",
           type: "idle",
+          customer: {
+            id: "29",
+            name: "Jeff Goldblum",
+            phone: "555-555-5555",
+          },
+          location: {
+            street: "1356 West Elm St",
+            city: "Orlando",
+            state: "FL",
+            zipCode: "32771"
+          },
+          invoice: {
+            sum: 235
+          },
+          notes: "Gate code 8344, enter from Turtle Creek Lane. Sometimes the gate won't open but stay there and someone will come out to open it.",
+          vehicleDetail: {
+            id: "29",
+            name: "Land Rover Velor Super Sport",
+            year: 2020
+          }
         },
         {
+          createdAt: getLocaleDateString(),
           id: "30",
-          start: `${new Date().toISOString().split('T')[0]}T16:30:00`,
-          end: `${new Date().toISOString().split('T')[0]}T17:30:00`,
+          start: `${getLocaleDateString()}T16:30:00`,
+          end: `${getLocaleDateString()}T17:30:00`,
           title: "3 tires installation",
           type: "installation",
+          customer: {
+            id: "30",
+            name: "Jeff Goldblum",
+            phone: "555-555-5555",
+          },
+          location: {
+            street: "1356 West Elm St",
+            city: "Orlando",
+            state: "FL",
+            zipCode: "32771"
+          },
+          invoice: {
+            sum: 235
+          },
+          notes: "Gate code 8344, enter from Turtle Creek Lane. Sometimes the gate won't open but stay there and someone will come out to open it.",
+          vehicleDetail: {
+            id: "30",
+            name: "Land Rover Velor Super Sport",
+            year: 2020
+          }
         },
       ],
     }
@@ -266,5 +898,23 @@ export async function getOrdersCalendar({ date }: { date: string }): Promise<Ord
   } catch (error) {
     console.error(error);
     return null;
+  }
+}
+
+async function mockFetchOrdersTechnicians(): Promise<Partial<Technician>[]> {
+  return new Promise((resolve) =>
+    setTimeout(() => {
+      resolve(MOCK_ORDERS_CALENDAR.data.map(({ technician }) => technician));
+    }, 100)
+  ) as Promise<Partial<Technician>[]>;
+}
+
+export async function getOrdersTechnicians(): Promise<Partial<Technician>[] | null> {
+  try {
+    const technicians: Partial<Technician>[] = await mockFetchOrdersTechnicians();
+    return technicians;
+  } catch (error) {
+    console.error(error);
+    return null
   }
 }

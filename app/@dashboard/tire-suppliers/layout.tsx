@@ -8,7 +8,7 @@ export default function TireSuppliersLayout({ children }: { children: React.Reac
     <div className="py-8 px-6">
       <div className="flex justify-between items-center">
         <p className="text-lg font-bold">Tire Suppliers</p>
-        <SearchInput className="min-w-[320px]" />
+        <SearchInput />
       </div>
       <Suspense fallback={<Skeleton className="w-1/4 h-8 my-4" />}>
         <TireSuppliersTabsTemplate />

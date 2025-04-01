@@ -1,0 +1,38 @@
+import { getLocaleDateString } from "@/utils/date";
+import { z } from "zod";
+
+export const appointmentFormSchema = z.object({
+  date: z.string().min(1, { message: "Date is required" }),
+  event: z
+    .object({
+      start: z.string().min(1, { message: "Start is required" }),
+      end: z.string().min(1, { message: "End is required" })
+    })
+    .refine(
+      (data) => {
+        const startDate = new Date(data.start);
+        const endDate = new Date(data.end);
+        return startDate < endDate;
+      },
+      {
+        message: "Please set correct start and end time",
+        path: ["timeRange"]
+      }
+    ),
+  technician: z.object({
+    name: z.string().min(1, { message: "Full name is required" }),
+    id: z.string().min(1, { message: "Technician id is required" }),
+  }),
+})
+
+export const appointmentFormDefaultValues = {
+  date: getLocaleDateString(),
+  event: {
+    start: `${getLocaleDateString()}T07:30:00`,
+    end: `${getLocaleDateString()}T08:30:00`,
+  },
+  technician: {
+    id: "",
+    name: ""
+  }
+};

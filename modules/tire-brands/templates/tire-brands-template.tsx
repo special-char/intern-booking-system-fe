@@ -10,12 +10,12 @@ export function TireBrandsTemplate() {
 
   return (
     <div className="py-8 px-6">
-      <div className="flex justify-between items-center">
+      <div className="flex justify-between items-center gap-2">
         <div className="flex items-center gap-2">
-          <UserIcon size={24} />
+          <UserIcon className="min-w-6 min-h-6" />
           <p className="text-lg font-bold">Choose tire brands to sell</p>
         </div>
-        <SearchInput className="min-w-[320px]" />
+        <SearchInput />
       </div>
       <Suspense fallback={<TireBrandTable data={data as TireBrandTableProps['data']} pagination={pagination} isLoading />}>
         <TireBrandTableTemplate />

@@ -4,7 +4,7 @@ import { Event as EventType } from "@/types/orders/event"
 import { cn } from "@/lib/utils"
 import { Skeleton } from "@/components/shadcn/skeleton"
 
-interface EventProps {
+export interface EventProps {
   event: Omit<EventType, "start" | "end"> & {
     start: Date
     end: Date
@@ -44,7 +44,7 @@ export function Event({ event, isLoading }: EventProps) {
 
   if (event.type === "idle") {
     return (
-      <div className="absolute bg-gray-100 rounded-none inset-0 m-0 border-l-0 transition-all duration-150 ease-in-out before:content-[''] before:absolute before:top-0 before:left-1 before:bottom-0 before:w-1 before:bg-cyan-300 bg-[radial-gradient(#06B6D4,transparent_1px)] bg-[length:20px_20px] px-3 flex hover:bg-gray-200">
+      <div className="absolute bg-gray-100 rounded-none inset-0 m-0 border-l-0 transition-all duration-150 ease-in-out before:content-[''] before:absolute before:top-0 before:left-1 before:bottom-0 before:w-1 before:bg-cyan-300 bg-[radial-gradient(#06B6D4,transparent_1px)] bg-[length:20px_20px] px-3 cursor-default">
         <div className="flex mt-2 gap-2 h-fit items-center">
           <Clock size={18} color="#06B6D4" className="ml-2" />
           <p className="text-xs font-semibold text-gray-700">{event.title}</p>
@@ -56,7 +56,7 @@ export function Event({ event, isLoading }: EventProps) {
 
   if (event.type === "lunch") {
     return (
-      <div className="relative p-0 h-full rounded-none bg-[#EEF2FF] bg-[repeating-linear-gradient(-45deg,#EEF2FF,#EEF2FF_10px,#D1D5DB_10px,#D1D5DB_11px)] [image-rendering:crisp-edges] [transform:translateZ(0)] [backface-visibility:hidden] transition-all duration-150 ease-in-out flex items-center hover:w-[500px]">
+      <div className="relative p-0 h-full rounded-none bg-[#EEF2FF] bg-[repeating-linear-gradient(-45deg,#EEF2FF,#EEF2FF_10px,#D1D5DB_10px,#D1D5DB_11px)] [image-rendering:crisp-edges] [transform:translateZ(0)] [backface-visibility:hidden] transition-all duration-150 ease-in-out flex items-center cursor-default">
         <div className="p-3 flex items-center text-xs text-gray-500 gap-2">
           <span>🍔</span>
           <p>{event.title}</p>

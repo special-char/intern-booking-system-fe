@@ -2,7 +2,7 @@
 
 import { Calendar as DatePicker } from "@/components/shadcn/calendar"
 import { useDateRouteFilter } from "@/hooks/route-filters/use-date-route-filter"
-import moment from "moment"
+import { getLocaleDateString } from "@/utils/date"
 
 interface DateFilterProps {
   date?: string
@@ -15,8 +15,8 @@ export function DateFilter({ date }: DateFilterProps) {
     <DatePicker
       className="rounded-lg border shadow-card bg-white"
       mode="single"
-      onDayClick={(day) => {
-        const dateFormatted: string = moment(day).format('YYYY-MM-DD')
+      onDayClick={(date: Date) => {
+        const dateFormatted: string = getLocaleDateString(date)
         onDateChange(dateFormatted)
       }}
       selected={new Date(currentDate)}
