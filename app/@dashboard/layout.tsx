@@ -17,7 +17,7 @@ export default async function Layout({
         <Header />
         <div className="flex flex-1">
           <NavigationSidebar />
-          <SidebarInset className="max-w-full overflow-x-scroll">
+          <SidebarInset className="md:max-w-[calc(100%-17.5rem)] w-full">
             <DashboardTabs />
             {children}
           </SidebarInset>

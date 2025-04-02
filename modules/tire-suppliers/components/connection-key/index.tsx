@@ -6,16 +6,19 @@ import { getMaskedText } from "@/utils/get-masked-text";
 import { Lock } from "lucide-react";
 
 interface TireSupplierConnectionKeyProps {
-  connectionKey: TireSupplier['connectionKey']
-  isRevealed: boolean
+  connectionKey: TireSupplier["connectionKey"];
+  isRevealed: boolean;
 }
 
-export default function TireSupplierConnectionKey({ connectionKey, isRevealed }: TireSupplierConnectionKeyProps) {
+export default function TireSupplierConnectionKey({
+  connectionKey,
+  isRevealed,
+}: TireSupplierConnectionKeyProps) {
   function getConnectionKey(): string {
     if (isRevealed) {
-      return connectionKey
+      return connectionKey;
     }
-    return getMaskedText(connectionKey)
+    return getMaskedText(connectionKey);
   }
 
   return (

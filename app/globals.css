@@ -4,6 +4,9 @@
 
 @plugin "tailwindcss-animate";
 
+
+
+
 :root {
   --background: hsl(210, 40%, 98%);
   --foreground: hsl(217, 19%, 27%);
@@ -118,6 +121,7 @@
   --color-icon-fg-brand: hsl(243, 75%, 59%);
   --color-brand-primary-100: hsl(226, 100%, 94%);
   --color-brand-primary-300: hsl(230, 94%, 82%);
+  --color-brand-primary-600: hsl(243, 75%, 59%);
   --color-text-placeholder: hsl(218, 11%, 65%);
   --color-bg-secondary: hsl(210, 20%, 98%);
   --color-bg-secondary-hover: hsl(220, 14%, 96%);

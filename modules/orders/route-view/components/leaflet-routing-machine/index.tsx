@@ -6,7 +6,6 @@ import L from "leaflet";
 import "leaflet-routing-machine";
 import { useMap } from "react-leaflet";
 import { OrdersRouteView } from "@/types/orders/orders-route-view";
-import { generateUniqueColors } from "@/utils/get-random-color";
 import { House } from "lucide-react";
 import { createRoutingPlan } from "./leaflet-routing-helpers";
 import { createWaypoints } from "./leaflet-routing-helpers";
@@ -26,15 +25,16 @@ function LeafletRoutingMachine({
     if (!map) return;
 
     const base = L.latLng(28.5383, -81.3792);
-    const colors = generateUniqueColors(ordersRouteView.length);
 
-    const drivers = ordersRouteView.map((order, index) => ({
-      color: colors[index],
-      stops: order.stops.map((stop) => ({
-        lat: stop.lat,
-        lng: stop.lng,
-        type: stop.type,
-      })),
+    const drivers = ordersRouteView.map((order) => ({
+      color: order.color,
+      stops: order.stops
+        .filter((stop) => stop.type !== "break")
+        .map((stop) => ({
+          lat: stop.lat,
+          lng: stop.lng,
+          type: stop.type,
+        })),
     }));
 
     let finishedCount = 0;
