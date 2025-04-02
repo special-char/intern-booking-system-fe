@@ -21,6 +21,8 @@ export interface Event {
   notes?: string
   start: string,
   title: string,
+  subTitle: string,
+  status: "success" | "failure" | "pending"
   type: "idle" | "installation" | "inspection" | "lunch" | "load",
   vehicleDetail: VehicleDetail
 }

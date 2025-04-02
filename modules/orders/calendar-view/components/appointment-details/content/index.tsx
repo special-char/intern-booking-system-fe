@@ -1,4 +1,5 @@
 import { AppointmentDetailsData } from "..";
+import { AppointmentDetailsSheetContentWrapper } from "../sheets/common/content-wrapper";
 import { AppointmentCustomerInfo } from "./customer-info";
 import { AppointmentDetailsInfo } from "./info";
 import { AppointmentDetailsInvoice } from "./invoice";
@@ -12,13 +13,13 @@ interface AppointmentDetailsContentProps {
 
 export function AppointmentDetailsContent({ data }: AppointmentDetailsContentProps) {
   return (
-    <div className="flex flex-col">
+    <AppointmentDetailsSheetContentWrapper>
       <AppointmentDetailsInfo id={data.event.id} createdAt={data.event.createdAt} />
       <AppointmentCustomerInfo customer={data.event.customer} />
       <AppointmentDetailsLocation location={data.event.location} />
       <AppointmentDetailsNotes notes={data.event.notes} />
       <AppointmentDetailsVehicleDetail vehicleDetail={data.event.vehicleDetail} />
       <AppointmentDetailsInvoice invoice={data.event.invoice} />
-    </div>
+    </AppointmentDetailsSheetContentWrapper>
   );
 }

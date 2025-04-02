@@ -1,8 +1,13 @@
+import { cn } from "@/lib/utils";
 import { PropsWithChildren } from "react";
 
-export function AppointmentDetailsInfoWrapper({ children }: PropsWithChildren) {
+interface AppointmentDetailsInfoWrapperProps {
+  className?: string
+}
+
+export function AppointmentDetailsInfoWrapper({ children, className }: PropsWithChildren<AppointmentDetailsInfoWrapperProps>) {
   return (
-    <div className="flex gap-3 flex-row py-4 border-b pl-4 pr-2 justify-between min-h-21">
+    <div className={cn("flex gap-3 flex-row p-4 border-b justify-between min-h-21", className)}>
       {children}
     </div>
   );

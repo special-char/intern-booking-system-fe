@@ -20,14 +20,15 @@ interface OrdersCalendarProps {
 export function OrdersRegularCalendar({ ordersCalendar }: OrdersCalendarProps) {
   const [ordersCalendarData, setOrdersCalendarData] = useState<OrdersCalendar>(ordersCalendar)
 
-  const [appointmentDetailsId, setAppointmentDetailsId] = useState<string>("")
+  const [selectedEventId, setSelectedEventId] = useState<string>("")
   const [appointmentDetails, setAppointmentDetails] = useState<AppointmentDetailsData | undefined>()
 
   const { events, resources } = useCalendarData({ ordersCalendar: ordersCalendarData })
 
+
   useEffect(() => {
     handleAppointmentDetailsChange()
-  }, [appointmentDetailsId])
+  }, [selectedEventId])
 
   function handleAppointmentChange(appointmentDetails: AppointmentDetailsData): void {
     setOrdersCalendarData((prevData) => {
@@ -60,10 +61,10 @@ export function OrdersRegularCalendar({ ordersCalendar }: OrdersCalendarProps) {
   }
 
   function handleAppointmentDetailsChange(): void {
-    if (!appointmentDetailsId) {
+    if (!selectedEventId) {
       return
     }
-    const appointmentDetails: AppointmentDetailsData | null = getAppointmentDetailsById(appointmentDetailsId)
+    const appointmentDetails: AppointmentDetailsData | null = getAppointmentDetailsByEventId(selectedEventId)
     if (!appointmentDetails) {
       return handleCloseDrawer()
     }
@@ -71,7 +72,7 @@ export function OrdersRegularCalendar({ ordersCalendar }: OrdersCalendarProps) {
 
   }
 
-  function getAppointmentDetailsById(id: string): AppointmentDetailsData | null {
+  function getAppointmentDetailsByEventId(id: string): AppointmentDetailsData | null {
     const date: string = ordersCalendarData.date
     const technicianWithEvents = ordersCalendarData.data.find(
       (d) => d.events.some((d) => d.id === id)
@@ -90,7 +91,7 @@ export function OrdersRegularCalendar({ ordersCalendar }: OrdersCalendarProps) {
   }
 
   function handleCloseDrawer(): void {
-    setAppointmentDetailsId("")
+    setSelectedEventId("")
     setTimeout(() => {
       setAppointmentDetails(undefined)
     }, 300);
@@ -114,7 +115,7 @@ export function OrdersRegularCalendar({ ordersCalendar }: OrdersCalendarProps) {
             if (["lunch", "idle"].some(type => type === e.originalEvent.type)) {
               return
             }
-            setAppointmentDetailsId(e.originalEvent.id)
+            setSelectedEventId(e.originalEvent.id)
           }}
           components={{
             event: Event,
@@ -143,7 +144,7 @@ export function OrdersRegularCalendar({ ordersCalendar }: OrdersCalendarProps) {
       </MaxHeightWrapper>
       {appointmentDetails && (
         <AppointmentDetails
-          isOpen={!!appointmentDetailsId}
+          isOpen={!!selectedEventId}
           onClose={handleCloseDrawer}
           data={appointmentDetails}
           onChange={handleAppointmentChange}

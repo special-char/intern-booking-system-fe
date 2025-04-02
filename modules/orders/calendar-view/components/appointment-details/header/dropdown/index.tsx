@@ -10,7 +10,7 @@ export function AppointmentDetailsHeaderDropdown({ onEdit }: AppointmentDetailsH
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button variant="ghost" size="icon" className="absolute !-right-2 -top-1.5 text-secondary">
+        <Button variant="ghost" size="icon" className="absolute !-right-2 -top-2.5 text-secondary">
           <EllipsisVertical />
         </Button>
       </DropdownMenuTrigger>

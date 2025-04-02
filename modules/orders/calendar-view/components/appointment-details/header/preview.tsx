@@ -3,6 +3,7 @@ import { WrenchIcon } from "lucide-react";
 import { Skeleton } from "@/components/shadcn/skeleton";
 import { AppointmentDetailsHeaderDropdown } from "./dropdown";
 import { getFormattedDate, getFormattedHour } from "../../../utils";
+import { EventStatusIndicator } from "../common/status-indicator";
 
 
 interface AppointmentDetailsHeaderPreviewProps {
@@ -32,11 +33,12 @@ export function AppointmentDetailsHeaderPreview({ data, isEditMode, onEditModeCh
       </div>
 
 
-      <div className="flex justify-between">
+      <div className="flex justify-between gap-4">
         <div className="flex gap-4 grow items-center">
           <Skeleton className="min-w-8 min-h-8 rounded-full" />
           <p className="text-lg">{data.technician.name}</p>
         </div>
+        <EventStatusIndicator status={data.event.status} className="mt-1 mr-1" />
       </div>
     </div>
   );

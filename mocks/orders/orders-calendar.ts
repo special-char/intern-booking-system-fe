@@ -1,4 +1,5 @@
 import { Technician } from "@/modules/vans-techs/technicians/components/technicians-table/columns";
+import { Event } from "@/types/orders/event";
 import { OrdersCalendar } from "@/types/orders/orders-calendar";
 import { getLocaleDateString } from "@/utils/date";
 import moment from "moment";
@@ -37,8 +38,23 @@ const MOCK_ORDERS_CALENDAR: OrdersCalendar = {
           vehicleDetail: {
             id: "1",
             name: "Land Rover Velor Super Sport",
+            numberPlate: "23GH5R",
+            tireDetails: {
+              brand: "Continental",
+              model: "CrossContact LX Sport",
+              size: "275/45R21 XL 110W",
+              inVan: true,
+            },
+            wheels: {
+              frontLeft: true,
+              frontRight: true,
+              rearLeft: false,
+              rearRight: false
+            },
             year: 2020
-          }
+          },
+          subTitle: "Mounting & balancing",
+          status: generateEventStatus(`${getLocaleDateString()}T08:30:00`)
         },
         {
           createdAt: getLocaleDateString(),
@@ -65,8 +81,23 @@ const MOCK_ORDERS_CALENDAR: OrdersCalendar = {
           vehicleDetail: {
             id: "2",
             name: "Land Rover Velor Super Sport",
+            numberPlate: "23GH5R",
+            tireDetails: {
+              brand: "Continental",
+              model: "CrossContact LX Sport",
+              size: "275/45R21 XL 110W",
+              inVan: true,
+            },
+            wheels: {
+              frontLeft: true,
+              frontRight: true,
+              rearLeft: false,
+              rearRight: false
+            },
             year: 2020
-          }
+          },
+          subTitle: "Mounting & balancing",
+          status: generateEventStatus(`${getLocaleDateString()}T11:00:00`)
         },
         {
           createdAt: getLocaleDateString(),
@@ -93,8 +124,23 @@ const MOCK_ORDERS_CALENDAR: OrdersCalendar = {
           vehicleDetail: {
             id: "3",
             name: "Land Rover Velor Super Sport",
+            numberPlate: "23GH5R",
+            tireDetails: {
+              brand: "Continental",
+              model: "CrossContact LX Sport",
+              size: "275/45R21 XL 110W",
+              inVan: true,
+            },
+            wheels: {
+              frontLeft: true,
+              frontRight: true,
+              rearLeft: false,
+              rearRight: false
+            },
             year: 2020
-          }
+          },
+          subTitle: "Mounting & balancing",
+          status: generateEventStatus(`${getLocaleDateString()}T11:00:00`)
         },
         {
           createdAt: getLocaleDateString(),
@@ -121,8 +167,23 @@ const MOCK_ORDERS_CALENDAR: OrdersCalendar = {
           vehicleDetail: {
             id: "4",
             name: "Land Rover Velor Super Sport",
+            numberPlate: "23GH5R",
+            tireDetails: {
+              brand: "Continental",
+              model: "CrossContact LX Sport",
+              size: "275/45R21 XL 110W",
+              inVan: true,
+            },
+            wheels: {
+              frontLeft: true,
+              frontRight: true,
+              rearLeft: false,
+              rearRight: false
+            },
             year: 2020
-          }
+          },
+          subTitle: "Mounting & balancing",
+          status: generateEventStatus(`${getLocaleDateString()}T13:00:00`)
         },
         {
           createdAt: getLocaleDateString(),
@@ -149,8 +210,23 @@ const MOCK_ORDERS_CALENDAR: OrdersCalendar = {
           vehicleDetail: {
             id: "5",
             name: "Land Rover Velor Super Sport",
+            numberPlate: "23GH5R",
+            tireDetails: {
+              brand: "Continental",
+              model: "CrossContact LX Sport",
+              size: "275/45R21 XL 110W",
+              inVan: true,
+            },
+            wheels: {
+              frontLeft: true,
+              frontRight: true,
+              rearLeft: false,
+              rearRight: false
+            },
             year: 2020
-          }
+          },
+          subTitle: "Mounting & balancing",
+          status: generateEventStatus(`${getLocaleDateString()}T14:00:00`)
         },
         {
           createdAt: getLocaleDateString(),
@@ -177,8 +253,23 @@ const MOCK_ORDERS_CALENDAR: OrdersCalendar = {
           vehicleDetail: {
             id: "6",
             name: "Land Rover Velor Super Sport",
+            numberPlate: "23GH5R",
+            tireDetails: {
+              brand: "Continental",
+              model: "CrossContact LX Sport",
+              size: "275/45R21 XL 110W",
+              inVan: true,
+            },
+            wheels: {
+              frontLeft: true,
+              frontRight: true,
+              rearLeft: false,
+              rearRight: false
+            },
             year: 2020
-          }
+          },
+          subTitle: "Mounting & balancing",
+          status: generateEventStatus(`${getLocaleDateString()}T15:30:00`)
         },
         {
           createdAt: getLocaleDateString(),
@@ -205,8 +296,23 @@ const MOCK_ORDERS_CALENDAR: OrdersCalendar = {
           vehicleDetail: {
             id: "7",
             name: "Land Rover Velor Super Sport",
+            numberPlate: "23GH5R",
+            tireDetails: {
+              brand: "Continental",
+              model: "CrossContact LX Sport",
+              size: "275/45R21 XL 110W",
+              inVan: true,
+            },
+            wheels: {
+              frontLeft: true,
+              frontRight: true,
+              rearLeft: false,
+              rearRight: false
+            },
             year: 2020
-          }
+          },
+          subTitle: "Mounting & balancing",
+          status: generateEventStatus(`${getLocaleDateString()}T17:00:00`)
         },
         {
           createdAt: getLocaleDateString(),
@@ -233,8 +339,23 @@ const MOCK_ORDERS_CALENDAR: OrdersCalendar = {
           vehicleDetail: {
             id: "8",
             name: "Land Rover Velor Super Sport",
+            numberPlate: "23GH5R",
+            tireDetails: {
+              brand: "Continental",
+              model: "CrossContact LX Sport",
+              size: "275/45R21 XL 110W",
+              inVan: true,
+            },
+            wheels: {
+              frontLeft: true,
+              frontRight: true,
+              rearLeft: false,
+              rearRight: false
+            },
             year: 2020
-          }
+          },
+          subTitle: "Mounting & balancing",
+          status: generateEventStatus(`${getLocaleDateString()}T18:00:00`)
         },
       ],
     },
@@ -269,8 +390,23 @@ const MOCK_ORDERS_CALENDAR: OrdersCalendar = {
           vehicleDetail: {
             id: "9",
             name: "Land Rover Velor Super Sport",
+            numberPlate: "23GH5R",
+            tireDetails: {
+              brand: "Continental",
+              model: "CrossContact LX Sport",
+              size: "275/45R21 XL 110W",
+              inVan: true,
+            },
+            wheels: {
+              frontLeft: true,
+              frontRight: true,
+              rearLeft: false,
+              rearRight: false
+            },
             year: 2020
-          }
+          },
+          subTitle: "Mounting & balancing",
+          status: generateEventStatus(`${getLocaleDateString()}T08:30:00`)
         },
         {
           createdAt: getLocaleDateString(),
@@ -297,8 +433,23 @@ const MOCK_ORDERS_CALENDAR: OrdersCalendar = {
           vehicleDetail: {
             id: "10",
             name: "Land Rover Velor Super Sport",
+            numberPlate: "23GH5R",
+            tireDetails: {
+              brand: "Continental",
+              model: "CrossContact LX Sport",
+              size: "275/45R21 XL 110W",
+              inVan: true,
+            },
+            wheels: {
+              frontLeft: true,
+              frontRight: true,
+              rearLeft: false,
+              rearRight: false
+            },
             year: 2020
-          }
+          },
+          subTitle: "Mounting & balancing",
+          status: generateEventStatus(`${getLocaleDateString()}T10:30:00`)
         },
         {
           createdAt: getLocaleDateString(),
@@ -325,8 +476,23 @@ const MOCK_ORDERS_CALENDAR: OrdersCalendar = {
           vehicleDetail: {
             id: "11",
             name: "Land Rover Velor Super Sport",
+            numberPlate: "23GH5R",
+            tireDetails: {
+              brand: "Continental",
+              model: "CrossContact LX Sport",
+              size: "275/45R21 XL 110W",
+              inVan: true,
+            },
+            wheels: {
+              frontLeft: true,
+              frontRight: true,
+              rearLeft: false,
+              rearRight: false
+            },
             year: 2020
-          }
+          },
+          subTitle: "Mounting & balancing",
+          status: generateEventStatus(`${getLocaleDateString()}T12:30:00`)
         },
         {
           createdAt: getLocaleDateString(),
@@ -353,8 +519,23 @@ const MOCK_ORDERS_CALENDAR: OrdersCalendar = {
           vehicleDetail: {
             id: "12",
             name: "Land Rover Velor Super Sport",
+            numberPlate: "23GH5R",
+            tireDetails: {
+              brand: "Continental",
+              model: "CrossContact LX Sport",
+              size: "275/45R21 XL 110W",
+              inVan: true,
+            },
+            wheels: {
+              frontLeft: true,
+              frontRight: true,
+              rearLeft: false,
+              rearRight: false
+            },
             year: 2020
-          }
+          },
+          subTitle: "Mounting & balancing",
+          status: generateEventStatus(`${getLocaleDateString()}T13:00:00`)
         },
         {
           createdAt: getLocaleDateString(),
@@ -381,8 +562,23 @@ const MOCK_ORDERS_CALENDAR: OrdersCalendar = {
           vehicleDetail: {
             id: "13",
             name: "Land Rover Velor Super Sport",
+            numberPlate: "23GH5R",
+            tireDetails: {
+              brand: "Continental",
+              model: "CrossContact LX Sport",
+              size: "275/45R21 XL 110W",
+              inVan: true,
+            },
+            wheels: {
+              frontLeft: true,
+              frontRight: true,
+              rearLeft: false,
+              rearRight: false
+            },
             year: 2020
-          }
+          },
+          subTitle: "Mounting & balancing",
+          status: generateEventStatus(`${getLocaleDateString()}T14:00:00`)
         },
         {
           createdAt: getLocaleDateString(),
@@ -409,8 +605,23 @@ const MOCK_ORDERS_CALENDAR: OrdersCalendar = {
           vehicleDetail: {
             id: "14",
             name: "Land Rover Velor Super Sport",
+            numberPlate: "23GH5R",
+            tireDetails: {
+              brand: "Continental",
+              model: "CrossContact LX Sport",
+              size: "275/45R21 XL 110W",
+              inVan: true,
+            },
+            wheels: {
+              frontLeft: true,
+              frontRight: true,
+              rearLeft: false,
+              rearRight: false
+            },
             year: 2020
-          }
+          },
+          subTitle: "Mounting & balancing",
+          status: generateEventStatus(`${getLocaleDateString()}T17:00:00`)
         },
         {
           createdAt: getLocaleDateString(),
@@ -437,8 +648,23 @@ const MOCK_ORDERS_CALENDAR: OrdersCalendar = {
           vehicleDetail: {
             id: "15",
             name: "Land Rover Velor Super Sport",
+            numberPlate: "23GH5R",
+            tireDetails: {
+              brand: "Continental",
+              model: "CrossContact LX Sport",
+              size: "275/45R21 XL 110W",
+              inVan: true,
+            },
+            wheels: {
+              frontLeft: true,
+              frontRight: true,
+              rearLeft: false,
+              rearRight: false
+            },
             year: 2020
-          }
+          },
+          subTitle: "Mounting & balancing",
+          status: generateEventStatus(`${getLocaleDateString()}T18:30:00`)
         },
         {
           createdAt: getLocaleDateString(),
@@ -465,8 +691,23 @@ const MOCK_ORDERS_CALENDAR: OrdersCalendar = {
           vehicleDetail: {
             id: "16",
             name: "Land Rover Velor Super Sport",
+            numberPlate: "23GH5R",
+            tireDetails: {
+              brand: "Continental",
+              model: "CrossContact LX Sport",
+              size: "275/45R21 XL 110W",
+              inVan: true,
+            },
+            wheels: {
+              frontLeft: true,
+              frontRight: true,
+              rearLeft: false,
+              rearRight: false
+            },
             year: 2020
-          }
+          },
+          subTitle: "Mounting & balancing",
+          status: generateEventStatus(`${getLocaleDateString()}T19:00:00`)
         },
       ],
     },
@@ -501,8 +742,23 @@ const MOCK_ORDERS_CALENDAR: OrdersCalendar = {
           vehicleDetail: {
             id: "17",
             name: "Land Rover Velor Super Sport",
+            numberPlate: "23GH5R",
+            tireDetails: {
+              brand: "Continental",
+              model: "CrossContact LX Sport",
+              size: "275/45R21 XL 110W",
+              inVan: true,
+            },
+            wheels: {
+              frontLeft: true,
+              frontRight: true,
+              rearLeft: false,
+              rearRight: false
+            },
             year: 2020
-          }
+          },
+          subTitle: "Mounting & balancing",
+          status: generateEventStatus(`${getLocaleDateString()}T08:30:00`)
         },
         {
           createdAt: getLocaleDateString(),
@@ -529,8 +785,23 @@ const MOCK_ORDERS_CALENDAR: OrdersCalendar = {
           vehicleDetail: {
             id: "18",
             name: "Land Rover Velor Super Sport",
+            numberPlate: "23GH5R",
+            tireDetails: {
+              brand: "Continental",
+              model: "CrossContact LX Sport",
+              size: "275/45R21 XL 110W",
+              inVan: true,
+            },
+            wheels: {
+              frontLeft: true,
+              frontRight: true,
+              rearLeft: false,
+              rearRight: false
+            },
             year: 2020
-          }
+          },
+          subTitle: "Mounting & balancing",
+          status: generateEventStatus(`${getLocaleDateString()}T11:00:00`)
         },
         {
           createdAt: getLocaleDateString(),
@@ -557,8 +828,23 @@ const MOCK_ORDERS_CALENDAR: OrdersCalendar = {
           vehicleDetail: {
             id: "19",
             name: "Land Rover Velor Super Sport",
+            numberPlate: "23GH5R",
+            tireDetails: {
+              brand: "Continental",
+              model: "CrossContact LX Sport",
+              size: "275/45R21 XL 110W",
+              inVan: true,
+            },
+            wheels: {
+              frontLeft: true,
+              frontRight: true,
+              rearLeft: false,
+              rearRight: false
+            },
             year: 2020
-          }
+          },
+          subTitle: "Mounting & balancing",
+          status: generateEventStatus(`${getLocaleDateString()}T12:30:00`)
         },
         {
           createdAt: getLocaleDateString(),
@@ -585,8 +871,23 @@ const MOCK_ORDERS_CALENDAR: OrdersCalendar = {
           vehicleDetail: {
             id: "20",
             name: "Land Rover Velor Super Sport",
+            numberPlate: "23GH5R",
+            tireDetails: {
+              brand: "Continental",
+              model: "CrossContact LX Sport",
+              size: "275/45R21 XL 110W",
+              inVan: true,
+            },
+            wheels: {
+              frontLeft: true,
+              frontRight: true,
+              rearLeft: false,
+              rearRight: false
+            },
             year: 2020
-          }
+          },
+          subTitle: "Mounting & balancing",
+          status: generateEventStatus(`${getLocaleDateString()}T13:30:00`)
         },
         {
           createdAt: getLocaleDateString(),
@@ -613,8 +914,23 @@ const MOCK_ORDERS_CALENDAR: OrdersCalendar = {
           vehicleDetail: {
             id: "21",
             name: "Land Rover Velor Super Sport",
+            numberPlate: "23GH5R",
+            tireDetails: {
+              brand: "Continental",
+              model: "CrossContact LX Sport",
+              size: "275/45R21 XL 110W",
+              inVan: true,
+            },
+            wheels: {
+              frontLeft: true,
+              frontRight: true,
+              rearLeft: false,
+              rearRight: false
+            },
             year: 2020
-          }
+          },
+          subTitle: "Mounting & balancing",
+          status: generateEventStatus(`${getLocaleDateString()}T15:30:00`)
         },
         {
           createdAt: getLocaleDateString(),
@@ -641,8 +957,23 @@ const MOCK_ORDERS_CALENDAR: OrdersCalendar = {
           vehicleDetail: {
             id: "22",
             name: "Land Rover Velor Super Sport",
+            numberPlate: "23GH5R",
+            tireDetails: {
+              brand: "Continental",
+              model: "CrossContact LX Sport",
+              size: "275/45R21 XL 110W",
+              inVan: true,
+            },
+            wheels: {
+              frontLeft: true,
+              frontRight: true,
+              rearLeft: false,
+              rearRight: false
+            },
             year: 2020
-          }
+          },
+          subTitle: "Mounting & balancing",
+          status: generateEventStatus(`${getLocaleDateString()}T17:30:00`)
         },
         {
           createdAt: getLocaleDateString(),
@@ -669,8 +1000,23 @@ const MOCK_ORDERS_CALENDAR: OrdersCalendar = {
           vehicleDetail: {
             id: "23",
             name: "Land Rover Velor Super Sport",
+            numberPlate: "23GH5R",
+            tireDetails: {
+              brand: "Continental",
+              model: "CrossContact LX Sport",
+              size: "275/45R21 XL 110W",
+              inVan: true,
+            },
+            wheels: {
+              frontLeft: true,
+              frontRight: true,
+              rearLeft: false,
+              rearRight: false
+            },
             year: 2020
-          }
+          },
+          subTitle: "Mounting & balancing",
+          status: generateEventStatus(`${getLocaleDateString()}T18:30:00`)
         },
       ],
     },
@@ -705,8 +1051,23 @@ const MOCK_ORDERS_CALENDAR: OrdersCalendar = {
           vehicleDetail: {
             id: "24",
             name: "Land Rover Velor Super Sport",
+            numberPlate: "23GH5R",
+            tireDetails: {
+              brand: "Continental",
+              model: "CrossContact LX Sport",
+              size: "275/45R21 XL 110W",
+              inVan: true,
+            },
+            wheels: {
+              frontLeft: true,
+              frontRight: true,
+              rearLeft: false,
+              rearRight: false
+            },
             year: 2020
-          }
+          },
+          subTitle: "Mounting & balancing",
+          status: generateEventStatus(`${getLocaleDateString()}T08:30:00`)
         },
         {
           createdAt: getLocaleDateString(),
@@ -733,8 +1094,23 @@ const MOCK_ORDERS_CALENDAR: OrdersCalendar = {
           vehicleDetail: {
             id: "25",
             name: "Land Rover Velor Super Sport",
+            numberPlate: "23GH5R",
+            tireDetails: {
+              brand: "Continental",
+              model: "CrossContact LX Sport",
+              size: "275/45R21 XL 110W",
+              inVan: true,
+            },
+            wheels: {
+              frontLeft: true,
+              frontRight: true,
+              rearLeft: false,
+              rearRight: false
+            },
             year: 2020
-          }
+          },
+          subTitle: "Mounting & balancing",
+          status: generateEventStatus(`${getLocaleDateString()}T11:00:00`)
         },
         {
           createdAt: getLocaleDateString(),
@@ -761,8 +1137,23 @@ const MOCK_ORDERS_CALENDAR: OrdersCalendar = {
           vehicleDetail: {
             id: "26",
             name: "Land Rover Velor Super Sport",
+            numberPlate: "23GH5R",
+            tireDetails: {
+              brand: "Continental",
+              model: "CrossContact LX Sport",
+              size: "275/45R21 XL 110W",
+              inVan: true,
+            },
+            wheels: {
+              frontLeft: true,
+              frontRight: true,
+              rearLeft: false,
+              rearRight: false
+            },
             year: 2020
-          }
+          },
+          subTitle: "Mounting & balancing",
+          status: generateEventStatus(`${getLocaleDateString()}T12:30:00`)
         },
         {
           createdAt: getLocaleDateString(),
@@ -789,8 +1180,23 @@ const MOCK_ORDERS_CALENDAR: OrdersCalendar = {
           vehicleDetail: {
             id: "27",
             name: "Land Rover Velor Super Sport",
+            numberPlate: "23GH5R",
+            tireDetails: {
+              brand: "Continental",
+              model: "CrossContact LX Sport",
+              size: "275/45R21 XL 110W",
+              inVan: true,
+            },
+            wheels: {
+              frontLeft: true,
+              frontRight: true,
+              rearLeft: false,
+              rearRight: false
+            },
             year: 2020
-          }
+          },
+          subTitle: "Mounting & balancing",
+          status: generateEventStatus(`${getLocaleDateString()}T14:00:00`)
         },
         {
           createdAt: getLocaleDateString(),
@@ -817,8 +1223,23 @@ const MOCK_ORDERS_CALENDAR: OrdersCalendar = {
           vehicleDetail: {
             id: "28",
             name: "Land Rover Velor Super Sport",
+            numberPlate: "23GH5R",
+            tireDetails: {
+              brand: "Continental",
+              model: "CrossContact LX Sport",
+              size: "275/45R21 XL 110W",
+              inVan: true,
+            },
+            wheels: {
+              frontLeft: true,
+              frontRight: true,
+              rearLeft: false,
+              rearRight: false
+            },
             year: 2020
-          }
+          },
+          subTitle: "Mounting & balancing",
+          status: generateEventStatus(`${getLocaleDateString()}T15:30:00`)
         },
         {
           createdAt: getLocaleDateString(),
@@ -845,8 +1266,23 @@ const MOCK_ORDERS_CALENDAR: OrdersCalendar = {
           vehicleDetail: {
             id: "29",
             name: "Land Rover Velor Super Sport",
+            numberPlate: "23GH5R",
+            tireDetails: {
+              brand: "Continental",
+              model: "CrossContact LX Sport",
+              size: "275/45R21 XL 110W",
+              inVan: true,
+            },
+            wheels: {
+              frontLeft: true,
+              frontRight: true,
+              rearLeft: false,
+              rearRight: false
+            },
             year: 2020
-          }
+          },
+          subTitle: "Mounting & balancing",
+          status: generateEventStatus(`${getLocaleDateString()}T16:30:00`)
         },
         {
           createdAt: getLocaleDateString(),
@@ -873,13 +1309,39 @@ const MOCK_ORDERS_CALENDAR: OrdersCalendar = {
           vehicleDetail: {
             id: "30",
             name: "Land Rover Velor Super Sport",
+            numberPlate: "23GH5R",
+            tireDetails: {
+              brand: "Continental",
+              model: "CrossContact LX Sport",
+              size: "275/45R21 XL 110W",
+              inVan: true,
+            },
+            wheels: {
+              frontLeft: true,
+              frontRight: true,
+              rearLeft: false,
+              rearRight: false
+            },
             year: 2020
-          }
+          },
+          subTitle: "Mounting & balancing",
+          status: generateEventStatus(`${getLocaleDateString()}T17:30:00`)
         },
       ],
     }
   ],
   isRouted: true
+}
+
+function generateEventStatus(eventTime: string): Event["status"] {
+  const now = moment();
+  const eventMoment = moment(eventTime);
+
+  if (eventMoment.isAfter(now)) {
+    return 'pending';
+  }
+
+  return Math.random() < 0.7 ? 'success' : 'failure';
 }
 
 async function mockFetchOrdersCalendar(): Promise<OrdersCalendar> {

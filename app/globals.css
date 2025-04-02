@@ -78,6 +78,7 @@
   --color-cyan-300: hsla(187, 92%, 69%, 1);
   --color-cyan-500: hsla(189, 94%, 43%, 1);
   --color-primary-100: hsla(226, 100%, 94%, 1);
+  --color-teal-600: hsla(175, 84%, 32%, 1);
 }
 
 @layer base {

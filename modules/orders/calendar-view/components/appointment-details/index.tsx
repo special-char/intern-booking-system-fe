@@ -2,14 +2,13 @@
 import {
   Sheet,
   SheetContent,
-  SheetHeader,
-  SheetTitle,
 } from "@/components/shadcn/sheet"
 import { Event } from "@/types/orders/event"
 import { Technician } from "@/types/technicians"
 import "./style.css"
-import { AppointmentDetailsHeader } from "./header"
-import { AppointmentDetailsContent } from "./content"
+import { AppointmentDetailsSheet } from "./sheets/appointment-details"
+import { ScreenCarousel, ScreenCarouselScreen } from "@/components/common/screen-carousel/screen-carousel"
+import { VehicleDetailsSheet } from "./sheets/vehicle-details"
 
 export interface AppointmentDetailsData {
   date: string
@@ -17,7 +16,7 @@ export interface AppointmentDetailsData {
   event: Event
 }
 
-interface AppointmentDetailsProps {
+export interface AppointmentDetailsProps {
   data: AppointmentDetailsData
   onChange: (data: AppointmentDetailsData) => void
   isOpen: boolean
@@ -28,17 +27,15 @@ export function AppointmentDetails({ isOpen, onClose, data, onChange }: Appointm
   return (
     <Sheet open={isOpen} onOpenChange={onClose}>
       <SheetContent className="bg-white sm:min-w-125 overflow-y-scroll gap-0">
-        <SheetHeader className="border-none bg-purple-50">
-          <SheetTitle className="flex justify-center items-center text-sm font-medium">
-            APPOINTMENT DETAILS
-          </SheetTitle>
-          <AppointmentDetailsHeader
-            data={data}
-            onChange={onChange}
-          />
-        </SheetHeader>
+        <ScreenCarousel>
+          <ScreenCarouselScreen>
+            <AppointmentDetailsSheet data={data} onChange={onChange} />
+          </ScreenCarouselScreen>
 
-        <AppointmentDetailsContent data={data} />
+          <ScreenCarouselScreen>
+            <VehicleDetailsSheet data={data.event} />
+          </ScreenCarouselScreen>
+        </ScreenCarousel>
       </SheetContent>
     </Sheet>
   )
