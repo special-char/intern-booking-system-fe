@@ -1,11 +1,11 @@
 import { Technician } from "@/modules/vans-techs/technicians/components/technicians-table/columns";
 import { Event } from "@/types/orders/event";
 import { OrdersCalendar } from "@/types/orders/orders-calendar";
-import { getLocaleDateString } from "@/utils/date";
+import { getLocalTodayDateString } from "@/utils/date";
 import moment from "moment";
 
 const MOCK_ORDERS_CALENDAR: OrdersCalendar = {
-  date: getLocaleDateString(),
+  date: getLocalTodayDateString(),
   data: [
     {
       technician: {
@@ -14,10 +14,10 @@ const MOCK_ORDERS_CALENDAR: OrdersCalendar = {
       },
       events: [
         {
-          createdAt: getLocaleDateString(),
+          createdAt: getLocalTodayDateString(),
           id: "1",
-          start: `${getLocaleDateString()}T07:30:00`,
-          end: `${getLocaleDateString()}T08:30:00`,
+          start: `${getLocalTodayDateString()}T07:30:00`,
+          end: `${getLocalTodayDateString()}T08:30:00`,
           title: "Load Van (10 tires)",
           type: "load",
           customer: {
@@ -53,14 +53,39 @@ const MOCK_ORDERS_CALENDAR: OrdersCalendar = {
             },
             year: 2020
           },
+          preInspection: {
+            id: "1",
+            damage: {
+              remarks: [],
+              status: "pending"
+            },
+            tireSizing: {
+              remarks: [],
+              status: "pending"
+            },
+            wheelLocks: {
+              remarks: [],
+              status: "pending"
+            },
+            odometer: {
+              remarks: [],
+              status: "pending",
+              lastScan: getLocalTodayDateString(moment().subtract(1, "day").toDate()),
+            },
+            treadDepths: {
+              remarks: [],
+              status: "pending",
+              lastScan: getLocalTodayDateString(moment().subtract(1, "day").toDate()),
+            }
+          },
           subTitle: "Mounting & balancing",
-          status: generateEventStatus(`${getLocaleDateString()}T08:30:00`)
+          status: generateEventStatus(`${getLocalTodayDateString()}T08:30:00`)
         },
         {
-          createdAt: getLocaleDateString(),
+          createdAt: getLocalTodayDateString(),
           id: "2",
-          start: `${getLocaleDateString()}T09:00:00`,
-          end: `${getLocaleDateString()}T11:00:00`,
+          start: `${getLocalTodayDateString()}T09:00:00`,
+          end: `${getLocalTodayDateString()}T11:00:00`,
           title: "2 tires installation",
           type: "installation",
           customer: {
@@ -96,14 +121,39 @@ const MOCK_ORDERS_CALENDAR: OrdersCalendar = {
             },
             year: 2020
           },
+          preInspection: {
+            id: "2",
+            damage: {
+              remarks: [],
+              status: "pending"
+            },
+            tireSizing: {
+              remarks: [],
+              status: "pending"
+            },
+            wheelLocks: {
+              remarks: [],
+              status: "pending"
+            },
+            odometer: {
+              remarks: [],
+              status: "pending",
+              lastScan: getLocalTodayDateString(moment().subtract(1, "day").toDate())
+            },
+            treadDepths: {
+              remarks: [],
+              status: "pending",
+              lastScan: getLocalTodayDateString(moment().subtract(1, "day").toDate()),
+            }
+          },
           subTitle: "Mounting & balancing",
-          status: generateEventStatus(`${getLocaleDateString()}T11:00:00`)
+          status: generateEventStatus(`${getLocalTodayDateString()}T11:00:00`)
         },
         {
-          createdAt: getLocaleDateString(),
+          createdAt: getLocalTodayDateString(),
           id: "3",
-          start: `${getLocaleDateString()}T10:30:00`,
-          end: `${getLocaleDateString()}T11:00:00`,
+          start: `${getLocalTodayDateString()}T10:30:00`,
+          end: `${getLocalTodayDateString()}T11:00:00`,
           title: "Idle Time",
           type: "idle",
           customer: {
@@ -139,14 +189,39 @@ const MOCK_ORDERS_CALENDAR: OrdersCalendar = {
             },
             year: 2020
           },
+          preInspection: {
+            id: "3",
+            damage: {
+              remarks: [],
+              status: "pending"
+            },
+            tireSizing: {
+              remarks: [],
+              status: "pending"
+            },
+            wheelLocks: {
+              remarks: [],
+              status: "pending"
+            },
+            odometer: {
+              remarks: [],
+              status: "pending",
+              lastScan: getLocalTodayDateString(moment().subtract(1, "day").toDate())
+            },
+            treadDepths: {
+              remarks: [],
+              status: "pending",
+              lastScan: getLocalTodayDateString(moment().subtract(1, "day").toDate()),
+            }
+          },
           subTitle: "Mounting & balancing",
-          status: generateEventStatus(`${getLocaleDateString()}T11:00:00`)
+          status: generateEventStatus(`${getLocalTodayDateString()}T11:00:00`)
         },
         {
-          createdAt: getLocaleDateString(),
+          createdAt: getLocalTodayDateString(),
           id: "4",
-          start: `${getLocaleDateString()}T11:00:00`,
-          end: `${getLocaleDateString()}T13:00:00`,
+          start: `${getLocalTodayDateString()}T11:00:00`,
+          end: `${getLocalTodayDateString()}T13:00:00`,
           title: "4 tires installation",
           type: "installation",
           customer: {
@@ -182,14 +257,39 @@ const MOCK_ORDERS_CALENDAR: OrdersCalendar = {
             },
             year: 2020
           },
+          preInspection: {
+            id: "4",
+            damage: {
+              remarks: [],
+              status: "pending"
+            },
+            tireSizing: {
+              remarks: [],
+              status: "pending"
+            },
+            wheelLocks: {
+              remarks: [],
+              status: "pending"
+            },
+            odometer: {
+              remarks: [],
+              status: "pending",
+              lastScan: getLocalTodayDateString(moment().subtract(1, "day").toDate())
+            },
+            treadDepths: {
+              remarks: [],
+              status: "pending",
+              lastScan: getLocalTodayDateString(moment().subtract(1, "day").toDate()),
+            }
+          },
           subTitle: "Mounting & balancing",
-          status: generateEventStatus(`${getLocaleDateString()}T13:00:00`)
+          status: generateEventStatus(`${getLocalTodayDateString()}T13:00:00`)
         },
         {
-          createdAt: getLocaleDateString(),
+          createdAt: getLocalTodayDateString(),
           id: "5",
-          start: `${getLocaleDateString()}T13:00:00`,
-          end: `${getLocaleDateString()}T14:00:00`,
+          start: `${getLocalTodayDateString()}T13:00:00`,
+          end: `${getLocalTodayDateString()}T14:00:00`,
           title: "Lunch Time",
           type: "lunch",
           customer: {
@@ -225,14 +325,39 @@ const MOCK_ORDERS_CALENDAR: OrdersCalendar = {
             },
             year: 2020
           },
+          preInspection: {
+            id: "5",
+            damage: {
+              remarks: [],
+              status: "pending"
+            },
+            tireSizing: {
+              remarks: [],
+              status: "pending"
+            },
+            wheelLocks: {
+              remarks: [],
+              status: "pending"
+            },
+            odometer: {
+              remarks: [],
+              status: "pending",
+              lastScan: getLocalTodayDateString(moment().subtract(1, "day").toDate())
+            },
+            treadDepths: {
+              remarks: [],
+              status: "pending",
+              lastScan: getLocalTodayDateString(moment().subtract(1, "day").toDate()),
+            }
+          },
           subTitle: "Mounting & balancing",
-          status: generateEventStatus(`${getLocaleDateString()}T14:00:00`)
+          status: generateEventStatus(`${getLocalTodayDateString()}T14:00:00`)
         },
         {
-          createdAt: getLocaleDateString(),
+          createdAt: getLocalTodayDateString(),
           id: "6",
-          start: `${getLocaleDateString()}T15:00:00`,
-          end: `${getLocaleDateString()}T15:30:00`,
+          start: `${getLocalTodayDateString()}T15:00:00`,
+          end: `${getLocalTodayDateString()}T15:30:00`,
           title: "Tire inspection",
           type: "inspection",
           customer: {
@@ -268,14 +393,39 @@ const MOCK_ORDERS_CALENDAR: OrdersCalendar = {
             },
             year: 2020
           },
+          preInspection: {
+            id: "6",
+            damage: {
+              remarks: [],
+              status: "pending"
+            },
+            tireSizing: {
+              remarks: [],
+              status: "pending"
+            },
+            wheelLocks: {
+              remarks: [],
+              status: "pending"
+            },
+            odometer: {
+              remarks: [],
+              status: "pending",
+              lastScan: getLocalTodayDateString(moment().subtract(1, "day").toDate())
+            },
+            treadDepths: {
+              remarks: [],
+              status: "pending",
+              lastScan: getLocalTodayDateString(moment().subtract(1, "day").toDate()),
+            }
+          },
           subTitle: "Mounting & balancing",
-          status: generateEventStatus(`${getLocaleDateString()}T15:30:00`)
+          status: generateEventStatus(`${getLocalTodayDateString()}T15:30:00`)
         },
         {
-          createdAt: getLocaleDateString(),
+          createdAt: getLocalTodayDateString(),
           id: "7",
-          start: `${getLocaleDateString()}T16:30:00`,
-          end: `${getLocaleDateString()}T17:00:00`,
+          start: `${getLocalTodayDateString()}T16:30:00`,
+          end: `${getLocalTodayDateString()}T17:00:00`,
           title: "Idle Time",
           type: "idle",
           customer: {
@@ -311,14 +461,39 @@ const MOCK_ORDERS_CALENDAR: OrdersCalendar = {
             },
             year: 2020
           },
+          preInspection: {
+            id: "7",
+            damage: {
+              remarks: [],
+              status: "pending"
+            },
+            tireSizing: {
+              remarks: [],
+              status: "pending"
+            },
+            wheelLocks: {
+              remarks: [],
+              status: "pending"
+            },
+            odometer: {
+              remarks: [],
+              status: "pending",
+              lastScan: getLocalTodayDateString(moment().subtract(1, "day").toDate())
+            },
+            treadDepths: {
+              remarks: [],
+              status: "pending",
+              lastScan: getLocalTodayDateString(moment().subtract(1, "day").toDate()),
+            }
+          },
           subTitle: "Mounting & balancing",
-          status: generateEventStatus(`${getLocaleDateString()}T17:00:00`)
+          status: generateEventStatus(`${getLocalTodayDateString()}T17:00:00`)
         },
         {
-          createdAt: getLocaleDateString(),
+          createdAt: getLocalTodayDateString(),
           id: "8",
-          start: `${getLocaleDateString()}T17:00:00`,
-          end: `${getLocaleDateString()}T18:00:00`,
+          start: `${getLocalTodayDateString()}T17:00:00`,
+          end: `${getLocalTodayDateString()}T18:00:00`,
           title: "4 tires installation",
           type: "installation",
           customer: {
@@ -354,8 +529,33 @@ const MOCK_ORDERS_CALENDAR: OrdersCalendar = {
             },
             year: 2020
           },
+          preInspection: {
+            id: "8",
+            damage: {
+              remarks: [],
+              status: "pending"
+            },
+            tireSizing: {
+              remarks: [],
+              status: "pending"
+            },
+            wheelLocks: {
+              remarks: [],
+              status: "pending"
+            },
+            odometer: {
+              remarks: [],
+              status: "pending",
+              lastScan: getLocalTodayDateString(moment().subtract(1, "day").toDate())
+            },
+            treadDepths: {
+              remarks: [],
+              status: "pending",
+              lastScan: getLocalTodayDateString(moment().subtract(1, "day").toDate()),
+            }
+          },
           subTitle: "Mounting & balancing",
-          status: generateEventStatus(`${getLocaleDateString()}T18:00:00`)
+          status: generateEventStatus(`${getLocalTodayDateString()}T18:00:00`)
         },
       ],
     },
@@ -366,10 +566,10 @@ const MOCK_ORDERS_CALENDAR: OrdersCalendar = {
       },
       events: [
         {
-          createdAt: getLocaleDateString(),
+          createdAt: getLocalTodayDateString(),
           id: "9",
-          start: `${getLocaleDateString()}T07:30:00`,
-          end: `${getLocaleDateString()}T08:30:00`,
+          start: `${getLocalTodayDateString()}T07:30:00`,
+          end: `${getLocalTodayDateString()}T08:30:00`,
           title: "Load Van (10 tires)",
           type: "load",
           customer: {
@@ -405,14 +605,39 @@ const MOCK_ORDERS_CALENDAR: OrdersCalendar = {
             },
             year: 2020
           },
+          preInspection: {
+            id: "9",
+            damage: {
+              remarks: [],
+              status: "pending"
+            },
+            tireSizing: {
+              remarks: [],
+              status: "pending"
+            },
+            wheelLocks: {
+              remarks: [],
+              status: "pending"
+            },
+            odometer: {
+              remarks: [],
+              status: "pending",
+              lastScan: getLocalTodayDateString(moment().subtract(1, "day").toDate())
+            },
+            treadDepths: {
+              remarks: [],
+              status: "pending",
+              lastScan: getLocalTodayDateString(moment().subtract(1, "day").toDate()),
+            }
+          },
           subTitle: "Mounting & balancing",
-          status: generateEventStatus(`${getLocaleDateString()}T08:30:00`)
+          status: generateEventStatus(`${getLocalTodayDateString()}T08:30:00`)
         },
         {
-          createdAt: getLocaleDateString(),
+          createdAt: getLocalTodayDateString(),
           id: "10",
-          start: `${getLocaleDateString()}T09:00:00`,
-          end: `${getLocaleDateString()}T10:30:00`,
+          start: `${getLocalTodayDateString()}T09:00:00`,
+          end: `${getLocalTodayDateString()}T10:30:00`,
           title: "Tire inspection",
           type: "inspection",
           customer: {
@@ -448,14 +673,39 @@ const MOCK_ORDERS_CALENDAR: OrdersCalendar = {
             },
             year: 2020
           },
+          preInspection: {
+            id: "10",
+            damage: {
+              remarks: [],
+              status: "pending"
+            },
+            tireSizing: {
+              remarks: [],
+              status: "pending"
+            },
+            wheelLocks: {
+              remarks: [],
+              status: "pending"
+            },
+            odometer: {
+              remarks: [],
+              status: "pending",
+              lastScan: getLocalTodayDateString(moment().subtract(1, "day").toDate())
+            },
+            treadDepths: {
+              remarks: [],
+              status: "pending",
+              lastScan: getLocalTodayDateString(moment().subtract(1, "day").toDate()),
+            }
+          },
           subTitle: "Mounting & balancing",
-          status: generateEventStatus(`${getLocaleDateString()}T10:30:00`)
+          status: generateEventStatus(`${getLocalTodayDateString()}T10:30:00`)
         },
         {
-          createdAt: getLocaleDateString(),
+          createdAt: getLocalTodayDateString(),
           id: "11",
-          start: `${getLocaleDateString()}T12:00:00`,
-          end: `${getLocaleDateString()}T12:30:00`,
+          start: `${getLocalTodayDateString()}T12:00:00`,
+          end: `${getLocalTodayDateString()}T12:30:00`,
           title: "Idle Time",
           type: "idle",
           customer: {
@@ -491,14 +741,39 @@ const MOCK_ORDERS_CALENDAR: OrdersCalendar = {
             },
             year: 2020
           },
+          preInspection: {
+            id: "11",
+            damage: {
+              remarks: [],
+              status: "pending"
+            },
+            tireSizing: {
+              remarks: [],
+              status: "pending"
+            },
+            wheelLocks: {
+              remarks: [],
+              status: "pending"
+            },
+            odometer: {
+              remarks: [],
+              status: "pending",
+              lastScan: getLocalTodayDateString(moment().subtract(1, "day").toDate())
+            },
+            treadDepths: {
+              remarks: [],
+              status: "pending",
+              lastScan: getLocalTodayDateString(moment().subtract(1, "day").toDate()),
+            }
+          },
           subTitle: "Mounting & balancing",
-          status: generateEventStatus(`${getLocaleDateString()}T12:30:00`)
+          status: generateEventStatus(`${getLocalTodayDateString()}T12:30:00`)
         },
         {
-          createdAt: getLocaleDateString(),
+          createdAt: getLocalTodayDateString(),
           id: "12",
-          start: `${getLocaleDateString()}T12:30:00`,
-          end: `${getLocaleDateString()}T13:00:00`,
+          start: `${getLocalTodayDateString()}T12:30:00`,
+          end: `${getLocalTodayDateString()}T13:00:00`,
           title: "2 tires installation",
           type: "installation",
           customer: {
@@ -534,14 +809,39 @@ const MOCK_ORDERS_CALENDAR: OrdersCalendar = {
             },
             year: 2020
           },
+          preInspection: {
+            id: "12",
+            damage: {
+              remarks: [],
+              status: "pending"
+            },
+            tireSizing: {
+              remarks: [],
+              status: "pending"
+            },
+            wheelLocks: {
+              remarks: [],
+              status: "pending"
+            },
+            odometer: {
+              remarks: [],
+              status: "pending",
+              lastScan: getLocalTodayDateString(moment().subtract(1, "day").toDate())
+            },
+            treadDepths: {
+              remarks: [],
+              status: "pending",
+              lastScan: getLocalTodayDateString(moment().subtract(1, "day").toDate()),
+            }
+          },
           subTitle: "Mounting & balancing",
-          status: generateEventStatus(`${getLocaleDateString()}T13:00:00`)
+          status: generateEventStatus(`${getLocalTodayDateString()}T13:00:00`)
         },
         {
-          createdAt: getLocaleDateString(),
+          createdAt: getLocalTodayDateString(),
           id: "13",
-          start: `${getLocaleDateString()}T13:00:00`,
-          end: `${getLocaleDateString()}T14:00:00`,
+          start: `${getLocalTodayDateString()}T13:00:00`,
+          end: `${getLocalTodayDateString()}T14:00:00`,
           title: "Lunch Time",
           type: "lunch",
           customer: {
@@ -577,14 +877,39 @@ const MOCK_ORDERS_CALENDAR: OrdersCalendar = {
             },
             year: 2020
           },
+          preInspection: {
+            id: "13",
+            damage: {
+              remarks: [],
+              status: "pending"
+            },
+            tireSizing: {
+              remarks: [],
+              status: "pending"
+            },
+            wheelLocks: {
+              remarks: [],
+              status: "pending"
+            },
+            odometer: {
+              remarks: [],
+              status: "pending",
+              lastScan: getLocalTodayDateString(moment().subtract(1, "day").toDate())
+            },
+            treadDepths: {
+              remarks: [],
+              status: "pending",
+              lastScan: getLocalTodayDateString(moment().subtract(1, "day").toDate()),
+            }
+          },
           subTitle: "Mounting & balancing",
-          status: generateEventStatus(`${getLocaleDateString()}T14:00:00`)
+          status: generateEventStatus(`${getLocalTodayDateString()}T14:00:00`)
         },
         {
-          createdAt: getLocaleDateString(),
+          createdAt: getLocalTodayDateString(),
           id: "14",
-          start: `${getLocaleDateString()}T14:30:00`,
-          end: `${getLocaleDateString()}T17:00:00`,
+          start: `${getLocalTodayDateString()}T14:30:00`,
+          end: `${getLocalTodayDateString()}T17:00:00`,
           title: "4 tires installation",
           type: "installation",
           customer: {
@@ -620,14 +945,39 @@ const MOCK_ORDERS_CALENDAR: OrdersCalendar = {
             },
             year: 2020
           },
+          preInspection: {
+            id: "14",
+            damage: {
+              remarks: [],
+              status: "pending"
+            },
+            tireSizing: {
+              remarks: [],
+              status: "pending"
+            },
+            wheelLocks: {
+              remarks: [],
+              status: "pending"
+            },
+            odometer: {
+              remarks: [],
+              status: "pending",
+              lastScan: getLocalTodayDateString(moment().subtract(1, "day").toDate())
+            },
+            treadDepths: {
+              remarks: [],
+              status: "pending",
+              lastScan: getLocalTodayDateString(moment().subtract(1, "day").toDate()),
+            }
+          },
           subTitle: "Mounting & balancing",
-          status: generateEventStatus(`${getLocaleDateString()}T17:00:00`)
+          status: generateEventStatus(`${getLocalTodayDateString()}T17:00:00`)
         },
         {
-          createdAt: getLocaleDateString(),
+          createdAt: getLocalTodayDateString(),
           id: "15",
-          start: `${getLocaleDateString()}T18:00:00`,
-          end: `${getLocaleDateString()}T18:30:00`,
+          start: `${getLocalTodayDateString()}T18:00:00`,
+          end: `${getLocalTodayDateString()}T18:30:00`,
           title: "Idle Time",
           type: "idle",
           customer: {
@@ -663,14 +1013,39 @@ const MOCK_ORDERS_CALENDAR: OrdersCalendar = {
             },
             year: 2020
           },
+          preInspection: {
+            id: "15",
+            damage: {
+              remarks: [],
+              status: "pending"
+            },
+            tireSizing: {
+              remarks: [],
+              status: "pending"
+            },
+            wheelLocks: {
+              remarks: [],
+              status: "pending"
+            },
+            odometer: {
+              remarks: [],
+              status: "pending",
+              lastScan: getLocalTodayDateString(moment().subtract(1, "day").toDate())
+            },
+            treadDepths: {
+              remarks: [],
+              status: "pending",
+              lastScan: getLocalTodayDateString(moment().subtract(1, "day").toDate()),
+            }
+          },
           subTitle: "Mounting & balancing",
-          status: generateEventStatus(`${getLocaleDateString()}T18:30:00`)
+          status: generateEventStatus(`${getLocalTodayDateString()}T18:30:00`)
         },
         {
-          createdAt: getLocaleDateString(),
+          createdAt: getLocalTodayDateString(),
           id: "16",
-          start: `${getLocaleDateString()}T18:30:00`,
-          end: `${getLocaleDateString()}T19:00:00`,
+          start: `${getLocalTodayDateString()}T18:30:00`,
+          end: `${getLocalTodayDateString()}T19:00:00`,
           title: "Tire inspection",
           type: "inspection",
           customer: {
@@ -706,8 +1081,33 @@ const MOCK_ORDERS_CALENDAR: OrdersCalendar = {
             },
             year: 2020
           },
+          preInspection: {
+            id: "16",
+            damage: {
+              remarks: [],
+              status: "pending"
+            },
+            tireSizing: {
+              remarks: [],
+              status: "pending"
+            },
+            wheelLocks: {
+              remarks: [],
+              status: "pending"
+            },
+            odometer: {
+              remarks: [],
+              status: "pending",
+              lastScan: getLocalTodayDateString(moment().subtract(1, "day").toDate())
+            },
+            treadDepths: {
+              remarks: [],
+              status: "pending",
+              lastScan: getLocalTodayDateString(moment().subtract(1, "day").toDate()),
+            }
+          },
           subTitle: "Mounting & balancing",
-          status: generateEventStatus(`${getLocaleDateString()}T19:00:00`)
+          status: generateEventStatus(`${getLocalTodayDateString()}T19:00:00`)
         },
       ],
     },
@@ -718,10 +1118,10 @@ const MOCK_ORDERS_CALENDAR: OrdersCalendar = {
       },
       events: [
         {
-          createdAt: getLocaleDateString(),
+          createdAt: getLocalTodayDateString(),
           id: "17",
-          start: `${getLocaleDateString()}T07:30:00`,
-          end: `${getLocaleDateString()}T08:30:00`,
+          start: `${getLocalTodayDateString()}T07:30:00`,
+          end: `${getLocalTodayDateString()}T08:30:00`,
           title: "Load Van (10 tires)",
           type: "load",
           customer: {
@@ -757,14 +1157,39 @@ const MOCK_ORDERS_CALENDAR: OrdersCalendar = {
             },
             year: 2020
           },
+          preInspection: {
+            id: "17",
+            damage: {
+              remarks: [],
+              status: "pending"
+            },
+            tireSizing: {
+              remarks: [],
+              status: "pending"
+            },
+            wheelLocks: {
+              remarks: [],
+              status: "pending"
+            },
+            odometer: {
+              remarks: [],
+              status: "pending",
+              lastScan: getLocalTodayDateString(moment().subtract(1, "day").toDate())
+            },
+            treadDepths: {
+              remarks: [],
+              status: "pending",
+              lastScan: getLocalTodayDateString(moment().subtract(1, "day").toDate()),
+            }
+          },
           subTitle: "Mounting & balancing",
-          status: generateEventStatus(`${getLocaleDateString()}T08:30:00`)
+          status: generateEventStatus(`${getLocalTodayDateString()}T08:30:00`)
         },
         {
-          createdAt: getLocaleDateString(),
+          createdAt: getLocalTodayDateString(),
           id: "18",
-          start: `${getLocaleDateString()}T09:30:00`,
-          end: `${getLocaleDateString()}T11:00:00`,
+          start: `${getLocalTodayDateString()}T09:30:00`,
+          end: `${getLocalTodayDateString()}T11:00:00`,
           title: "3 tires installation",
           type: "installation",
           customer: {
@@ -800,14 +1225,39 @@ const MOCK_ORDERS_CALENDAR: OrdersCalendar = {
             },
             year: 2020
           },
+          preInspection: {
+            id: "18",
+            damage: {
+              remarks: [],
+              status: "pending"
+            },
+            tireSizing: {
+              remarks: [],
+              status: "pending"
+            },
+            wheelLocks: {
+              remarks: [],
+              status: "pending"
+            },
+            odometer: {
+              remarks: [],
+              status: "pending",
+              lastScan: getLocalTodayDateString(moment().subtract(1, "day").toDate())
+            },
+            treadDepths: {
+              remarks: [],
+              status: "pending",
+              lastScan: getLocalTodayDateString(moment().subtract(1, "day").toDate()),
+            }
+          },
           subTitle: "Mounting & balancing",
-          status: generateEventStatus(`${getLocaleDateString()}T11:00:00`)
+          status: generateEventStatus(`${getLocalTodayDateString()}T11:00:00`)
         },
         {
-          createdAt: getLocaleDateString(),
+          createdAt: getLocalTodayDateString(),
           id: "19",
-          start: `${getLocaleDateString()}T11:30:00`,
-          end: `${getLocaleDateString()}T12:30:00`,
+          start: `${getLocalTodayDateString()}T11:30:00`,
+          end: `${getLocalTodayDateString()}T12:30:00`,
           title: "Tire inspection",
           type: "inspection",
           customer: {
@@ -843,14 +1293,39 @@ const MOCK_ORDERS_CALENDAR: OrdersCalendar = {
             },
             year: 2020
           },
+          preInspection: {
+            id: "19",
+            damage: {
+              remarks: [],
+              status: "pending"
+            },
+            tireSizing: {
+              remarks: [],
+              status: "pending"
+            },
+            wheelLocks: {
+              remarks: [],
+              status: "pending"
+            },
+            odometer: {
+              remarks: [],
+              status: "pending",
+              lastScan: getLocalTodayDateString(moment().subtract(1, "day").toDate())
+            },
+            treadDepths: {
+              remarks: [],
+              status: "pending",
+              lastScan: getLocalTodayDateString(moment().subtract(1, "day").toDate()),
+            }
+          },
           subTitle: "Mounting & balancing",
-          status: generateEventStatus(`${getLocaleDateString()}T12:30:00`)
+          status: generateEventStatus(`${getLocalTodayDateString()}T12:30:00`)
         },
         {
-          createdAt: getLocaleDateString(),
+          createdAt: getLocalTodayDateString(),
           id: "20",
-          start: `${getLocaleDateString()}T12:30:00`,
-          end: `${getLocaleDateString()}T13:30:00`,
+          start: `${getLocalTodayDateString()}T12:30:00`,
+          end: `${getLocalTodayDateString()}T13:30:00`,
           title: "Lunch time",
           type: "lunch",
           customer: {
@@ -886,14 +1361,39 @@ const MOCK_ORDERS_CALENDAR: OrdersCalendar = {
             },
             year: 2020
           },
+          preInspection: {
+            id: "20",
+            damage: {
+              remarks: [],
+              status: "pending"
+            },
+            tireSizing: {
+              remarks: [],
+              status: "pending"
+            },
+            wheelLocks: {
+              remarks: [],
+              status: "pending"
+            },
+            odometer: {
+              remarks: [],
+              status: "pending",
+              lastScan: getLocalTodayDateString(moment().subtract(1, "day").toDate())
+            },
+            treadDepths: {
+              remarks: [],
+              status: "pending",
+              lastScan: getLocalTodayDateString(moment().subtract(1, "day").toDate()),
+            }
+          },
           subTitle: "Mounting & balancing",
-          status: generateEventStatus(`${getLocaleDateString()}T13:30:00`)
+          status: generateEventStatus(`${getLocalTodayDateString()}T13:30:00`)
         },
         {
-          createdAt: getLocaleDateString(),
+          createdAt: getLocalTodayDateString(),
           id: "21",
-          start: `${getLocaleDateString()}T14:00:00`,
-          end: `${getLocaleDateString()}T15:30:00`,
+          start: `${getLocalTodayDateString()}T14:00:00`,
+          end: `${getLocalTodayDateString()}T15:30:00`,
           title: "3 tires installation",
           type: "installation",
           customer: {
@@ -929,14 +1429,39 @@ const MOCK_ORDERS_CALENDAR: OrdersCalendar = {
             },
             year: 2020
           },
+          preInspection: {
+            id: "21",
+            damage: {
+              remarks: [],
+              status: "pending"
+            },
+            tireSizing: {
+              remarks: [],
+              status: "pending"
+            },
+            wheelLocks: {
+              remarks: [],
+              status: "pending"
+            },
+            odometer: {
+              remarks: [],
+              status: "pending",
+              lastScan: getLocalTodayDateString(moment().subtract(1, "day").toDate())
+            },
+            treadDepths: {
+              remarks: [],
+              status: "pending",
+              lastScan: getLocalTodayDateString(moment().subtract(1, "day").toDate()),
+            }
+          },
           subTitle: "Mounting & balancing",
-          status: generateEventStatus(`${getLocaleDateString()}T15:30:00`)
+          status: generateEventStatus(`${getLocalTodayDateString()}T15:30:00`)
         },
         {
-          createdAt: getLocaleDateString(),
+          createdAt: getLocalTodayDateString(),
           id: "22",
-          start: `${getLocaleDateString()}T17:00:00`,
-          end: `${getLocaleDateString()}T17:30:00`,
+          start: `${getLocalTodayDateString()}T17:00:00`,
+          end: `${getLocalTodayDateString()}T17:30:00`,
           title: "Idle time",
           type: "idle",
           customer: {
@@ -972,14 +1497,39 @@ const MOCK_ORDERS_CALENDAR: OrdersCalendar = {
             },
             year: 2020
           },
+          preInspection: {
+            id: "22",
+            damage: {
+              remarks: [],
+              status: "pending"
+            },
+            tireSizing: {
+              remarks: [],
+              status: "pending"
+            },
+            wheelLocks: {
+              remarks: [],
+              status: "pending"
+            },
+            odometer: {
+              remarks: [],
+              status: "pending",
+              lastScan: getLocalTodayDateString(moment().subtract(1, "day").toDate())
+            },
+            treadDepths: {
+              remarks: [],
+              status: "pending",
+              lastScan: getLocalTodayDateString(moment().subtract(1, "day").toDate()),
+            }
+          },
           subTitle: "Mounting & balancing",
-          status: generateEventStatus(`${getLocaleDateString()}T17:30:00`)
+          status: generateEventStatus(`${getLocalTodayDateString()}T17:30:00`)
         },
         {
-          createdAt: getLocaleDateString(),
+          createdAt: getLocalTodayDateString(),
           id: "23",
-          start: `${getLocaleDateString()}T17:30:00`,
-          end: `${getLocaleDateString()}T18:30:00`,
+          start: `${getLocalTodayDateString()}T17:30:00`,
+          end: `${getLocalTodayDateString()}T18:30:00`,
           title: "3 tires installation",
           type: "installation",
           customer: {
@@ -1015,8 +1565,32 @@ const MOCK_ORDERS_CALENDAR: OrdersCalendar = {
             },
             year: 2020
           },
+          preInspection: {
+            id: "23",
+            damage: {
+              remarks: [],
+              status: "pending"
+            },
+            tireSizing: {
+              remarks: [],
+              status: "pending"
+            },
+            wheelLocks: {
+              remarks: [],
+              status: "pending"
+            },
+            odometer: {
+              remarks: [],
+              status: "pending",
+              lastScan: getLocalTodayDateString(moment().subtract(1, "day").toDate())
+            },
+            treadDepths: {
+              remarks: [],
+              status: "pending"
+            }
+          },
           subTitle: "Mounting & balancing",
-          status: generateEventStatus(`${getLocaleDateString()}T18:30:00`)
+          status: generateEventStatus(`${getLocalTodayDateString()}T18:30:00`)
         },
       ],
     },
@@ -1027,10 +1601,10 @@ const MOCK_ORDERS_CALENDAR: OrdersCalendar = {
       },
       events: [
         {
-          createdAt: getLocaleDateString(),
+          createdAt: getLocalTodayDateString(),
           id: "24",
-          start: `${getLocaleDateString()}T07:30:00`,
-          end: `${getLocaleDateString()}T08:30:00`,
+          start: `${getLocalTodayDateString()}T07:30:00`,
+          end: `${getLocalTodayDateString()}T08:30:00`,
           title: "Load Van (10 tires)",
           type: "load",
           customer: {
@@ -1066,14 +1640,38 @@ const MOCK_ORDERS_CALENDAR: OrdersCalendar = {
             },
             year: 2020
           },
+          preInspection: {
+            id: "23",
+            damage: {
+              remarks: [],
+              status: "pending"
+            },
+            tireSizing: {
+              remarks: [],
+              status: "pending"
+            },
+            wheelLocks: {
+              remarks: [],
+              status: "pending"
+            },
+            odometer: {
+              remarks: [],
+              status: "pending",
+              lastScan: getLocalTodayDateString(moment().subtract(1, "day").toDate())
+            },
+            treadDepths: {
+              remarks: [],
+              status: "pending"
+            }
+          },
           subTitle: "Mounting & balancing",
-          status: generateEventStatus(`${getLocaleDateString()}T08:30:00`)
+          status: generateEventStatus(`${getLocalTodayDateString()}T08:30:00`)
         },
         {
-          createdAt: getLocaleDateString(),
+          createdAt: getLocalTodayDateString(),
           id: "25",
-          start: `${getLocaleDateString()}T09:00:00`,
-          end: `${getLocaleDateString()}T11:00:00`,
+          start: `${getLocalTodayDateString()}T09:00:00`,
+          end: `${getLocalTodayDateString()}T11:00:00`,
           title: "4 tires installation",
           type: "installation",
           customer: {
@@ -1109,14 +1707,39 @@ const MOCK_ORDERS_CALENDAR: OrdersCalendar = {
             },
             year: 2020
           },
+          preInspection: {
+            id: "25",
+            damage: {
+              remarks: [],
+              status: "pending"
+            },
+            tireSizing: {
+              remarks: [],
+              status: "pending"
+            },
+            wheelLocks: {
+              remarks: [],
+              status: "pending"
+            },
+            odometer: {
+              remarks: [],
+              status: "pending",
+              lastScan: getLocalTodayDateString(moment().subtract(1, "day").toDate())
+            },
+            treadDepths: {
+              remarks: [],
+              status: "pending",
+              lastScan: getLocalTodayDateString(moment().subtract(1, "day").toDate()),
+            }
+          },
           subTitle: "Mounting & balancing",
-          status: generateEventStatus(`${getLocaleDateString()}T11:00:00`)
+          status: generateEventStatus(`${getLocalTodayDateString()}T11:00:00`)
         },
         {
-          createdAt: getLocaleDateString(),
+          createdAt: getLocalTodayDateString(),
           id: "26",
-          start: `${getLocaleDateString()}T11:30:00`,
-          end: `${getLocaleDateString()}T12:30:00`,
+          start: `${getLocalTodayDateString()}T11:30:00`,
+          end: `${getLocalTodayDateString()}T12:30:00`,
           title: "Tire inspection",
           type: "inspection",
           customer: {
@@ -1152,14 +1775,39 @@ const MOCK_ORDERS_CALENDAR: OrdersCalendar = {
             },
             year: 2020
           },
+          preInspection: {
+            id: "26",
+            damage: {
+              remarks: [],
+              status: "pending"
+            },
+            tireSizing: {
+              remarks: [],
+              status: "pending"
+            },
+            wheelLocks: {
+              remarks: [],
+              status: "pending"
+            },
+            odometer: {
+              remarks: [],
+              status: "pending",
+              lastScan: getLocalTodayDateString(moment().subtract(1, "day").toDate())
+            },
+            treadDepths: {
+              remarks: [],
+              status: "pending",
+              lastScan: getLocalTodayDateString(moment().subtract(1, "day").toDate()),
+            }
+          },
           subTitle: "Mounting & balancing",
-          status: generateEventStatus(`${getLocaleDateString()}T12:30:00`)
+          status: generateEventStatus(`${getLocalTodayDateString()}T12:30:00`)
         },
         {
-          createdAt: getLocaleDateString(),
+          createdAt: getLocalTodayDateString(),
           id: "27",
-          start: `${getLocaleDateString()}T13:00:00`,
-          end: `${getLocaleDateString()}T14:00:00`,
+          start: `${getLocalTodayDateString()}T13:00:00`,
+          end: `${getLocalTodayDateString()}T14:00:00`,
           title: "Tire inspection",
           type: "inspection",
           customer: {
@@ -1195,14 +1843,39 @@ const MOCK_ORDERS_CALENDAR: OrdersCalendar = {
             },
             year: 2020
           },
+          preInspection: {
+            id: "27",
+            damage: {
+              remarks: [],
+              status: "pending"
+            },
+            tireSizing: {
+              remarks: [],
+              status: "pending"
+            },
+            wheelLocks: {
+              remarks: [],
+              status: "pending"
+            },
+            odometer: {
+              remarks: [],
+              status: "pending",
+              lastScan: getLocalTodayDateString(moment().subtract(1, "day").toDate())
+            },
+            treadDepths: {
+              remarks: [],
+              status: "pending",
+              lastScan: getLocalTodayDateString(moment().subtract(1, "day").toDate()),
+            }
+          },
           subTitle: "Mounting & balancing",
-          status: generateEventStatus(`${getLocaleDateString()}T14:00:00`)
+          status: generateEventStatus(`${getLocalTodayDateString()}T14:00:00`)
         },
         {
-          createdAt: getLocaleDateString(),
+          createdAt: getLocalTodayDateString(),
           id: "28",
-          start: `${getLocaleDateString()}T14:30:00`,
-          end: `${getLocaleDateString()}T15:30:00`,
+          start: `${getLocalTodayDateString()}T14:30:00`,
+          end: `${getLocalTodayDateString()}T15:30:00`,
           title: "Lunch time",
           type: "lunch",
           customer: {
@@ -1238,14 +1911,39 @@ const MOCK_ORDERS_CALENDAR: OrdersCalendar = {
             },
             year: 2020
           },
+          preInspection: {
+            id: "28",
+            damage: {
+              remarks: [],
+              status: "pending"
+            },
+            tireSizing: {
+              remarks: [],
+              status: "pending"
+            },
+            wheelLocks: {
+              remarks: [],
+              status: "pending"
+            },
+            odometer: {
+              remarks: [],
+              status: "pending",
+              lastScan: getLocalTodayDateString(moment().subtract(1, "day").toDate())
+            },
+            treadDepths: {
+              remarks: [],
+              status: "pending",
+              lastScan: getLocalTodayDateString(moment().subtract(1, "day").toDate()),
+            }
+          },
           subTitle: "Mounting & balancing",
-          status: generateEventStatus(`${getLocaleDateString()}T15:30:00`)
+          status: generateEventStatus(`${getLocalTodayDateString()}T15:30:00`)
         },
         {
-          createdAt: getLocaleDateString(),
+          createdAt: getLocalTodayDateString(),
           id: "29",
-          start: `${getLocaleDateString()}T16:00:00`,
-          end: `${getLocaleDateString()}T16:30:00`,
+          start: `${getLocalTodayDateString()}T16:00:00`,
+          end: `${getLocalTodayDateString()}T16:30:00`,
           title: "Idle time",
           type: "idle",
           customer: {
@@ -1281,14 +1979,39 @@ const MOCK_ORDERS_CALENDAR: OrdersCalendar = {
             },
             year: 2020
           },
+          preInspection: {
+            id: "29",
+            damage: {
+              remarks: [],
+              status: "pending"
+            },
+            tireSizing: {
+              remarks: [],
+              status: "pending"
+            },
+            wheelLocks: {
+              remarks: [],
+              status: "pending"
+            },
+            odometer: {
+              remarks: [],
+              status: "pending",
+              lastScan: getLocalTodayDateString(moment().subtract(1, "day").toDate())
+            },
+            treadDepths: {
+              remarks: [],
+              status: "pending",
+              lastScan: getLocalTodayDateString(moment().subtract(1, "day").toDate()),
+            }
+          },
           subTitle: "Mounting & balancing",
-          status: generateEventStatus(`${getLocaleDateString()}T16:30:00`)
+          status: generateEventStatus(`${getLocalTodayDateString()}T16:30:00`)
         },
         {
-          createdAt: getLocaleDateString(),
+          createdAt: getLocalTodayDateString(),
           id: "30",
-          start: `${getLocaleDateString()}T16:30:00`,
-          end: `${getLocaleDateString()}T17:30:00`,
+          start: `${getLocalTodayDateString()}T16:30:00`,
+          end: `${getLocalTodayDateString()}T17:30:00`,
           title: "3 tires installation",
           type: "installation",
           customer: {
@@ -1324,8 +2047,33 @@ const MOCK_ORDERS_CALENDAR: OrdersCalendar = {
             },
             year: 2020
           },
+          preInspection: {
+            id: "30",
+            damage: {
+              remarks: [],
+              status: "pending"
+            },
+            tireSizing: {
+              remarks: [],
+              status: "pending"
+            },
+            wheelLocks: {
+              remarks: [],
+              status: "pending"
+            },
+            odometer: {
+              remarks: [],
+              status: "pending",
+              lastScan: getLocalTodayDateString(moment().subtract(1, "day").toDate())
+            },
+            treadDepths: {
+              remarks: [],
+              status: "pending",
+              lastScan: getLocalTodayDateString(moment().subtract(1, "day").toDate()),
+            }
+          },
           subTitle: "Mounting & balancing",
-          status: generateEventStatus(`${getLocaleDateString()}T17:30:00`)
+          status: generateEventStatus(`${getLocalTodayDateString()}T17:30:00`)
         },
       ],
     }

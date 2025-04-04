@@ -79,3 +79,13 @@ export function getFormattedHour(date: string): string {
     hour12: true
   }).format(new Date(date))
 }
+
+export function getPreInspectionTitle(checkType: string): string {
+  return {
+    damage: "DAMAGE CHECK",
+    tireSizing: "TIRE SIZING CHECK",
+    wheelLocks: "WHEEL LOCKS",
+    odometer: "ODOMETER",
+    treadDepths: "TREAD DEPTHS"
+  }[checkType] ?? ""
+}

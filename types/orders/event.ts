@@ -1,3 +1,4 @@
+import { PreInspection } from "./pre-inspection"
 import { VehicleDetail } from "./vehicle-detail"
 
 export interface Event {
@@ -18,7 +19,8 @@ export interface Event {
     state: string,
     zipCode: string
   }
-  notes?: string
+  notes?: string,
+  preInspection: PreInspection,
   start: string,
   title: string,
   subTitle: string,

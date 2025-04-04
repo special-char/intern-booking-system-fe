@@ -1,9 +1,9 @@
 import { OrdersCalendarViewTemplate } from "@/modules/orders/calendar-view/templates/calendar-view-template";
-import { getLocaleDateString, isValidDateString } from "@/utils/date";
+import { getLocalTodayDateString, isValidDateString } from "@/utils/date";
 import { safeParseJSON } from "@/utils/safe-parse-json";
 
 export default async function CalendarViewPage(props: { searchParams: Promise<{ date: string, filters: string }> }) {
-  const today: string = getLocaleDateString()
+  const today: string = getLocalTodayDateString()
   const { date, filters } = await props?.searchParams ?? { date: today, filters: "" };
   const filtersObject: Record<string, boolean> = safeParseJSON(decodeURIComponent(filters));
 

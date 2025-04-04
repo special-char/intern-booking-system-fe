@@ -2,7 +2,7 @@ import { Button } from "@/components/shadcn/button";
 import { Calendar } from "@/components/shadcn/calendar";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/shadcn/popover";
 import { cn } from "@/lib/utils";
-import { getLocaleDateString } from "@/utils/date";
+import { getLocalTodayDateString } from "@/utils/date";
 import { PencilIcon } from "lucide-react";
 import { useState } from "react";
 
@@ -30,7 +30,7 @@ export function DateInput({ date, onChange, dateFormatter, getIsDisabled }: Date
           className={cn(!date && "text-muted-foreground")}
         >
           {date ? (
-            dateFormatter?.(date) ?? getLocaleDateString(date)
+            dateFormatter?.(date) ?? getLocalTodayDateString(date)
           )
             : (
               <span>Pick a date</span>
