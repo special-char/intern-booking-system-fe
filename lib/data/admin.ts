@@ -2,7 +2,7 @@
 
 import { revalidateTag } from "next/cache";
 import { sdk } from "../config";
-import { getCacheTag, setAuthToken, getAuthHeaders, logout } from "./cookies";
+import { getCacheTag, setAuthToken, getAuthHeaders } from "./cookies";
 
 export async function login(_currentState: unknown, formData: FormData) {
   const email = formData.get("email") as string;
@@ -23,10 +23,10 @@ export async function login(_currentState: unknown, formData: FormData) {
   }
 }
 
-export async function refreshAdmin() {
-  const authHeaders = await getAuthHeaders();
-
+export async function refreshAdmin(): Promise<boolean> {
   try {
+    const authHeaders = await getAuthHeaders();
+
     const admin = await fetch(
       `${process.env.MEDUSA_BACKEND_URL}/auth/token/refresh`,
       {
@@ -39,13 +39,12 @@ export async function refreshAdmin() {
     );
 
     if (!admin.ok || admin.status === 401) {
-      await logout();
-      return;
+      return false;
     }
 
     return true;
   } catch (error: unknown) {
     console.log("error: ", error);
-    return;
+    return false;
   }
 }

@@ -16,11 +16,11 @@ export async function getTireVans({
   page?: number;
   limit?: number;
 }): Promise<GetTireVansResponse> {
-  const authHeaders = await getAuthHeaders();
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const offset = (page - 1) * limit;
-
   try {
+    const authHeaders = await getAuthHeaders();
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const offset = (page - 1) * limit;
+
     const endpointUrl = new URL(
       `${process.env.MEDUSA_BACKEND_URL}/admin/tire-vans`
     );
@@ -70,11 +70,11 @@ export interface CreateTireVanInput {
 export async function createTireVan(
   inputData: CreateTireVanInput
 ): Promise<PostTireVanResponse> {
-  const authHeaders = await getAuthHeaders();
-
-  const url = new URL(`${process.env.MEDUSA_BACKEND_URL}/admin/tire-vans`);
-
   try {
+    const authHeaders = await getAuthHeaders();
+
+    const url = new URL(`${process.env.MEDUSA_BACKEND_URL}/admin/tire-vans`);
+
     const response = await fetch(url.toString(), {
       method: "POST",
       headers: {
@@ -114,13 +114,13 @@ export async function updateTireVan(
   inputData: CreateTireVanInput,
   vanId: string
 ): Promise<PostTireVanResponse> {
-  const authHeaders = await getAuthHeaders();
-
-  const url = new URL(
-    `${process.env.MEDUSA_BACKEND_URL}/admin/tire-vans/${vanId}`
-  );
-
   try {
+    const authHeaders = await getAuthHeaders();
+
+    const url = new URL(
+      `${process.env.MEDUSA_BACKEND_URL}/admin/tire-vans/${vanId}`
+    );
+
     const response = await fetch(url.toString(), {
       method: "POST",
       headers: {
@@ -163,13 +163,13 @@ export type DeleteTireVanResponse = {
 export async function deleteTireVan(
   id: string
 ): Promise<DeleteTireVanResponse> {
-  const authHeaders = await getAuthHeaders();
-
-  const url = new URL(
-    `${process.env.MEDUSA_BACKEND_URL}/admin/tire-vans/${id}`
-  );
-
   try {
+    const authHeaders = await getAuthHeaders();
+
+    const url = new URL(
+      `${process.env.MEDUSA_BACKEND_URL}/admin/tire-vans/${id}`
+    );
+
     const response = await fetch(url.toString(), {
       method: "DELETE",
       headers: {

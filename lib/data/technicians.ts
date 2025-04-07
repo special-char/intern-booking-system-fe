@@ -16,11 +16,11 @@ export async function getTechnicians({
   page?: number;
   limit?: number;
 }): Promise<GetTechniciansResponse> {
-  const authHeaders = await getAuthHeaders();
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const offset = (page - 1) * limit;
-
   try {
+    const authHeaders = await getAuthHeaders();
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const offset = (page - 1) * limit;
+
     const endpointUrl = new URL(
       `${process.env.MEDUSA_BACKEND_URL}/admin/technicians`
     );
@@ -72,11 +72,11 @@ export interface CreateTechnicianInput {
 export async function createTechnician(
   inputData: CreateTechnicianInput
 ): Promise<PostTechnicianResponse> {
-  const authHeaders = await getAuthHeaders();
-
-  const url = new URL(`${process.env.MEDUSA_BACKEND_URL}/admin/technicians`);
-
   try {
+    const authHeaders = await getAuthHeaders();
+
+    const url = new URL(`${process.env.MEDUSA_BACKEND_URL}/admin/technicians`);
+
     const response = await fetch(url.toString(), {
       method: "POST",
       headers: {
@@ -116,13 +116,13 @@ export async function updateTechnician(
   inputData: CreateTechnicianInput,
   id: string
 ): Promise<PostTechnicianResponse> {
-  const authHeaders = await getAuthHeaders();
-
-  const url = new URL(
-    `${process.env.MEDUSA_BACKEND_URL}/admin/technicians/${id}`
-  );
-
   try {
+    const authHeaders = await getAuthHeaders();
+
+    const url = new URL(
+      `${process.env.MEDUSA_BACKEND_URL}/admin/technicians/${id}`
+    );
+
     const response = await fetch(url.toString(), {
       method: "POST",
       headers: {
@@ -163,13 +163,13 @@ export type DeleteTechnicianResponse = {
 export async function deleteTechnician(
   id: string
 ): Promise<DeleteTechnicianResponse> {
-  const authHeaders = await getAuthHeaders();
-
-  const url = new URL(
-    `${process.env.MEDUSA_BACKEND_URL}/admin/technicians/${id}`
-  );
-
   try {
+    const authHeaders = await getAuthHeaders();
+
+    const url = new URL(
+      `${process.env.MEDUSA_BACKEND_URL}/admin/technicians/${id}`
+    );
+
     const response = await fetch(url.toString(), {
       method: "DELETE",
       headers: {

@@ -12,12 +12,14 @@ export async function getOrderList({
   limit?: number;
   filters?: HttpTypes.AdminOrderFilters;
 }) {
-  const authHeaders = await getAuthHeaders();
-  const offset = (page - 1) * limit;
+  try {
+    const authHeaders = await getAuthHeaders();
 
-  const queryParams: HttpTypes.AdminOrderFilters = filters
-    ? { ...filters, limit, offset }
-    : {
+    const offset = (page - 1) * limit;
+
+    const queryParams: HttpTypes.AdminOrderFilters = filters
+      ? { ...filters, limit, offset }
+      : {
         limit,
         offset,
         fields:
@@ -27,14 +29,13 @@ export async function getOrderList({
           $gte: "2025-03-10T00:00:00Z",
         },
       };
-
-  try {
     const orders = await sdk.admin.order.list(queryParams, {
       ...authHeaders,
     });
+
     return orders;
   } catch (error) {
-    console.error(error);
+    console.log(error);
     return null;
   }
 }

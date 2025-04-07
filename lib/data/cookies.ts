@@ -2,14 +2,18 @@
 
 import { cookies, cookies as nextCookies } from "next/headers";
 
+export interface AuthHeaders {
+  authorization: string;
+}
+
 export const getAuthHeaders = async (): Promise<
-  { authorization: string } | object
+  AuthHeaders | null
 > => {
   const cookies = await nextCookies();
   const token = cookies.get("_medusa_jwt")?.value;
 
   if (!token) {
-    return {};
+    throw new Error("No token found");
   }
 
   return { authorization: `Bearer ${token}` };
