@@ -4,19 +4,39 @@ import { useMemo } from "react";
 import { UnroutedOverlayContent } from "./content";
 
 interface UnroutedOverlayProps {
-  ordersCalendar: OrdersCalendar
+  ordersCalendar: OrdersCalendar;
 }
 
 export function UnroutedOverlay({ ordersCalendar }: UnroutedOverlayProps) {
-  const { installationsMorning, installationsAfternoon, inspectionsMorning, inspectionsAfternoon } = useMemo(() => {
+  const {
+    installationsMorning,
+    installationsAfternoon,
+    inspectionsMorning,
+    inspectionsAfternoon,
+  } = useMemo(() => {
     return {
-      installationsMorning: getJobsNum({ ordersCalendar, type: "installation", beforeHour: 13 }),
-      installationsAfternoon: getJobsNum({ ordersCalendar, type: "installation", afterHour: 13 }),
-      inspectionsMorning: getJobsNum({ ordersCalendar, type: "inspection", beforeHour: 13 }),
-      inspectionsAfternoon: getJobsNum({ ordersCalendar, type: "inspection", afterHour: 13 }),
-    }
-  }, [ordersCalendar])
-
+      installationsMorning: getJobsNum({
+        ordersCalendar,
+        type: "installation",
+        beforeHour: 13,
+      }),
+      installationsAfternoon: getJobsNum({
+        ordersCalendar,
+        type: "installation",
+        afterHour: 13,
+      }),
+      inspectionsMorning: getJobsNum({
+        ordersCalendar,
+        type: "inspection",
+        beforeHour: 13,
+      }),
+      inspectionsAfternoon: getJobsNum({
+        ordersCalendar,
+        type: "inspection",
+        afterHour: 13,
+      }),
+    };
+  }, [ordersCalendar]);
 
   return (
     <>

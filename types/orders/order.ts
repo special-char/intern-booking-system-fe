@@ -9,3 +9,11 @@ export type Order = {
   appointmentDate: string;
   technician: string;
 };
+
+export enum OrderStatusEnum {
+  OnHold = "On Hold",
+  Completed = "Completed",
+  Cancelled = "Cancelled",
+  Refunded = "Refunded",
+  Failed = "Failed",
+}

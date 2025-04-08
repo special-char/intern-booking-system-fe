@@ -1,4 +1,4 @@
-"use client"
+"use client";
 
 import { useState, useEffect, ComponentType } from "react";
 import {
@@ -9,25 +9,29 @@ import {
 import moment from "moment";
 import "./style.css";
 
-const localizer = momentLocalizer(moment)
+const localizer = momentLocalizer(moment);
 
-interface CalendarProps<TEvent extends object, TResource extends object> extends Omit<RBCalendarProps<TEvent, TResource>, "localizer"> {
-  timeIndicatorInterval?: number
+interface CalendarProps<TEvent extends object, TResource extends object>
+  extends Omit<RBCalendarProps<TEvent, TResource>, "localizer"> {
+  timeIndicatorInterval?: number;
 }
 
-export function Calendar<TEvent extends object, TResource extends object>({ timeIndicatorInterval, ...props }: CalendarProps<TEvent, TResource>) {
-  const [currentTime, setCurrentTime] = useState(new Date())
+export function Calendar<TEvent extends object, TResource extends object>({
+  timeIndicatorInterval,
+  ...props
+}: CalendarProps<TEvent, TResource>) {
+  const [currentTime, setCurrentTime] = useState(new Date());
 
   useEffect(() => {
     if (!timeIndicatorInterval && timeIndicatorInterval !== 0) {
-      return
+      return;
     }
     const interval: NodeJS.Timeout = setInterval(() => {
-      setCurrentTime(new Date())
-    }, timeIndicatorInterval)
+      setCurrentTime(new Date());
+    }, timeIndicatorInterval);
 
-    return () => clearInterval(interval)
-  }, [])
+    return () => clearInterval(interval);
+  }, []);
 
   return (
     <div className="grid">
@@ -39,16 +43,21 @@ export function Calendar<TEvent extends object, TResource extends object>({ time
           ...props.components,
           // eslint-disable-next-line
           timeSlotWrapper: (wrapperProps: any) => {
-            const Component: ComponentType | undefined = props.components?.timeSlotWrapper
+            const Component: ComponentType | undefined =
+              props.components?.timeSlotWrapper;
             if (!Component) {
-              return null
+              return null;
             }
-            const isCurrentHour: boolean = moment(currentTime).isSame(wrapperProps.value, "hour")
-            return <Component {...wrapperProps} isCurrentHour={isCurrentHour} />
+            const isCurrentHour: boolean = moment(currentTime).isSame(
+              wrapperProps.value,
+              "hour"
+            );
+            return (
+              <Component {...wrapperProps} isCurrentHour={isCurrentHour} />
+            );
           },
         }}
       />
     </div>
-  )
+  );
 }
-

@@ -1,15 +1,15 @@
-"use client"
+"use client";
 
-import { Views } from "react-big-calendar"
-import "react-big-calendar/lib/css/react-big-calendar.css"
-import { Event, EventProps } from "../components/event"
-import { TechnicianHeader } from "../components/technician-header"
-import { HourSlot } from "../components/hour-slot"
-import { Calendar } from "@/components/common/calendar"
-import { OrdersCalendar } from "@/types/orders/orders-calendar"
-import { useMemo } from "react"
-import "./style.css"
-import { getLocalTodayDateString } from "@/utils/date"
+import { Views } from "react-big-calendar";
+import "react-big-calendar/lib/css/react-big-calendar.css";
+import { Event, EventProps } from "../components/event";
+import { TechnicianHeader } from "../components/technician-header";
+import { HourSlot } from "../components/hour-slot";
+import { Calendar } from "@/components/common/calendar";
+import { OrdersCalendar } from "@/types/orders/orders-calendar";
+import { useMemo } from "react";
+import "./style.css";
+import { getLocalTodayDateString } from "@/utils/date";
 
 const LOADING_ORDERS_CALENDAR: OrdersCalendar = {
   date: getLocalTodayDateString(),
@@ -75,8 +75,8 @@ const LOADING_ORDERS_CALENDAR: OrdersCalendar = {
         },
       ],
     },
-  ]
-} as OrdersCalendar
+  ],
+} as OrdersCalendar;
 
 export function OrdersCalendarSkeleton() {
   const events = useMemo(() => {
@@ -90,9 +90,9 @@ export function OrdersCalendarSkeleton() {
         resourceId: technician.id,
         originalEvent: event,
         technician,
-      })),
-    )
-  }, [LOADING_ORDERS_CALENDAR])
+      }))
+    );
+  }, [LOADING_ORDERS_CALENDAR]);
 
   const resources = useMemo(() => {
     return LOADING_ORDERS_CALENDAR.data.map(({ technician, events }) => ({
@@ -102,8 +102,8 @@ export function OrdersCalendarSkeleton() {
         installations: events.filter((e) => e.type === "installation").length,
         inspections: events.filter((e) => e.type === "inspection").length,
       },
-    }))
-  }, [LOADING_ORDERS_CALENDAR])
+    }));
+  }, [LOADING_ORDERS_CALENDAR]);
 
   return (
     <div className="skeleton max-h-[50vh] overflow-y-scroll">
@@ -117,16 +117,18 @@ export function OrdersCalendarSkeleton() {
         min={new Date(`${getLocalTodayDateString()}T07:00:00`)}
         max={new Date(`${getLocalTodayDateString()}T12:00:00`)}
         components={{
-          event: (props) => <Event {...props as unknown as EventProps} isLoading />,
+          event: (props) => (
+            <Event {...(props as unknown as EventProps)} isLoading />
+          ),
           resourceHeader: (props) => <TechnicianHeader {...props} isLoading />,
           //eslint-disable-next-line
           timeSlotWrapper: (props: any) => <HourSlot {...props} isLoading />,
         }}
         formats={{
-          timeGutterFormat: (date, culture, localizer) => localizer!.format(date, "h A", culture),
+          timeGutterFormat: (date, culture, localizer) =>
+            localizer!.format(date, "h A", culture),
         }}
       />
     </div>
-  )
+  );
 }
-

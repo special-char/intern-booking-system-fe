@@ -1,4 +1,7 @@
-import { DropdownMenu, DropdownMenuProps } from "@/components/common/dropdown-menu";
+import {
+  DropdownMenu,
+  DropdownMenuProps,
+} from "@/components/common/dropdown-menu";
 import { FormField, FormItem, FormLabel } from "@/components/shadcn/form";
 import { Skeleton } from "@/components/shadcn/skeleton";
 import { getOrdersTechnicians } from "@/mocks/orders/orders-calendar";
@@ -9,10 +12,14 @@ import { ReactElement } from "react";
 import { useFormContext } from "react-hook-form";
 
 export function AppointmentDetailsTechnician() {
-  const { isFetching, error, data: technicians } = useQuery({
-    queryKey: ['ordersTechnicians'],
-    queryFn: () => getOrdersTechnicians()
-  })
+  const {
+    isFetching,
+    error,
+    data: technicians,
+  } = useQuery({
+    queryKey: ["ordersTechnicians"],
+    queryFn: () => getOrdersTechnicians(),
+  });
 
   const form = useFormContext();
 
@@ -20,29 +27,36 @@ export function AppointmentDetailsTechnician() {
     return (
       <FormItem className="flex flex-col w-full">
         <FormLabel>Technician</FormLabel>
-        {isFetching ? <Skeleton className="min-h-9 rounded-lg" /> : <p className="text-sm text-destructive">Error fetching technicians</p>}
+        {isFetching ? (
+          <Skeleton className="min-h-9 rounded-lg" />
+        ) : (
+          <p className="text-sm text-destructive">Error fetching technicians</p>
+        )}
       </FormItem>
-    )
+    );
   }
-
 
   if (!technicians) {
-    return null
+    return null;
   }
 
-  const techniciansDropdownData: DropdownMenuProps['data'] = technicians.map(({ id, name }) => ({
-    label: name ?? "",
-    value: id ?? ""
-  }))
+  const techniciansDropdownData: DropdownMenuProps["data"] = technicians.map(
+    ({ id, name }) => ({
+      label: name ?? "",
+      value: id ?? "",
+    })
+  );
 
   function formatValue(id: string): ReactElement {
-    const technician: Partial<Technician> | undefined = technicians?.find((technician) => technician.id === id);
+    const technician: Partial<Technician> | undefined = technicians?.find(
+      (technician) => technician.id === id
+    );
     return (
       <div className="flex items-center gap-2 overflow-hidden">
         <Skeleton className="min-w-6 min-h-6 rounded-full" />
         <p className="overflow-hidden text-ellipsis">{technician?.name}</p>
       </div>
-    )
+    );
   }
 
   return (

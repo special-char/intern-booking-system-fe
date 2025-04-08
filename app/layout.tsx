@@ -38,9 +38,7 @@ export default async function Layout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <Providers>
-          {admin ? dashboard : login}
-        </Providers>
+        <Providers>{admin ? dashboard : login}</Providers>
       </body>
     </html>
   );

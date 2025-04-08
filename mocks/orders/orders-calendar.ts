@@ -1,10 +1,10 @@
 import { Technician } from "@/modules/vans-techs/technicians/components/technicians-table/columns";
-import { Event } from "@/types/orders/event";
+import { OrderStatusEnum } from "@/types/orders/order";
 import { OrdersCalendar } from "@/types/orders/orders-calendar";
 import { getLocalTodayDateString } from "@/utils/date";
 import moment from "moment";
 
-const MOCK_ORDERS_CALENDAR: OrdersCalendar = {
+const MOCK_ORDERS_APPOINTMENTS: OrdersCalendar = {
   date: getLocalTodayDateString(),
   data: [
     {
@@ -29,12 +29,13 @@ const MOCK_ORDERS_CALENDAR: OrdersCalendar = {
             street: "1356 West Elm St",
             city: "Orlando",
             state: "FL",
-            zipCode: "32771"
+            zipCode: "32771",
           },
           invoice: {
-            sum: 235
+            sum: 235,
           },
-          notes: "Gate code 8344, enter from Turtle Creek Lane. Sometimes the gate won't open but stay there and someone will come out to open it.",
+          notes:
+            "Gate code 8344, enter from Turtle Creek Lane. Sometimes the gate won't open but stay there and someone will come out to open it.",
           vehicleDetail: {
             id: "1",
             name: "Land Rover Velor Super Sport",
@@ -49,37 +50,42 @@ const MOCK_ORDERS_CALENDAR: OrdersCalendar = {
               frontLeft: true,
               frontRight: true,
               rearLeft: false,
-              rearRight: false
+              rearRight: false,
             },
-            year: 2020
+            year: 2020,
           },
           preInspection: {
             id: "1",
             damage: {
               remarks: [],
-              status: "pending"
+              status: "pending",
             },
             tireSizing: {
               remarks: [],
-              status: "pending"
+              status: "pending",
             },
             wheelLocks: {
               remarks: [],
-              status: "pending"
+              status: "pending",
             },
             odometer: {
               remarks: [],
               status: "pending",
-              lastScan: getLocalTodayDateString(moment().subtract(1, "day").toDate()),
+              lastScan: getLocalTodayDateString(
+                moment().subtract(1, "day").toDate()
+              ),
             },
             treadDepths: {
               remarks: [],
               status: "pending",
-              lastScan: getLocalTodayDateString(moment().subtract(1, "day").toDate()),
-            }
+              lastScan: getLocalTodayDateString(
+                moment().subtract(1, "day").toDate()
+              ),
+            },
           },
           subTitle: "Mounting & balancing",
-          status: generateEventStatus(`${getLocalTodayDateString()}T08:30:00`)
+          status: OrderStatusEnum.OnHold,
+          position: [28.543131142604665, -81.35506218024291],
         },
         {
           createdAt: getLocalTodayDateString(),
@@ -97,12 +103,13 @@ const MOCK_ORDERS_CALENDAR: OrdersCalendar = {
             street: "1356 West Elm St",
             city: "Orlando",
             state: "FL",
-            zipCode: "32771"
+            zipCode: "32771",
           },
           invoice: {
-            sum: 235
+            sum: 235,
           },
-          notes: "Gate code 8344, enter from Turtle Creek Lane. Sometimes the gate won't open but stay there and someone will come out to open it.",
+          notes:
+            "Gate code 8344, enter from Turtle Creek Lane. Sometimes the gate won't open but stay there and someone will come out to open it.",
           vehicleDetail: {
             id: "2",
             name: "Land Rover Velor Super Sport",
@@ -117,37 +124,42 @@ const MOCK_ORDERS_CALENDAR: OrdersCalendar = {
               frontLeft: true,
               frontRight: true,
               rearLeft: false,
-              rearRight: false
+              rearRight: false,
             },
-            year: 2020
+            year: 2020,
           },
           preInspection: {
             id: "2",
             damage: {
               remarks: [],
-              status: "pending"
+              status: "pending",
             },
             tireSizing: {
               remarks: [],
-              status: "pending"
+              status: "pending",
             },
             wheelLocks: {
               remarks: [],
-              status: "pending"
+              status: "pending",
             },
             odometer: {
               remarks: [],
               status: "pending",
-              lastScan: getLocalTodayDateString(moment().subtract(1, "day").toDate())
+              lastScan: getLocalTodayDateString(
+                moment().subtract(1, "day").toDate()
+              ),
             },
             treadDepths: {
               remarks: [],
               status: "pending",
-              lastScan: getLocalTodayDateString(moment().subtract(1, "day").toDate()),
-            }
+              lastScan: getLocalTodayDateString(
+                moment().subtract(1, "day").toDate()
+              ),
+            },
           },
           subTitle: "Mounting & balancing",
-          status: generateEventStatus(`${getLocalTodayDateString()}T11:00:00`)
+          status: OrderStatusEnum.OnHold,
+          position: [28.54625689943762, -81.3491358394245],
         },
         {
           createdAt: getLocalTodayDateString(),
@@ -165,12 +177,13 @@ const MOCK_ORDERS_CALENDAR: OrdersCalendar = {
             street: "1356 West Elm St",
             city: "Orlando",
             state: "FL",
-            zipCode: "32771"
+            zipCode: "32771",
           },
           invoice: {
-            sum: 235
+            sum: 235,
           },
-          notes: "Gate code 8344, enter from Turtle Creek Lane. Sometimes the gate won't open but stay there and someone will come out to open it.",
+          notes:
+            "Gate code 8344, enter from Turtle Creek Lane. Sometimes the gate won't open but stay there and someone will come out to open it.",
           vehicleDetail: {
             id: "3",
             name: "Land Rover Velor Super Sport",
@@ -185,37 +198,42 @@ const MOCK_ORDERS_CALENDAR: OrdersCalendar = {
               frontLeft: true,
               frontRight: true,
               rearLeft: false,
-              rearRight: false
+              rearRight: false,
             },
-            year: 2020
+            year: 2020,
           },
           preInspection: {
             id: "3",
             damage: {
               remarks: [],
-              status: "pending"
+              status: "pending",
             },
             tireSizing: {
               remarks: [],
-              status: "pending"
+              status: "pending",
             },
             wheelLocks: {
               remarks: [],
-              status: "pending"
+              status: "pending",
             },
             odometer: {
               remarks: [],
               status: "pending",
-              lastScan: getLocalTodayDateString(moment().subtract(1, "day").toDate())
+              lastScan: getLocalTodayDateString(
+                moment().subtract(1, "day").toDate()
+              ),
             },
             treadDepths: {
               remarks: [],
               status: "pending",
-              lastScan: getLocalTodayDateString(moment().subtract(1, "day").toDate()),
-            }
+              lastScan: getLocalTodayDateString(
+                moment().subtract(1, "day").toDate()
+              ),
+            },
           },
           subTitle: "Mounting & balancing",
-          status: generateEventStatus(`${getLocalTodayDateString()}T11:00:00`)
+          status: OrderStatusEnum.Cancelled,
+          position: [28.536291440483005, -81.34698202558555],
         },
         {
           createdAt: getLocalTodayDateString(),
@@ -233,12 +251,13 @@ const MOCK_ORDERS_CALENDAR: OrdersCalendar = {
             street: "1356 West Elm St",
             city: "Orlando",
             state: "FL",
-            zipCode: "32771"
+            zipCode: "32771",
           },
           invoice: {
-            sum: 235
+            sum: 235,
           },
-          notes: "Gate code 8344, enter from Turtle Creek Lane. Sometimes the gate won't open but stay there and someone will come out to open it.",
+          notes:
+            "Gate code 8344, enter from Turtle Creek Lane. Sometimes the gate won't open but stay there and someone will come out to open it.",
           vehicleDetail: {
             id: "4",
             name: "Land Rover Velor Super Sport",
@@ -253,37 +272,42 @@ const MOCK_ORDERS_CALENDAR: OrdersCalendar = {
               frontLeft: true,
               frontRight: true,
               rearLeft: false,
-              rearRight: false
+              rearRight: false,
             },
-            year: 2020
+            year: 2020,
           },
           preInspection: {
             id: "4",
             damage: {
               remarks: [],
-              status: "pending"
+              status: "pending",
             },
             tireSizing: {
               remarks: [],
-              status: "pending"
+              status: "pending",
             },
             wheelLocks: {
               remarks: [],
-              status: "pending"
+              status: "pending",
             },
             odometer: {
               remarks: [],
               status: "pending",
-              lastScan: getLocalTodayDateString(moment().subtract(1, "day").toDate())
+              lastScan: getLocalTodayDateString(
+                moment().subtract(1, "day").toDate()
+              ),
             },
             treadDepths: {
               remarks: [],
               status: "pending",
-              lastScan: getLocalTodayDateString(moment().subtract(1, "day").toDate()),
-            }
+              lastScan: getLocalTodayDateString(
+                moment().subtract(1, "day").toDate()
+              ),
+            },
           },
           subTitle: "Mounting & balancing",
-          status: generateEventStatus(`${getLocalTodayDateString()}T13:00:00`)
+          status: OrderStatusEnum.Failed,
+          position: [28.526222232936792, -81.373876870654],
         },
         {
           createdAt: getLocalTodayDateString(),
@@ -301,12 +325,13 @@ const MOCK_ORDERS_CALENDAR: OrdersCalendar = {
             street: "1356 West Elm St",
             city: "Orlando",
             state: "FL",
-            zipCode: "32771"
+            zipCode: "32771",
           },
           invoice: {
-            sum: 235
+            sum: 235,
           },
-          notes: "Gate code 8344, enter from Turtle Creek Lane. Sometimes the gate won't open but stay there and someone will come out to open it.",
+          notes:
+            "Gate code 8344, enter from Turtle Creek Lane. Sometimes the gate won't open but stay there and someone will come out to open it.",
           vehicleDetail: {
             id: "5",
             name: "Land Rover Velor Super Sport",
@@ -321,37 +346,42 @@ const MOCK_ORDERS_CALENDAR: OrdersCalendar = {
               frontLeft: true,
               frontRight: true,
               rearLeft: false,
-              rearRight: false
+              rearRight: false,
             },
-            year: 2020
+            year: 2020,
           },
           preInspection: {
             id: "5",
             damage: {
               remarks: [],
-              status: "pending"
+              status: "pending",
             },
             tireSizing: {
               remarks: [],
-              status: "pending"
+              status: "pending",
             },
             wheelLocks: {
               remarks: [],
-              status: "pending"
+              status: "pending",
             },
             odometer: {
               remarks: [],
               status: "pending",
-              lastScan: getLocalTodayDateString(moment().subtract(1, "day").toDate())
+              lastScan: getLocalTodayDateString(
+                moment().subtract(1, "day").toDate()
+              ),
             },
             treadDepths: {
               remarks: [],
               status: "pending",
-              lastScan: getLocalTodayDateString(moment().subtract(1, "day").toDate()),
-            }
+              lastScan: getLocalTodayDateString(
+                moment().subtract(1, "day").toDate()
+              ),
+            },
           },
           subTitle: "Mounting & balancing",
-          status: generateEventStatus(`${getLocalTodayDateString()}T14:00:00`)
+          status: OrderStatusEnum.Completed,
+          position: [28.52592648107951, -81.3592071989993],
         },
         {
           createdAt: getLocalTodayDateString(),
@@ -369,12 +399,13 @@ const MOCK_ORDERS_CALENDAR: OrdersCalendar = {
             street: "1356 West Elm St",
             city: "Orlando",
             state: "FL",
-            zipCode: "32771"
+            zipCode: "32771",
           },
           invoice: {
-            sum: 235
+            sum: 235,
           },
-          notes: "Gate code 8344, enter from Turtle Creek Lane. Sometimes the gate won't open but stay there and someone will come out to open it.",
+          notes:
+            "Gate code 8344, enter from Turtle Creek Lane. Sometimes the gate won't open but stay there and someone will come out to open it.",
           vehicleDetail: {
             id: "6",
             name: "Land Rover Velor Super Sport",
@@ -389,37 +420,42 @@ const MOCK_ORDERS_CALENDAR: OrdersCalendar = {
               frontLeft: true,
               frontRight: true,
               rearLeft: false,
-              rearRight: false
+              rearRight: false,
             },
-            year: 2020
+            year: 2020,
           },
           preInspection: {
             id: "6",
             damage: {
               remarks: [],
-              status: "pending"
+              status: "pending",
             },
             tireSizing: {
               remarks: [],
-              status: "pending"
+              status: "pending",
             },
             wheelLocks: {
               remarks: [],
-              status: "pending"
+              status: "pending",
             },
             odometer: {
               remarks: [],
               status: "pending",
-              lastScan: getLocalTodayDateString(moment().subtract(1, "day").toDate())
+              lastScan: getLocalTodayDateString(
+                moment().subtract(1, "day").toDate()
+              ),
             },
             treadDepths: {
               remarks: [],
               status: "pending",
-              lastScan: getLocalTodayDateString(moment().subtract(1, "day").toDate()),
-            }
+              lastScan: getLocalTodayDateString(
+                moment().subtract(1, "day").toDate()
+              ),
+            },
           },
           subTitle: "Mounting & balancing",
-          status: generateEventStatus(`${getLocalTodayDateString()}T15:30:00`)
+          status: OrderStatusEnum.Refunded,
+          position: [28.54050128815461, -81.36825093724526],
         },
         {
           createdAt: getLocalTodayDateString(),
@@ -437,12 +473,13 @@ const MOCK_ORDERS_CALENDAR: OrdersCalendar = {
             street: "1356 West Elm St",
             city: "Orlando",
             state: "FL",
-            zipCode: "32771"
+            zipCode: "32771",
           },
           invoice: {
-            sum: 235
+            sum: 235,
           },
-          notes: "Gate code 8344, enter from Turtle Creek Lane. Sometimes the gate won't open but stay there and someone will come out to open it.",
+          notes:
+            "Gate code 8344, enter from Turtle Creek Lane. Sometimes the gate won't open but stay there and someone will come out to open it.",
           vehicleDetail: {
             id: "7",
             name: "Land Rover Velor Super Sport",
@@ -457,37 +494,42 @@ const MOCK_ORDERS_CALENDAR: OrdersCalendar = {
               frontLeft: true,
               frontRight: true,
               rearLeft: false,
-              rearRight: false
+              rearRight: false,
             },
-            year: 2020
+            year: 2020,
           },
           preInspection: {
             id: "7",
             damage: {
               remarks: [],
-              status: "pending"
+              status: "pending",
             },
             tireSizing: {
               remarks: [],
-              status: "pending"
+              status: "pending",
             },
             wheelLocks: {
               remarks: [],
-              status: "pending"
+              status: "pending",
             },
             odometer: {
               remarks: [],
               status: "pending",
-              lastScan: getLocalTodayDateString(moment().subtract(1, "day").toDate())
+              lastScan: getLocalTodayDateString(
+                moment().subtract(1, "day").toDate()
+              ),
             },
             treadDepths: {
               remarks: [],
               status: "pending",
-              lastScan: getLocalTodayDateString(moment().subtract(1, "day").toDate()),
-            }
+              lastScan: getLocalTodayDateString(
+                moment().subtract(1, "day").toDate()
+              ),
+            },
           },
           subTitle: "Mounting & balancing",
-          status: generateEventStatus(`${getLocalTodayDateString()}T17:00:00`)
+          status: OrderStatusEnum.Completed,
+          position: [28.531560352380644, -81.3545190329174],
         },
         {
           createdAt: getLocalTodayDateString(),
@@ -505,12 +547,13 @@ const MOCK_ORDERS_CALENDAR: OrdersCalendar = {
             street: "1356 West Elm St",
             city: "Orlando",
             state: "FL",
-            zipCode: "32771"
+            zipCode: "32771",
           },
           invoice: {
-            sum: 235
+            sum: 235,
           },
-          notes: "Gate code 8344, enter from Turtle Creek Lane. Sometimes the gate won't open but stay there and someone will come out to open it.",
+          notes:
+            "Gate code 8344, enter from Turtle Creek Lane. Sometimes the gate won't open but stay there and someone will come out to open it.",
           vehicleDetail: {
             id: "8",
             name: "Land Rover Velor Super Sport",
@@ -525,37 +568,42 @@ const MOCK_ORDERS_CALENDAR: OrdersCalendar = {
               frontLeft: true,
               frontRight: true,
               rearLeft: false,
-              rearRight: false
+              rearRight: false,
             },
-            year: 2020
+            year: 2020,
           },
           preInspection: {
             id: "8",
             damage: {
               remarks: [],
-              status: "pending"
+              status: "pending",
             },
             tireSizing: {
               remarks: [],
-              status: "pending"
+              status: "pending",
             },
             wheelLocks: {
               remarks: [],
-              status: "pending"
+              status: "pending",
             },
             odometer: {
               remarks: [],
               status: "pending",
-              lastScan: getLocalTodayDateString(moment().subtract(1, "day").toDate())
+              lastScan: getLocalTodayDateString(
+                moment().subtract(1, "day").toDate()
+              ),
             },
             treadDepths: {
               remarks: [],
               status: "pending",
-              lastScan: getLocalTodayDateString(moment().subtract(1, "day").toDate()),
-            }
+              lastScan: getLocalTodayDateString(
+                moment().subtract(1, "day").toDate()
+              ),
+            },
           },
           subTitle: "Mounting & balancing",
-          status: generateEventStatus(`${getLocalTodayDateString()}T18:00:00`)
+          status: OrderStatusEnum.Completed,
+          position: [28.541906496858147, -81.39527989276446],
         },
       ],
     },
@@ -581,12 +629,13 @@ const MOCK_ORDERS_CALENDAR: OrdersCalendar = {
             street: "1356 West Elm St",
             city: "Orlando",
             state: "FL",
-            zipCode: "32771"
+            zipCode: "32771",
           },
           invoice: {
-            sum: 235
+            sum: 235,
           },
-          notes: "Gate code 8344, enter from Turtle Creek Lane. Sometimes the gate won't open but stay there and someone will come out to open it.",
+          notes:
+            "Gate code 8344, enter from Turtle Creek Lane. Sometimes the gate won't open but stay there and someone will come out to open it.",
           vehicleDetail: {
             id: "9",
             name: "Land Rover Velor Super Sport",
@@ -601,37 +650,42 @@ const MOCK_ORDERS_CALENDAR: OrdersCalendar = {
               frontLeft: true,
               frontRight: true,
               rearLeft: false,
-              rearRight: false
+              rearRight: false,
             },
-            year: 2020
+            year: 2020,
           },
           preInspection: {
             id: "9",
             damage: {
               remarks: [],
-              status: "pending"
+              status: "pending",
             },
             tireSizing: {
               remarks: [],
-              status: "pending"
+              status: "pending",
             },
             wheelLocks: {
               remarks: [],
-              status: "pending"
+              status: "pending",
             },
             odometer: {
               remarks: [],
               status: "pending",
-              lastScan: getLocalTodayDateString(moment().subtract(1, "day").toDate())
+              lastScan: getLocalTodayDateString(
+                moment().subtract(1, "day").toDate()
+              ),
             },
             treadDepths: {
               remarks: [],
               status: "pending",
-              lastScan: getLocalTodayDateString(moment().subtract(1, "day").toDate()),
-            }
+              lastScan: getLocalTodayDateString(
+                moment().subtract(1, "day").toDate()
+              ),
+            },
           },
           subTitle: "Mounting & balancing",
-          status: generateEventStatus(`${getLocalTodayDateString()}T08:30:00`)
+          status: OrderStatusEnum.OnHold,
+          position: [28.541248074531083, -81.39825781532325],
         },
         {
           createdAt: getLocalTodayDateString(),
@@ -649,12 +703,13 @@ const MOCK_ORDERS_CALENDAR: OrdersCalendar = {
             street: "1356 West Elm St",
             city: "Orlando",
             state: "FL",
-            zipCode: "32771"
+            zipCode: "32771",
           },
           invoice: {
-            sum: 235
+            sum: 235,
           },
-          notes: "Gate code 8344, enter from Turtle Creek Lane. Sometimes the gate won't open but stay there and someone will come out to open it.",
+          notes:
+            "Gate code 8344, enter from Turtle Creek Lane. Sometimes the gate won't open but stay there and someone will come out to open it.",
           vehicleDetail: {
             id: "10",
             name: "Land Rover Velor Super Sport",
@@ -669,37 +724,42 @@ const MOCK_ORDERS_CALENDAR: OrdersCalendar = {
               frontLeft: true,
               frontRight: true,
               rearLeft: false,
-              rearRight: false
+              rearRight: false,
             },
-            year: 2020
+            year: 2020,
           },
           preInspection: {
             id: "10",
             damage: {
               remarks: [],
-              status: "pending"
+              status: "pending",
             },
             tireSizing: {
               remarks: [],
-              status: "pending"
+              status: "pending",
             },
             wheelLocks: {
               remarks: [],
-              status: "pending"
+              status: "pending",
             },
             odometer: {
               remarks: [],
               status: "pending",
-              lastScan: getLocalTodayDateString(moment().subtract(1, "day").toDate())
+              lastScan: getLocalTodayDateString(
+                moment().subtract(1, "day").toDate()
+              ),
             },
             treadDepths: {
               remarks: [],
               status: "pending",
-              lastScan: getLocalTodayDateString(moment().subtract(1, "day").toDate()),
-            }
+              lastScan: getLocalTodayDateString(
+                moment().subtract(1, "day").toDate()
+              ),
+            },
           },
           subTitle: "Mounting & balancing",
-          status: generateEventStatus(`${getLocalTodayDateString()}T10:30:00`)
+          status: OrderStatusEnum.OnHold,
+          position: [28.549570312447383, -81.40612842240132],
         },
         {
           createdAt: getLocalTodayDateString(),
@@ -717,12 +777,13 @@ const MOCK_ORDERS_CALENDAR: OrdersCalendar = {
             street: "1356 West Elm St",
             city: "Orlando",
             state: "FL",
-            zipCode: "32771"
+            zipCode: "32771",
           },
           invoice: {
-            sum: 235
+            sum: 235,
           },
-          notes: "Gate code 8344, enter from Turtle Creek Lane. Sometimes the gate won't open but stay there and someone will come out to open it.",
+          notes:
+            "Gate code 8344, enter from Turtle Creek Lane. Sometimes the gate won't open but stay there and someone will come out to open it.",
           vehicleDetail: {
             id: "11",
             name: "Land Rover Velor Super Sport",
@@ -737,37 +798,42 @@ const MOCK_ORDERS_CALENDAR: OrdersCalendar = {
               frontLeft: true,
               frontRight: true,
               rearLeft: false,
-              rearRight: false
+              rearRight: false,
             },
-            year: 2020
+            year: 2020,
           },
           preInspection: {
             id: "11",
             damage: {
               remarks: [],
-              status: "pending"
+              status: "pending",
             },
             tireSizing: {
               remarks: [],
-              status: "pending"
+              status: "pending",
             },
             wheelLocks: {
               remarks: [],
-              status: "pending"
+              status: "pending",
             },
             odometer: {
               remarks: [],
               status: "pending",
-              lastScan: getLocalTodayDateString(moment().subtract(1, "day").toDate())
+              lastScan: getLocalTodayDateString(
+                moment().subtract(1, "day").toDate()
+              ),
             },
             treadDepths: {
               remarks: [],
               status: "pending",
-              lastScan: getLocalTodayDateString(moment().subtract(1, "day").toDate()),
-            }
+              lastScan: getLocalTodayDateString(
+                moment().subtract(1, "day").toDate()
+              ),
+            },
           },
           subTitle: "Mounting & balancing",
-          status: generateEventStatus(`${getLocalTodayDateString()}T12:30:00`)
+          status: OrderStatusEnum.Cancelled,
+          position: [28.541675585627125, -81.408609214283],
         },
         {
           createdAt: getLocalTodayDateString(),
@@ -785,12 +851,13 @@ const MOCK_ORDERS_CALENDAR: OrdersCalendar = {
             street: "1356 West Elm St",
             city: "Orlando",
             state: "FL",
-            zipCode: "32771"
+            zipCode: "32771",
           },
           invoice: {
-            sum: 235
+            sum: 235,
           },
-          notes: "Gate code 8344, enter from Turtle Creek Lane. Sometimes the gate won't open but stay there and someone will come out to open it.",
+          notes:
+            "Gate code 8344, enter from Turtle Creek Lane. Sometimes the gate won't open but stay there and someone will come out to open it.",
           vehicleDetail: {
             id: "12",
             name: "Land Rover Velor Super Sport",
@@ -805,37 +872,42 @@ const MOCK_ORDERS_CALENDAR: OrdersCalendar = {
               frontLeft: true,
               frontRight: true,
               rearLeft: false,
-              rearRight: false
+              rearRight: false,
             },
-            year: 2020
+            year: 2020,
           },
           preInspection: {
             id: "12",
             damage: {
               remarks: [],
-              status: "pending"
+              status: "pending",
             },
             tireSizing: {
               remarks: [],
-              status: "pending"
+              status: "pending",
             },
             wheelLocks: {
               remarks: [],
-              status: "pending"
+              status: "pending",
             },
             odometer: {
               remarks: [],
               status: "pending",
-              lastScan: getLocalTodayDateString(moment().subtract(1, "day").toDate())
+              lastScan: getLocalTodayDateString(
+                moment().subtract(1, "day").toDate()
+              ),
             },
             treadDepths: {
               remarks: [],
               status: "pending",
-              lastScan: getLocalTodayDateString(moment().subtract(1, "day").toDate()),
-            }
+              lastScan: getLocalTodayDateString(
+                moment().subtract(1, "day").toDate()
+              ),
+            },
           },
           subTitle: "Mounting & balancing",
-          status: generateEventStatus(`${getLocalTodayDateString()}T13:00:00`)
+          status: OrderStatusEnum.Refunded,
+          position: [28.53667729373507, -81.40693090581097],
         },
         {
           createdAt: getLocalTodayDateString(),
@@ -853,12 +925,13 @@ const MOCK_ORDERS_CALENDAR: OrdersCalendar = {
             street: "1356 West Elm St",
             city: "Orlando",
             state: "FL",
-            zipCode: "32771"
+            zipCode: "32771",
           },
           invoice: {
-            sum: 235
+            sum: 235,
           },
-          notes: "Gate code 8344, enter from Turtle Creek Lane. Sometimes the gate won't open but stay there and someone will come out to open it.",
+          notes:
+            "Gate code 8344, enter from Turtle Creek Lane. Sometimes the gate won't open but stay there and someone will come out to open it.",
           vehicleDetail: {
             id: "13",
             name: "Land Rover Velor Super Sport",
@@ -873,37 +946,42 @@ const MOCK_ORDERS_CALENDAR: OrdersCalendar = {
               frontLeft: true,
               frontRight: true,
               rearLeft: false,
-              rearRight: false
+              rearRight: false,
             },
-            year: 2020
+            year: 2020,
           },
           preInspection: {
             id: "13",
             damage: {
               remarks: [],
-              status: "pending"
+              status: "pending",
             },
             tireSizing: {
               remarks: [],
-              status: "pending"
+              status: "pending",
             },
             wheelLocks: {
               remarks: [],
-              status: "pending"
+              status: "pending",
             },
             odometer: {
               remarks: [],
               status: "pending",
-              lastScan: getLocalTodayDateString(moment().subtract(1, "day").toDate())
+              lastScan: getLocalTodayDateString(
+                moment().subtract(1, "day").toDate()
+              ),
             },
             treadDepths: {
               remarks: [],
               status: "pending",
-              lastScan: getLocalTodayDateString(moment().subtract(1, "day").toDate()),
-            }
+              lastScan: getLocalTodayDateString(
+                moment().subtract(1, "day").toDate()
+              ),
+            },
           },
           subTitle: "Mounting & balancing",
-          status: generateEventStatus(`${getLocalTodayDateString()}T14:00:00`)
+          status: OrderStatusEnum.Refunded,
+          position: [28.533554860927925, -81.40770556130208],
         },
         {
           createdAt: getLocalTodayDateString(),
@@ -921,12 +999,13 @@ const MOCK_ORDERS_CALENDAR: OrdersCalendar = {
             street: "1356 West Elm St",
             city: "Orlando",
             state: "FL",
-            zipCode: "32771"
+            zipCode: "32771",
           },
           invoice: {
-            sum: 235
+            sum: 235,
           },
-          notes: "Gate code 8344, enter from Turtle Creek Lane. Sometimes the gate won't open but stay there and someone will come out to open it.",
+          notes:
+            "Gate code 8344, enter from Turtle Creek Lane. Sometimes the gate won't open but stay there and someone will come out to open it.",
           vehicleDetail: {
             id: "14",
             name: "Land Rover Velor Super Sport",
@@ -941,37 +1020,42 @@ const MOCK_ORDERS_CALENDAR: OrdersCalendar = {
               frontLeft: true,
               frontRight: true,
               rearLeft: false,
-              rearRight: false
+              rearRight: false,
             },
-            year: 2020
+            year: 2020,
           },
           preInspection: {
             id: "14",
             damage: {
               remarks: [],
-              status: "pending"
+              status: "pending",
             },
             tireSizing: {
               remarks: [],
-              status: "pending"
+              status: "pending",
             },
             wheelLocks: {
               remarks: [],
-              status: "pending"
+              status: "pending",
             },
             odometer: {
               remarks: [],
               status: "pending",
-              lastScan: getLocalTodayDateString(moment().subtract(1, "day").toDate())
+              lastScan: getLocalTodayDateString(
+                moment().subtract(1, "day").toDate()
+              ),
             },
             treadDepths: {
               remarks: [],
               status: "pending",
-              lastScan: getLocalTodayDateString(moment().subtract(1, "day").toDate()),
-            }
+              lastScan: getLocalTodayDateString(
+                moment().subtract(1, "day").toDate()
+              ),
+            },
           },
           subTitle: "Mounting & balancing",
-          status: generateEventStatus(`${getLocalTodayDateString()}T17:00:00`)
+          status: OrderStatusEnum.Failed,
+          position: [28.53103957214154, -81.40382784143783],
         },
         {
           createdAt: getLocalTodayDateString(),
@@ -989,12 +1073,13 @@ const MOCK_ORDERS_CALENDAR: OrdersCalendar = {
             street: "1356 West Elm St",
             city: "Orlando",
             state: "FL",
-            zipCode: "32771"
+            zipCode: "32771",
           },
           invoice: {
-            sum: 235
+            sum: 235,
           },
-          notes: "Gate code 8344, enter from Turtle Creek Lane. Sometimes the gate won't open but stay there and someone will come out to open it.",
+          notes:
+            "Gate code 8344, enter from Turtle Creek Lane. Sometimes the gate won't open but stay there and someone will come out to open it.",
           vehicleDetail: {
             id: "15",
             name: "Land Rover Velor Super Sport",
@@ -1009,37 +1094,42 @@ const MOCK_ORDERS_CALENDAR: OrdersCalendar = {
               frontLeft: true,
               frontRight: true,
               rearLeft: false,
-              rearRight: false
+              rearRight: false,
             },
-            year: 2020
+            year: 2020,
           },
           preInspection: {
             id: "15",
             damage: {
               remarks: [],
-              status: "pending"
+              status: "pending",
             },
             tireSizing: {
               remarks: [],
-              status: "pending"
+              status: "pending",
             },
             wheelLocks: {
               remarks: [],
-              status: "pending"
+              status: "pending",
             },
             odometer: {
               remarks: [],
               status: "pending",
-              lastScan: getLocalTodayDateString(moment().subtract(1, "day").toDate())
+              lastScan: getLocalTodayDateString(
+                moment().subtract(1, "day").toDate()
+              ),
             },
             treadDepths: {
               remarks: [],
               status: "pending",
-              lastScan: getLocalTodayDateString(moment().subtract(1, "day").toDate()),
-            }
+              lastScan: getLocalTodayDateString(
+                moment().subtract(1, "day").toDate()
+              ),
+            },
           },
           subTitle: "Mounting & balancing",
-          status: generateEventStatus(`${getLocalTodayDateString()}T18:30:00`)
+          status: OrderStatusEnum.Failed,
+          position: [28.52915304774471, -81.3977077110181],
         },
         {
           createdAt: getLocalTodayDateString(),
@@ -1057,12 +1147,13 @@ const MOCK_ORDERS_CALENDAR: OrdersCalendar = {
             street: "1356 West Elm St",
             city: "Orlando",
             state: "FL",
-            zipCode: "32771"
+            zipCode: "32771",
           },
           invoice: {
-            sum: 235
+            sum: 235,
           },
-          notes: "Gate code 8344, enter from Turtle Creek Lane. Sometimes the gate won't open but stay there and someone will come out to open it.",
+          notes:
+            "Gate code 8344, enter from Turtle Creek Lane. Sometimes the gate won't open but stay there and someone will come out to open it.",
           vehicleDetail: {
             id: "16",
             name: "Land Rover Velor Super Sport",
@@ -1077,37 +1168,42 @@ const MOCK_ORDERS_CALENDAR: OrdersCalendar = {
               frontLeft: true,
               frontRight: true,
               rearLeft: false,
-              rearRight: false
+              rearRight: false,
             },
-            year: 2020
+            year: 2020,
           },
           preInspection: {
             id: "16",
             damage: {
               remarks: [],
-              status: "pending"
+              status: "pending",
             },
             tireSizing: {
               remarks: [],
-              status: "pending"
+              status: "pending",
             },
             wheelLocks: {
               remarks: [],
-              status: "pending"
+              status: "pending",
             },
             odometer: {
               remarks: [],
               status: "pending",
-              lastScan: getLocalTodayDateString(moment().subtract(1, "day").toDate())
+              lastScan: getLocalTodayDateString(
+                moment().subtract(1, "day").toDate()
+              ),
             },
             treadDepths: {
               remarks: [],
               status: "pending",
-              lastScan: getLocalTodayDateString(moment().subtract(1, "day").toDate()),
-            }
+              lastScan: getLocalTodayDateString(
+                moment().subtract(1, "day").toDate()
+              ),
+            },
           },
           subTitle: "Mounting & balancing",
-          status: generateEventStatus(`${getLocalTodayDateString()}T19:00:00`)
+          status: OrderStatusEnum.Failed,
+          position: [28.548946981710895, -81.37292839622623],
         },
       ],
     },
@@ -1133,12 +1229,13 @@ const MOCK_ORDERS_CALENDAR: OrdersCalendar = {
             street: "1356 West Elm St",
             city: "Orlando",
             state: "FL",
-            zipCode: "32771"
+            zipCode: "32771",
           },
           invoice: {
-            sum: 235
+            sum: 235,
           },
-          notes: "Gate code 8344, enter from Turtle Creek Lane. Sometimes the gate won't open but stay there and someone will come out to open it.",
+          notes:
+            "Gate code 8344, enter from Turtle Creek Lane. Sometimes the gate won't open but stay there and someone will come out to open it.",
           vehicleDetail: {
             id: "17",
             name: "Land Rover Velor Super Sport",
@@ -1153,37 +1250,42 @@ const MOCK_ORDERS_CALENDAR: OrdersCalendar = {
               frontLeft: true,
               frontRight: true,
               rearLeft: false,
-              rearRight: false
+              rearRight: false,
             },
-            year: 2020
+            year: 2020,
           },
           preInspection: {
             id: "17",
             damage: {
               remarks: [],
-              status: "pending"
+              status: "pending",
             },
             tireSizing: {
               remarks: [],
-              status: "pending"
+              status: "pending",
             },
             wheelLocks: {
               remarks: [],
-              status: "pending"
+              status: "pending",
             },
             odometer: {
               remarks: [],
               status: "pending",
-              lastScan: getLocalTodayDateString(moment().subtract(1, "day").toDate())
+              lastScan: getLocalTodayDateString(
+                moment().subtract(1, "day").toDate()
+              ),
             },
             treadDepths: {
               remarks: [],
               status: "pending",
-              lastScan: getLocalTodayDateString(moment().subtract(1, "day").toDate()),
-            }
+              lastScan: getLocalTodayDateString(
+                moment().subtract(1, "day").toDate()
+              ),
+            },
           },
           subTitle: "Mounting & balancing",
-          status: generateEventStatus(`${getLocalTodayDateString()}T08:30:00`)
+          status: OrderStatusEnum.Cancelled,
+          position: [28.548459650346263, -81.36168190609173],
         },
         {
           createdAt: getLocalTodayDateString(),
@@ -1201,12 +1303,13 @@ const MOCK_ORDERS_CALENDAR: OrdersCalendar = {
             street: "1356 West Elm St",
             city: "Orlando",
             state: "FL",
-            zipCode: "32771"
+            zipCode: "32771",
           },
           invoice: {
-            sum: 235
+            sum: 235,
           },
-          notes: "Gate code 8344, enter from Turtle Creek Lane. Sometimes the gate won't open but stay there and someone will come out to open it.",
+          notes:
+            "Gate code 8344, enter from Turtle Creek Lane. Sometimes the gate won't open but stay there and someone will come out to open it.",
           vehicleDetail: {
             id: "18",
             name: "Land Rover Velor Super Sport",
@@ -1221,37 +1324,42 @@ const MOCK_ORDERS_CALENDAR: OrdersCalendar = {
               frontLeft: true,
               frontRight: true,
               rearLeft: false,
-              rearRight: false
+              rearRight: false,
             },
-            year: 2020
+            year: 2020,
           },
           preInspection: {
             id: "18",
             damage: {
               remarks: [],
-              status: "pending"
+              status: "pending",
             },
             tireSizing: {
               remarks: [],
-              status: "pending"
+              status: "pending",
             },
             wheelLocks: {
               remarks: [],
-              status: "pending"
+              status: "pending",
             },
             odometer: {
               remarks: [],
               status: "pending",
-              lastScan: getLocalTodayDateString(moment().subtract(1, "day").toDate())
+              lastScan: getLocalTodayDateString(
+                moment().subtract(1, "day").toDate()
+              ),
             },
             treadDepths: {
               remarks: [],
               status: "pending",
-              lastScan: getLocalTodayDateString(moment().subtract(1, "day").toDate()),
-            }
+              lastScan: getLocalTodayDateString(
+                moment().subtract(1, "day").toDate()
+              ),
+            },
           },
           subTitle: "Mounting & balancing",
-          status: generateEventStatus(`${getLocalTodayDateString()}T11:00:00`)
+          status: OrderStatusEnum.Completed,
+          position: [28.54715853234449, -81.3575277754931],
         },
         {
           createdAt: getLocalTodayDateString(),
@@ -1269,12 +1377,13 @@ const MOCK_ORDERS_CALENDAR: OrdersCalendar = {
             street: "1356 West Elm St",
             city: "Orlando",
             state: "FL",
-            zipCode: "32771"
+            zipCode: "32771",
           },
           invoice: {
-            sum: 235
+            sum: 235,
           },
-          notes: "Gate code 8344, enter from Turtle Creek Lane. Sometimes the gate won't open but stay there and someone will come out to open it.",
+          notes:
+            "Gate code 8344, enter from Turtle Creek Lane. Sometimes the gate won't open but stay there and someone will come out to open it.",
           vehicleDetail: {
             id: "19",
             name: "Land Rover Velor Super Sport",
@@ -1289,37 +1398,42 @@ const MOCK_ORDERS_CALENDAR: OrdersCalendar = {
               frontLeft: true,
               frontRight: true,
               rearLeft: false,
-              rearRight: false
+              rearRight: false,
             },
-            year: 2020
+            year: 2020,
           },
           preInspection: {
             id: "19",
             damage: {
               remarks: [],
-              status: "pending"
+              status: "pending",
             },
             tireSizing: {
               remarks: [],
-              status: "pending"
+              status: "pending",
             },
             wheelLocks: {
               remarks: [],
-              status: "pending"
+              status: "pending",
             },
             odometer: {
               remarks: [],
               status: "pending",
-              lastScan: getLocalTodayDateString(moment().subtract(1, "day").toDate())
+              lastScan: getLocalTodayDateString(
+                moment().subtract(1, "day").toDate()
+              ),
             },
             treadDepths: {
               remarks: [],
               status: "pending",
-              lastScan: getLocalTodayDateString(moment().subtract(1, "day").toDate()),
-            }
+              lastScan: getLocalTodayDateString(
+                moment().subtract(1, "day").toDate()
+              ),
+            },
           },
           subTitle: "Mounting & balancing",
-          status: generateEventStatus(`${getLocalTodayDateString()}T12:30:00`)
+          status: OrderStatusEnum.Completed,
+          position: [28.55511593481614, -81.35277203938978],
         },
         {
           createdAt: getLocalTodayDateString(),
@@ -1337,12 +1451,13 @@ const MOCK_ORDERS_CALENDAR: OrdersCalendar = {
             street: "1356 West Elm St",
             city: "Orlando",
             state: "FL",
-            zipCode: "32771"
+            zipCode: "32771",
           },
           invoice: {
-            sum: 235
+            sum: 235,
           },
-          notes: "Gate code 8344, enter from Turtle Creek Lane. Sometimes the gate won't open but stay there and someone will come out to open it.",
+          notes:
+            "Gate code 8344, enter from Turtle Creek Lane. Sometimes the gate won't open but stay there and someone will come out to open it.",
           vehicleDetail: {
             id: "20",
             name: "Land Rover Velor Super Sport",
@@ -1357,37 +1472,42 @@ const MOCK_ORDERS_CALENDAR: OrdersCalendar = {
               frontLeft: true,
               frontRight: true,
               rearLeft: false,
-              rearRight: false
+              rearRight: false,
             },
-            year: 2020
+            year: 2020,
           },
           preInspection: {
             id: "20",
             damage: {
               remarks: [],
-              status: "pending"
+              status: "pending",
             },
             tireSizing: {
               remarks: [],
-              status: "pending"
+              status: "pending",
             },
             wheelLocks: {
               remarks: [],
-              status: "pending"
+              status: "pending",
             },
             odometer: {
               remarks: [],
               status: "pending",
-              lastScan: getLocalTodayDateString(moment().subtract(1, "day").toDate())
+              lastScan: getLocalTodayDateString(
+                moment().subtract(1, "day").toDate()
+              ),
             },
             treadDepths: {
               remarks: [],
               status: "pending",
-              lastScan: getLocalTodayDateString(moment().subtract(1, "day").toDate()),
-            }
+              lastScan: getLocalTodayDateString(
+                moment().subtract(1, "day").toDate()
+              ),
+            },
           },
           subTitle: "Mounting & balancing",
-          status: generateEventStatus(`${getLocalTodayDateString()}T13:30:00`)
+          status: OrderStatusEnum.Completed,
+          position: [28.518273046403348, -81.33048599100266],
         },
         {
           createdAt: getLocalTodayDateString(),
@@ -1405,12 +1525,13 @@ const MOCK_ORDERS_CALENDAR: OrdersCalendar = {
             street: "1356 West Elm St",
             city: "Orlando",
             state: "FL",
-            zipCode: "32771"
+            zipCode: "32771",
           },
           invoice: {
-            sum: 235
+            sum: 235,
           },
-          notes: "Gate code 8344, enter from Turtle Creek Lane. Sometimes the gate won't open but stay there and someone will come out to open it.",
+          notes:
+            "Gate code 8344, enter from Turtle Creek Lane. Sometimes the gate won't open but stay there and someone will come out to open it.",
           vehicleDetail: {
             id: "21",
             name: "Land Rover Velor Super Sport",
@@ -1425,37 +1546,42 @@ const MOCK_ORDERS_CALENDAR: OrdersCalendar = {
               frontLeft: true,
               frontRight: true,
               rearLeft: false,
-              rearRight: false
+              rearRight: false,
             },
-            year: 2020
+            year: 2020,
           },
           preInspection: {
             id: "21",
             damage: {
               remarks: [],
-              status: "pending"
+              status: "pending",
             },
             tireSizing: {
               remarks: [],
-              status: "pending"
+              status: "pending",
             },
             wheelLocks: {
               remarks: [],
-              status: "pending"
+              status: "pending",
             },
             odometer: {
               remarks: [],
               status: "pending",
-              lastScan: getLocalTodayDateString(moment().subtract(1, "day").toDate())
+              lastScan: getLocalTodayDateString(
+                moment().subtract(1, "day").toDate()
+              ),
             },
             treadDepths: {
               remarks: [],
               status: "pending",
-              lastScan: getLocalTodayDateString(moment().subtract(1, "day").toDate()),
-            }
+              lastScan: getLocalTodayDateString(
+                moment().subtract(1, "day").toDate()
+              ),
+            },
           },
           subTitle: "Mounting & balancing",
-          status: generateEventStatus(`${getLocalTodayDateString()}T15:30:00`)
+          status: OrderStatusEnum.Failed,
+          position: [28.518273046403348, -81.33048599100266],
         },
         {
           createdAt: getLocalTodayDateString(),
@@ -1473,12 +1599,13 @@ const MOCK_ORDERS_CALENDAR: OrdersCalendar = {
             street: "1356 West Elm St",
             city: "Orlando",
             state: "FL",
-            zipCode: "32771"
+            zipCode: "32771",
           },
           invoice: {
-            sum: 235
+            sum: 235,
           },
-          notes: "Gate code 8344, enter from Turtle Creek Lane. Sometimes the gate won't open but stay there and someone will come out to open it.",
+          notes:
+            "Gate code 8344, enter from Turtle Creek Lane. Sometimes the gate won't open but stay there and someone will come out to open it.",
           vehicleDetail: {
             id: "22",
             name: "Land Rover Velor Super Sport",
@@ -1493,37 +1620,42 @@ const MOCK_ORDERS_CALENDAR: OrdersCalendar = {
               frontLeft: true,
               frontRight: true,
               rearLeft: false,
-              rearRight: false
+              rearRight: false,
             },
-            year: 2020
+            year: 2020,
           },
           preInspection: {
             id: "22",
             damage: {
               remarks: [],
-              status: "pending"
+              status: "pending",
             },
             tireSizing: {
               remarks: [],
-              status: "pending"
+              status: "pending",
             },
             wheelLocks: {
               remarks: [],
-              status: "pending"
+              status: "pending",
             },
             odometer: {
               remarks: [],
               status: "pending",
-              lastScan: getLocalTodayDateString(moment().subtract(1, "day").toDate())
+              lastScan: getLocalTodayDateString(
+                moment().subtract(1, "day").toDate()
+              ),
             },
             treadDepths: {
               remarks: [],
               status: "pending",
-              lastScan: getLocalTodayDateString(moment().subtract(1, "day").toDate()),
-            }
+              lastScan: getLocalTodayDateString(
+                moment().subtract(1, "day").toDate()
+              ),
+            },
           },
           subTitle: "Mounting & balancing",
-          status: generateEventStatus(`${getLocalTodayDateString()}T17:30:00`)
+          status: OrderStatusEnum.Failed,
+          position: [28.514129527491367, -81.3433476770632],
         },
         {
           createdAt: getLocalTodayDateString(),
@@ -1541,12 +1673,13 @@ const MOCK_ORDERS_CALENDAR: OrdersCalendar = {
             street: "1356 West Elm St",
             city: "Orlando",
             state: "FL",
-            zipCode: "32771"
+            zipCode: "32771",
           },
           invoice: {
-            sum: 235
+            sum: 235,
           },
-          notes: "Gate code 8344, enter from Turtle Creek Lane. Sometimes the gate won't open but stay there and someone will come out to open it.",
+          notes:
+            "Gate code 8344, enter from Turtle Creek Lane. Sometimes the gate won't open but stay there and someone will come out to open it.",
           vehicleDetail: {
             id: "23",
             name: "Land Rover Velor Super Sport",
@@ -1561,36 +1694,39 @@ const MOCK_ORDERS_CALENDAR: OrdersCalendar = {
               frontLeft: true,
               frontRight: true,
               rearLeft: false,
-              rearRight: false
+              rearRight: false,
             },
-            year: 2020
+            year: 2020,
           },
           preInspection: {
             id: "23",
             damage: {
               remarks: [],
-              status: "pending"
+              status: "pending",
             },
             tireSizing: {
               remarks: [],
-              status: "pending"
+              status: "pending",
             },
             wheelLocks: {
               remarks: [],
-              status: "pending"
+              status: "pending",
             },
             odometer: {
               remarks: [],
               status: "pending",
-              lastScan: getLocalTodayDateString(moment().subtract(1, "day").toDate())
+              lastScan: getLocalTodayDateString(
+                moment().subtract(1, "day").toDate()
+              ),
             },
             treadDepths: {
               remarks: [],
-              status: "pending"
-            }
+              status: "pending",
+            },
           },
           subTitle: "Mounting & balancing",
-          status: generateEventStatus(`${getLocalTodayDateString()}T18:30:00`)
+          status: OrderStatusEnum.Failed,
+          position: [28.505073215853578, -81.36554668993338],
         },
       ],
     },
@@ -1616,12 +1752,13 @@ const MOCK_ORDERS_CALENDAR: OrdersCalendar = {
             street: "1356 West Elm St",
             city: "Orlando",
             state: "FL",
-            zipCode: "32771"
+            zipCode: "32771",
           },
           invoice: {
-            sum: 235
+            sum: 235,
           },
-          notes: "Gate code 8344, enter from Turtle Creek Lane. Sometimes the gate won't open but stay there and someone will come out to open it.",
+          notes:
+            "Gate code 8344, enter from Turtle Creek Lane. Sometimes the gate won't open but stay there and someone will come out to open it.",
           vehicleDetail: {
             id: "24",
             name: "Land Rover Velor Super Sport",
@@ -1636,36 +1773,39 @@ const MOCK_ORDERS_CALENDAR: OrdersCalendar = {
               frontLeft: true,
               frontRight: true,
               rearLeft: false,
-              rearRight: false
+              rearRight: false,
             },
-            year: 2020
+            year: 2020,
           },
           preInspection: {
             id: "23",
             damage: {
               remarks: [],
-              status: "pending"
+              status: "pending",
             },
             tireSizing: {
               remarks: [],
-              status: "pending"
+              status: "pending",
             },
             wheelLocks: {
               remarks: [],
-              status: "pending"
+              status: "pending",
             },
             odometer: {
               remarks: [],
               status: "pending",
-              lastScan: getLocalTodayDateString(moment().subtract(1, "day").toDate())
+              lastScan: getLocalTodayDateString(
+                moment().subtract(1, "day").toDate()
+              ),
             },
             treadDepths: {
               remarks: [],
-              status: "pending"
-            }
+              status: "pending",
+            },
           },
           subTitle: "Mounting & balancing",
-          status: generateEventStatus(`${getLocalTodayDateString()}T08:30:00`)
+          status: OrderStatusEnum.OnHold,
+          position: [28.496121676733072, -81.35614596001666],
         },
         {
           createdAt: getLocalTodayDateString(),
@@ -1683,12 +1823,13 @@ const MOCK_ORDERS_CALENDAR: OrdersCalendar = {
             street: "1356 West Elm St",
             city: "Orlando",
             state: "FL",
-            zipCode: "32771"
+            zipCode: "32771",
           },
           invoice: {
-            sum: 235
+            sum: 235,
           },
-          notes: "Gate code 8344, enter from Turtle Creek Lane. Sometimes the gate won't open but stay there and someone will come out to open it.",
+          notes:
+            "Gate code 8344, enter from Turtle Creek Lane. Sometimes the gate won't open but stay there and someone will come out to open it.",
           vehicleDetail: {
             id: "25",
             name: "Land Rover Velor Super Sport",
@@ -1703,37 +1844,42 @@ const MOCK_ORDERS_CALENDAR: OrdersCalendar = {
               frontLeft: true,
               frontRight: true,
               rearLeft: false,
-              rearRight: false
+              rearRight: false,
             },
-            year: 2020
+            year: 2020,
           },
           preInspection: {
             id: "25",
             damage: {
               remarks: [],
-              status: "pending"
+              status: "pending",
             },
             tireSizing: {
               remarks: [],
-              status: "pending"
+              status: "pending",
             },
             wheelLocks: {
               remarks: [],
-              status: "pending"
+              status: "pending",
             },
             odometer: {
               remarks: [],
               status: "pending",
-              lastScan: getLocalTodayDateString(moment().subtract(1, "day").toDate())
+              lastScan: getLocalTodayDateString(
+                moment().subtract(1, "day").toDate()
+              ),
             },
             treadDepths: {
               remarks: [],
               status: "pending",
-              lastScan: getLocalTodayDateString(moment().subtract(1, "day").toDate()),
-            }
+              lastScan: getLocalTodayDateString(
+                moment().subtract(1, "day").toDate()
+              ),
+            },
           },
           subTitle: "Mounting & balancing",
-          status: generateEventStatus(`${getLocalTodayDateString()}T11:00:00`)
+          status: OrderStatusEnum.Refunded,
+          position: [28.485210359033367, -81.42430978694665],
         },
         {
           createdAt: getLocalTodayDateString(),
@@ -1751,12 +1897,13 @@ const MOCK_ORDERS_CALENDAR: OrdersCalendar = {
             street: "1356 West Elm St",
             city: "Orlando",
             state: "FL",
-            zipCode: "32771"
+            zipCode: "32771",
           },
           invoice: {
-            sum: 235
+            sum: 235,
           },
-          notes: "Gate code 8344, enter from Turtle Creek Lane. Sometimes the gate won't open but stay there and someone will come out to open it.",
+          notes:
+            "Gate code 8344, enter from Turtle Creek Lane. Sometimes the gate won't open but stay there and someone will come out to open it.",
           vehicleDetail: {
             id: "26",
             name: "Land Rover Velor Super Sport",
@@ -1771,37 +1918,42 @@ const MOCK_ORDERS_CALENDAR: OrdersCalendar = {
               frontLeft: true,
               frontRight: true,
               rearLeft: false,
-              rearRight: false
+              rearRight: false,
             },
-            year: 2020
+            year: 2020,
           },
           preInspection: {
             id: "26",
             damage: {
               remarks: [],
-              status: "pending"
+              status: "pending",
             },
             tireSizing: {
               remarks: [],
-              status: "pending"
+              status: "pending",
             },
             wheelLocks: {
               remarks: [],
-              status: "pending"
+              status: "pending",
             },
             odometer: {
               remarks: [],
               status: "pending",
-              lastScan: getLocalTodayDateString(moment().subtract(1, "day").toDate())
+              lastScan: getLocalTodayDateString(
+                moment().subtract(1, "day").toDate()
+              ),
             },
             treadDepths: {
               remarks: [],
               status: "pending",
-              lastScan: getLocalTodayDateString(moment().subtract(1, "day").toDate()),
-            }
+              lastScan: getLocalTodayDateString(
+                moment().subtract(1, "day").toDate()
+              ),
+            },
           },
           subTitle: "Mounting & balancing",
-          status: generateEventStatus(`${getLocalTodayDateString()}T12:30:00`)
+          status: OrderStatusEnum.Refunded,
+          position: [28.473029323412185, -81.42725412277413],
         },
         {
           createdAt: getLocalTodayDateString(),
@@ -1819,12 +1971,13 @@ const MOCK_ORDERS_CALENDAR: OrdersCalendar = {
             street: "1356 West Elm St",
             city: "Orlando",
             state: "FL",
-            zipCode: "32771"
+            zipCode: "32771",
           },
           invoice: {
-            sum: 235
+            sum: 235,
           },
-          notes: "Gate code 8344, enter from Turtle Creek Lane. Sometimes the gate won't open but stay there and someone will come out to open it.",
+          notes:
+            "Gate code 8344, enter from Turtle Creek Lane. Sometimes the gate won't open but stay there and someone will come out to open it.",
           vehicleDetail: {
             id: "27",
             name: "Land Rover Velor Super Sport",
@@ -1839,37 +1992,42 @@ const MOCK_ORDERS_CALENDAR: OrdersCalendar = {
               frontLeft: true,
               frontRight: true,
               rearLeft: false,
-              rearRight: false
+              rearRight: false,
             },
-            year: 2020
+            year: 2020,
           },
           preInspection: {
             id: "27",
             damage: {
               remarks: [],
-              status: "pending"
+              status: "pending",
             },
             tireSizing: {
               remarks: [],
-              status: "pending"
+              status: "pending",
             },
             wheelLocks: {
               remarks: [],
-              status: "pending"
+              status: "pending",
             },
             odometer: {
               remarks: [],
               status: "pending",
-              lastScan: getLocalTodayDateString(moment().subtract(1, "day").toDate())
+              lastScan: getLocalTodayDateString(
+                moment().subtract(1, "day").toDate()
+              ),
             },
             treadDepths: {
               remarks: [],
               status: "pending",
-              lastScan: getLocalTodayDateString(moment().subtract(1, "day").toDate()),
-            }
+              lastScan: getLocalTodayDateString(
+                moment().subtract(1, "day").toDate()
+              ),
+            },
           },
           subTitle: "Mounting & balancing",
-          status: generateEventStatus(`${getLocalTodayDateString()}T14:00:00`)
+          status: OrderStatusEnum.Failed,
+          position: [28.471684794588832, -81.44827627120448],
         },
         {
           createdAt: getLocalTodayDateString(),
@@ -1887,12 +2045,13 @@ const MOCK_ORDERS_CALENDAR: OrdersCalendar = {
             street: "1356 West Elm St",
             city: "Orlando",
             state: "FL",
-            zipCode: "32771"
+            zipCode: "32771",
           },
           invoice: {
-            sum: 235
+            sum: 235,
           },
-          notes: "Gate code 8344, enter from Turtle Creek Lane. Sometimes the gate won't open but stay there and someone will come out to open it.",
+          notes:
+            "Gate code 8344, enter from Turtle Creek Lane. Sometimes the gate won't open but stay there and someone will come out to open it.",
           vehicleDetail: {
             id: "28",
             name: "Land Rover Velor Super Sport",
@@ -1907,37 +2066,42 @@ const MOCK_ORDERS_CALENDAR: OrdersCalendar = {
               frontLeft: true,
               frontRight: true,
               rearLeft: false,
-              rearRight: false
+              rearRight: false,
             },
-            year: 2020
+            year: 2020,
           },
           preInspection: {
             id: "28",
             damage: {
               remarks: [],
-              status: "pending"
+              status: "pending",
             },
             tireSizing: {
               remarks: [],
-              status: "pending"
+              status: "pending",
             },
             wheelLocks: {
               remarks: [],
-              status: "pending"
+              status: "pending",
             },
             odometer: {
               remarks: [],
               status: "pending",
-              lastScan: getLocalTodayDateString(moment().subtract(1, "day").toDate())
+              lastScan: getLocalTodayDateString(
+                moment().subtract(1, "day").toDate()
+              ),
             },
             treadDepths: {
               remarks: [],
               status: "pending",
-              lastScan: getLocalTodayDateString(moment().subtract(1, "day").toDate()),
-            }
+              lastScan: getLocalTodayDateString(
+                moment().subtract(1, "day").toDate()
+              ),
+            },
           },
           subTitle: "Mounting & balancing",
-          status: generateEventStatus(`${getLocalTodayDateString()}T15:30:00`)
+          status: OrderStatusEnum.Refunded,
+          position: [28.47711998101673, -81.42332099852992],
         },
         {
           createdAt: getLocalTodayDateString(),
@@ -1955,12 +2119,13 @@ const MOCK_ORDERS_CALENDAR: OrdersCalendar = {
             street: "1356 West Elm St",
             city: "Orlando",
             state: "FL",
-            zipCode: "32771"
+            zipCode: "32771",
           },
           invoice: {
-            sum: 235
+            sum: 235,
           },
-          notes: "Gate code 8344, enter from Turtle Creek Lane. Sometimes the gate won't open but stay there and someone will come out to open it.",
+          notes:
+            "Gate code 8344, enter from Turtle Creek Lane. Sometimes the gate won't open but stay there and someone will come out to open it.",
           vehicleDetail: {
             id: "29",
             name: "Land Rover Velor Super Sport",
@@ -1975,37 +2140,42 @@ const MOCK_ORDERS_CALENDAR: OrdersCalendar = {
               frontLeft: true,
               frontRight: true,
               rearLeft: false,
-              rearRight: false
+              rearRight: false,
             },
-            year: 2020
+            year: 2020,
           },
           preInspection: {
             id: "29",
             damage: {
               remarks: [],
-              status: "pending"
+              status: "pending",
             },
             tireSizing: {
               remarks: [],
-              status: "pending"
+              status: "pending",
             },
             wheelLocks: {
               remarks: [],
-              status: "pending"
+              status: "pending",
             },
             odometer: {
               remarks: [],
               status: "pending",
-              lastScan: getLocalTodayDateString(moment().subtract(1, "day").toDate())
+              lastScan: getLocalTodayDateString(
+                moment().subtract(1, "day").toDate()
+              ),
             },
             treadDepths: {
               remarks: [],
               status: "pending",
-              lastScan: getLocalTodayDateString(moment().subtract(1, "day").toDate()),
-            }
+              lastScan: getLocalTodayDateString(
+                moment().subtract(1, "day").toDate()
+              ),
+            },
           },
           subTitle: "Mounting & balancing",
-          status: generateEventStatus(`${getLocalTodayDateString()}T16:30:00`)
+          status: OrderStatusEnum.Refunded,
+          position: [28.552247353268708, -81.29478167689348],
         },
         {
           createdAt: getLocalTodayDateString(),
@@ -2023,12 +2193,13 @@ const MOCK_ORDERS_CALENDAR: OrdersCalendar = {
             street: "1356 West Elm St",
             city: "Orlando",
             state: "FL",
-            zipCode: "32771"
+            zipCode: "32771",
           },
           invoice: {
-            sum: 235
+            sum: 235,
           },
-          notes: "Gate code 8344, enter from Turtle Creek Lane. Sometimes the gate won't open but stay there and someone will come out to open it.",
+          notes:
+            "Gate code 8344, enter from Turtle Creek Lane. Sometimes the gate won't open but stay there and someone will come out to open it.",
           vehicleDetail: {
             id: "30",
             name: "Land Rover Velor Super Sport",
@@ -2043,66 +2214,65 @@ const MOCK_ORDERS_CALENDAR: OrdersCalendar = {
               frontLeft: true,
               frontRight: true,
               rearLeft: false,
-              rearRight: false
+              rearRight: false,
             },
-            year: 2020
+            year: 2020,
           },
           preInspection: {
             id: "30",
             damage: {
               remarks: [],
-              status: "pending"
+              status: "pending",
             },
             tireSizing: {
               remarks: [],
-              status: "pending"
+              status: "pending",
             },
             wheelLocks: {
               remarks: [],
-              status: "pending"
+              status: "pending",
             },
             odometer: {
               remarks: [],
               status: "pending",
-              lastScan: getLocalTodayDateString(moment().subtract(1, "day").toDate())
+              lastScan: getLocalTodayDateString(
+                moment().subtract(1, "day").toDate()
+              ),
             },
             treadDepths: {
               remarks: [],
               status: "pending",
-              lastScan: getLocalTodayDateString(moment().subtract(1, "day").toDate()),
-            }
+              lastScan: getLocalTodayDateString(
+                moment().subtract(1, "day").toDate()
+              ),
+            },
           },
           subTitle: "Mounting & balancing",
-          status: generateEventStatus(`${getLocalTodayDateString()}T17:30:00`)
+          status: OrderStatusEnum.Cancelled,
+          position: [28.543740071345198, -81.30769919550922],
         },
       ],
-    }
+    },
   ],
-  isRouted: true
-}
+  isRouted: true,
+};
 
-function generateEventStatus(eventTime: string): Event["status"] {
-  const now = moment();
-  const eventMoment = moment(eventTime);
-
-  if (eventMoment.isAfter(now)) {
-    return 'pending';
-  }
-
-  return Math.random() < 0.7 ? 'success' : 'failure';
-}
-
-async function mockFetchOrdersCalendar(): Promise<OrdersCalendar> {
+async function mockFetchOrdersAppointments(): Promise<OrdersCalendar> {
   return new Promise((resolve) =>
     setTimeout(() => {
-      resolve(MOCK_ORDERS_CALENDAR);
+      resolve(MOCK_ORDERS_APPOINTMENTS);
     }, 100)
   ) as Promise<OrdersCalendar>;
 }
 
-export async function getOrdersCalendar({ date }: { date: string }): Promise<OrdersCalendar | null> {
+export async function getOrdersCalendar({
+  date,
+}: {
+  date: string;
+}): Promise<OrdersCalendar | null> {
   try {
-    const mockOrdersCalendar: OrdersCalendar = await mockFetchOrdersCalendar();
+    const mockOrdersCalendar: OrdersCalendar =
+      await mockFetchOrdersAppointments();
     const isToday: boolean = moment(date).isSame(moment(), "day");
     return { ...mockOrdersCalendar, isRouted: isToday };
   } catch (error) {
@@ -2114,17 +2284,22 @@ export async function getOrdersCalendar({ date }: { date: string }): Promise<Ord
 async function mockFetchOrdersTechnicians(): Promise<Partial<Technician>[]> {
   return new Promise((resolve) =>
     setTimeout(() => {
-      resolve(MOCK_ORDERS_CALENDAR.data.map(({ technician }) => technician));
+      resolve(
+        MOCK_ORDERS_APPOINTMENTS.data.map(({ technician }) => technician)
+      );
     }, 100)
   ) as Promise<Partial<Technician>[]>;
 }
 
-export async function getOrdersTechnicians(): Promise<Partial<Technician>[] | null> {
+export async function getOrdersTechnicians(): Promise<
+  Partial<Technician>[] | null
+> {
   try {
-    const technicians: Partial<Technician>[] = await mockFetchOrdersTechnicians();
+    const technicians: Partial<Technician>[] =
+      await mockFetchOrdersTechnicians();
     return technicians;
   } catch (error) {
     console.error(error);
-    return null
+    return null;
   }
 }
