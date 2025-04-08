@@ -4,7 +4,7 @@ import { FormField, FormItem, FormLabel, FormMessage } from "@/components/shadcn
 
 import { getFormattedDate } from "@/modules/orders/calendar-view/utils";
 import { DateInput } from "@/components/common/date-input";
-import { getLocalTodayDateString } from "@/utils/date";
+import { getLocalDateString } from "@/utils/date";
 import moment from "moment";
 
 export function AppointmentDetailsDate() {
@@ -20,7 +20,7 @@ export function AppointmentDetailsDate() {
           <DateInput
             date={new Date(field.value)}
             onChange={(date?: Date) => {
-              const dateFormatted: string = getLocalTodayDateString(date)
+              const dateFormatted: string = getLocalDateString(date)
               const currentStart: string = form.getValues("event.start");
               const currentEnd: string = form.getValues("event.end");
 
@@ -33,7 +33,7 @@ export function AppointmentDetailsDate() {
               return field.onChange(dateFormatted)
             }}
             dateFormatter={(date: Date) => {
-              const dateFormatted: string = getLocalTodayDateString(date)
+              const dateFormatted: string = getLocalDateString(date)
               return getFormattedDate(dateFormatted, true);
             }}
             getIsDisabled={(date: Date) => {

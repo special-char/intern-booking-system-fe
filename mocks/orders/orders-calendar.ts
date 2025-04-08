@@ -1,11 +1,11 @@
 import { Technician } from "@/modules/vans-techs/technicians/components/technicians-table/columns";
 import { OrderStatusEnum } from "@/types/orders/order";
 import { OrdersCalendar } from "@/types/orders/orders-calendar";
-import { getLocalTodayDateString } from "@/utils/date";
+import { getLocalDateString } from "@/utils/date";
 import moment from "moment";
 
 const MOCK_ORDERS_APPOINTMENTS: OrdersCalendar = {
-  date: getLocalTodayDateString(),
+  date: getLocalDateString(),
   data: [
     {
       technician: {
@@ -14,10 +14,10 @@ const MOCK_ORDERS_APPOINTMENTS: OrdersCalendar = {
       },
       events: [
         {
-          createdAt: getLocalTodayDateString(),
+          createdAt: getLocalDateString(),
           id: "1",
-          start: `${getLocalTodayDateString()}T07:30:00`,
-          end: `${getLocalTodayDateString()}T08:30:00`,
+          start: `${getLocalDateString()}T07:30:00`,
+          end: `${getLocalDateString()}T08:30:00`,
           title: "Load Van (10 tires)",
           type: "load",
           customer: {
@@ -71,14 +71,14 @@ const MOCK_ORDERS_APPOINTMENTS: OrdersCalendar = {
             odometer: {
               remarks: [],
               status: "pending",
-              lastScan: getLocalTodayDateString(
+              lastScan: getLocalDateString(
                 moment().subtract(1, "day").toDate()
               ),
             },
             treadDepths: {
               remarks: [],
               status: "pending",
-              lastScan: getLocalTodayDateString(
+              lastScan: getLocalDateString(
                 moment().subtract(1, "day").toDate()
               ),
             },
@@ -88,10 +88,10 @@ const MOCK_ORDERS_APPOINTMENTS: OrdersCalendar = {
           position: [28.543131142604665, -81.35506218024291],
         },
         {
-          createdAt: getLocalTodayDateString(),
+          createdAt: getLocalDateString(),
           id: "2",
-          start: `${getLocalTodayDateString()}T09:00:00`,
-          end: `${getLocalTodayDateString()}T11:00:00`,
+          start: `${getLocalDateString()}T09:00:00`,
+          end: `${getLocalDateString()}T11:00:00`,
           title: "2 tires installation",
           type: "installation",
           customer: {
@@ -145,14 +145,14 @@ const MOCK_ORDERS_APPOINTMENTS: OrdersCalendar = {
             odometer: {
               remarks: [],
               status: "pending",
-              lastScan: getLocalTodayDateString(
+              lastScan: getLocalDateString(
                 moment().subtract(1, "day").toDate()
               ),
             },
             treadDepths: {
               remarks: [],
               status: "pending",
-              lastScan: getLocalTodayDateString(
+              lastScan: getLocalDateString(
                 moment().subtract(1, "day").toDate()
               ),
             },
@@ -162,10 +162,10 @@ const MOCK_ORDERS_APPOINTMENTS: OrdersCalendar = {
           position: [28.54625689943762, -81.3491358394245],
         },
         {
-          createdAt: getLocalTodayDateString(),
+          createdAt: getLocalDateString(),
           id: "3",
-          start: `${getLocalTodayDateString()}T10:30:00`,
-          end: `${getLocalTodayDateString()}T11:00:00`,
+          start: `${getLocalDateString()}T10:30:00`,
+          end: `${getLocalDateString()}T11:00:00`,
           title: "Idle Time",
           type: "idle",
           customer: {
@@ -219,14 +219,14 @@ const MOCK_ORDERS_APPOINTMENTS: OrdersCalendar = {
             odometer: {
               remarks: [],
               status: "pending",
-              lastScan: getLocalTodayDateString(
+              lastScan: getLocalDateString(
                 moment().subtract(1, "day").toDate()
               ),
             },
             treadDepths: {
               remarks: [],
               status: "pending",
-              lastScan: getLocalTodayDateString(
+              lastScan: getLocalDateString(
                 moment().subtract(1, "day").toDate()
               ),
             },
@@ -236,10 +236,10 @@ const MOCK_ORDERS_APPOINTMENTS: OrdersCalendar = {
           position: [28.536291440483005, -81.34698202558555],
         },
         {
-          createdAt: getLocalTodayDateString(),
+          createdAt: getLocalDateString(),
           id: "4",
-          start: `${getLocalTodayDateString()}T11:00:00`,
-          end: `${getLocalTodayDateString()}T13:00:00`,
+          start: `${getLocalDateString()}T11:00:00`,
+          end: `${getLocalDateString()}T13:00:00`,
           title: "4 tires installation",
           type: "installation",
           customer: {
@@ -293,14 +293,14 @@ const MOCK_ORDERS_APPOINTMENTS: OrdersCalendar = {
             odometer: {
               remarks: [],
               status: "pending",
-              lastScan: getLocalTodayDateString(
+              lastScan: getLocalDateString(
                 moment().subtract(1, "day").toDate()
               ),
             },
             treadDepths: {
               remarks: [],
               status: "pending",
-              lastScan: getLocalTodayDateString(
+              lastScan: getLocalDateString(
                 moment().subtract(1, "day").toDate()
               ),
             },
@@ -310,10 +310,10 @@ const MOCK_ORDERS_APPOINTMENTS: OrdersCalendar = {
           position: [28.526222232936792, -81.373876870654],
         },
         {
-          createdAt: getLocalTodayDateString(),
+          createdAt: getLocalDateString(),
           id: "5",
-          start: `${getLocalTodayDateString()}T13:00:00`,
-          end: `${getLocalTodayDateString()}T14:00:00`,
+          start: `${getLocalDateString()}T13:00:00`,
+          end: `${getLocalDateString()}T14:00:00`,
           title: "Lunch Time",
           type: "lunch",
           customer: {
@@ -367,14 +367,14 @@ const MOCK_ORDERS_APPOINTMENTS: OrdersCalendar = {
             odometer: {
               remarks: [],
               status: "pending",
-              lastScan: getLocalTodayDateString(
+              lastScan: getLocalDateString(
                 moment().subtract(1, "day").toDate()
               ),
             },
             treadDepths: {
               remarks: [],
               status: "pending",
-              lastScan: getLocalTodayDateString(
+              lastScan: getLocalDateString(
                 moment().subtract(1, "day").toDate()
               ),
             },
@@ -384,10 +384,10 @@ const MOCK_ORDERS_APPOINTMENTS: OrdersCalendar = {
           position: [28.52592648107951, -81.3592071989993],
         },
         {
-          createdAt: getLocalTodayDateString(),
+          createdAt: getLocalDateString(),
           id: "6",
-          start: `${getLocalTodayDateString()}T15:00:00`,
-          end: `${getLocalTodayDateString()}T15:30:00`,
+          start: `${getLocalDateString()}T15:00:00`,
+          end: `${getLocalDateString()}T15:30:00`,
           title: "Tire inspection",
           type: "inspection",
           customer: {
@@ -441,14 +441,14 @@ const MOCK_ORDERS_APPOINTMENTS: OrdersCalendar = {
             odometer: {
               remarks: [],
               status: "pending",
-              lastScan: getLocalTodayDateString(
+              lastScan: getLocalDateString(
                 moment().subtract(1, "day").toDate()
               ),
             },
             treadDepths: {
               remarks: [],
               status: "pending",
-              lastScan: getLocalTodayDateString(
+              lastScan: getLocalDateString(
                 moment().subtract(1, "day").toDate()
               ),
             },
@@ -458,10 +458,10 @@ const MOCK_ORDERS_APPOINTMENTS: OrdersCalendar = {
           position: [28.54050128815461, -81.36825093724526],
         },
         {
-          createdAt: getLocalTodayDateString(),
+          createdAt: getLocalDateString(),
           id: "7",
-          start: `${getLocalTodayDateString()}T16:30:00`,
-          end: `${getLocalTodayDateString()}T17:00:00`,
+          start: `${getLocalDateString()}T16:30:00`,
+          end: `${getLocalDateString()}T17:00:00`,
           title: "Idle Time",
           type: "idle",
           customer: {
@@ -515,14 +515,14 @@ const MOCK_ORDERS_APPOINTMENTS: OrdersCalendar = {
             odometer: {
               remarks: [],
               status: "pending",
-              lastScan: getLocalTodayDateString(
+              lastScan: getLocalDateString(
                 moment().subtract(1, "day").toDate()
               ),
             },
             treadDepths: {
               remarks: [],
               status: "pending",
-              lastScan: getLocalTodayDateString(
+              lastScan: getLocalDateString(
                 moment().subtract(1, "day").toDate()
               ),
             },
@@ -532,10 +532,10 @@ const MOCK_ORDERS_APPOINTMENTS: OrdersCalendar = {
           position: [28.531560352380644, -81.3545190329174],
         },
         {
-          createdAt: getLocalTodayDateString(),
+          createdAt: getLocalDateString(),
           id: "8",
-          start: `${getLocalTodayDateString()}T17:00:00`,
-          end: `${getLocalTodayDateString()}T18:00:00`,
+          start: `${getLocalDateString()}T17:00:00`,
+          end: `${getLocalDateString()}T18:00:00`,
           title: "4 tires installation",
           type: "installation",
           customer: {
@@ -589,14 +589,14 @@ const MOCK_ORDERS_APPOINTMENTS: OrdersCalendar = {
             odometer: {
               remarks: [],
               status: "pending",
-              lastScan: getLocalTodayDateString(
+              lastScan: getLocalDateString(
                 moment().subtract(1, "day").toDate()
               ),
             },
             treadDepths: {
               remarks: [],
               status: "pending",
-              lastScan: getLocalTodayDateString(
+              lastScan: getLocalDateString(
                 moment().subtract(1, "day").toDate()
               ),
             },
@@ -614,10 +614,10 @@ const MOCK_ORDERS_APPOINTMENTS: OrdersCalendar = {
       },
       events: [
         {
-          createdAt: getLocalTodayDateString(),
+          createdAt: getLocalDateString(),
           id: "9",
-          start: `${getLocalTodayDateString()}T07:30:00`,
-          end: `${getLocalTodayDateString()}T08:30:00`,
+          start: `${getLocalDateString()}T07:30:00`,
+          end: `${getLocalDateString()}T08:30:00`,
           title: "Load Van (10 tires)",
           type: "load",
           customer: {
@@ -671,14 +671,14 @@ const MOCK_ORDERS_APPOINTMENTS: OrdersCalendar = {
             odometer: {
               remarks: [],
               status: "pending",
-              lastScan: getLocalTodayDateString(
+              lastScan: getLocalDateString(
                 moment().subtract(1, "day").toDate()
               ),
             },
             treadDepths: {
               remarks: [],
               status: "pending",
-              lastScan: getLocalTodayDateString(
+              lastScan: getLocalDateString(
                 moment().subtract(1, "day").toDate()
               ),
             },
@@ -688,10 +688,10 @@ const MOCK_ORDERS_APPOINTMENTS: OrdersCalendar = {
           position: [28.541248074531083, -81.39825781532325],
         },
         {
-          createdAt: getLocalTodayDateString(),
+          createdAt: getLocalDateString(),
           id: "10",
-          start: `${getLocalTodayDateString()}T09:00:00`,
-          end: `${getLocalTodayDateString()}T10:30:00`,
+          start: `${getLocalDateString()}T09:00:00`,
+          end: `${getLocalDateString()}T10:30:00`,
           title: "Tire inspection",
           type: "inspection",
           customer: {
@@ -745,14 +745,14 @@ const MOCK_ORDERS_APPOINTMENTS: OrdersCalendar = {
             odometer: {
               remarks: [],
               status: "pending",
-              lastScan: getLocalTodayDateString(
+              lastScan: getLocalDateString(
                 moment().subtract(1, "day").toDate()
               ),
             },
             treadDepths: {
               remarks: [],
               status: "pending",
-              lastScan: getLocalTodayDateString(
+              lastScan: getLocalDateString(
                 moment().subtract(1, "day").toDate()
               ),
             },
@@ -762,10 +762,10 @@ const MOCK_ORDERS_APPOINTMENTS: OrdersCalendar = {
           position: [28.549570312447383, -81.40612842240132],
         },
         {
-          createdAt: getLocalTodayDateString(),
+          createdAt: getLocalDateString(),
           id: "11",
-          start: `${getLocalTodayDateString()}T12:00:00`,
-          end: `${getLocalTodayDateString()}T12:30:00`,
+          start: `${getLocalDateString()}T12:00:00`,
+          end: `${getLocalDateString()}T12:30:00`,
           title: "Idle Time",
           type: "idle",
           customer: {
@@ -819,14 +819,14 @@ const MOCK_ORDERS_APPOINTMENTS: OrdersCalendar = {
             odometer: {
               remarks: [],
               status: "pending",
-              lastScan: getLocalTodayDateString(
+              lastScan: getLocalDateString(
                 moment().subtract(1, "day").toDate()
               ),
             },
             treadDepths: {
               remarks: [],
               status: "pending",
-              lastScan: getLocalTodayDateString(
+              lastScan: getLocalDateString(
                 moment().subtract(1, "day").toDate()
               ),
             },
@@ -836,10 +836,10 @@ const MOCK_ORDERS_APPOINTMENTS: OrdersCalendar = {
           position: [28.541675585627125, -81.408609214283],
         },
         {
-          createdAt: getLocalTodayDateString(),
+          createdAt: getLocalDateString(),
           id: "12",
-          start: `${getLocalTodayDateString()}T12:30:00`,
-          end: `${getLocalTodayDateString()}T13:00:00`,
+          start: `${getLocalDateString()}T12:30:00`,
+          end: `${getLocalDateString()}T13:00:00`,
           title: "2 tires installation",
           type: "installation",
           customer: {
@@ -893,14 +893,14 @@ const MOCK_ORDERS_APPOINTMENTS: OrdersCalendar = {
             odometer: {
               remarks: [],
               status: "pending",
-              lastScan: getLocalTodayDateString(
+              lastScan: getLocalDateString(
                 moment().subtract(1, "day").toDate()
               ),
             },
             treadDepths: {
               remarks: [],
               status: "pending",
-              lastScan: getLocalTodayDateString(
+              lastScan: getLocalDateString(
                 moment().subtract(1, "day").toDate()
               ),
             },
@@ -910,10 +910,10 @@ const MOCK_ORDERS_APPOINTMENTS: OrdersCalendar = {
           position: [28.53667729373507, -81.40693090581097],
         },
         {
-          createdAt: getLocalTodayDateString(),
+          createdAt: getLocalDateString(),
           id: "13",
-          start: `${getLocalTodayDateString()}T13:00:00`,
-          end: `${getLocalTodayDateString()}T14:00:00`,
+          start: `${getLocalDateString()}T13:00:00`,
+          end: `${getLocalDateString()}T14:00:00`,
           title: "Lunch Time",
           type: "lunch",
           customer: {
@@ -967,14 +967,14 @@ const MOCK_ORDERS_APPOINTMENTS: OrdersCalendar = {
             odometer: {
               remarks: [],
               status: "pending",
-              lastScan: getLocalTodayDateString(
+              lastScan: getLocalDateString(
                 moment().subtract(1, "day").toDate()
               ),
             },
             treadDepths: {
               remarks: [],
               status: "pending",
-              lastScan: getLocalTodayDateString(
+              lastScan: getLocalDateString(
                 moment().subtract(1, "day").toDate()
               ),
             },
@@ -984,10 +984,10 @@ const MOCK_ORDERS_APPOINTMENTS: OrdersCalendar = {
           position: [28.533554860927925, -81.40770556130208],
         },
         {
-          createdAt: getLocalTodayDateString(),
+          createdAt: getLocalDateString(),
           id: "14",
-          start: `${getLocalTodayDateString()}T14:30:00`,
-          end: `${getLocalTodayDateString()}T17:00:00`,
+          start: `${getLocalDateString()}T14:30:00`,
+          end: `${getLocalDateString()}T17:00:00`,
           title: "4 tires installation",
           type: "installation",
           customer: {
@@ -1041,14 +1041,14 @@ const MOCK_ORDERS_APPOINTMENTS: OrdersCalendar = {
             odometer: {
               remarks: [],
               status: "pending",
-              lastScan: getLocalTodayDateString(
+              lastScan: getLocalDateString(
                 moment().subtract(1, "day").toDate()
               ),
             },
             treadDepths: {
               remarks: [],
               status: "pending",
-              lastScan: getLocalTodayDateString(
+              lastScan: getLocalDateString(
                 moment().subtract(1, "day").toDate()
               ),
             },
@@ -1058,10 +1058,10 @@ const MOCK_ORDERS_APPOINTMENTS: OrdersCalendar = {
           position: [28.53103957214154, -81.40382784143783],
         },
         {
-          createdAt: getLocalTodayDateString(),
+          createdAt: getLocalDateString(),
           id: "15",
-          start: `${getLocalTodayDateString()}T18:00:00`,
-          end: `${getLocalTodayDateString()}T18:30:00`,
+          start: `${getLocalDateString()}T18:00:00`,
+          end: `${getLocalDateString()}T18:30:00`,
           title: "Idle Time",
           type: "idle",
           customer: {
@@ -1115,14 +1115,14 @@ const MOCK_ORDERS_APPOINTMENTS: OrdersCalendar = {
             odometer: {
               remarks: [],
               status: "pending",
-              lastScan: getLocalTodayDateString(
+              lastScan: getLocalDateString(
                 moment().subtract(1, "day").toDate()
               ),
             },
             treadDepths: {
               remarks: [],
               status: "pending",
-              lastScan: getLocalTodayDateString(
+              lastScan: getLocalDateString(
                 moment().subtract(1, "day").toDate()
               ),
             },
@@ -1132,10 +1132,10 @@ const MOCK_ORDERS_APPOINTMENTS: OrdersCalendar = {
           position: [28.52915304774471, -81.3977077110181],
         },
         {
-          createdAt: getLocalTodayDateString(),
+          createdAt: getLocalDateString(),
           id: "16",
-          start: `${getLocalTodayDateString()}T18:30:00`,
-          end: `${getLocalTodayDateString()}T19:00:00`,
+          start: `${getLocalDateString()}T18:30:00`,
+          end: `${getLocalDateString()}T19:00:00`,
           title: "Tire inspection",
           type: "inspection",
           customer: {
@@ -1189,14 +1189,14 @@ const MOCK_ORDERS_APPOINTMENTS: OrdersCalendar = {
             odometer: {
               remarks: [],
               status: "pending",
-              lastScan: getLocalTodayDateString(
+              lastScan: getLocalDateString(
                 moment().subtract(1, "day").toDate()
               ),
             },
             treadDepths: {
               remarks: [],
               status: "pending",
-              lastScan: getLocalTodayDateString(
+              lastScan: getLocalDateString(
                 moment().subtract(1, "day").toDate()
               ),
             },
@@ -1214,10 +1214,10 @@ const MOCK_ORDERS_APPOINTMENTS: OrdersCalendar = {
       },
       events: [
         {
-          createdAt: getLocalTodayDateString(),
+          createdAt: getLocalDateString(),
           id: "17",
-          start: `${getLocalTodayDateString()}T07:30:00`,
-          end: `${getLocalTodayDateString()}T08:30:00`,
+          start: `${getLocalDateString()}T07:30:00`,
+          end: `${getLocalDateString()}T08:30:00`,
           title: "Load Van (10 tires)",
           type: "load",
           customer: {
@@ -1271,14 +1271,14 @@ const MOCK_ORDERS_APPOINTMENTS: OrdersCalendar = {
             odometer: {
               remarks: [],
               status: "pending",
-              lastScan: getLocalTodayDateString(
+              lastScan: getLocalDateString(
                 moment().subtract(1, "day").toDate()
               ),
             },
             treadDepths: {
               remarks: [],
               status: "pending",
-              lastScan: getLocalTodayDateString(
+              lastScan: getLocalDateString(
                 moment().subtract(1, "day").toDate()
               ),
             },
@@ -1288,10 +1288,10 @@ const MOCK_ORDERS_APPOINTMENTS: OrdersCalendar = {
           position: [28.548459650346263, -81.36168190609173],
         },
         {
-          createdAt: getLocalTodayDateString(),
+          createdAt: getLocalDateString(),
           id: "18",
-          start: `${getLocalTodayDateString()}T09:30:00`,
-          end: `${getLocalTodayDateString()}T11:00:00`,
+          start: `${getLocalDateString()}T09:30:00`,
+          end: `${getLocalDateString()}T11:00:00`,
           title: "3 tires installation",
           type: "installation",
           customer: {
@@ -1345,14 +1345,14 @@ const MOCK_ORDERS_APPOINTMENTS: OrdersCalendar = {
             odometer: {
               remarks: [],
               status: "pending",
-              lastScan: getLocalTodayDateString(
+              lastScan: getLocalDateString(
                 moment().subtract(1, "day").toDate()
               ),
             },
             treadDepths: {
               remarks: [],
               status: "pending",
-              lastScan: getLocalTodayDateString(
+              lastScan: getLocalDateString(
                 moment().subtract(1, "day").toDate()
               ),
             },
@@ -1362,10 +1362,10 @@ const MOCK_ORDERS_APPOINTMENTS: OrdersCalendar = {
           position: [28.54715853234449, -81.3575277754931],
         },
         {
-          createdAt: getLocalTodayDateString(),
+          createdAt: getLocalDateString(),
           id: "19",
-          start: `${getLocalTodayDateString()}T11:30:00`,
-          end: `${getLocalTodayDateString()}T12:30:00`,
+          start: `${getLocalDateString()}T11:30:00`,
+          end: `${getLocalDateString()}T12:30:00`,
           title: "Tire inspection",
           type: "inspection",
           customer: {
@@ -1419,14 +1419,14 @@ const MOCK_ORDERS_APPOINTMENTS: OrdersCalendar = {
             odometer: {
               remarks: [],
               status: "pending",
-              lastScan: getLocalTodayDateString(
+              lastScan: getLocalDateString(
                 moment().subtract(1, "day").toDate()
               ),
             },
             treadDepths: {
               remarks: [],
               status: "pending",
-              lastScan: getLocalTodayDateString(
+              lastScan: getLocalDateString(
                 moment().subtract(1, "day").toDate()
               ),
             },
@@ -1436,10 +1436,10 @@ const MOCK_ORDERS_APPOINTMENTS: OrdersCalendar = {
           position: [28.55511593481614, -81.35277203938978],
         },
         {
-          createdAt: getLocalTodayDateString(),
+          createdAt: getLocalDateString(),
           id: "20",
-          start: `${getLocalTodayDateString()}T12:30:00`,
-          end: `${getLocalTodayDateString()}T13:30:00`,
+          start: `${getLocalDateString()}T12:30:00`,
+          end: `${getLocalDateString()}T13:30:00`,
           title: "Lunch time",
           type: "lunch",
           customer: {
@@ -1493,14 +1493,14 @@ const MOCK_ORDERS_APPOINTMENTS: OrdersCalendar = {
             odometer: {
               remarks: [],
               status: "pending",
-              lastScan: getLocalTodayDateString(
+              lastScan: getLocalDateString(
                 moment().subtract(1, "day").toDate()
               ),
             },
             treadDepths: {
               remarks: [],
               status: "pending",
-              lastScan: getLocalTodayDateString(
+              lastScan: getLocalDateString(
                 moment().subtract(1, "day").toDate()
               ),
             },
@@ -1510,10 +1510,10 @@ const MOCK_ORDERS_APPOINTMENTS: OrdersCalendar = {
           position: [28.518273046403348, -81.33048599100266],
         },
         {
-          createdAt: getLocalTodayDateString(),
+          createdAt: getLocalDateString(),
           id: "21",
-          start: `${getLocalTodayDateString()}T14:00:00`,
-          end: `${getLocalTodayDateString()}T15:30:00`,
+          start: `${getLocalDateString()}T14:00:00`,
+          end: `${getLocalDateString()}T15:30:00`,
           title: "3 tires installation",
           type: "installation",
           customer: {
@@ -1567,14 +1567,14 @@ const MOCK_ORDERS_APPOINTMENTS: OrdersCalendar = {
             odometer: {
               remarks: [],
               status: "pending",
-              lastScan: getLocalTodayDateString(
+              lastScan: getLocalDateString(
                 moment().subtract(1, "day").toDate()
               ),
             },
             treadDepths: {
               remarks: [],
               status: "pending",
-              lastScan: getLocalTodayDateString(
+              lastScan: getLocalDateString(
                 moment().subtract(1, "day").toDate()
               ),
             },
@@ -1584,10 +1584,10 @@ const MOCK_ORDERS_APPOINTMENTS: OrdersCalendar = {
           position: [28.518273046403348, -81.33048599100266],
         },
         {
-          createdAt: getLocalTodayDateString(),
+          createdAt: getLocalDateString(),
           id: "22",
-          start: `${getLocalTodayDateString()}T17:00:00`,
-          end: `${getLocalTodayDateString()}T17:30:00`,
+          start: `${getLocalDateString()}T17:00:00`,
+          end: `${getLocalDateString()}T17:30:00`,
           title: "Idle time",
           type: "idle",
           customer: {
@@ -1641,14 +1641,14 @@ const MOCK_ORDERS_APPOINTMENTS: OrdersCalendar = {
             odometer: {
               remarks: [],
               status: "pending",
-              lastScan: getLocalTodayDateString(
+              lastScan: getLocalDateString(
                 moment().subtract(1, "day").toDate()
               ),
             },
             treadDepths: {
               remarks: [],
               status: "pending",
-              lastScan: getLocalTodayDateString(
+              lastScan: getLocalDateString(
                 moment().subtract(1, "day").toDate()
               ),
             },
@@ -1658,10 +1658,10 @@ const MOCK_ORDERS_APPOINTMENTS: OrdersCalendar = {
           position: [28.514129527491367, -81.3433476770632],
         },
         {
-          createdAt: getLocalTodayDateString(),
+          createdAt: getLocalDateString(),
           id: "23",
-          start: `${getLocalTodayDateString()}T17:30:00`,
-          end: `${getLocalTodayDateString()}T18:30:00`,
+          start: `${getLocalDateString()}T17:30:00`,
+          end: `${getLocalDateString()}T18:30:00`,
           title: "3 tires installation",
           type: "installation",
           customer: {
@@ -1715,7 +1715,7 @@ const MOCK_ORDERS_APPOINTMENTS: OrdersCalendar = {
             odometer: {
               remarks: [],
               status: "pending",
-              lastScan: getLocalTodayDateString(
+              lastScan: getLocalDateString(
                 moment().subtract(1, "day").toDate()
               ),
             },
@@ -1737,10 +1737,10 @@ const MOCK_ORDERS_APPOINTMENTS: OrdersCalendar = {
       },
       events: [
         {
-          createdAt: getLocalTodayDateString(),
+          createdAt: getLocalDateString(),
           id: "24",
-          start: `${getLocalTodayDateString()}T07:30:00`,
-          end: `${getLocalTodayDateString()}T08:30:00`,
+          start: `${getLocalDateString()}T07:30:00`,
+          end: `${getLocalDateString()}T08:30:00`,
           title: "Load Van (10 tires)",
           type: "load",
           customer: {
@@ -1794,7 +1794,7 @@ const MOCK_ORDERS_APPOINTMENTS: OrdersCalendar = {
             odometer: {
               remarks: [],
               status: "pending",
-              lastScan: getLocalTodayDateString(
+              lastScan: getLocalDateString(
                 moment().subtract(1, "day").toDate()
               ),
             },
@@ -1808,10 +1808,10 @@ const MOCK_ORDERS_APPOINTMENTS: OrdersCalendar = {
           position: [28.496121676733072, -81.35614596001666],
         },
         {
-          createdAt: getLocalTodayDateString(),
+          createdAt: getLocalDateString(),
           id: "25",
-          start: `${getLocalTodayDateString()}T09:00:00`,
-          end: `${getLocalTodayDateString()}T11:00:00`,
+          start: `${getLocalDateString()}T09:00:00`,
+          end: `${getLocalDateString()}T11:00:00`,
           title: "4 tires installation",
           type: "installation",
           customer: {
@@ -1865,14 +1865,14 @@ const MOCK_ORDERS_APPOINTMENTS: OrdersCalendar = {
             odometer: {
               remarks: [],
               status: "pending",
-              lastScan: getLocalTodayDateString(
+              lastScan: getLocalDateString(
                 moment().subtract(1, "day").toDate()
               ),
             },
             treadDepths: {
               remarks: [],
               status: "pending",
-              lastScan: getLocalTodayDateString(
+              lastScan: getLocalDateString(
                 moment().subtract(1, "day").toDate()
               ),
             },
@@ -1882,10 +1882,10 @@ const MOCK_ORDERS_APPOINTMENTS: OrdersCalendar = {
           position: [28.485210359033367, -81.42430978694665],
         },
         {
-          createdAt: getLocalTodayDateString(),
+          createdAt: getLocalDateString(),
           id: "26",
-          start: `${getLocalTodayDateString()}T11:30:00`,
-          end: `${getLocalTodayDateString()}T12:30:00`,
+          start: `${getLocalDateString()}T11:30:00`,
+          end: `${getLocalDateString()}T12:30:00`,
           title: "Tire inspection",
           type: "inspection",
           customer: {
@@ -1939,14 +1939,14 @@ const MOCK_ORDERS_APPOINTMENTS: OrdersCalendar = {
             odometer: {
               remarks: [],
               status: "pending",
-              lastScan: getLocalTodayDateString(
+              lastScan: getLocalDateString(
                 moment().subtract(1, "day").toDate()
               ),
             },
             treadDepths: {
               remarks: [],
               status: "pending",
-              lastScan: getLocalTodayDateString(
+              lastScan: getLocalDateString(
                 moment().subtract(1, "day").toDate()
               ),
             },
@@ -1956,10 +1956,10 @@ const MOCK_ORDERS_APPOINTMENTS: OrdersCalendar = {
           position: [28.473029323412185, -81.42725412277413],
         },
         {
-          createdAt: getLocalTodayDateString(),
+          createdAt: getLocalDateString(),
           id: "27",
-          start: `${getLocalTodayDateString()}T13:00:00`,
-          end: `${getLocalTodayDateString()}T14:00:00`,
+          start: `${getLocalDateString()}T13:00:00`,
+          end: `${getLocalDateString()}T14:00:00`,
           title: "Tire inspection",
           type: "inspection",
           customer: {
@@ -2013,14 +2013,14 @@ const MOCK_ORDERS_APPOINTMENTS: OrdersCalendar = {
             odometer: {
               remarks: [],
               status: "pending",
-              lastScan: getLocalTodayDateString(
+              lastScan: getLocalDateString(
                 moment().subtract(1, "day").toDate()
               ),
             },
             treadDepths: {
               remarks: [],
               status: "pending",
-              lastScan: getLocalTodayDateString(
+              lastScan: getLocalDateString(
                 moment().subtract(1, "day").toDate()
               ),
             },
@@ -2030,10 +2030,10 @@ const MOCK_ORDERS_APPOINTMENTS: OrdersCalendar = {
           position: [28.471684794588832, -81.44827627120448],
         },
         {
-          createdAt: getLocalTodayDateString(),
+          createdAt: getLocalDateString(),
           id: "28",
-          start: `${getLocalTodayDateString()}T14:30:00`,
-          end: `${getLocalTodayDateString()}T15:30:00`,
+          start: `${getLocalDateString()}T14:30:00`,
+          end: `${getLocalDateString()}T15:30:00`,
           title: "Lunch time",
           type: "lunch",
           customer: {
@@ -2087,14 +2087,14 @@ const MOCK_ORDERS_APPOINTMENTS: OrdersCalendar = {
             odometer: {
               remarks: [],
               status: "pending",
-              lastScan: getLocalTodayDateString(
+              lastScan: getLocalDateString(
                 moment().subtract(1, "day").toDate()
               ),
             },
             treadDepths: {
               remarks: [],
               status: "pending",
-              lastScan: getLocalTodayDateString(
+              lastScan: getLocalDateString(
                 moment().subtract(1, "day").toDate()
               ),
             },
@@ -2104,10 +2104,10 @@ const MOCK_ORDERS_APPOINTMENTS: OrdersCalendar = {
           position: [28.47711998101673, -81.42332099852992],
         },
         {
-          createdAt: getLocalTodayDateString(),
+          createdAt: getLocalDateString(),
           id: "29",
-          start: `${getLocalTodayDateString()}T16:00:00`,
-          end: `${getLocalTodayDateString()}T16:30:00`,
+          start: `${getLocalDateString()}T16:00:00`,
+          end: `${getLocalDateString()}T16:30:00`,
           title: "Idle time",
           type: "idle",
           customer: {
@@ -2161,14 +2161,14 @@ const MOCK_ORDERS_APPOINTMENTS: OrdersCalendar = {
             odometer: {
               remarks: [],
               status: "pending",
-              lastScan: getLocalTodayDateString(
+              lastScan: getLocalDateString(
                 moment().subtract(1, "day").toDate()
               ),
             },
             treadDepths: {
               remarks: [],
               status: "pending",
-              lastScan: getLocalTodayDateString(
+              lastScan: getLocalDateString(
                 moment().subtract(1, "day").toDate()
               ),
             },
@@ -2178,10 +2178,10 @@ const MOCK_ORDERS_APPOINTMENTS: OrdersCalendar = {
           position: [28.552247353268708, -81.29478167689348],
         },
         {
-          createdAt: getLocalTodayDateString(),
+          createdAt: getLocalDateString(),
           id: "30",
-          start: `${getLocalTodayDateString()}T16:30:00`,
-          end: `${getLocalTodayDateString()}T17:30:00`,
+          start: `${getLocalDateString()}T16:30:00`,
+          end: `${getLocalDateString()}T17:30:00`,
           title: "3 tires installation",
           type: "installation",
           customer: {
@@ -2235,14 +2235,14 @@ const MOCK_ORDERS_APPOINTMENTS: OrdersCalendar = {
             odometer: {
               remarks: [],
               status: "pending",
-              lastScan: getLocalTodayDateString(
+              lastScan: getLocalDateString(
                 moment().subtract(1, "day").toDate()
               ),
             },
             treadDepths: {
               remarks: [],
               status: "pending",
-              lastScan: getLocalTodayDateString(
+              lastScan: getLocalDateString(
                 moment().subtract(1, "day").toDate()
               ),
             },

@@ -4,7 +4,7 @@ import { PreInspection, PreInspectionCheck, PreInspectionCheckStatus } from "@/t
 import { Input } from "@/components/shadcn/input";
 import { ImageIcon, QrCodeIcon } from "lucide-react";
 import { Button } from "@/components/shadcn/button";
-import { getLocalTodayDateString } from "@/utils/date";
+import { getLocalDateString } from "@/utils/date";
 
 
 interface PreInspectionOdometerCheckProps {
@@ -51,7 +51,7 @@ export function PreInspectionOdometerCheck({ data, onClick, status, onPreInspect
             }}
             onBlur={() => {
               const value: number | null = Number(odometerValue) || null
-              onPreInspectionCheckDataChange({ ...data.odometer, odometerValue: value, lastScan: value === null ? prevLastScan : getLocalTodayDateString() }, "odometer")
+              onPreInspectionCheckDataChange({ ...data.odometer, odometerValue: value, lastScan: value === null ? prevLastScan : getLocalDateString() }, "odometer")
               if (value === null) {
                 setOdometerValue("")
               }

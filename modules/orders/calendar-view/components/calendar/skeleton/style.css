@@ -1,7 +1,7 @@
 @import 'tailwindcss/theme.css' layer(theme);
 
 .skeleton .rbc-current-time-indicator {
-  @apply hidden;
+  @apply !hidden;
 }
 
 .skeleton .rbc-time-header-gutter {

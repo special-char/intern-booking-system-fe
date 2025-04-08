@@ -1,4 +1,4 @@
-import { getLocalTodayDateString } from "@/utils/date";
+import { getLocalDateString } from "@/utils/date";
 import { z } from "zod";
 
 export const appointmentFormSchema = z.object({
@@ -26,10 +26,10 @@ export const appointmentFormSchema = z.object({
 })
 
 export const appointmentFormDefaultValues = {
-  date: getLocalTodayDateString(),
+  date: getLocalDateString(),
   event: {
-    start: `${getLocalTodayDateString()}T07:30:00`,
-    end: `${getLocalTodayDateString()}T08:30:00`,
+    start: `${getLocalDateString()}T07:30:00`,
+    end: `${getLocalDateString()}T08:30:00`,
   },
   technician: {
     id: "",

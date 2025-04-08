@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react"
 import { useRouter, useSearchParams } from "next/navigation"
-import { getLocalTodayDateString } from "@/utils/date"
+import { getLocalDateString } from "@/utils/date"
 
 interface UseDateRouteFilterInterface {
   date?: string
@@ -24,7 +24,7 @@ export function useDateRouteFilter({ date }: UseDateRouteFilterInterface): UseDa
   }, [searchParams])
 
   function getCurrentDate(): string {
-    return date ?? searchParams.get("date") ?? getLocalTodayDateString()
+    return date ?? searchParams.get("date") ?? getLocalDateString()
   }
 
   function handleDateChange(newDate: string) {

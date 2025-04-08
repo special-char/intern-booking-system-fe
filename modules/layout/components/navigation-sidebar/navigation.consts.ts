@@ -69,23 +69,15 @@ export const menuItems = {
       ],
     },
     {
-      title: "Territories & hours",
+      title: "Territories & availability",
       url: "#",
       icon: Map,
       isActive: false,
       isExpandable: true,
       items: [
         {
-          title: "Sub-menu 1",
-          url: "#",
-        },
-        {
-          title: "Sub-menu 2",
-          url: "#",
-        },
-        {
-          title: "Sub-menu 3",
-          url: "#",
+          title: "Hours of operation",
+          url: "/territories-availability/hours-of-operation",
         },
       ],
     },

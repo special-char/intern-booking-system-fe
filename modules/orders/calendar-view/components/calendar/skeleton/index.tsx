@@ -9,10 +9,10 @@ import { Calendar } from "@/components/common/calendar";
 import { OrdersCalendar } from "@/types/orders/orders-calendar";
 import { useMemo } from "react";
 import "./style.css";
-import { getLocalTodayDateString } from "@/utils/date";
+import { getLocalDateString } from "@/utils/date";
 
 const LOADING_ORDERS_CALENDAR: OrdersCalendar = {
-  date: getLocalTodayDateString(),
+  date: getLocalDateString(),
   isRouted: true,
   data: [
     {
@@ -23,8 +23,8 @@ const LOADING_ORDERS_CALENDAR: OrdersCalendar = {
       events: [
         {
           id: "1",
-          start: `${getLocalTodayDateString()}T08:00:00`,
-          end: `${getLocalTodayDateString()}T09:00:00`,
+          start: `${getLocalDateString()}T08:00:00`,
+          end: `${getLocalDateString()}T09:00:00`,
           title: "",
           type: "load",
         },
@@ -38,8 +38,8 @@ const LOADING_ORDERS_CALENDAR: OrdersCalendar = {
       events: [
         {
           id: "2",
-          start: `${getLocalTodayDateString()}T08:00:00`,
-          end: `${getLocalTodayDateString()}T09:00:00`,
+          start: `${getLocalDateString()}T08:00:00`,
+          end: `${getLocalDateString()}T09:00:00`,
           title: "",
           type: "load",
         },
@@ -53,8 +53,8 @@ const LOADING_ORDERS_CALENDAR: OrdersCalendar = {
       events: [
         {
           id: "3",
-          start: `${getLocalTodayDateString()}T08:00:00`,
-          end: `${getLocalTodayDateString()}T09:00:00`,
+          start: `${getLocalDateString()}T08:00:00`,
+          end: `${getLocalDateString()}T09:00:00`,
           title: "",
           type: "load",
         },
@@ -68,8 +68,8 @@ const LOADING_ORDERS_CALENDAR: OrdersCalendar = {
       events: [
         {
           id: "4",
-          start: `${getLocalTodayDateString()}T08:00:00`,
-          end: `${getLocalTodayDateString()}T09:00:00`,
+          start: `${getLocalDateString()}T08:00:00`,
+          end: `${getLocalDateString()}T09:00:00`,
           title: "",
           type: "load",
         },
@@ -114,8 +114,8 @@ export function OrdersCalendarSkeleton() {
         views={[Views.DAY]}
         step={60}
         timeslots={1}
-        min={new Date(`${getLocalTodayDateString()}T07:00:00`)}
-        max={new Date(`${getLocalTodayDateString()}T12:00:00`)}
+        min={new Date(`${getLocalDateString()}T07:00:00`)}
+        max={new Date(`${getLocalDateString()}T12:00:00`)}
         components={{
           event: (props) => (
             <Event {...(props as unknown as EventProps)} isLoading />
