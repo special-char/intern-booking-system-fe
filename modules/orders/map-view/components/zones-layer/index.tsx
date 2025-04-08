@@ -4,6 +4,7 @@ import booleanPointInPolygon from "@turf/boolean-point-in-polygon";
 import { zones } from "../consts";
 import { useMemo } from "react";
 import { OrdersCalendar } from "@/types/orders/orders-calendar";
+import "./zones-layer.styles.css";
 
 export function ZonesLayer({
   zoom,
@@ -61,11 +62,7 @@ export function ZonesLayer({
             positions={zone.coordinates}
           >
             <Tooltip direction="center" permanent>
-              <div>
-                <strong>{zone.name}</strong>
-                <br />
-                {markerCount} znaczników
-              </div>
+              <div className="text-xl">{markerCount}</div>
             </Tooltip>
           </Polygon>
         );
