@@ -27,7 +27,7 @@ export function TechnicianTerritoryFilledCellContent({ isLoading = false, onButt
         ))}
         <Button
           variant="ghost"
-          className="bg-white h-8 w-8 p-0 absolute -top-4 right-1.5 transition-all duration-300 opacity-0 group-hover:opacity-100 focus:opacity-100"
+          className="bg-white h-8 w-8 p-0 absolute -top-4 right-1.5 transition-all duration-300 opacity-0 group-hover:opacity-100 focus:opacity-100 z-3"
           onFocus={() => onButtonFocus(true)}
           onBlur={() => onButtonFocus(false)}
           onClick={onClick}
