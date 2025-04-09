@@ -10,14 +10,16 @@ import { TechnicianGridDateCell } from "../header/date-cell";
 import { TechnicianGridTechnicianCell } from "../technician-cell";
 import { TechnicianTerritoryCell } from "../territory-cell";
 import { TechnicianGridWrapper } from "./wrapper";
+import { DateRange } from "@/types/date";
 
 interface TechnicianGridProps {
+  dateRange: DateRange
   technicianHoursOfOperation: TechnicianHoursOfOperation
 }
 
-export function TechnicianGrid({ technicianHoursOfOperation }: TechnicianGridProps) {
+export function TechnicianGrid({ dateRange, technicianHoursOfOperation }: TechnicianGridProps) {
   const [hoveredTechnicianId, setHoveredTechnicianId] = useState<string>("")
-  const weekDays: string[] = getWeekDays(technicianHoursOfOperation.dateRange.from);
+  const weekDays: string[] = getWeekDays(dateRange.from);
 
   function getDateUniqueTerritories(date: string): TechnicianHoursOfOperationTerritory[] {
     const targetDate: Moment = moment(date)

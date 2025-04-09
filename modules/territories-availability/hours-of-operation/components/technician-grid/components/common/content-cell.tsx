@@ -17,7 +17,7 @@ export function TechnicianGridContentCell({ date, className, children, isHighlig
     <div className={
       cn(
         "border-t border-r transition-colors duration-300",
-        isSunday ? "bg-gray-100" : "bg-white",
+        isSunday ? "bg-gray-100 border-t-0" : "bg-white",
         isHighlighted && !isSunday && "bg-primary-50",
         !isSunday && !isLoading && "cursor-pointer",
         className

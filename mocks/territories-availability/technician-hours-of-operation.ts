@@ -19,15 +19,22 @@ export const MOCK_TECHNICIAN_HOURS_OF_OPERATION: TechnicianHoursOfOperation = {
           id: "1",
           name: "West",
           from: `${getLocalDateString(moment().clone().startOf('isoWeek').toDate())}T09:00:00`,
-          to: `${getLocalDateString(moment().clone().startOf('isoWeek').toDate())}T14:00:00`,
+          to: `${getLocalDateString(moment().clone().startOf('isoWeek').toDate())}T13:00:00`,
           color: "rgba(8, 145, 178, 1)"
         },
         {
           id: "3",
           name: "East",
+          from: `${getLocalDateString(moment().clone().startOf('isoWeek').toDate())}T13:00:00`,
+          to: `${getLocalDateString(moment().clone().startOf('isoWeek').toDate())}T14:00:00`,
+          color: "rgba(168, 85, 247, 1)"
+        },
+        {
+          id: "2",
+          name: "South",
           from: `${getLocalDateString(moment().clone().startOf('isoWeek').toDate())}T14:00:00`,
           to: `${getLocalDateString(moment().clone().startOf('isoWeek').toDate())}T19:00:00`,
-          color: "rgba(168, 85, 247, 1)"
+          color: "rgba(236, 72, 153, 1)"
         },
         {
           id: "1",
@@ -35,13 +42,6 @@ export const MOCK_TECHNICIAN_HOURS_OF_OPERATION: TechnicianHoursOfOperation = {
           from: `${getLocalDateString(moment().clone().startOf('isoWeek').add(1, 'd').toDate())}T09:00:00`,
           to: `${getLocalDateString(moment().clone().startOf('isoWeek').add(1, 'd').toDate())}T14:00:00`,
           color: "rgba(8, 145, 178, 1)"
-        },
-        {
-          id: "3",
-          name: "East",
-          from: `${getLocalDateString(moment().clone().startOf('isoWeek').add(1, 'd').toDate())}T14:00:00`,
-          to: `${getLocalDateString(moment().clone().startOf('isoWeek').add(1, 'd').toDate())}T19:00:00`,
-          color: "rgba(168, 85, 247, 1)"
         },
         {
           id: "1",
@@ -56,6 +56,13 @@ export const MOCK_TECHNICIAN_HOURS_OF_OPERATION: TechnicianHoursOfOperation = {
           from: `${getLocalDateString(moment().clone().startOf('isoWeek').add(3, 'd').toDate())}T09:00:00`,
           to: `${getLocalDateString(moment().clone().startOf('isoWeek').add(3, 'd').toDate())}T14:00:00`,
           color: "rgba(8, 145, 178, 1)"
+        },
+        {
+          id: "3",
+          name: "East",
+          from: `${getLocalDateString(moment().clone().startOf('isoWeek').add(3, 'd').toDate())}T14:00:00`,
+          to: `${getLocalDateString(moment().clone().startOf('isoWeek').add(3, 'd').toDate())}T19:00:00`,
+          color: "rgba(168, 85, 247, 1)"
         },
         {
           id: "1",
@@ -87,6 +94,13 @@ export const MOCK_TECHNICIAN_HOURS_OF_OPERATION: TechnicianHoursOfOperation = {
           color: "rgba(8, 145, 178, 1)"
         },
         {
+          id: "1",
+          name: "West",
+          from: `${getLocalDateString(moment().clone().startOf('isoWeek').add(2, 'days').toDate())}T09:00:00`,
+          to: `${getLocalDateString(moment().clone().startOf('isoWeek').add(2, 'days').toDate())}T14:00:00`,
+          color: "rgba(8, 145, 178, 1)"
+        },
+        {
           id: "2",
           name: "South",
           from: `${getLocalDateString(moment().clone().startOf('isoWeek').add(2, 'days').toDate())}T14:00:00`,
@@ -96,15 +110,8 @@ export const MOCK_TECHNICIAN_HOURS_OF_OPERATION: TechnicianHoursOfOperation = {
         {
           id: "3",
           name: "East",
-          from: `${getLocalDateString(moment().clone().startOf('isoWeek').add(2, 'days').toDate())}T14:00:00`,
-          to: `${getLocalDateString(moment().clone().startOf('isoWeek').add(2, 'days').toDate())}T19:00:00`,
-          color: "rgba(168, 85, 247, 1)"
-        },
-        {
-          id: "3",
-          name: "East",
-          from: `${getLocalDateString(moment().clone().startOf('isoWeek').add(3, 'days').toDate())}T14:00:00`,
-          to: `${getLocalDateString(moment().clone().startOf('isoWeek').add(3, 'days').toDate())}T19:00:00`,
+          from: `${getLocalDateString(moment().clone().startOf('isoWeek').add(3, 'days').toDate())}T09:00:00`,
+          to: `${getLocalDateString(moment().clone().startOf('isoWeek').add(3, 'days').toDate())}T14:00:00`,
           color: "rgba(168, 85, 247, 1)"
         },
         {
@@ -117,8 +124,8 @@ export const MOCK_TECHNICIAN_HOURS_OF_OPERATION: TechnicianHoursOfOperation = {
         {
           id: "2",
           name: "South",
-          from: `${getLocalDateString(moment().clone().startOf('isoWeek').add(5, 'days').toDate())}T14:00:00`,
-          to: `${getLocalDateString(moment().clone().startOf('isoWeek').add(5, 'days').toDate())}T19:00:00`,
+          from: `${getLocalDateString(moment().clone().startOf('isoWeek').add(5, 'days').toDate())}T09:00:00`,
+          to: `${getLocalDateString(moment().clone().startOf('isoWeek').add(5, 'days').toDate())}T14:00:00`,
           color: "rgba(236, 72, 153, 1)"
         },
       ]
@@ -132,15 +139,15 @@ export const MOCK_TECHNICIAN_HOURS_OF_OPERATION: TechnicianHoursOfOperation = {
         {
           id: "2",
           name: "South",
-          from: `${getLocalDateString(moment().clone().startOf('isoWeek').toDate())}T14:00:00`,
-          to: `${getLocalDateString(moment().clone().startOf('isoWeek').toDate())}T19:00:00`,
+          from: `${getLocalDateString(moment().clone().startOf('isoWeek').toDate())}T09:00:00`,
+          to: `${getLocalDateString(moment().clone().startOf('isoWeek').toDate())}T14:00:00`,
           color: "rgba(236, 72, 153, 1)"
         },
         {
           id: "3",
           name: "East",
-          from: `${getLocalDateString(moment().clone().startOf('isoWeek').add(1, 'days').toDate())}T14:00:00`,
-          to: `${getLocalDateString(moment().clone().startOf('isoWeek').add(1, 'days').toDate())}T19:00:00`,
+          from: `${getLocalDateString(moment().clone().startOf('isoWeek').add(1, 'days').toDate())}T09:00:00`,
+          to: `${getLocalDateString(moment().clone().startOf('isoWeek').add(1, 'days').toDate())}T14:00:00`,
           color: "rgba(168, 85, 247, 1)"
         },
         {
@@ -153,15 +160,15 @@ export const MOCK_TECHNICIAN_HOURS_OF_OPERATION: TechnicianHoursOfOperation = {
         {
           id: "2",
           name: "South",
-          from: `${getLocalDateString(moment().clone().startOf('isoWeek').add(3, 'days').toDate())}T14:00:00`,
-          to: `${getLocalDateString(moment().clone().startOf('isoWeek').add(3, 'days').toDate())}T19:00:00`,
+          from: `${getLocalDateString(moment().clone().startOf('isoWeek').add(3, 'days').toDate())}T09:00:00`,
+          to: `${getLocalDateString(moment().clone().startOf('isoWeek').add(3, 'days').toDate())}T14:00:00`,
           color: "rgba(236, 72, 153, 1)"
         },
         {
           id: "3",
           name: "East",
-          from: `${getLocalDateString(moment().clone().startOf('isoWeek').add(4, 'days').toDate())}T14:00:00`,
-          to: `${getLocalDateString(moment().clone().startOf('isoWeek').add(4, 'days').toDate())}T19:00:00`,
+          from: `${getLocalDateString(moment().clone().startOf('isoWeek').add(4, 'days').toDate())}T09:00:00`,
+          to: `${getLocalDateString(moment().clone().startOf('isoWeek').add(4, 'days').toDate())}T14:00:00`,
           color: "rgba(168, 85, 247, 1)"
         },
         {
@@ -203,8 +210,8 @@ export const MOCK_TECHNICIAN_HOURS_OF_OPERATION: TechnicianHoursOfOperation = {
         {
           id: "3",
           name: "East",
-          from: `${getLocalDateString(moment().clone().startOf('isoWeek').add(1, 'days').toDate())}T14:00:00`,
-          to: `${getLocalDateString(moment().clone().startOf('isoWeek').add(1, 'days').toDate())}T19:00:00`,
+          from: `${getLocalDateString(moment().clone().startOf('isoWeek').add(1, 'days').toDate())}T09:00:00`,
+          to: `${getLocalDateString(moment().clone().startOf('isoWeek').add(1, 'days').toDate())}T14:00:00`,
           color: "rgba(168, 85, 247, 1)"
         },
         {
@@ -217,15 +224,15 @@ export const MOCK_TECHNICIAN_HOURS_OF_OPERATION: TechnicianHoursOfOperation = {
         {
           id: "3",
           name: "East",
-          from: `${getLocalDateString(moment().clone().startOf('isoWeek').add(3, 'days').toDate())}T14:00:00`,
-          to: `${getLocalDateString(moment().clone().startOf('isoWeek').add(3, 'days').toDate())}T19:00:00`,
+          from: `${getLocalDateString(moment().clone().startOf('isoWeek').add(3, 'days').toDate())}T09:00:00`,
+          to: `${getLocalDateString(moment().clone().startOf('isoWeek').add(3, 'days').toDate())}T14:00:00`,
           color: "rgba(168, 85, 247, 1)"
         },
         {
           id: "3",
           name: "East",
-          from: `${getLocalDateString(moment().clone().startOf('isoWeek').add(4, 'days').toDate())}T14:00:00`,
-          to: `${getLocalDateString(moment().clone().startOf('isoWeek').add(4, 'days').toDate())}T19:00:00`,
+          from: `${getLocalDateString(moment().clone().startOf('isoWeek').add(4, 'days').toDate())}T09:00:00`,
+          to: `${getLocalDateString(moment().clone().startOf('isoWeek').add(4, 'days').toDate())}T14:00:00`,
           color: "rgba(168, 85, 247, 1)"
         },
         {

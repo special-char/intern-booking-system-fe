@@ -21,7 +21,7 @@ export function TechnicianGridTechnicianCell({ isDefaultHover, isLoading = false
         <p className="font-medium line-clamp-1 overflow-hidden text-ellipsis max-w-full">
           {technician.name}
         </p>
-        {!!weeklyTerritories.length && <TerritoryChips className="px-0 justify-start" territories={weeklyTerritories} />}
+        {!!weeklyTerritories.length && <TerritoryChips className="px-0 justify-start" territories={weeklyTerritories} maxVisibleChipsNum={1} />}
         {isLoading && (
           <div className="flex flex-col gap-1.5">
             <Skeleton className="w-[80%] h-7 mb-0" />

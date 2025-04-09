@@ -14,5 +14,5 @@ export async function TechnicianGridTemplate({ dateRange }: TechnicianGridTempla
     return <div>No technician hours of operation found</div>;
   }
 
-  return <TechnicianGrid technicianHoursOfOperation={technicianHoursOfOperation} />
+  return <TechnicianGrid dateRange={dateRange} technicianHoursOfOperation={technicianHoursOfOperation} />
 }

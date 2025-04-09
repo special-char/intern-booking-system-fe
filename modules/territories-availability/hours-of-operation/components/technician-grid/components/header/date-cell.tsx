@@ -1,9 +1,8 @@
 import { cn } from "@/lib/utils";
 import { Territory } from "@/types/territories/territory";
 import moment from "moment";
-import { TechnicianGridHeaderChip } from "./chip";
-import { TerritoryChips } from "../common/territory-chips";
 import { TechnicianGridContentCell } from "../common/content-cell";
+import { TerritoryChips } from "../common/territory-chips";
 
 interface TechnicianGridDateCellProps {
   date: string,
@@ -20,11 +19,11 @@ export function TechnicianGridDateCell({ date, isLoading = false, territories }:
   return (
     <TechnicianGridContentCell
       isHighlighted={false}
-      className="flex flex-col items-center justify-center text-sm gap-2 py-6 border-t-0 cursor-default"
+      className="flex flex-col items-center text-sm gap-2 py-3 border-t-0 cursor-default"
     >
-      <div className="flex gap-3 font-medium items-center">
+      <div className="flex flex-col gap-2 font-medium items-center border-b w-full pb-2">
         <span>{dayLabel}</span>
-        <span className={cn("p-1.5 bg-primary-100 rounded-lg max-h-8", isToday && "bg-transparent border border-dashed border-black")}>
+        <span className={cn("p-1.5 bg-primary-100 rounded-lg max-h-8", isToday && "bg-primary text-white")}>
           {day}
         </span>
       </div>
@@ -32,16 +31,9 @@ export function TechnicianGridDateCell({ date, isLoading = false, territories }:
       <TerritoryChips
         territories={territories}
         className="px-3"
-        isLoading={isLoading && !isSunday}
-      >
-        {isSunday && (
-          <TechnicianGridHeaderChip
-            label="no zones"
-            textClassName="text-secondary"
-            wrapperClassName="bg-gray-50 border-gray-100"
-          />
-        )}
-      </TerritoryChips>
+        maxVisibleChipsNum={2}
+        showNoZones={isSunday || isLoading || !territories.length}
+      />
     </TechnicianGridContentCell>
   );
 }
