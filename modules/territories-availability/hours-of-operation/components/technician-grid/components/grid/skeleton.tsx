@@ -6,12 +6,10 @@ import { TechnicianGridTechnicianCell } from "../technician-cell";
 import { Fragment } from "react";
 import { TechnicianTerritoryCell } from "../territory-cell";
 import { TechnicianGridWrapper } from "./wrapper";
+import { DateRange } from "@/types/date";
 
 interface TechnicianGridSkeletonProps {
-  dateRange: {
-    from: string
-    to: string
-  }
+  dateRange: DateRange
 }
 
 export function TechnicianGridSkeleton({ dateRange }: TechnicianGridSkeletonProps) {

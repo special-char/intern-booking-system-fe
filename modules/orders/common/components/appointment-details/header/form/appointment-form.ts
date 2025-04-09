@@ -1,4 +1,5 @@
 import { getLocalDateString } from "@/utils/date";
+import moment from "moment";
 import { z } from "zod";
 
 export const appointmentFormSchema = z.object({
@@ -10,8 +11,8 @@ export const appointmentFormSchema = z.object({
     })
     .refine(
       (data) => {
-        const startDate = new Date(data.start);
-        const endDate = new Date(data.end);
+        const startDate = moment(data.start).toDate();
+        const endDate = moment(data.end).toDate();
         return startDate < endDate;
       },
       {

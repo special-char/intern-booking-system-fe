@@ -3,13 +3,16 @@
 import { Calendar as DatePicker } from "@/components/shadcn/calendar"
 import { useDateRouteFilter } from "@/hooks/route-filters/use-date-route-filter"
 import { getLocalDateString } from "@/utils/date"
+import moment from "moment"
 
 interface DateFilterProps {
   date?: string
 }
 
 export function DateFilter({ date }: DateFilterProps) {
-  const { date: currentDate, onDateChange } = useDateRouteFilter({ date })
+  const { date: currentDateString, onDateChange } = useDateRouteFilter({ date })
+
+  const currentDate: Date = moment(currentDateString).toDate()
 
   return (
     <DatePicker
@@ -19,7 +22,7 @@ export function DateFilter({ date }: DateFilterProps) {
         const dateFormatted: string = getLocalDateString(date)
         onDateChange(dateFormatted)
       }}
-      selected={new Date(currentDate)}
+      selected={currentDate}
     />
   )
 }

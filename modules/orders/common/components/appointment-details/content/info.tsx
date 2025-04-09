@@ -1,3 +1,4 @@
+import moment from "moment";
 import { AppointmentDetailsInfoWrapper } from "./common/info-wrapper";
 
 interface AppointmentDetailsInfoProps {
@@ -18,7 +19,7 @@ export function AppointmentDetailsInfo({ id, createdAt }: AppointmentDetailsInfo
           day: "numeric",
           month: "long",
           year: "numeric"
-        }).format(new Date(createdAt))}</p>
+        }).format(moment(createdAt).toDate())}</p>
       </div>
     </AppointmentDetailsInfoWrapper>
   );

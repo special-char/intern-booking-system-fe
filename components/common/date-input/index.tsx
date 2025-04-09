@@ -4,6 +4,7 @@ import { Popover, PopoverContent, PopoverTrigger } from "@/components/shadcn/pop
 import { cn } from "@/lib/utils";
 import { getLocalDateString } from "@/utils/date";
 import { PencilIcon } from "lucide-react";
+import moment from "moment";
 import { useState } from "react";
 
 
@@ -16,6 +17,8 @@ interface DateInputProps {
 
 export function DateInput({ date, onChange, dateFormatter, getIsDisabled }: DateInputProps) {
   const [isOpen, setIsOpen] = useState(false);
+
+  const todayDate: Date = moment().toDate()
 
   function handleChange(date?: Date): void {
     onChange(date)
@@ -42,7 +45,7 @@ export function DateInput({ date, onChange, dateFormatter, getIsDisabled }: Date
       <PopoverContent className="w-auto p-0" align="start">
         <Calendar
           mode="single"
-          selected={new Date(date)}
+          selected={todayDate}
           onSelect={handleChange}
           disabled={(date) => getIsDisabled?.(date) ?? false}
         />

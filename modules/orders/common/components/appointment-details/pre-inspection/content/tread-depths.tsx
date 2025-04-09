@@ -1,6 +1,7 @@
 import { ReactElement } from "react";
 import { PreInspectionActionCard } from "./common/action-card";
 import { PreInspection, PreInspectionCheckStatus } from "@/types/orders/pre-inspection";
+import moment from "moment";
 
 interface PreInspectionTreadDepthsCheckProps {
   data: PreInspection
@@ -16,7 +17,7 @@ export function PreInspectionTreadDepthsCheck({ data, onClick, status }: PreInsp
     }
     return (
       <p>
-        Last scan: {new Intl.DateTimeFormat("en-US", { month: "short", day: "numeric", year: "numeric" }).format(new Date(lastScan))}
+        Last scan: {new Intl.DateTimeFormat("en-US", { month: "short", day: "numeric", year: "numeric" }).format(moment(lastScan).toDate())}
       </p>
     )
   }

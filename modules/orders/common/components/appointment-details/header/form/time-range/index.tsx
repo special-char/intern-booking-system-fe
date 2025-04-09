@@ -3,16 +3,17 @@ import { AppointmentDetailsTimeRangePicker } from "./picker";
 import { FormMessage } from "@/components/shadcn/form";
 import { DropdownMenuProps } from "@/components/common/dropdown-menu";
 import { getFormattedHour } from "@/modules/orders/calendar-view/utils";
+import moment from "moment";
 
 export function AppointmentDetailsTimeRange() {
   const { formState: { errors } } = useFormContext();
-  const dateWatch = useWatch({ name: "date" })
+  const dateStringWatch = useWatch({ name: "date" })
 
   const timeSlots: DropdownMenuProps['data'] = generateTimeSlots();
 
   function generateTimeSlots(): DropdownMenuProps['data'] {
     const timeSlots: DropdownMenuProps['data'] = [];
-    const today: string = new Date(dateWatch).toISOString().split('T')[0];
+    const currentDay: string = moment(dateStringWatch).format('YYYY-MM-DD')
     const startHour: number = 7;
     const startMinute: number = 0;
     const endHour: number = 19;
@@ -24,7 +25,7 @@ export function AppointmentDetailsTimeRange() {
     while (currentHour < endHour || (currentHour === endHour && currentMinute <= endMinute)) {
       const formattedHour: string = currentHour.toString().padStart(2, '0');
       const formattedMinute: string = currentMinute.toString().padStart(2, '0');
-      const value: string = `${today}T${formattedHour}:${formattedMinute}:00`
+      const value: string = `${currentDay}T${formattedHour}:${formattedMinute}:00`
       timeSlots.push({
         label: getFormattedHour(value),
         value

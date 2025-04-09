@@ -9,6 +9,7 @@ import { Event } from "../components/event";
 import { AppointmentDetails } from "@/modules/orders/common/components/appointment-details";
 import { useAppointmentsData } from "@/modules/orders/common/hooks/use-appointments-data";
 import { useAppointmentDetails } from "@/modules/orders/common/hooks/use-appointment-details";
+import moment from "moment";
 
 interface OrdersCalendarProps {
   ordersCalendar: OrdersCalendar;
@@ -30,6 +31,9 @@ export function OrdersRegularCalendar({ ordersCalendar }: OrdersCalendarProps) {
     ordersCalendar: ordersCalendarData,
   });
 
+  const minDate: Date = moment(`${ordersCalendarData.date}T07:00:00`).toDate()
+  const maxDate: Date = moment(`${ordersCalendarData.date}T20:00:00`).toDate()
+
   return (
     <>
       <MaxHeightWrapper className="overflow-y-scroll relative">
@@ -42,8 +46,8 @@ export function OrdersRegularCalendar({ ordersCalendar }: OrdersCalendarProps) {
           views={[Views.DAY]}
           step={60}
           timeslots={1}
-          min={new Date(`${ordersCalendarData.date}T07:00:00`)}
-          max={new Date(`${ordersCalendarData.date}T20:00:00`)}
+          min={minDate}
+          max={maxDate}
           onSelectEvent={(e) => {
             if (
               ["lunch", "idle"].some((type) => type === e.originalEvent.type)

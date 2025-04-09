@@ -1,4 +1,5 @@
 import { OrdersCalendar } from "@/types/orders/orders-calendar";
+import moment from "moment";
 
 // unused for now, time range is set in the calendar component (7am - 7pm)
 export function getDailyTimeRange(ordersCalendar: OrdersCalendar) {
@@ -9,8 +10,8 @@ export function getDailyTimeRange(ordersCalendar: OrdersCalendar) {
 
   ordersCalendar.data.forEach(({ events }) => {
     events.forEach((event) => {
-      const startTime: Date = new Date(event.start);
-      const endTime: Date = new Date(event.end);
+      const startTime: Date = moment(event.start).toDate();
+      const endTime: Date = moment(event.end).toDate();
 
       const startTimeHour: number = startTime.getHours();
       const startTimeMinutes: number = startTime.getMinutes();
@@ -36,11 +37,11 @@ export function getDailyTimeRange(ordersCalendar: OrdersCalendar) {
     });
   });
 
-  const minTime: Date = new Date();
+  const minTime: Date = moment().toDate();
   minTime.setHours(earliestHour, 0, 0, 0);
 
   // add 1 hour to the latest time found - for ui purposes
-  const maxTime: Date = new Date();
+  const maxTime: Date = moment().toDate();
   maxTime.setHours(latestHour + 1, 0, 0, 0);
 
   return {
@@ -65,10 +66,10 @@ export function getJobsNum({
       acc +
       curr.events.filter((e) => {
         if (beforeHour) {
-          return e.type === type && new Date(e.start).getHours() < beforeHour;
+          return e.type === type && moment(e.start).hour() < beforeHour;
         }
         if (afterHour) {
-          return e.type === type && new Date(e.start).getHours() > afterHour;
+          return e.type === type && moment(e.start).hour() > afterHour;
         }
         return e.type === type;
       }).length
@@ -82,7 +83,7 @@ export function getFormattedDate(date: string, includeYear?: boolean): string {
     day: "2-digit",
     month: "long",
     year: includeYear ? "numeric" : undefined,
-  }).format(new Date(date));
+  }).format(moment(date).toDate());
 }
 
 export function getFormattedHour(date: string): string {
@@ -90,7 +91,7 @@ export function getFormattedHour(date: string): string {
     hour: "numeric",
     minute: "numeric",
     hour12: true,
-  }).format(new Date(date));
+  }).format(moment(date).toDate());
 }
 
 export function getPreInspectionTitle(checkType: string): string {

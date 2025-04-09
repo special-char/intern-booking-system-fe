@@ -10,6 +10,7 @@ import { OrdersCalendar } from "@/types/orders/orders-calendar";
 import { useMemo } from "react";
 import "./style.css";
 import { getLocalDateString } from "@/utils/date";
+import moment from "moment";
 
 const LOADING_ORDERS_CALENDAR: OrdersCalendar = {
   date: getLocalDateString(),
@@ -84,14 +85,14 @@ export function OrdersCalendarSkeleton() {
       events.map((event) => ({
         id: event.id,
         title: event.title,
-        start: new Date(event.start),
-        end: new Date(event.end),
+        start: moment(event.start).toDate(),
+        end: moment(event.end).toDate(),
         type: event.type,
         resourceId: technician.id,
         originalEvent: event,
         technician,
       }))
-    );
+    )
   }, [LOADING_ORDERS_CALENDAR]);
 
   const resources = useMemo(() => {
@@ -105,6 +106,9 @@ export function OrdersCalendarSkeleton() {
     }));
   }, [LOADING_ORDERS_CALENDAR]);
 
+  const minDate: Date = moment(`${getLocalDateString()}T07:00:00`).toDate();
+  const maxDate: Date = moment(`${getLocalDateString()}T12:00:00`).toDate();
+
   return (
     <div className="skeleton max-h-[50vh] overflow-y-scroll">
       <Calendar
@@ -114,8 +118,8 @@ export function OrdersCalendarSkeleton() {
         views={[Views.DAY]}
         step={60}
         timeslots={1}
-        min={new Date(`${getLocalDateString()}T07:00:00`)}
-        max={new Date(`${getLocalDateString()}T12:00:00`)}
+        min={minDate}
+        max={maxDate}
         components={{
           event: (props) => (
             <Event {...(props as unknown as EventProps)} isLoading />

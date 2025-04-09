@@ -1,14 +1,13 @@
+import { DateRange } from "@/types/date";
+import moment from "moment";
 
 interface HeaderProps {
-  dateRange: {
-    from: string
-    to: string
-  }
+  dateRange: DateRange
 }
 
 export function Header({ dateRange }: HeaderProps) {
-  const fromDate: Date = new Date(dateRange.from);
-  const toDate: Date = new Date(dateRange.to);
+  const fromDate: Date = moment(dateRange.from).toDate();
+  const toDate: Date = moment(dateRange.to).toDate();
 
   const dayFormatter: Intl.DateTimeFormat = new Intl.DateTimeFormat('en-US', { day: '2-digit' });
   const monthFormatter: Intl.DateTimeFormat = new Intl.DateTimeFormat('en-US', { month: 'long' });

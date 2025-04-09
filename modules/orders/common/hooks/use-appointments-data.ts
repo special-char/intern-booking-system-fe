@@ -1,4 +1,5 @@
 import { OrdersCalendar } from "@/types/orders/orders-calendar";
+import moment from "moment";
 import { useMemo } from "react";
 
 interface UseCalendarDataInterface {
@@ -13,7 +14,7 @@ export function useAppointmentsData({
       events.map((event) => ({
         createdAt: event.createdAt,
         customer: event.customer,
-        end: new Date(event.end),
+        end: moment(event.end).toDate(),
         id: event.id,
         invoice: event.invoice,
         location: event.location,
@@ -21,7 +22,7 @@ export function useAppointmentsData({
         originalEvent: event,
         preInspection: event.preInspection,
         resourceId: technician.id,
-        start: new Date(event.start),
+        start: moment(event.start).toDate(),
         status: event.status,
         subTitle: event.subTitle,
         technician,

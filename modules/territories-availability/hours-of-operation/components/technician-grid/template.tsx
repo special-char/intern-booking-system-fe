@@ -1,12 +1,10 @@
 import { getTechnicianHoursOfOperation } from "@/mocks/territories-availability/technician-hours-of-operation"
 import { TechnicianGrid } from "./components/grid"
 import { TechnicianHoursOfOperation } from "@/types/territories/technician-hours-of-operation"
+import { DateRange } from "@/types/date"
 
 interface TechnicianGridTemplateProps {
-  dateRange: {
-    from: string
-    to: string
-  }
+  dateRange: DateRange
 }
 
 export async function TechnicianGridTemplate({ dateRange }: TechnicianGridTemplateProps) {

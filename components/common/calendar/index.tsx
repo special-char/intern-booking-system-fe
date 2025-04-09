@@ -20,14 +20,15 @@ export function Calendar<TEvent extends object, TResource extends object>({
   timeIndicatorInterval,
   ...props
 }: CalendarProps<TEvent, TResource>) {
-  const [currentTime, setCurrentTime] = useState(new Date());
+  const todayDate: Date = moment().toDate()
+  const [currentTime, setCurrentTime] = useState(todayDate);
 
   useEffect(() => {
     if (!timeIndicatorInterval && timeIndicatorInterval !== 0) {
       return;
     }
     const interval: NodeJS.Timeout = setInterval(() => {
-      setCurrentTime(new Date());
+      setCurrentTime(todayDate);
     }, timeIndicatorInterval);
 
     return () => clearInterval(interval);

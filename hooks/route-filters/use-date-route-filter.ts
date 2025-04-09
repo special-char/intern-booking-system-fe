@@ -24,17 +24,12 @@ export function useDateRouteFilter({ date }: UseDateRouteFilterInterface): UseDa
   }, [searchParams])
 
   function getCurrentDate(): string {
-    return date ?? searchParams.get("date") ?? getLocalDateString()
+    return searchParams.get("date") ?? date ?? getLocalDateString()
   }
 
   function handleDateChange(newDate: string) {
-    const params: URLSearchParams = new URLSearchParams()
-
-    searchParams.forEach((value, key) => {
-      if (key !== "date") {
-        params.set(key, value)
-      }
-    })
+    const params: URLSearchParams = new URLSearchParams(searchParams.toString())
+    params.delete("date")
 
     params.set("date", newDate)
     setCurrentDate(newDate)

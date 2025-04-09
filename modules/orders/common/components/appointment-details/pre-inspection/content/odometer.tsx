@@ -5,6 +5,7 @@ import { Input } from "@/components/shadcn/input";
 import { ImageIcon, QrCodeIcon } from "lucide-react";
 import { Button } from "@/components/shadcn/button";
 import { getLocalDateString } from "@/utils/date";
+import moment from "moment";
 
 
 interface PreInspectionOdometerCheckProps {
@@ -25,7 +26,7 @@ export function PreInspectionOdometerCheck({ data, onClick, status, onPreInspect
     }
     return (
       <p>
-        Last scan: {new Intl.DateTimeFormat("en-US", { month: "short", day: "numeric", year: "numeric" }).format(new Date(lastScan))}
+        Last scan: {new Intl.DateTimeFormat("en-US", { month: "short", day: "numeric", year: "numeric" }).format(moment(lastScan).toDate())}
       </p>
     )
   }

@@ -1,3 +1,4 @@
+import { DateRange } from "@/types/date";
 import { TechnicianHoursOfOperation } from "@/types/territories/technician-hours-of-operation";
 import { getLocalDateString, getLocalEndWeekDateString, getLocalStartWeekDateString } from "@/utils/date";
 import moment from "moment";
@@ -254,7 +255,7 @@ async function mockFetchTechnicianHoursOfOperation(): Promise<TechnicianHoursOfO
   });
 }
 
-export async function getTechnicianHoursOfOperation(dateRange: { from: string, to: string }): Promise<TechnicianHoursOfOperation | null> {
+export async function getTechnicianHoursOfOperation(dateRange: DateRange): Promise<TechnicianHoursOfOperation | null> {
   try {
     const technicianHoursOfOperation: TechnicianHoursOfOperation = await mockFetchTechnicianHoursOfOperation()
     const isThisWeek: boolean = moment(dateRange.from).isSame(moment(), 'isoWeek');

@@ -18,7 +18,7 @@ export function AppointmentDetailsDate() {
         <FormItem className="flex flex-col">
           <FormLabel>Appointment date</FormLabel>
           <DateInput
-            date={new Date(field.value)}
+            date={moment(field.value).toDate()}
             onChange={(date?: Date) => {
               const dateFormatted: string = getLocalDateString(date)
               const currentStart: string = form.getValues("event.start");

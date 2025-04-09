@@ -4,6 +4,7 @@ import { useWatch } from "react-hook-form";
 import { RemarksFormType } from "..";
 import { ImageGallery } from "@/components/common/image-gallery";
 import { ReactElement } from "react";
+import moment from "moment";
 
 interface RemarkPreviewProps {
   index: number
@@ -29,7 +30,7 @@ export function RemarkPreview({ index, onDelete, onEdit }: RemarkPreviewProps) {
       minute: "2-digit",
       second: "2-digit",
       hour12: false,
-    }).format(new Date(date));
+    }).format(moment(date).toDate());
 
     return (
       <p className="text-xs text-secondary font-normal">

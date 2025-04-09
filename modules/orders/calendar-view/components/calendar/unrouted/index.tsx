@@ -9,6 +9,7 @@ import { HourSlot } from "../components/hour-slot";
 import { UnroutedOverlay } from "../components/unrouted-overlay";
 import "./style.css";
 import { useAppointmentsData } from "@/modules/orders/common/hooks/use-appointments-data";
+import moment from "moment";
 
 interface OrdersUnroutedCalendarProps {
   ordersCalendar: OrdersCalendar;
@@ -18,6 +19,9 @@ export function OrdersUnroutedCalendar({
   ordersCalendar,
 }: OrdersUnroutedCalendarProps) {
   const { events, resources } = useAppointmentsData({ ordersCalendar });
+
+  const minDate: Date = moment(`${ordersCalendar.date}T07:00:00`).toDate();
+  const maxDate: Date = moment(`${ordersCalendar.date}T20:00:00`).toDate();
 
   return (
     <MaxHeightWrapper className="unrouted overflow-y-scroll relative">
@@ -30,8 +34,8 @@ export function OrdersUnroutedCalendar({
         views={[Views.DAY]}
         step={60}
         timeslots={1}
-        min={new Date(`${ordersCalendar.date}T07:00:00`)}
-        max={new Date(`${ordersCalendar.date}T20:00:00`)}
+        min={minDate}
+        max={maxDate}
         components={{
           event: Event,
           resourceHeader: TechnicianHeader,
