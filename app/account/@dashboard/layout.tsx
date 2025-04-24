@@ -1,4 +1,4 @@
-import "@/app/globals.css";
+
 
 import { SidebarProvider } from "@/components/shadcn/sidebar";
 import { NavigationSidebar } from "@/modules/layout/components/navigation-sidebar";
