@@ -3,6 +3,20 @@ import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
   /* config options here */
+  async rewrites() {
+    return [
+      {
+        source: '/((?!admin|api))tenant-domains/:path*',
+        destination: '/tenant-domains/:tenant/:path*',
+        has: [
+          {
+            type: 'host',
+            value: '(?<tenant>.*)',
+          },
+        ],
+      },
+    ]
+  },
 };
 
 export default withPayload(nextConfig);
