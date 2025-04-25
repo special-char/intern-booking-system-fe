@@ -14,7 +14,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/shadcn/dropdown-menu";
 import { Logo } from "@/icons/logo";
-import { logout } from "@/lib/data/cookies";
+import { logout } from "@/lib/data/admin";
 // import { getUser } from "@/lib/data/admin";
 
 interface User {
@@ -104,12 +104,13 @@ export async function Header() {
                 </DropdownMenuLabel>
               </DropdownMenuGroup>
               <DropdownMenuSeparator className="border-border-primary" />
-              <DropdownMenuItem
-                className="flex items-center justify-between"
-                onClick={logout}
-              >
-                Logout
-                <LogOutIcon />
+              <DropdownMenuItem>
+                <form action={logout}>
+                  <button type="submit" className="flex items-center justify-between">
+                    Logout
+                    <LogOutIcon />
+                  </button>
+                </form>
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>

@@ -3,7 +3,7 @@
 import { redirect } from "next/navigation";
 import { getAuthHeaders } from "./cookies";
 import { rest } from "@/app/(app)/_providers/Auth/rest";
-import { headers as getHeaders } from 'next/headers'
+import { cookies, headers as getHeaders } from 'next/headers'
 import { getPayload } from 'payload'
 import config from '@payload-config'
 
@@ -27,6 +27,18 @@ export async function login(
     return error.toString();
   }
 
+  redirect("/");
+}
+
+export async function logout() {
+  const cookieStore = await cookies();
+  await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/users/logout`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  })
+  cookieStore.delete("payload-token");
   redirect("/");
 }
 
