@@ -15,7 +15,7 @@ import {
 } from "@/components/shadcn/dropdown-menu";
 import { Logo } from "@/icons/logo";
 import { logout } from "@/lib/data/cookies";
-import { getUser } from "@/lib/data/admin";
+// import { getUser } from "@/lib/data/admin";
 
 interface User {
   name: string;
@@ -40,12 +40,9 @@ function getInitials(name: string) {
 }
 
 export async function Header() {
-  const { user } = await getUser()
+  // const { user } = await getUser()
 
-  console.log({user});
-
-  return null
-  
+  // console.log({user});
   return (
     <header className="flex sticky top-0 z-50 w-full items-center border-b bg-indigo-950">
       <div className="flex h-[var(--header-height)] w-full items-center gap-2 px-9">

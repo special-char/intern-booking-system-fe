@@ -17,7 +17,7 @@ export async function login(
   const tenantDomain = extras.tenantDomain as string;
 
   try {
-    await rest(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/users/login`, {
+    await rest(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/users/external-users/login`, {
       email,
       password,
       tenantDomain,
