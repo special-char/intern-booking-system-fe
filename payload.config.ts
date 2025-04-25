@@ -46,6 +46,8 @@ export default buildConfig({
     multiTenantPlugin<Config>({
       collections: {
         pages: {},
+        technicians: {},
+        vans: {},
       },
       tenantField: {
         access: {

@@ -69,6 +69,7 @@ const Users: CollectionConfig = {
       type: 'upload',
       relationTo: 'media',
     },
+
     {
       ...defaultTenantArrayField,
       admin: {

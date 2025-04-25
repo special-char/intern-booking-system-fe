@@ -1,16 +1,15 @@
-import { create } from 'domain'
+
 import type { CollectionConfig } from 'payload'
-import { isSuperAdminAccess } from '@/access/isSuperAdmin'
-import { title } from 'process'
+import { superAdminOrTenantAdminAccess } from '../Pages/access/superAdminOrTenantAdmin'
 
 
 export const Technicians: CollectionConfig = {
     slug: 'technicians',
     access: {
-        create: ({ req }) => Boolean(req.user),
-        read: ({ req }) => Boolean(req.user),
-        update: ({ req }) => Boolean(req.user),
-        delete: isSuperAdminAccess,
+        create: superAdminOrTenantAdminAccess,
+        delete: superAdminOrTenantAdminAccess,
+        read: () => true,
+        update: superAdminOrTenantAdminAccess,
     },
     admin: {
         useAsTitle: 'name',
@@ -31,9 +30,7 @@ export const Technicians: CollectionConfig = {
             name: 'password',
             type: 'text',
             required: true,
-            access: {
-                read: ({ req: { user } }: { req: any }) => user?.roles[0] === 'super-admin',
-            },
+
         },
         {
             name: 'mobilePhone',
@@ -56,10 +53,12 @@ export const Technicians: CollectionConfig = {
             relationTo: 'vans',
             hasMany: true,
         },
+
     ],
     hooks: {
         afterChange: [
             async ({ doc, req, operation }) => {
+                const tenantId = (req?.user?.tenants?.[0]?.tenant as any).id;
                 if (operation === 'create' && doc.email && doc.password) {
                     try {
                         await req.payload.create({
@@ -70,7 +69,10 @@ export const Technicians: CollectionConfig = {
                                 roles: ['technician'],
                                 name: doc.name,
                                 profilePhoto: doc.profilePhoto,
-
+                                tenants: [{
+                                    tenant: tenantId,
+                                    roles: ['tenant-viewer']
+                                }]
                             },
                         })
                     } catch (error) {

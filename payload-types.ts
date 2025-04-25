@@ -211,6 +211,7 @@ export interface Media {
  */
 export interface Van {
   id: number;
+  tenant?: (number | null) | Tenant;
   vehicleId: string;
   /**
    * Enter the year and make (e.g., 2023 Mercedes Sprinter)
@@ -235,6 +236,7 @@ export interface Van {
  */
 export interface Technician {
   id: number;
+  tenant?: (number | null) | Tenant;
   name: string;
   email: string;
   password: string;
@@ -371,6 +373,7 @@ export interface TenantsSelect<T extends boolean = true> {
  * via the `definition` "vans_select".
  */
 export interface VansSelect<T extends boolean = true> {
+  tenant?: T;
   vehicleId?: T;
   yearMake?: T;
   modelTrim?: T;
@@ -402,6 +405,7 @@ export interface MediaSelect<T extends boolean = true> {
  * via the `definition` "technicians_select".
  */
 export interface TechniciansSelect<T extends boolean = true> {
+  tenant?: T;
   name?: T;
   email?: T;
   password?: T;

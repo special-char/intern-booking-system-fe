@@ -1,4 +1,5 @@
 import { isSuperAdmin } from '@/access/isSuperAdmin'
+import { isUser } from '@/access/isUser'
 import { getUserTenantIDs } from '@/utilities/getUserTenantIDs'
 import { Access } from 'payload'
 
@@ -10,7 +11,7 @@ export const superAdminOrTenantAdminAccess: Access = ({ req }) => {
     return false
   }
 
-  if (isSuperAdmin(req.user)) {
+  if (isSuperAdmin(req.user) || isUser(req.user)) {
     return true
   }
 

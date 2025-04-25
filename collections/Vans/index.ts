@@ -1,16 +1,14 @@
-import { create } from 'domain'
 import type { CollectionConfig } from 'payload'
-import { createAndUpdateAccess } from './access/createAndUpdate'
-import { isSuperAdminAccess } from '@/access/isSuperAdmin'
+import { superAdminOrTenantAdminAccess } from '../Pages/access/superAdminOrTenantAdmin'
 
 
 export const Vans: CollectionConfig = {
     slug: 'vans',
     access: {
-        create: createAndUpdateAccess,
-        read: ({ req }) => Boolean(req.user),
-        update: createAndUpdateAccess,
-        delete: isSuperAdminAccess,
+        create: superAdminOrTenantAdminAccess,
+        delete: superAdminOrTenantAdminAccess,
+        read: () => true,
+        update: superAdminOrTenantAdminAccess,
     },
     admin: {
         useAsTitle: 'modelTrim',

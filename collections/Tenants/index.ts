@@ -1,7 +1,7 @@
 import type { CollectionConfig } from 'payload'
-
 import { isSuperAdminAccess } from '@/access/isSuperAdmin'
 import { updateAndDeleteAccess } from './access/updateAndDelete'
+import { afterTenantCreate } from './hooks/afterTenantCreate'
 
 export const Tenants: CollectionConfig = {
   slug: 'tenants',
@@ -47,5 +47,30 @@ export const Tenants: CollectionConfig = {
       defaultValue: false,
       index: true,
     },
+    {
+      name: 'salesChannelId',
+      type: 'text',
+      admin: {
+        readOnly: true,
+        position: 'sidebar',
+        description: 'The Medusa Sales Channel ID associated with this tenant.',
+      },
+      index: true,
+    },
+    {
+      name: 'publishableApiKey',
+      type: 'text',
+      admin: {
+        readOnly: true,
+        position: 'sidebar',
+        description: 'Publishable API Key associated with this tenant.',
+      },
+      index: true,
+    },
   ],
+  hooks: {
+    afterChange: [
+      afterTenantCreate,
+    ],
+  },
 }
