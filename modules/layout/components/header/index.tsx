@@ -15,7 +15,7 @@ import {
 } from "@/components/shadcn/dropdown-menu";
 import { Logo } from "@/icons/logo";
 import { logout } from "@/lib/data/admin";
-// import { getUser } from "@/lib/data/admin";
+import { getUser } from "@/lib/data/admin";
 
 interface User {
   name: string;
@@ -25,11 +25,11 @@ interface User {
 }
 
 // Example user data - in a real app this would come from your auth system
-const user: User = {
-  name: "Kal Gohil",
-  email: "kal.gohil@gmail.com",
-  storeId: "25685652",
-};
+// const user: User = {
+//   name: "Kal Gohil",
+//   email: "kal.gohil@gmail.com",
+//   storeId: "25685652",
+// };
 
 function getInitials(name: string) {
   return name
@@ -40,9 +40,8 @@ function getInitials(name: string) {
 }
 
 export async function Header() {
-  // const { user } = await getUser()
+  const { user } = await getUser()
 
-  // console.log({user});
   return (
     <header className="flex sticky top-0 z-50 w-full items-center border-b bg-indigo-950">
       <div className="flex h-[var(--header-height)] w-full items-center gap-2 px-9">
@@ -59,9 +58,9 @@ export async function Header() {
             <DropdownMenuTrigger asChild>
               <Button variant="ghost" className="relative h-9 w-9 rounded-full">
                 <Avatar className="h-9 w-9">
-                  {user.avatarUrl ? (
+                  {user.profilePhoto ? (
                     <Image
-                      src={user.avatarUrl}
+                      src={user.profilePhoto.url}
                       alt="User avatar"
                       width={36}
                       height={36}

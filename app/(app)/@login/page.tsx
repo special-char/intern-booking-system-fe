@@ -3,8 +3,9 @@ import { headers } from "next/headers";
 
 export default async function LoginPage() {
   const headersList = await headers();
-  const host = headersList.get("host");
+  const host = headersList.get("x-forwarded-host");
   const tenantDomain = host?.split(":")[0];
+  
 
   return (
     <div className="flex min-h-svh w-full items-center justify-center p-6 md:p-10">
