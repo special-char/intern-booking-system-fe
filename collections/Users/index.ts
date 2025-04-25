@@ -49,7 +49,7 @@ const Users: CollectionConfig = {
       type: 'select',
       defaultValue: ['user'],
       hasMany: true,
-      options: ['super-admin', 'user'],
+      options: ['super-admin', 'user', 'technician'],
       access: {
         update: ({ req }) => {
           return isSuperAdmin(req.user)
@@ -57,12 +57,17 @@ const Users: CollectionConfig = {
       },
     },
     {
-      name: 'username',
+      name: 'name',
       type: 'text',
-      hooks: {
-        beforeValidate: [ensureUniqueUsername],
-      },
+      // hooks: {
+      //   beforeValidate: [ensureUniqueUsername],
+      // },
       index: true,
+    },
+    {
+      name: 'profilePhoto',
+      type: 'upload',
+      relationTo: 'media',
     },
     {
       ...defaultTenantArrayField,
