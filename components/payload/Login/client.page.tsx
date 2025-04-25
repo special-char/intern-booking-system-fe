@@ -52,7 +52,7 @@ export const Login = ({ tenantSlug, tenantDomain }: Props) => {
         if (tenantDomain) {
           router.push('/')
         } else {
-          router.push(`/tenant-slugs/${tenantSlug}`)
+          router.push(`/${tenantSlug}`)
         }
       }
     } else if (actionRes.status === 400 && json?.errors?.[0]?.message) {
@@ -81,7 +81,5 @@ export const Login = ({ tenantSlug, tenantDomain }: Props) => {
         <button type="submit">Login</button>
       </form>
     </div>
-
-
   )
 }

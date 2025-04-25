@@ -16,9 +16,14 @@ import { login } from "@/lib/data/admin";
 
 export function LoginForm({
   className,
+  tenantDomain,
   ...props
-}: React.ComponentPropsWithoutRef<"div">) {
-  const [message, formAction] = useActionState(login, null);
+}: React.ComponentPropsWithoutRef<"div"> & { tenantDomain?: string }) {
+  const sendEmailWithCaptchaToken = login.bind(null, {
+    tenantDomain,
+  });
+
+  const [message, formAction] = useActionState(sendEmailWithCaptchaToken, null);
 
   return (
     <div className={cn("flex flex-col gap-6", className)} {...props}>

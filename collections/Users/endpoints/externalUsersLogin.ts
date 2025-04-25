@@ -1,7 +1,5 @@
 import type { Collection, Endpoint } from 'payload'
-
-import { headersWithCors } from '@payloadcms/next/utilities'
-import { APIError, generatePayloadCookie } from 'payload'
+import { APIError, generatePayloadCookie, headersWithCors } from 'payload'
 
 // A custom endpoint that can be reached by POST request
 // at: /api/users/external-users/login
@@ -16,26 +14,20 @@ export const externalUsersLogin: Endpoint = {
     } catch (error) {
       // swallow error, data is already empty object
     }
-    const { password, tenantSlug, tenantDomain, username } = data
+    const { password, tenantDomain, email } = data
 
-    if (!username || !password) {
-      throw new APIError('Username and Password are required for login.', 400, null, true)
+    if (!email || !password) {
+      throw new APIError('email and Password are required for login.', 400, null, true)
     }
 
     const fullTenant = (
       await req.payload.find({
         collection: 'tenants',
-        where: tenantDomain
-          ? {
-              domain: {
-                equals: tenantDomain,
-              },
-            }
-          : {
-              slug: {
-                equals: tenantSlug,
-              },
-            },
+        where: {
+          domain: {
+            equals: tenantDomain,
+          },
+        },
       })
     ).docs[0]
 
@@ -47,7 +39,7 @@ export const externalUsersLogin: Endpoint = {
             and: [
               {
                 email: {
-                  equals: username,
+                  equals: email,
                 },
               },
               {
@@ -60,8 +52,8 @@ export const externalUsersLogin: Endpoint = {
           {
             and: [
               {
-                username: {
-                  equals: username,
+                email: {
+                  equals: email,
                 },
               },
               {
@@ -108,14 +100,14 @@ export const externalUsersLogin: Endpoint = {
         }
 
         throw new APIError(
-          'Unable to login with the provided username and password.',
+          'Unable to login with the provided email and password.',
           400,
           null,
           true,
         )
       } catch (e) {
         throw new APIError(
-          'Unable to login with the provided username and password.',
+          'Unable to login with the provided email and password.',
           400,
           null,
           true,
@@ -123,7 +115,7 @@ export const externalUsersLogin: Endpoint = {
       }
     }
 
-    throw new APIError('Unable to login with the provided username and password.', 400, null, true)
+    throw new APIError('Unable to login with the provided email and password.', 400, null, true)
   },
   method: 'post',
   path: '/external-users/login',

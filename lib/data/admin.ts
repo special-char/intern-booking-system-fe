@@ -1,26 +1,33 @@
 "use server";
 
-import { revalidateTag } from "next/cache";
-import { sdk } from "../config";
-import { getCacheTag, setAuthToken, getAuthHeaders } from "./cookies";
+import { redirect } from "next/navigation";
+import { getAuthHeaders } from "./cookies";
+import { rest } from "@/app/(app)/_providers/Auth/rest";
+import { headers as getHeaders } from 'next/headers'
+import { getPayload } from 'payload'
+import config from '@payload-config'
 
-export async function login(_currentState: unknown, formData: FormData) {
+export async function login(
+  extras: { tenantDomain?: string },
+  _currentState: unknown,
+  formData: FormData
+) {
   const email = formData.get("email") as string;
   const password = formData.get("password") as string;
+  const tenantDomain = extras.tenantDomain as string;
 
   try {
-    await sdk.auth
-      .login("user", "emailpass", { email, password })
-      .then(async (token) => {
-        await setAuthToken(token as string);
-        const customerCacheTag = await getCacheTag("admin");
-        revalidateTag(customerCacheTag);
-      });
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    await rest(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/users/login`, {
+      email,
+      password,
+      tenantDomain,
+    });
   } catch (error: any) {
     console.log("error: ", error);
     return error.toString();
   }
+
+  redirect("/");
 }
 
 export async function refreshAdmin(): Promise<boolean> {
@@ -47,4 +54,20 @@ export async function refreshAdmin(): Promise<boolean> {
     console.log("error: ", error);
     return false;
   }
+}
+
+export async function getUser() {
+
+  const headers = await getHeaders()
+  const payload = await getPayload({ config })
+  return await payload.auth({ headers })
+
+  // const user = await rest(
+  //   `${process.env.NEXT_PUBLIC_SERVER_URL}/api/users/me`,
+  //   {},
+  //   {
+  //     method: 'GET',
+  //   },
+  // )
+  // return user;
 }

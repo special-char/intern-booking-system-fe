@@ -6,8 +6,8 @@ const nextConfig: NextConfig = {
   async rewrites() {
     return [
       {
-        source: '/((?!admin|api))tenant-domains/:path*',
-        destination: '/tenant-domains/:tenant/:path*',
+        source: '/((?!admin|api)):path*',
+        destination: '/:tenant/:path*',
         has: [
           {
             type: 'host',

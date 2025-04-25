@@ -1,4 +1,14 @@
+import { headers as getHeaders } from 'next/headers'
+import { getPayload } from "payload"
+import config from '../../payload.config'
+
 export default async ({ params: paramsPromise }: { params: Promise<{ slug: string[] }> }) => {
+  const headers = await getHeaders()
+  const payload = await getPayload({ config })
+  const { permissions, user } = await payload.auth({ headers })
+
+  console.log(permissions, user)
+
   return (
     <div>
       <h1>Multi-Tenant Example</h1>
@@ -10,8 +20,8 @@ export default async ({ params: paramsPromise }: { params: Promise<{ slug: strin
       <p>When you visit a tenant by domain, the domain is used to determine the tenant.</p>
       <p>
         For example, visiting{' '}
-        <a href="http://gold.localhost:3000/tenant-domains/login">
-          http://gold.localhost:3000/tenant-domains/login
+        <a href="http://gold.localhost:3000/login">
+          http://gold.localhost:3000/login
         </a>{' '}
         will show the tenant with the domain "gold.localhost".
       </p>
@@ -20,8 +30,8 @@ export default async ({ params: paramsPromise }: { params: Promise<{ slug: strin
       <p>When you visit a tenant by slug, the slug is used to determine the tenant.</p>
       <p>
         For example, visiting{' '}
-        <a href="http://localhost:3000/tenant-slugs/silver/login">
-          http://localhost:3000/tenant-slugs/silver/login
+        <a href="http://localhost:3000/silver/login">
+          http://localhost:3000/silver/login
         </a>{' '}
         will show the tenant with the slug "silver".
       </p>

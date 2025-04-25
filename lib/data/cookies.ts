@@ -19,10 +19,10 @@ export const getAuthHeaders = async (): Promise<
   return { authorization: `Bearer ${token}` };
 };
 
-export const setAuthToken = async (token: string) => {
+export const setAuthToken = async (token: string, maxAge: number) => {
   const cookies = await nextCookies();
-  cookies.set("_medusa_jwt", token, {
-    maxAge: 60 * 60 * 24 * 7,
+  cookies.set("payload-token", token, {
+    maxAge: maxAge,
     httpOnly: true,
     sameSite: "strict",
     secure: process.env.NODE_ENV === "production",

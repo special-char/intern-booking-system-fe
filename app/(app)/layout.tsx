@@ -1,9 +1,8 @@
-import { refreshAdmin } from "@/lib/data/admin";
-import { redirect } from "next/navigation";
-
+import "./globals.css";
 import { Geist, Geist_Mono } from "next/font/google";
 import { Metadata } from "next";
-import { Providers } from "./account/providers";
+import { Providers } from "./providers";
+import { getUser } from "@/lib/data/admin";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -21,17 +20,20 @@ export const metadata: Metadata = {
 };
 
 export default async function Layout({
-
-  children,
+  dashboard,
+  login,
 }: {
-  children: React.ReactNode;
+  dashboard: React.ReactNode;
+  login: React.ReactNode;
 }) {
+  const { user } = await getUser()
+
   return (
     <html lang="en">
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        {children}
+        <Providers>{user ? dashboard : login}</Providers>
       </body>
     </html>
   );
