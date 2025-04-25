@@ -70,15 +70,25 @@ export interface Config {
     pages: Page;
     users: User;
     tenants: Tenant;
+    vans: Van;
+    media: Media;
+    technicians: Technician;
     'payload-locked-documents': PayloadLockedDocument;
     'payload-preferences': PayloadPreference;
     'payload-migrations': PayloadMigration;
   };
-  collectionsJoins: {};
+  collectionsJoins: {
+    vans: {
+      technician: 'technicians';
+    };
+  };
   collectionsSelect: {
     pages: PagesSelect<false> | PagesSelect<true>;
     users: UsersSelect<false> | UsersSelect<true>;
     tenants: TenantsSelect<false> | TenantsSelect<true>;
+    vans: VansSelect<false> | VansSelect<true>;
+    media: MediaSelect<false> | MediaSelect<true>;
+    technicians: TechniciansSelect<false> | TechniciansSelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
     'payload-preferences': PayloadPreferencesSelect<false> | PayloadPreferencesSelect<true>;
     'payload-migrations': PayloadMigrationsSelect<false> | PayloadMigrationsSelect<true>;
@@ -155,8 +165,9 @@ export interface Tenant {
  */
 export interface User {
   id: number;
-  roles?: ('super-admin' | 'user')[] | null;
-  username?: string | null;
+  roles?: ('super-admin' | 'user' | 'technician')[] | null;
+  name?: string | null;
+  profilePhoto?: (number | null) | Media;
   tenants?:
     | {
         tenant: number | Tenant;
@@ -177,6 +188,65 @@ export interface User {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "media".
+ */
+export interface Media {
+  id: number;
+  alt: string;
+  updatedAt: string;
+  createdAt: string;
+  url?: string | null;
+  thumbnailURL?: string | null;
+  filename?: string | null;
+  mimeType?: string | null;
+  filesize?: number | null;
+  width?: number | null;
+  height?: number | null;
+  focalX?: number | null;
+  focalY?: number | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "vans".
+ */
+export interface Van {
+  id: number;
+  vehicleId: string;
+  /**
+   * Enter the year and make (e.g., 2023 Mercedes Sprinter)
+   */
+  yearMake: string;
+  /**
+   * Enter the model and trim (e.g., 3501 LWB Extra high roof)
+   */
+  modelTrim: string;
+  tireCount?: number | null;
+  technician?: {
+    docs?: (number | Technician)[];
+    hasNextPage?: boolean;
+    totalDocs?: number;
+  };
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "technicians".
+ */
+export interface Technician {
+  id: number;
+  name: string;
+  email: string;
+  password: string;
+  mobilePhone: number;
+  twilioPhone?: number | null;
+  profilePhoto?: (number | null) | Media;
+  mobileTireVan?: (number | Van)[] | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "payload-locked-documents".
  */
 export interface PayloadLockedDocument {
@@ -193,6 +263,18 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'tenants';
         value: number | Tenant;
+      } | null)
+    | ({
+        relationTo: 'vans';
+        value: number | Van;
+      } | null)
+    | ({
+        relationTo: 'media';
+        value: number | Media;
+      } | null)
+    | ({
+        relationTo: 'technicians';
+        value: number | Technician;
       } | null);
   globalSlug?: string | null;
   user: {
@@ -253,7 +335,8 @@ export interface PagesSelect<T extends boolean = true> {
  */
 export interface UsersSelect<T extends boolean = true> {
   roles?: T;
-  username?: T;
+  name?: T;
+  profilePhoto?: T;
   tenants?:
     | T
     | {
@@ -280,6 +363,52 @@ export interface TenantsSelect<T extends boolean = true> {
   domain?: T;
   slug?: T;
   allowPublicRead?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "vans_select".
+ */
+export interface VansSelect<T extends boolean = true> {
+  vehicleId?: T;
+  yearMake?: T;
+  modelTrim?: T;
+  tireCount?: T;
+  technician?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "media_select".
+ */
+export interface MediaSelect<T extends boolean = true> {
+  alt?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  url?: T;
+  thumbnailURL?: T;
+  filename?: T;
+  mimeType?: T;
+  filesize?: T;
+  width?: T;
+  height?: T;
+  focalX?: T;
+  focalY?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "technicians_select".
+ */
+export interface TechniciansSelect<T extends boolean = true> {
+  name?: T;
+  email?: T;
+  password?: T;
+  mobilePhone?: T;
+  twilioPhone?: T;
+  profilePhoto?: T;
+  mobileTireVan?: T;
   updatedAt?: T;
   createdAt?: T;
 }
