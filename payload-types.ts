@@ -156,6 +156,14 @@ export interface Tenant {
    * If checked, logging in is not required to read. Useful for building public pages.
    */
   allowPublicRead?: boolean | null;
+  /**
+   * The Medusa Sales Channel ID associated with this tenant.
+   */
+  salesChannelId?: string | null;
+  /**
+   * Publishable API Key associated with this tenant.
+   */
+  publishableApiKey?: string | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -192,6 +200,7 @@ export interface User {
  */
 export interface Media {
   id: number;
+  tenant?: (number | null) | Tenant;
   alt: string;
   updatedAt: string;
   createdAt: string;
@@ -365,6 +374,8 @@ export interface TenantsSelect<T extends boolean = true> {
   domain?: T;
   slug?: T;
   allowPublicRead?: T;
+  salesChannelId?: T;
+  publishableApiKey?: T;
   updatedAt?: T;
   createdAt?: T;
 }
@@ -387,6 +398,7 @@ export interface VansSelect<T extends boolean = true> {
  * via the `definition` "media_select".
  */
 export interface MediaSelect<T extends boolean = true> {
+  tenant?: T;
   alt?: T;
   updatedAt?: T;
   createdAt?: T;
