@@ -1,18 +1,21 @@
-
 import type { CollectionConfig } from 'payload'
-import { superAdminOrTenantAdminAccess } from '../Pages/access/superAdminOrTenantAdmin'
-
-
+import { isTechnician } from '@/access/isTechnician'
+import afterChangeCreateUser from './hooks/afterChangeCreateUser'
+import { createAccess } from './acess/create'
+import { authenticated } from '@/access/authenticated'
+import { deleteAccess } from './acess/delete'
+import { updateAccess } from './acess/update'
 export const Technicians: CollectionConfig = {
     slug: 'technicians',
     access: {
-        create: superAdminOrTenantAdminAccess,
-        delete: superAdminOrTenantAdminAccess,
-        read: () => true,
-        update: superAdminOrTenantAdminAccess,
+        create: createAccess,
+        delete: deleteAccess,
+        read: authenticated,
+        update: updateAccess,
     },
     admin: {
         useAsTitle: 'name',
+        hidden: ({ user }) => isTechnician(user),
     },
     fields: [
         {
@@ -51,39 +54,12 @@ export const Technicians: CollectionConfig = {
             label: 'Mobile Tire Van',
             type: 'relationship',
             relationTo: 'vans',
-            hasMany: true,
         },
 
     ],
     hooks: {
         afterChange: [
-            async ({ doc, req, operation }) => {
-                const tenantId = (req?.user?.tenants?.[0]?.tenant as any).id;
-                if (operation === 'create' && doc.email && doc.password) {
-                    try {
-                        await req.payload.create({
-                            collection: 'users',
-                            data: {
-                                email: doc.email,
-                                password: doc.password,
-                                roles: ['technician'],
-                                name: doc.name,
-                                profilePhoto: doc.profilePhoto,
-                                tenants: [{
-                                    tenant: tenantId,
-                                    roles: ['tenant-viewer']
-                                }]
-                            },
-                        })
-                    } catch (error) {
-                        req.payload.logger.error(
-                            `Error creating user for technician ${doc.email}: ${error}`,
-                        )
-                    }
-                }
-                return doc
-            }
-
+            afterChangeCreateUser
         ]
     },
 }

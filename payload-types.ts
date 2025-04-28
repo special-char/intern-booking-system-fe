@@ -156,6 +156,14 @@ export interface Tenant {
    * If checked, logging in is not required to read. Useful for building public pages.
    */
   allowPublicRead?: boolean | null;
+  /**
+   * The Medusa Sales Channel ID associated with this tenant.
+   */
+  salesChannelId?: string | null;
+  /**
+   * Publishable API Key associated with this tenant.
+   */
+  publishableApiKey?: string | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -165,8 +173,8 @@ export interface Tenant {
  */
 export interface User {
   id: number;
-  roles?: ('super-admin' | 'user' | 'technician')[] | null;
-  name?: string | null;
+  roles?: ('super-admin' | 'owner' | 'manager' | 'technician')[] | null;
+  name: string;
   profilePhoto?: (number | null) | Media;
   tenants?:
     | {
@@ -243,7 +251,7 @@ export interface Technician {
   mobilePhone: number;
   twilioPhone?: number | null;
   profilePhoto?: (number | null) | Media;
-  mobileTireVan?: (number | Van)[] | null;
+  mobileTireVan?: (number | null) | Van;
   updatedAt: string;
   createdAt: string;
 }
@@ -365,6 +373,8 @@ export interface TenantsSelect<T extends boolean = true> {
   domain?: T;
   slug?: T;
   allowPublicRead?: T;
+  salesChannelId?: T;
+  publishableApiKey?: T;
   updatedAt?: T;
   createdAt?: T;
 }

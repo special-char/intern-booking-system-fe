@@ -8,6 +8,7 @@ import { ensureUniqueUsername } from './hooks/ensureUniqueUsername'
 import { isSuperAdmin } from '@/access/isSuperAdmin'
 import { setCookieBasedOnDomain } from './hooks/setCookieBasedOnDomain'
 import { tenantsArrayField } from '@payloadcms/plugin-multi-tenant/fields'
+import { isTechnician } from '@/access/isTechnician'
 
 const defaultTenantArrayField = tenantsArrayField({
   tenantsArrayFieldName: 'tenants',
@@ -37,6 +38,9 @@ const Users: CollectionConfig = {
   },
   admin: {
     useAsTitle: 'email',
+    hidden: ({ user }) => {
+      return isTechnician(user as any)
+  },
   },
   auth: true,
   endpoints: [externalUsersLogin],
@@ -47,9 +51,9 @@ const Users: CollectionConfig = {
       },
       name: 'roles',
       type: 'select',
-      defaultValue: ['user'],
+      defaultValue: ['owner'],
       hasMany: true,
-      options: ['super-admin', 'user', 'technician'],
+      options: ['super-admin', 'owner', 'manager', 'technician'],
       access: {
         update: ({ req }) => {
           return isSuperAdmin(req.user)
@@ -59,10 +63,8 @@ const Users: CollectionConfig = {
     {
       name: 'name',
       type: 'text',
-      // hooks: {
-      //   beforeValidate: [ensureUniqueUsername],
-      // },
       index: true,
+      required: true,
     },
     {
       name: 'profilePhoto',

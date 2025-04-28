@@ -1,10 +1,9 @@
-import type { Access } from 'payload'
-import { User } from '../payload-types'
+import type { Access, ClientUser } from 'payload'
 
 export const isTechnicianAccess: Access = ({ req }): boolean => {
-  return isTechnician(req.user)
+    return isTechnician(req.user)
 }
 
-export const isTechnician = (user: User | null): boolean => {
-  return Boolean(user?.roles?.includes('technician'))
+export const isTechnician = (user: ClientUser | null): boolean => {
+    return Boolean(user?.roles?.includes('technician'))
 }
