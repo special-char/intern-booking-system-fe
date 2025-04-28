@@ -253,6 +253,7 @@ export interface Technician {
   twilioPhone?: number | null;
   profilePhoto?: (number | null) | Media;
   mobileTireVan?: (number | Van)[] | null;
+  user?: string | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -425,6 +426,7 @@ export interface TechniciansSelect<T extends boolean = true> {
   twilioPhone?: T;
   profilePhoto?: T;
   mobileTireVan?: T;
+  user?: T;
   updatedAt?: T;
   createdAt?: T;
 }

@@ -24,104 +24,76 @@ import { GetColumnsInterface } from "@/types/table";
 import { LoadingHeader } from "@/components/common/table/loading-header";
 import { LoadingCell } from "@/components/common/table/loading-cell";
 import { ReactNode } from "react";
-
-export function getColumns({ isLoading }: GetColumnsInterface): ColumnDef<Order, string>[] {
+//TODO ::: fix type any
+export function getColumns({ isLoading }: GetColumnsInterface): ColumnDef<Order | any, string>[] {
   return [
     {
-      accessorKey: "orderNumber",
-      meta: {
-        label: "Order",
-      },
+      accessorKey: "display_id",
+      meta: { label: "Order #" },
       header: ({ column }) => (
         <LoadingHeader isLoading={isLoading}>
-          <SortableHeader column={column}>Order</SortableHeader>
+          <SortableHeader column={column}>Order #</SortableHeader>
         </LoadingHeader>
       ),
-      cell: ({ row }) => {
-        return (
-          <LoadingCell isLoading={isLoading}>
-            {row.original.orderNumber}
-          </LoadingCell>
-        )
-      }
+      cell: ({ row }) => (
+        <LoadingCell isLoading={isLoading}>
+          {row.original.display_id}
+        </LoadingCell>
+      ),
     },
     {
-      accessorKey: "date",
-      meta: {
-        label: "Date",
-      },
+      accessorKey: "created_at",
+      meta: { label: "Date" },
       header: ({ column }) => (
         <LoadingHeader isLoading={isLoading}>
           <SortableHeader column={column}>Date</SortableHeader>
         </LoadingHeader>
       ),
-      filterFn: dateRangeFilterFn,
-      cell: ({ row }) => {
-        return (
-          <LoadingCell isLoading={isLoading}>
-            {row.original.date}
-          </LoadingCell>
-        )
-      }
-    },
-    {
-      meta: {
-        label: "Payment",
-      },
-      accessorKey: "payment",
-      header: () => <LoadingHeader isLoading={isLoading}>Payment</LoadingHeader>,
-      filterFn: multiValueFilterFn as FilterFn<Order>,
-      cell: ({ row }) => {
-        const payment = row.getValue("payment") as string;
-        return (
-          <LoadingCell isLoading={isLoading}>
-            <div className="font-medium bg-gray-50 border border-gray-200 rounded-full w-fit px-2.5 py-0.5 text-xs">
-              {payment}
-            </div>
-          </LoadingCell>
-        )
-      },
-    },
-    {
-      accessorKey: "orderStatus",
-      meta: {
-        label: "Order Status",
-      },
-      header: () => <LoadingHeader isLoading={isLoading}>Order Status</LoadingHeader>,
-      filterFn: multiValueFilterFn as FilterFn<Order>,
-      cell: ({ row }) => {
-        return (
-          <LoadingCell isLoading={isLoading}>
-            {renderOrderStatus(row.getValue("orderStatus") as string)}
-          </LoadingCell>
-        )
-      },
-    },
-    {
-      accessorKey: "totalAmount",
-      meta: {
-        label: "Total Amount",
-      },
-      header: ({ column }) => (
-        <LoadingHeader isLoading={isLoading}>
-          <SortableHeader column={column} className="w-full">
-            <div className="text-right">Total Amount</div>
-          </SortableHeader>
-        </LoadingHeader>
+      cell: ({ row }) => (
+        <LoadingCell isLoading={isLoading}>
+          {new Date(row.original.created_at).toLocaleString()}
+        </LoadingCell>
       ),
-      cell: ({ row }) => {
-        const amount = parseFloat(row.getValue("totalAmount"));
-        const formatted = new Intl.NumberFormat("en-US", {
-          style: "currency",
-          currency: "USD",
-        }).format(amount);
-
-        return (
-          <LoadingCell isLoading={isLoading}>
-            <div className="text-center font-medium">{formatted}</div>
-          </LoadingCell>
-        )
-      },
+    },
+    {
+      accessorKey: "status",
+      meta: { label: "Status" },
+      header: () => <LoadingHeader isLoading={isLoading}>Status</LoadingHeader>,
+      cell: ({ row }) => (
+        <LoadingCell isLoading={isLoading}>
+          {row.original.status}
+        </LoadingCell>
+      ),
+    },
+    {
+      accessorKey: "customer.email",
+      meta: { label: "Customer Email" },
+      header: () => <LoadingHeader isLoading={isLoading}>Customer Email</LoadingHeader>,
+      cell: ({ row }) => (
+        <LoadingCell isLoading={isLoading}>
+          {row.original.customer?.email || "-"}
+        </LoadingCell>
+      ),
+    },
+    {
+      accessorKey: "technician.name",
+      meta: { label: "Technician" },
+      header: () => <LoadingHeader isLoading={isLoading}>Technician</LoadingHeader>,
+      cell: ({ row }) => (
+        <LoadingCell isLoading={isLoading}>
+          {row.original.technician?.name || "-"}
+        </LoadingCell>
+      ),
+    },
+    {
+      accessorKey: "summary.current_order_total",
+      meta: { label: "Total" },
+      header: () => <LoadingHeader isLoading={isLoading}>Total</LoadingHeader>,
+      cell: ({ row }) => (
+        <LoadingCell isLoading={isLoading}>
+          ${row.original.summary?.current_order_total ?? 0}
+        </LoadingCell>
+      ),
     },
     {
       accessorKey: "qboStatus",
@@ -155,30 +127,6 @@ export function getColumns({ isLoading }: GetColumnsInterface): ColumnDef<Order,
           </LoadingCell>
         )
       }
-    },
-    {
-      accessorKey: "technician",
-      meta: {
-        label: "Technician",
-      },
-      header: () => <LoadingHeader isLoading={isLoading}>Technician</LoadingHeader>,
-      cell: ({ row }) => {
-        const technician = row.getValue("technician") as string;
-        return (
-          <LoadingCell isLoading={isLoading}>
-            <Avatar className="w-6 h-6">
-              <AvatarImage src="https://github.com/shadcn.png" />
-              <AvatarFallback>
-                {technician
-                  ?.split(" ")
-                  .map((name) => name[0])
-                  .join("")}
-              </AvatarFallback>
-            </Avatar>
-          </LoadingCell>
-        )
-
-      },
     },
     {
       id: "actions",

@@ -1,5 +1,6 @@
 import { Technician } from "@/payload-types";
 import type { CollectionAfterChangeHook } from "payload";
+import { sdk } from "@/lib/config";
 
 export const syncUserFromTechnician: CollectionAfterChangeHook<
   Technician
@@ -8,20 +9,14 @@ export const syncUserFromTechnician: CollectionAfterChangeHook<
 
   if (operation === "create" && doc.email && doc.password) {
     try {
-      await req.payload.create({
-        collection: "users",
-        data: {
-          email: doc.email,
-          password: doc.password,
-          roles: ["technician"],
+      await sdk.client.fetch("/custom", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: {
           name: doc.name,
-          profilePhoto: doc.profilePhoto,
-          tenants: [
-            {
-              tenant: tenantId,
-              roles: ["tenant-viewer"],
-            },
-          ],
+          email: doc.email,
+          technician_id: doc.id,
+          tenant_id: tenantId,
         },
       });
     } catch (error) {

@@ -3,6 +3,7 @@ import { superAdminOrTenantAdminAccess } from "../Pages/access/superAdminOrTenan
 import { syncUserFromTechnician } from "./hooks/syncUserFromTechnician";
 import { updateTechnicians } from "./hooks/updateTechnician";
 import { deleteUserWithTechnician } from "./hooks/deleteUserWithTechnician";
+import { syncBeforeUserFromTechnician } from "./hooks/syncBeforeUserFromTechnician";
 
 export const Technicians: CollectionConfig = {
   slug: "technicians",
@@ -59,8 +60,17 @@ export const Technicians: CollectionConfig = {
       relationTo: "vans",
       hasMany: true,
     },
+    {
+      name: "user",
+      label: "User ID",
+      type: "text",
+      admin: {
+        position: "sidebar",
+      },
+    },
   ],
   hooks: {
+    beforeChange: [syncBeforeUserFromTechnician],
     afterChange: [syncUserFromTechnician, updateTechnicians],
     beforeDelete: [deleteUserWithTechnician],
   },
