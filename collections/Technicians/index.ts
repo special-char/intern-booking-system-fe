@@ -1,17 +1,19 @@
 import type { CollectionConfig } from "payload";
-import { superAdminOrTenantAdminAccess } from "../Pages/access/superAdminOrTenantAdmin";
 import { syncUserFromTechnician } from "./hooks/syncUserFromTechnician";
 import { updateTechnicians } from "./hooks/updateTechnician";
 import { deleteUserWithTechnician } from "./hooks/deleteUserWithTechnician";
 import { syncBeforeUserFromTechnician } from "./hooks/syncBeforeUserFromTechnician";
+import { createAccess } from "./acess/create";
+import { deleteAccess } from "./acess/delete";
+import { updateAccess } from "./acess/update";
 
 export const Technicians: CollectionConfig = {
-  slug: "technicians",
+  slug: 'technicians',
   access: {
-    create: superAdminOrTenantAdminAccess,
-    delete: superAdminOrTenantAdminAccess,
-    read: () => true,
-    update: superAdminOrTenantAdminAccess,
+    create: createAccess,
+    delete: deleteAccess,
+    read: createAccess,
+    update: updateAccess,
   },
   admin: {
     useAsTitle: "name",

@@ -20,6 +20,7 @@ import { Fragment } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
+import { SanitizedPermissions } from "payload";
 
 export interface NavMainItem {
   title: string;
@@ -30,16 +31,21 @@ export interface NavMainItem {
   items?: {
     title: string;
     url: string;
+    payloadCollection?: string;
   }[];
   matchNested?: boolean
 }
 
 export function NavMain({
   items,
+  permissions,
 }: {
   items: NavMainItem[];
+  permissions: SanitizedPermissions;
 }) {
   const pathname = usePathname();
+
+  
 
   function getIsActiveItem(item: NavMainItem): boolean {
     if (item.url === "/") {
@@ -90,6 +96,10 @@ export function NavMain({
                         {item.items?.map((subItem) => {
                           const isActive = pathname === subItem.url;
 
+                          console.log({subItem:subItem.payloadCollection});
+                          const hasReadPermission = permissions.collections?.[subItem.payloadCollection ?? ""]?.read;
+                          if(!hasReadPermission) return null;
+                          
                           return (
                             <SidebarMenuSubItem
                               key={subItem.title}
