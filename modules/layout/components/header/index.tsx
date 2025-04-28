@@ -16,6 +16,7 @@ import {
 import { Logo } from "@/icons/logo";
 import { logout } from "@/lib/data/admin";
 import { getUser } from "@/lib/data/admin";
+import { Media, Tenant } from "@/payload-types";
 
 interface User {
   name: string;
@@ -41,7 +42,6 @@ function getInitials(name: string) {
 
 export async function Header() {
   const { user } = await getUser()
-
   return (
     <header className="flex sticky top-0 z-50 w-full items-center border-b bg-indigo-950">
       <div className="flex h-[var(--header-height)] w-full items-center gap-2 px-9">
@@ -58,16 +58,16 @@ export async function Header() {
             <DropdownMenuTrigger asChild>
               <Button variant="ghost" className="relative h-9 w-9 rounded-full">
                 <Avatar className="h-9 w-9">
-                  {user.profilePhoto ? (
+                  {user?.profilePhoto ? (
                     <Image
-                      src={user.profilePhoto.url}
+                      src={(user.profilePhoto as Media).url || ""}
                       alt="User avatar"
                       width={36}
                       height={36}
                     />
                   ) : (
                     <AvatarFallback className="bg-primary text-primary-foreground">
-                      {getInitials(user.name)}
+                      {getInitials(user?.name || "")}
                     </AvatarFallback>
                   )}
                 </Avatar>
@@ -80,7 +80,7 @@ export async function Header() {
                     USER
                   </p>
                   <p className="text-sm font-medium leading-none text-text-primary">
-                    {user.name}
+                    {user?.name}
                   </p>
                 </div>
               </DropdownMenuLabel>
@@ -90,7 +90,7 @@ export async function Header() {
                     EMAIL
                   </p>
                   <p className="text-sm font-medium leading-none text-text-primary">
-                    {user.email}
+                    {user?.email}
                   </p>
                 </DropdownMenuLabel>
                 <DropdownMenuLabel className="flex flex-col items-start py-2 space-y-2 px-3">
@@ -98,7 +98,7 @@ export async function Header() {
                     STORE ID
                   </p>
                   <p className="text-sm font-medium leading-none text-text-primary">
-                    {user.storeId}
+                    {(user?.tenants?.[0]?.tenant as Tenant).id}
                   </p>
                 </DropdownMenuLabel>
               </DropdownMenuGroup>

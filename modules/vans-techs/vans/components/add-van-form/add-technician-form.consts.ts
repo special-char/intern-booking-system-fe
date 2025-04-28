@@ -18,8 +18,8 @@ export const addTechnicianFormDefaultValues = {
 export const addTechnicianFormInitialValues = (van?: TireVanDTO) => {
   return {
     vehicleId: van?.vehicleId || "",
-    yearAndMake: `${van?.year} ${van?.make}`,
-    modelTrim: `${van?.model} ${van?.trim}`,
-    tireCapacity: van?.capacity || 0,
+    yearAndMake: van?.yearAndMake || "",
+    modelTrim: van?.modelTrim || "",
+    tireCapacity: van?.tireCapacity || 0,
   };
 };

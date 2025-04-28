@@ -9,6 +9,10 @@ export interface TireVan {
 }
 
 export interface GetTireVansResponse {
+  page: number;
+  limit: number;
+  totalDocs: number;
+  docs: TireVanDTO[];
   tire_vans: TireVan[];
 }
 
@@ -20,9 +24,7 @@ export interface PostTireVanResponse {
 export interface TireVanDTO {
   id: string;
   vehicleId: string;
-  year: string;
-  make: string;
-  model: string;
-  trim: string;
-  capacity: number;
+  yearAndMake: string;
+  modelTrim: string;
+  tireCapacity: number;
 }

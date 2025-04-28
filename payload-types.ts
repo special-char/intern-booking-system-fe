@@ -225,12 +225,12 @@ export interface Van {
   /**
    * Enter the year and make (e.g., 2023 Mercedes Sprinter)
    */
-  yearMake: string;
+  yearAndMake: string;
   /**
    * Enter the model and trim (e.g., 3501 LWB Extra high roof)
    */
   modelTrim: string;
-  tireCount?: number | null;
+  tireCapacity?: number | null;
   technician?: {
     docs?: (number | Technician)[];
     hasNextPage?: boolean;
@@ -252,7 +252,7 @@ export interface Technician {
   mobilePhone: number;
   twilioPhone?: number | null;
   profilePhoto?: (number | null) | Media;
-  mobileTireVan?: (number | null) | Van;
+  mobileTireVan?: (number | Van)[] | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -386,9 +386,9 @@ export interface TenantsSelect<T extends boolean = true> {
 export interface VansSelect<T extends boolean = true> {
   tenant?: T;
   vehicleId?: T;
-  yearMake?: T;
+  yearAndMake?: T;
   modelTrim?: T;
-  tireCount?: T;
+  tireCapacity?: T;
   technician?: T;
   updatedAt?: T;
   createdAt?: T;

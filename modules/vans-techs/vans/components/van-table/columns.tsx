@@ -1,7 +1,6 @@
 "use client";
 
 import { ColumnDef } from "@tanstack/react-table";
-
 import { SortableHeader } from "@/components/common/table/sortable-header";
 import VanActions from "./van-actions";
 import { TireVanDTO } from "@/types/tire-vans";
@@ -35,15 +34,15 @@ export function getColumns({ isLoading }: GetColumnsInterface): ColumnDef<TireVa
           <SortableHeader column={column}>Year & Make</SortableHeader>
         </LoadingHeader>
       ),
-      accessorKey: "year-make",
-      accessorFn: (row) => `${row.year} ${row.make}`,
+      accessorKey: "yearAndMake",
+      // accessorFn: (row) => `${row.year} ${row.make}`,
       meta: {
         label: "Year & Make",
       },
       cell: ({ row }) => {
         return (
           <LoadingCell isLoading={isLoading}>
-            {row.original.year}
+            {row.original.yearAndMake}
           </LoadingCell>
         )
       }
@@ -54,15 +53,15 @@ export function getColumns({ isLoading }: GetColumnsInterface): ColumnDef<TireVa
           <SortableHeader column={column}>Model / TRIM</SortableHeader>
         </LoadingHeader>
       ),
-      accessorKey: "model-trim",
-      accessorFn: (row) => `${row.model} ${row.trim}`,
+      accessorKey: "modelTrim",
+      // accessorFn: (row) => `${row.model} ${row.trim}`,
       meta: {
         label: "Model / TRIM",
       },
       cell: ({ row }) => {
         return (
           <LoadingCell isLoading={isLoading}>
-            {row.original.model}
+            {row.original.modelTrim}
           </LoadingCell>
         )
       }
@@ -73,14 +72,14 @@ export function getColumns({ isLoading }: GetColumnsInterface): ColumnDef<TireVa
           <SortableHeader column={column}>Tire Capacity</SortableHeader>
         </LoadingHeader>
       ),
-      accessorKey: "capacity",
+      accessorKey: "tireCapacity",
       meta: {
         label: "TireCapacity",
       },
       cell: ({ row }) => {
         return (
           <LoadingCell isLoading={isLoading}>
-            {row.original.capacity}
+            {row.original.tireCapacity}
           </LoadingCell>
         )
       }

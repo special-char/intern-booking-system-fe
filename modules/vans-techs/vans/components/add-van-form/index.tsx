@@ -1,5 +1,4 @@
 "use client";
-
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
@@ -53,19 +52,12 @@ export function AddVanForm({
     formState: { isSubmitting },
   } = form;
 
-  const onSubmit = async (values: AddTechnicianFormType) => {
-    const formData = {
-      display_id: values.vehicleId,
-      capacity: values.tireCapacity,
-      name: "test",
-    };
-
+  const onSubmit = async (values: any) => { //TODO: fix type any
     if (isEdit && van) {
-      console.log("run");
-      const updatedVan = await updateTireVan(formData, van.id);
+      const updatedVan = await updateTireVan(values, van.id);
       setIsSuccess(updatedVan.isSuccess);
     } else {
-      const newVan = await createTireVan(formData);
+      const newVan = await createTireVan(values);
       setIsSuccess(newVan.isSuccess);
     }
   };

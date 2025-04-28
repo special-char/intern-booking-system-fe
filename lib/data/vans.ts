@@ -1,39 +1,16 @@
 "use server";
-
 import {
   GetTireVansResponse,
   PostTireVanResponse,
-  TireVanDTO,
 } from "@/types/tire-vans";
-import { getAuthHeaders } from "./cookies";
 import { revalidateTag } from "next/cache";
-import { mapTireVansToDTO } from "../dto/tire-vans";
+import { getUser } from "./admin";
+import { Tenant } from "@/payload-types";
 
-export async function getTireVans({
-  page = 1,
-  limit = 10,
-}: {
-  page?: number;
-  limit?: number;
-}): Promise<GetTireVansResponse> {
+export async function getTireVans(): Promise<any> { //TODO: fix type any
   try {
-    const authHeaders = await getAuthHeaders();
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const offset = (page - 1) * limit;
-
-    const endpointUrl = new URL(
-      `${process.env.MEDUSA_BACKEND_URL}/admin/tire-vans`
-    );
-
-    //TODO: Add offset and limit to the endpoint
-    // endpointUrl.searchParams.append("offset", offset.toString());
-    // endpointUrl.searchParams.append("limit", limit.toString());
-
-    const response = await fetch(endpointUrl.toString(), {
+    const response = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/vans`, {
       method: "GET",
-      headers: {
-        ...authHeaders,
-      },
       next: {
         tags: ["tire-vans"],
       },
@@ -50,15 +27,9 @@ export async function getTireVans({
   }
 }
 
-export async function getTireVansDTO({
-  page = 1,
-  limit = 10,
-}: {
-  page?: number;
-  limit?: number;
-}): Promise<TireVanDTO[]> {
-  const tireVans = await getTireVans({ page, limit });
-  return mapTireVansToDTO(tireVans);
+export async function getTireVansDTO(): Promise<GetTireVansResponse> {
+  const tireVans = await getTireVans();
+  return tireVans
 }
 
 export interface CreateTireVanInput {
@@ -71,17 +42,19 @@ export async function createTireVan(
   inputData: CreateTireVanInput
 ): Promise<PostTireVanResponse> {
   try {
-    const authHeaders = await getAuthHeaders();
+    const { user } = await getUser()
+    const tenantId = (user?.tenants?.[0]?.tenant as Tenant).id
 
-    const url = new URL(`${process.env.MEDUSA_BACKEND_URL}/admin/tire-vans`);
+
+    const url = new URL(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/vans`);
 
     const response = await fetch(url.toString(), {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        ...authHeaders,
       },
       body: JSON.stringify({
+        tenant: tenantId,
         ...inputData,
       }),
     });
@@ -94,7 +67,7 @@ export async function createTireVan(
       );
     }
 
-    if (!data || !data.tire_van) {
+    if (!data || !data.doc) {
       throw new Error("Failed to find created tire van.");
     }
 
@@ -102,7 +75,7 @@ export async function createTireVan(
 
     return {
       isSuccess: true,
-      tire_van: data.tire_van,
+      tire_van: data.doc,
     };
   } catch (error) {
     console.error("Error in createTireVan:", error);
@@ -115,24 +88,28 @@ export async function updateTireVan(
   vanId: string
 ): Promise<PostTireVanResponse> {
   try {
-    const authHeaders = await getAuthHeaders();
+    const { user } = await getUser()
+    const tenantId = (user?.tenants?.[0]?.tenant as Tenant).id
+
 
     const url = new URL(
-      `${process.env.MEDUSA_BACKEND_URL}/admin/tire-vans/${vanId}`
+      `${process.env.NEXT_PUBLIC_SERVER_URL}/api/vans/${vanId}`
     );
 
     const response = await fetch(url.toString(), {
-      method: "POST",
+      method: "PATCH",
       headers: {
         "Content-Type": "application/json",
-        ...authHeaders,
       },
       body: JSON.stringify({
         ...inputData,
+        tenant: tenantId,
       }),
     });
 
     const data = await response.json();
+
+    console.log(data, "updateTireVan data");
 
     if (!response.ok) {
       throw new Error(
@@ -140,7 +117,7 @@ export async function updateTireVan(
       );
     }
 
-    if (!data || !data.tire_van) {
+    if (!data || !data.doc) {
       throw new Error("Failed to find created tire van.");
     }
 
@@ -148,7 +125,7 @@ export async function updateTireVan(
 
     return {
       isSuccess: true,
-      tire_van: data.tire_van,
+      tire_van: data.doc,
     };
   } catch (error) {
     console.error("Error in createTireVan:", error);
@@ -164,18 +141,22 @@ export async function deleteTireVan(
   id: string
 ): Promise<DeleteTireVanResponse> {
   try {
-    const authHeaders = await getAuthHeaders();
+    const { user } = await getUser()
+    const tenantId = (user?.tenants?.[0]?.tenant as Tenant).id
+
 
     const url = new URL(
-      `${process.env.MEDUSA_BACKEND_URL}/admin/tire-vans/${id}`
+      `${process.env.NEXT_PUBLIC_SERVER_URL}/api/vans/${id}`
     );
 
     const response = await fetch(url.toString(), {
       method: "DELETE",
       headers: {
         "Content-Type": "application/json",
-        ...authHeaders,
       },
+      body: JSON.stringify({
+        tenant: tenantId,
+      }),
     });
 
     if (!response.ok) {

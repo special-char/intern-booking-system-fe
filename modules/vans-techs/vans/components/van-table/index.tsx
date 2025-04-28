@@ -9,7 +9,6 @@ import { ContentTable } from "@/components/common/table/content-table";
 import { FilterOptionsButton } from "@/components/common/table/filter-options-button";
 import { ClearTableFiltersButton } from "@/components/common/table/clear-table-filters-button";
 import { getColumns } from "./columns";
-
 import { filters } from "./filter-options";
 import { TireVanDTO } from "@/types/tire-vans";
 import { useTable } from "@/hooks/use-table";
