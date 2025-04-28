@@ -1,10 +1,9 @@
-import type { CollectionConfig } from 'payload'
-import { isTechnician } from '@/access/isTechnician'
-import afterChangeCreateUser from './hooks/afterChangeCreateUser'
-import { createAccess } from './acess/create'
-import { authenticated } from '@/access/authenticated'
-import { deleteAccess } from './acess/delete'
-import { updateAccess } from './acess/update'
+import type { CollectionConfig } from "payload";
+import { superAdminOrTenantAdminAccess } from "../Pages/access/superAdminOrTenantAdmin";
+import { syncUserFromTechnician } from "./hooks/syncUserFromTechnician";
+import { updateTechnicians } from "./hooks/updateTechnician";
+import { deleteUserWithTechnician } from "./hooks/deleteUserWithTechnician";
+
 export const Technicians: CollectionConfig = {
     slug: 'technicians',
     access: {
@@ -12,54 +11,57 @@ export const Technicians: CollectionConfig = {
         delete: deleteAccess,
         read: createAccess,
         update: updateAccess,
+  },
+  admin: {
+    useAsTitle: "name",
+  },
+  fields: [
+    {
+      name: "name",
+      type: "text",
+      required: true,
     },
-    admin: {
-        useAsTitle: 'name',
-        hidden: ({ user }) => isTechnician(user),
+    {
+      name: "email",
+      type: "email",
+      required: true,
+      unique: true,
+      access: {
+        update: () => false,
+      },
     },
-    fields: [
-        {
-            name: 'name',
-            type: 'text',
-            required: true,
-        },
-        {
-            name: 'email',
-            type: 'email',
-            required: true,
-            unique: true,
-        },
-        {
-            name: 'password',
-            type: 'text',
-            required: true,
-
-        },
-        {
-            name: 'mobilePhone',
-            type: 'number',
-            required: true,
-        },
-        {
-            name: 'twilioPhone',
-            type: 'number',
-        },
-        {
-            name: 'profilePhoto',
-            type: 'upload',
-            relationTo: 'media',
-        },
-        {
-            name: 'mobileTireVan',
-            label: 'Mobile Tire Van',
-            type: 'relationship',
-            relationTo: 'vans',
-        },
-
-    ],
-    hooks: {
-        afterChange: [
-            afterChangeCreateUser
-        ]
+    {
+      name: "password",
+      type: "text",
+      required: true,
+      access: {
+        update: () => false,
+      },
     },
-}
+    {
+      name: "mobilePhone",
+      type: "number",
+      required: true,
+    },
+    {
+      name: "twilioPhone",
+      type: "number",
+    },
+    {
+      name: "profilePhoto",
+      type: "upload",
+      relationTo: "media",
+    },
+    {
+      name: "mobileTireVan",
+      label: "Mobile Tire Van",
+      type: "relationship",
+      relationTo: "vans",
+      hasMany: true,
+    },
+  ],
+  hooks: {
+    afterChange: [syncUserFromTechnician, updateTechnicians],
+    beforeDelete: [deleteUserWithTechnician],
+  },
+};

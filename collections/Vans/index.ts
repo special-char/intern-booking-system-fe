@@ -1,9 +1,8 @@
 import type { CollectionConfig } from 'payload'
-import { superAdminOrTenantAdminAccess } from '../Pages/access/superAdminOrTenantAdmin'
 import { authenticated } from '@/access/authenticated'
 import { createAccess } from './acess/create'
 import { deleteAccess } from './acess/delete'
-import { updateAccess } from './acess/update'   
+import { updateAccess } from './acess/update'
 
 export const Vans: CollectionConfig = {
     slug: 'vans',
@@ -25,7 +24,7 @@ export const Vans: CollectionConfig = {
             unique: true,
         },
         {
-            name: 'yearMake',
+            name: 'yearAndMake',
             label: 'Year & Make',
             type: 'text',
             required: true,
@@ -43,8 +42,8 @@ export const Vans: CollectionConfig = {
             },
         },
         {
-            name: 'tireCount',
-            label: 'Tire Count',
+            name: 'tireCapacity',
+            label: 'Tire Capacity',
             type: 'number',
         },
         {
