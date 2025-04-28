@@ -1,14 +1,14 @@
 import type { CollectionConfig } from "payload";
-
-import { createAccess } from "./access/create";
-import { readAccess } from "./access/read";
-import { updateAndDeleteAccess } from "./access/updateAndDelete";
-import { externalUsersLogin } from "./endpoints/externalUsersLogin";
-import { isSuperAdmin } from "@/access/isSuperAdmin";
-import { setCookieBasedOnDomain } from "./hooks/setCookieBasedOnDomain";
-import { syncTechnicianFromUser } from "./hooks/syncTechnicianFromUser";
-import { tenantsArrayField } from "@payloadcms/plugin-multi-tenant/fields";
-import { anyone } from "@/access/anyone";
+import { createAccess } from './access/create'
+import { readAccess } from './access/read'
+import { updateAndDeleteAccess } from './access/updateAndDelete'
+import { externalUsersLogin } from './endpoints/externalUsersLogin'
+import { ensureUniqueUsername } from './hooks/ensureUniqueUsername'
+import { isSuperAdmin } from '@/access/isSuperAdmin'
+import { setCookieBasedOnDomain } from './hooks/setCookieBasedOnDomain'
+import { tenantsArrayField } from '@payloadcms/plugin-multi-tenant/fields'
+import { isTechnician } from '@/access/isTechnician'
+import { anyone } from "@/access/authenticated";
 
 const defaultTenantArrayField = tenantsArrayField({
   tenantsArrayFieldName: "tenants",
@@ -37,7 +37,10 @@ const Users: CollectionConfig = {
     update: anyone,
   },
   admin: {
-    useAsTitle: "email",
+    useAsTitle: 'email',
+    hidden: ({ user }) => {
+      return isTechnician(user as any)
+    },
   },
   auth: true,
   endpoints: [externalUsersLogin],
@@ -46,11 +49,11 @@ const Users: CollectionConfig = {
       admin: {
         position: "sidebar",
       },
-      name: "roles",
-      type: "select",
-      defaultValue: ["user"],
+      name: 'roles',
+      type: 'select',
+      defaultValue: ['owner'],
       hasMany: true,
-      options: ["super-admin", "user", "technician"],
+      options: ['super-admin', 'owner', 'manager', 'technician'],
       access: {
         update: ({ req }) => {
           return isSuperAdmin(req.user);
@@ -58,12 +61,10 @@ const Users: CollectionConfig = {
       },
     },
     {
-      name: "name",
-      type: "text",
-      // hooks: {
-      //   beforeValidate: [ensureUniqueUsername],
-      // },
+      name: 'name',
+      type: 'text',
       index: true,
+      required: true,
     },
     {
       name: "profilePhoto",

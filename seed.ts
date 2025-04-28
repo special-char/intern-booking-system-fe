@@ -34,6 +34,7 @@ export const seed: NonNullable<Config['onInit']> = async (payload): Promise<void
       email: 'demo@payloadcms.com',
       password: 'demo',
       roles: ['super-admin'],
+      name: 'super-admin',
     },
   })
 
@@ -48,7 +49,7 @@ export const seed: NonNullable<Config['onInit']> = async (payload): Promise<void
           tenant: tenant1.id,
         },
       ],
-      username: 'tenant1',
+      name: 'tenant1',
     },
   })
 
@@ -63,7 +64,7 @@ export const seed: NonNullable<Config['onInit']> = async (payload): Promise<void
           tenant: tenant2.id,
         },
       ],
-      username: 'tenant2',
+      name: 'tenant2',
     },
   })
 
@@ -78,7 +79,7 @@ export const seed: NonNullable<Config['onInit']> = async (payload): Promise<void
           tenant: tenant3.id,
         },
       ],
-      username: 'tenant3',
+      name: 'tenant3',
     },
   })
 
@@ -101,7 +102,7 @@ export const seed: NonNullable<Config['onInit']> = async (payload): Promise<void
           tenant: tenant3.id,
         },
       ],
-      username: 'multi-admin',
+      name: 'multi-admin',
     },
   })
 

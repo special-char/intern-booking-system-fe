@@ -173,8 +173,8 @@ export interface Tenant {
  */
 export interface User {
   id: number;
-  roles?: ('super-admin' | 'user' | 'technician')[] | null;
-  name?: string | null;
+  roles?: ('super-admin' | 'owner' | 'manager' | 'technician')[] | null;
+  name: string;
   profilePhoto?: (number | null) | Media;
   tenants?:
     | {
@@ -252,7 +252,7 @@ export interface Technician {
   mobilePhone: number;
   twilioPhone?: number | null;
   profilePhoto?: (number | null) | Media;
-  mobileTireVan?: (number | Van)[] | null;
+  mobileTireVan?: (number | null) | Van;
   updatedAt: string;
   createdAt: string;
 }

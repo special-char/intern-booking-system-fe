@@ -1,14 +1,17 @@
 import type { CollectionConfig } from 'payload'
 import { superAdminOrTenantAdminAccess } from '../Pages/access/superAdminOrTenantAdmin'
-
+import { authenticated } from '@/access/authenticated'
+import { createAccess } from './acess/create'
+import { deleteAccess } from './acess/delete'
+import { updateAccess } from './acess/update'   
 
 export const Vans: CollectionConfig = {
     slug: 'vans',
     access: {
-        create: superAdminOrTenantAdminAccess,
-        delete: superAdminOrTenantAdminAccess,
-        read: () => true,
-        update: superAdminOrTenantAdminAccess,
+        create: createAccess,
+        delete: deleteAccess,
+        read: authenticated,
+        update: updateAccess,
     },
     admin: {
         useAsTitle: 'modelTrim',

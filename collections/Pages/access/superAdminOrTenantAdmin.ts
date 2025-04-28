@@ -1,7 +1,8 @@
 import { isSuperAdmin } from '@/access/isSuperAdmin'
-import { isUser } from '@/access/isUser'
+import { isOwner } from '@/access/isOwner'
 import { getUserTenantIDs } from '@/utilities/getUserTenantIDs'
 import { Access } from 'payload'
+import { isManager } from '@/access/isManager'
 
 /**
  * Tenant admins and super admins can will be allowed access
@@ -11,7 +12,7 @@ export const superAdminOrTenantAdminAccess: Access = ({ req }) => {
     return false
   }
 
-  if (isSuperAdmin(req.user) || isUser(req.user)) {
+  if (isSuperAdmin(req.user) || isOwner(req.user) || isManager(req.user)) {
     return true
   }
 
