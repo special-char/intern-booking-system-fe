@@ -1,8 +1,10 @@
 import type { CollectionConfig } from "payload";
-import { superAdminOrTenantAdminAccess } from "../Pages/access/superAdminOrTenantAdmin";
 import { syncUserFromTechnician } from "./hooks/syncUserFromTechnician";
 import { updateTechnicians } from "./hooks/updateTechnician";
 import { deleteUserWithTechnician } from "./hooks/deleteUserWithTechnician";
+import { createAccess } from "./acess/create";
+import { deleteAccess } from "./acess/delete";
+import { updateAccess } from "./acess/update";
 import { anyone, authenticated } from "@/access/authenticated";
 
 export const Technicians: CollectionConfig = {
