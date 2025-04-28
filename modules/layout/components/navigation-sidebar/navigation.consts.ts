@@ -61,10 +61,12 @@ export const menuItems = {
         {
           title: "Vans",
           url: "/vans-techs/vans",
+          payloadCollection: "vans",
         },
         {
           title: "Technicians",
           url: "/vans-techs/technicians",
+          payloadCollection: "technicians",
         },
       ],
     },

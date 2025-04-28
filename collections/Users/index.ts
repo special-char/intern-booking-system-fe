@@ -40,7 +40,7 @@ const Users: CollectionConfig = {
     useAsTitle: 'email',
     hidden: ({ user }) => {
       return isTechnician(user as any)
-  },
+    },
   },
   auth: true,
   endpoints: [externalUsersLogin],

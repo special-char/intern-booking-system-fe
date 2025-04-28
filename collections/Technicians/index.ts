@@ -10,7 +10,7 @@ export const Technicians: CollectionConfig = {
     access: {
         create: createAccess,
         delete: deleteAccess,
-        read: authenticated,
+        read: createAccess,
         update: updateAccess,
     },
     admin: {
