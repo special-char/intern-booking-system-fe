@@ -3,14 +3,15 @@ import { superAdminOrTenantAdminAccess } from "../Pages/access/superAdminOrTenan
 import { syncUserFromTechnician } from "./hooks/syncUserFromTechnician";
 import { updateTechnicians } from "./hooks/updateTechnician";
 import { deleteUserWithTechnician } from "./hooks/deleteUserWithTechnician";
+import { anyone, authenticated } from "@/access/authenticated";
 
 export const Technicians: CollectionConfig = {
   slug: "technicians",
   access: {
-    create: superAdminOrTenantAdminAccess,
-    delete: superAdminOrTenantAdminAccess,
-    read: () => true,
-    update: superAdminOrTenantAdminAccess,
+    create: anyone,
+    delete: anyone,
+    read: anyone,
+    update: anyone,
   },
   admin: {
     useAsTitle: "name",

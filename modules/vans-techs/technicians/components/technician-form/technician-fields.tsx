@@ -15,10 +15,11 @@ import {
   SelectContent,
   SelectItem,
 } from "@/components/shadcn/select";
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import { UseFormReturn } from "react-hook-form";
 import Image from "next/image";
 import { TechnicianFormType } from ".";
+import { fetchVans } from "@/lib/data/technicians";
 
 export function TechnicianFields({
   form,
@@ -31,6 +32,25 @@ export function TechnicianFields({
 }) {
   const [dragActive, setDragActive] = useState(false);
   const fileInputRef = useRef<HTMLInputElement | null>(null);
+  const [vans, setVans] = useState<{ id: number; vehicleId: string }[]>([]);
+
+  useEffect(() => {
+    async function getVans() {
+      const vansData = await fetchVans();
+      setVans(vansData);
+
+      // Set the van selection if we have a default value
+      const currentVanId = form.getValues("mobileTireVan")[0];
+      if (currentVanId) {
+        const selectedVan = vansData.find((van) => van.id === currentVanId);
+        if (selectedVan) {
+          form.setValue("assignMobileTireVan", selectedVan.vehicleId);
+        }
+      }
+    }
+
+    getVans();
+  }, [form]);
 
   const handleDrop = (e: React.DragEvent<HTMLDivElement>) => {
     e.preventDefault();
@@ -43,10 +63,14 @@ export function TechnicianFields({
 
   const handleFile = (file: File) => {
     if (!["image/jpeg", "image/png"].includes(file.type)) return;
+
+    // Store the actual File object instead of base64
+    form.setValue("profilePhoto", file);
+
+    // Create preview URL for display only
     const reader = new FileReader();
     reader.onload = () => {
       const base64 = reader.result as string;
-      form.setValue("profilePhoto", base64);
       setPreview(base64);
     };
     reader.readAsDataURL(file);
@@ -111,7 +135,7 @@ export function TechnicianFields({
             <FormLabel>Mobile Phone</FormLabel>
             <FormControl>
               <Input
-                placeholder="Enter technician’s mobile phone number"
+                placeholder="Enter technician's mobile phone number"
                 {...field}
               />
             </FormControl>
@@ -128,7 +152,7 @@ export function TechnicianFields({
             <FormLabel>Twilio Phone</FormLabel>
             <FormControl>
               <Input
-                placeholder="Enter technician’s Twilio phone number"
+                placeholder="Enter technician's Twilio phone number"
                 {...field}
               />
             </FormControl>
@@ -196,16 +220,27 @@ export function TechnicianFields({
             <FormLabel>Assign Mobile Tire Van</FormLabel>
             <FormControl>
               <Select
-                {...field}
-                onValueChange={field.onChange}
                 value={field.value}
+                onValueChange={(vehicleId) => {
+                  const selectedVan = vans.find(
+                    (van) => van.vehicleId === vehicleId
+                  );
+                  form.setValue(
+                    "mobileTireVan",
+                    selectedVan ? [selectedVan.id] : []
+                  );
+                  field.onChange(vehicleId);
+                }}
               >
                 <SelectTrigger>
-                  <SelectValue placeholder="Select or type van" />
+                  <SelectValue placeholder="Select van" />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="van1">Van 1</SelectItem>
-                  <SelectItem value="van2">Van 2</SelectItem>
+                  {vans.map((van) => (
+                    <SelectItem key={van.id} value={van.vehicleId}>
+                      {`Van ${van.vehicleId}`}
+                    </SelectItem>
+                  ))}
                 </SelectContent>
               </Select>
             </FormControl>

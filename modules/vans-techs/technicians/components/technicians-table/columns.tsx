@@ -6,19 +6,30 @@ import { TechniciansActions } from "./technicians-actions";
 import { GetColumnsInterface } from "@/types/table";
 import { LoadingHeader } from "@/components/common/table/loading-header";
 import { LoadingCell } from "@/components/common/table/loading-cell";
+import { Technician } from ".";
+import {
+  Avatar,
+  AvatarFallback,
+  AvatarImage,
+} from "@/components/shadcn/avatar";
 
-export type Technician = {
-  id: string;
-  name: string;
-  email: string;
-  mobilePhone: string;
-  twilioPhone: string;
-  calendarId: string;
-  mobileTireVan: string;
-};
-
-export function getColumns({ isLoading }: GetColumnsInterface): ColumnDef<Technician, string>[] {
+export function getColumns({
+  isLoading,
+}: GetColumnsInterface): ColumnDef<Technician, string>[] {
   return [
+    {
+      accessorKey: "profilePhoto",
+      header: "Photo",
+      cell: ({ row }) => {
+        const photo = row.original.profilePhoto;
+        return (
+          <Avatar>
+            <AvatarImage src={photo?.url} alt={photo?.alt || ""} />
+            <AvatarFallback>{row.original.name}</AvatarFallback>
+          </Avatar>
+        );
+      },
+    },
     {
       header: ({ column }) => (
         <LoadingHeader isLoading={isLoading}>
@@ -31,11 +42,9 @@ export function getColumns({ isLoading }: GetColumnsInterface): ColumnDef<Techni
       },
       cell: ({ row }) => {
         return (
-          <LoadingCell isLoading={isLoading}>
-            {row.original.name}
-          </LoadingCell>
+          <LoadingCell isLoading={isLoading}>{row.original.name}</LoadingCell>
         );
-      }
+      },
     },
     {
       header: ({ column }) => (
@@ -49,11 +58,9 @@ export function getColumns({ isLoading }: GetColumnsInterface): ColumnDef<Techni
       },
       cell: ({ row }) => {
         return (
-          <LoadingCell isLoading={isLoading}>
-            {row.original.email}
-          </LoadingCell>
+          <LoadingCell isLoading={isLoading}>{row.original.email}</LoadingCell>
         );
-      }
+      },
     },
     {
       header: ({ column }) => (
@@ -71,7 +78,7 @@ export function getColumns({ isLoading }: GetColumnsInterface): ColumnDef<Techni
             {row.original.mobilePhone}
           </LoadingCell>
         );
-      }
+      },
     },
     {
       header: ({ column }) => (
@@ -89,43 +96,16 @@ export function getColumns({ isLoading }: GetColumnsInterface): ColumnDef<Techni
             {row.original.twilioPhone}
           </LoadingCell>
         );
-      }
-    },
-    {
-      header: ({ column }) => (
-        <LoadingHeader isLoading={isLoading}>
-          <SortableHeader column={column}>Calendar ID</SortableHeader>
-        </LoadingHeader>
-      ),
-      accessorKey: "calendarId",
-      meta: {
-        label: "Calendar ID",
       },
-      cell: ({ row }) => {
-        return (
-          <LoadingCell isLoading={isLoading}>
-            {row.original.calendarId}
-          </LoadingCell>
-        );
-      }
     },
     {
-      header: ({ column }) => (
-        <LoadingHeader isLoading={isLoading}>
-          <SortableHeader column={column}>Mobile Tire Van</SortableHeader>
-        </LoadingHeader>
-      ),
       accessorKey: "mobileTireVan",
-      meta: {
-        label: "Mobile Tire Van",
-      },
+      header: "Assigned Van",
       cell: ({ row }) => {
-        return (
-          <LoadingCell isLoading={isLoading}>
-            {row.original.mobileTireVan}
-          </LoadingCell>
-        );
-      }
+        const vans = row.original.mobileTireVan || [];
+        const van = vans[0];
+        return van ? `${van.vehicleId}` : "No van assigned";
+      },
     },
     {
       id: "actions",
@@ -133,20 +113,26 @@ export function getColumns({ isLoading }: GetColumnsInterface): ColumnDef<Techni
         label: "Actions",
       },
       cell: ({ row }) => {
-        // TODO: Fill with the correct values when backend is ready
-        const initialValues = {
-          id: row.original.id,
-          fullName: row.original.name,
-          email: "john.doe@example.com",
-          password: "password",
-          mobilePhone: "+1234567890",
-          twilioPhone: "+1234567890",
-          profilePhoto: "none",
-          assignMobileTireVan: "van1",
-        };
-
-        return <TechniciansActions initialValues={initialValues} disabled={isLoading} />;
+        return (
+          <TechniciansActions
+            initialValues={{
+              id: row.original.id.toString(),
+              email: row.original.email,
+              mobilePhone: row.original.mobilePhone.toString(),
+              twilioPhone: row.original.twilioPhone.toString(),
+              mobileTireVan: row.original.mobileTireVan.map((van) => van.id),
+              assignMobileTireVan:
+                row.original.mobileTireVan.length > 0
+                  ? row.original.mobileTireVan[0].id.toString()
+                  : "",
+              password: row.original.password,
+              fullName: row.original.name,
+              profilePhoto: row.original.profilePhoto,
+            }}
+            disabled={isLoading}
+          />
+        );
       },
     },
-  ]
+  ];
 }

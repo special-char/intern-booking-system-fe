@@ -9,20 +9,45 @@ import { ContentTable } from "@/components/common/table/content-table";
 import { FilterOptionsButton } from "@/components/common/table/filter-options-button";
 import { ClearTableFiltersButton } from "@/components/common/table/clear-table-filters-button";
 
-import { getColumns, Technician } from "./columns";
+import { getColumns } from "./columns";
 import { filters } from "./filter-options";
 import { useTable } from "@/hooks/use-table";
 import { TableProps } from "@/types/table";
 import { useMemo } from "react";
 
-export interface TechniciansTable extends TableProps {
-  data: Technician[]
+export interface Technician {
+  id: number;
+  name: string;
+  email: string;
+  mobilePhone: number;
+  twilioPhone: number;
+  password: string;
+  profilePhoto: {
+    url: string;
+    alt: string;
+  } | null;
+  mobileTireVan: Array<{
+    id: number;
+    vehicleId: string;
+    yearMake: string;
+    modelTrim: string;
+  }>;
+  updatedAt: string;
+  createdAt: string;
 }
 
-export function TechniciansTable({ data, isLoading = false, pagination }: TechniciansTable) {
-  const columns = useMemo(() => getColumns({ isLoading }), [])
+export interface TechniciansTable extends TableProps {
+  data: Technician[];
+}
 
-  const { table } = useTable({ data, columns })
+export function TechniciansTable({
+  data,
+  isLoading = false,
+  pagination,
+}: TechniciansTable) {
+  const columns = useMemo(() => getColumns({ isLoading }), []);
+
+  const { table } = useTable({ data, columns });
 
   return (
     <div className="space-y-5 mt-6">
@@ -37,7 +62,11 @@ export function TechniciansTable({ data, isLoading = false, pagination }: Techni
               table={table}
               filters={filters}
             />
-            <ColumnVisibilityButton label="Show/Hide Columns" table={table} disabled={isLoading} />
+            <ColumnVisibilityButton
+              label="Show/Hide Columns"
+              table={table}
+              disabled={isLoading}
+            />
           </div>
         </div>
         <ContentTable table={table} columns={columns} />

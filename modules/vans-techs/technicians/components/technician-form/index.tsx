@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
+import { useRouter } from "next/navigation";
 
 import { Form } from "@/components/shadcn/form";
 import {
@@ -18,7 +19,11 @@ import {
   technicianFormSchema,
   technicianFormDefaultValues,
 } from "./technician-form.consts";
-import { createTechnician, updateTechnician } from "@/lib/data/technicians";
+import {
+  CreateTechnicianInput,
+  createTechnicianPayload,
+  updateTechnician,
+} from "@/lib/data/technicians";
 import { TechnicianFields } from "./technician-fields";
 
 export type TechnicianFormType = z.infer<typeof technicianFormSchema>;
@@ -32,12 +37,22 @@ export function TechnicianForm({
   isEdit?: boolean;
   initialValues?: TechnicianFormType & { id: string };
 }) {
-  const [preview, setPreview] = useState<string>("");
+  console.log("🚀 ~ initialValues:", initialValues);
+  const [preview, setPreview] = useState(() => {
+    if (initialValues?.profilePhoto?.url) {
+      return `http://localhost:3000${initialValues.profilePhoto.url}`;
+    }
+    return "";
+  });
   const [isSuccess, setIsSuccess] = useState(false);
+  const router = useRouter();
 
   const form = useForm<TechnicianFormType>({
     resolver: zodResolver(technicianFormSchema),
-    defaultValues: initialValues || technicianFormDefaultValues,
+    defaultValues: {
+      ...technicianFormDefaultValues,
+      ...initialValues,
+    },
   });
 
   const {
@@ -45,20 +60,34 @@ export function TechnicianForm({
   } = form;
 
   const onSubmit = async (values: TechnicianFormType) => {
-    const formData = {
-      name: values.fullName,
-      start_time: "2025-03-14T00:00:00.000Z",
-      end_time: "2025-03-14T00:00:00.000Z",
-      lunch_time_start: "2025-03-14T00:00:00.000Z",
-      lunch_time_end: "2025-03-14T00:00:00.000Z",
-    };
+    try {
+      const formData: CreateTechnicianInput = {
+        fullName: values.fullName,
+        email: values.email,
+        mobileTireVan: values.mobileTireVan,
+        profilePhoto:
+          values.profilePhoto instanceof File
+            ? values.profilePhoto
+            : initialValues?.profilePhoto?.id || null,
+        twilioPhone: Number(values.twilioPhone),
+        mobilePhone: Number(values.mobilePhone),
+        password: values.password,
+      };
 
-    if (isEdit && initialValues) {
-      const technician = await updateTechnician(formData, initialValues.id);
-      setIsSuccess(technician.isSuccess);
-    } else {
-      const technician = await createTechnician(formData);
-      setIsSuccess(technician.isSuccess);
+      if (isEdit && initialValues) {
+        await updateTechnician(formData, initialValues.id);
+      } else {
+        await createTechnicianPayload(formData);
+      }
+
+      router.refresh();
+      setIsSuccess(true);
+      form.reset();
+      setPreview("");
+      setIsOpen(false);
+    } catch (error) {
+      console.error("Form submission error:", error);
+      // Add error handling here (e.g., show error message to user)
     }
   };
 
@@ -77,7 +106,11 @@ export function TechnicianForm({
   };
 
   useEffect(() => {
-    form.reset(initialValues);
+    if (initialValues) {
+      form.reset({
+        ...initialValues,
+      });
+    }
   }, [initialValues, form]);
 
   return (
