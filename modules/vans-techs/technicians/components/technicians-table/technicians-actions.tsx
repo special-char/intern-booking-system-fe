@@ -13,11 +13,14 @@ import { deleteTechnician } from "@/lib/data/technicians";
 import { ConfirmDialog } from "@/components/common/confirm-dialog";
 
 interface TechniciansActionsProps {
-  disabled?: boolean
+  disabled?: boolean;
   initialValues: TechnicianFormType & { id: string };
 }
 
-export function TechniciansActions({ disabled, initialValues }: TechniciansActionsProps) {
+export function TechniciansActions({
+  disabled,
+  initialValues,
+}: TechniciansActionsProps) {
   const [isSheetOpen, setSheetOpen] = useState(false);
   const [isDeleting, setIsDeleting] = useState(false);
   const [isAlertOpen, setIsAlertOpen] = useState(false);

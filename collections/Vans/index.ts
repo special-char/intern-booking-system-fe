@@ -1,5 +1,5 @@
 import type { CollectionConfig } from 'payload'
-import { authenticated } from '@/access/authenticated'
+import { anyone, authenticated } from '@/access/authenticated'
 import { createAccess } from './acess/create'
 import { deleteAccess } from './acess/delete'
 import { updateAccess } from './acess/update'
@@ -7,10 +7,10 @@ import { updateAccess } from './acess/update'
 export const Vans: CollectionConfig = {
     slug: 'vans',
     access: {
-        create: createAccess,
-        delete: deleteAccess,
-        read: authenticated,
-        update: updateAccess,
+        create: anyone,
+        delete: anyone,
+        read: anyone,
+        update: anyone,
     },
     admin: {
         useAsTitle: 'modelTrim',

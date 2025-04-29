@@ -1,9 +1,15 @@
-import { PaginatedDataInterface, PaginationInterface } from "@/types/pagination";
+import {
+  PaginatedDataInterface,
+  PaginationInterface,
+} from "@/types/pagination";
 import { TechniciansTable } from ".";
 import { getTechniciansDTO } from "@/lib/data/technicians";
 
-export async function TechniciansTableTemplate({ page, limit }: PaginatedDataInterface) {
-  const { technicians, count } = await getTechniciansDTO({
+export async function TechniciansTableTemplate({
+  page,
+  limit,
+}: PaginatedDataInterface) {
+  const technicians = await getTechniciansDTO({
     page,
     limit,
   });
@@ -11,13 +17,8 @@ export async function TechniciansTableTemplate({ page, limit }: PaginatedDataInt
   const pagination: PaginationInterface = {
     pageIndex: page,
     pageSize: limit,
-    totalCount: count,
+    totalCount: technicians.totalDocs,
   };
 
-  return (
-    <TechniciansTable
-      data={technicians}
-      pagination={pagination}
-    />
-  );
+  return <TechniciansTable data={technicians.docs} pagination={pagination} />;
 }

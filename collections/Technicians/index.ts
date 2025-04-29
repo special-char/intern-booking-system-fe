@@ -7,6 +7,7 @@ import { createAccess } from "./acess/create";
 import { deleteAccess } from "./acess/delete";
 import { updateAccess } from "./acess/update";
 
+
 export const Technicians: CollectionConfig = {
   slug: 'technicians',
   access: {
