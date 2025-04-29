@@ -116,19 +116,19 @@ export function getColumns({
         return (
           <TechniciansActions
             initialValues={{
-              id: row.original.id.toString(),
+              id: `${row.original.id}`,
               email: row.original.email,
-              mobilePhone: row.original.mobilePhone.toString(),
-              twilioPhone: row.original.twilioPhone.toString(),
-              mobileTireVan: row.original.mobileTireVan.map((van) => van.id),
+              mobilePhone: `${row.original.mobilePhone}`,
+              ...(row.original.twilioPhone && { twilioPhone: `${row.original.twilioPhone}` }),
+              mobileTireVan: row.original.mobileTireVan?.map((van) => van.id),
               assignMobileTireVan:
-                row.original.mobileTireVan.length > 0
-                  ? row.original.mobileTireVan[0].id.toString()
+                row.original.mobileTireVan && row.original.mobileTireVan.length > 0
+                  ? `${row.original.mobileTireVan[0].id}`
                   : "",
               password: row.original.password,
               fullName: row.original.name,
               profilePhoto: row.original.profilePhoto,
-            }}
+            } as any}
             disabled={isLoading}
           />
         );

@@ -10,8 +10,8 @@ export const technicianFormSchema = z.object({
     .regex(/^\d+$/, { message: "Only numeric values are allowed" }),
   twilioPhone: z
     .string()
-    .min(1, { message: "Twilio phone is required" })
-    .regex(/^\d+$/, { message: "Only numeric values are allowed" }),
+    .regex(/^\d+$/, { message: "Only numeric values are allowed" })
+    .optional(),
   profilePhoto: z
     .any(),
   assignMobileTireVan: z.string().optional(),

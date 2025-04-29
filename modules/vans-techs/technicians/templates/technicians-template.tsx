@@ -23,7 +23,7 @@ export async function TechniciansTemplate(props: PaginatedDataInterface) {
           <TechnicianFormModal />
         </div>
       </div>
-      <Suspense fallback={<TechniciansTable data={data as TechniciansTable['data']} pagination={pagination} isLoading />}>
+      <Suspense fallback={<TechniciansTable data={data as unknown as TechniciansTable['data']} pagination={pagination} isLoading />}>
         <TechniciansTableTemplate {...props} />
       </Suspense>
     </div>
