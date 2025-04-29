@@ -233,10 +233,10 @@ export async function deleteTechnician(
   id: string
 ): Promise<DeleteTechnicianResponse> {
   try {
-    const authHeaders = await getAuthHeaders();
+    const authHeaders = await getPayloadAuthHeaders();
 
     const url = new URL(
-      `${process.env.MEDUSA_BACKEND_URL}/admin/technicians/${id}`
+      `${process.env.NEXT_PUBLIC_SERVER_URL}/api/technicians/${id}`
     );
 
     const response = await fetch(url.toString(), {
