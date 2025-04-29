@@ -75,6 +75,7 @@ export async function getTechnicianIdByUserId(userId: string): Promise<string | 
           equals: userId,
         },
       },
+      depth: 0,
     });
 
     if (data.docs && data.docs.length > 0) {

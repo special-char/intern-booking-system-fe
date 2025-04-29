@@ -89,22 +89,27 @@ export const menuItems = {
       icon: ShoppingCart,
       isActive: false,
       isExpandable: true,
+      permissionSkip: true,
       items: [
         {
           title: "List view",
           url: "/orders/list-view",
+          permissionSkip: true,
         },
         {
           title: "Calendar view",
           url: "/orders/calendar-view",
+          permissionSkip: true,
         },
         {
           title: "Map view",
           url: "/orders/map-view",
+          permissionSkip: true,
         },
         {
           title: "Route view",
           url: "/orders/route-view",
+          permissionSkip: true,
         },
       ],
     },

@@ -32,6 +32,7 @@ export interface NavMainItem {
     title: string;
     url: string;
     payloadCollection?: string;
+    permissionSkip?: boolean;
   }[];
   matchNested?: boolean
 }
@@ -45,7 +46,7 @@ export function NavMain({
 }) {
   const pathname = usePathname();
 
-  
+
 
   function getIsActiveItem(item: NavMainItem): boolean {
     if (item.url === "/") {
@@ -96,10 +97,10 @@ export function NavMain({
                         {item.items?.map((subItem) => {
                           const isActive = pathname === subItem.url;
 
-                          console.log({subItem:subItem.payloadCollection});
-                          const hasReadPermission = permissions.collections?.[subItem.payloadCollection ?? ""]?.read;
-                          if(!hasReadPermission) return null;
-                          
+                          console.log({ subItem: subItem.payloadCollection });
+                          const hasReadPermission = permissions.collections?.[subItem.payloadCollection ?? ""]?.read || subItem?.permissionSkip;
+                          if (!hasReadPermission) return null;
+
                           return (
                             <SidebarMenuSubItem
                               key={subItem.title}
