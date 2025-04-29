@@ -37,7 +37,7 @@ export function getColumns({ isLoading }: GetColumnsInterface): ColumnDef<Order 
       ),
       cell: ({ row }) => (
         <LoadingCell isLoading={isLoading}>
-          {row.original.display_id}
+          {row?.original?.id || "-"}
         </LoadingCell>
       ),
     },
@@ -89,11 +89,15 @@ export function getColumns({ isLoading }: GetColumnsInterface): ColumnDef<Order 
       accessorKey: "summary.current_order_total",
       meta: { label: "Total" },
       header: () => <LoadingHeader isLoading={isLoading}>Total</LoadingHeader>,
-      cell: ({ row }) => (
-        <LoadingCell isLoading={isLoading}>
-          ${row.original.summary?.current_order_total ?? 0}
-        </LoadingCell>
-      ),
+      cell: ({ row }) => {
+        const total = row.original?.items?.reduce((sum: number, item: any) =>
+          sum + (item.unit_price * item.quantity), 0);
+        return (
+          <LoadingCell isLoading={isLoading}>
+            ${total || 0}
+          </LoadingCell>
+        );
+      },
     },
     {
       accessorKey: "qboStatus",

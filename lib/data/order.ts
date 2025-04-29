@@ -24,11 +24,9 @@ export async function getOrderList({
         limit,
         offset,
         fields:
-          "*customer, shipping_address.first_name, shipping_address.last_name , *technician",
+          "*technician",
         order: "-created_at",
-        created_at: {
-          $gte: "2025-03-10T00:00:00Z",
-        },
+
       };
     const orders = await sdk.admin.order.list(queryParams, {
       // ...authHeaders,
@@ -64,17 +62,17 @@ export async function getOrderListDTO({
     const role = user?.roles?.[0]?.toString()
     if (orders.orders.length > 0 && technician_id && role === "technician") {
       const filteredOrders = orders.orders.filter((order: any) => {
-        return order.technician && Number(order.technician.technician_id) === Number(technician_id);
+        return order.technician && technician_id && Number(order.technician.technician_id) === Number(technician_id);
       });
 
       return { orders: filteredOrders };
-    } else if (orders.orders.length > 0 && role === "owner") {
+    } else if (orders.orders.length > 0 && role === "owner" && tenant_id) {
+
       const filteredOrders = orders.orders.filter((order: any) => {
-        return order.technician && Number(order.technician.tenant_id) === Number(tenant_id);
+        return order.technician && order.technician.tenant_id && Number(order.technician.tenant_id) === Number(tenant_id);
       });
       return { orders: filteredOrders };
     }
-    // return mapOrdersToDTO(orders);
     return orders;
   } catch (error) {
     console.error(error);

@@ -8,8 +8,7 @@ interface SortButtonProps<TData> {
 }
 
 export function SortButton<TData>({ disabled, table }: SortButtonProps<TData>) {
-  const dateColumn = table.getColumn("date");
-
+  const dateColumn = table.getColumn("created_at"); //TODO: change to Column name
   const isSorted = dateColumn?.getIsSorted();
 
   return (
