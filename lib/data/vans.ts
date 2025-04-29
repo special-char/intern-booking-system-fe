@@ -6,14 +6,21 @@ import {
 import { revalidateTag } from "next/cache";
 import { getUser } from "./admin";
 import { Tenant } from "@/payload-types";
+import { getPayloadAuthHeaders } from "./cookies";
 
 export async function getTireVans(): Promise<any> { //TODO: fix type any
   try {
+    const authHeaders = await getPayloadAuthHeaders();
     const response = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/vans`, {
       method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        ...authHeaders,
+      },
       next: {
         tags: ["tire-vans"],
       },
+      credentials: 'include',
     });
 
     if (!response.ok) {
@@ -44,7 +51,7 @@ export async function createTireVan(
   try {
     const { user } = await getUser()
     const tenantId = (user?.tenants?.[0]?.tenant as Tenant).id
-
+    const authHeaders = await getPayloadAuthHeaders();
 
     const url = new URL(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/vans`);
 
@@ -52,11 +59,13 @@ export async function createTireVan(
       method: "POST",
       headers: {
         "Content-Type": "application/json",
+        ...authHeaders,
       },
       body: JSON.stringify({
         tenant: tenantId,
         ...inputData,
       }),
+      credentials: 'include',
     });
 
     const data = await response.json();
@@ -90,6 +99,7 @@ export async function updateTireVan(
   try {
     const { user } = await getUser()
     const tenantId = (user?.tenants?.[0]?.tenant as Tenant).id
+    const authHeaders = await getPayloadAuthHeaders();
 
 
     const url = new URL(
@@ -99,12 +109,14 @@ export async function updateTireVan(
     const response = await fetch(url.toString(), {
       method: "PATCH",
       headers: {
-        "Content-Type": "application/json",
+        "Content-Type": "application/json", 
+        ...authHeaders,
       },
       body: JSON.stringify({
         ...inputData,
         tenant: tenantId,
       }),
+      credentials: 'include',
     });
 
     const data = await response.json();
@@ -143,6 +155,7 @@ export async function deleteTireVan(
   try {
     const { user } = await getUser()
     const tenantId = (user?.tenants?.[0]?.tenant as Tenant).id
+    const authHeaders = await getPayloadAuthHeaders();
 
 
     const url = new URL(
@@ -153,10 +166,12 @@ export async function deleteTireVan(
       method: "DELETE",
       headers: {
         "Content-Type": "application/json",
+        ...authHeaders,
       },
       body: JSON.stringify({
         tenant: tenantId,
       }),
+      credentials: 'include',
     });
 
     if (!response.ok) {

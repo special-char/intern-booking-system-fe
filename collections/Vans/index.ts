@@ -7,10 +7,10 @@ import { updateAccess } from './acess/update'
 export const Vans: CollectionConfig = {
     slug: 'vans',
     access: {
-        create: anyone,
-        delete: anyone,
+        create: createAccess,
+        delete: deleteAccess,
         read: anyone,
-        update: anyone,
+        update: updateAccess,
     },
     admin: {
         useAsTitle: 'modelTrim',

@@ -1,7 +1,7 @@
 "use server";
 
 import { revalidateTag } from "next/cache";
-import { getAuthHeaders } from "./cookies";
+import { getAuthHeaders, getPayloadAuthHeaders } from "./cookies";
 import {
 
   PostTechnicianResponse,
@@ -70,9 +70,11 @@ export async function getTechnicians({
   limit?: number;
 }): Promise<GetTechniciansResponse> {
   try {
+
     const endpointUrl = new URL(
       `http://localhost:3000/api/technicians`
     );
+    const authHeaders = await getPayloadAuthHeaders();
 
     // Add pagination parameters
     // endpointUrl.searchParams.append("page", page.toString());
@@ -83,6 +85,11 @@ export async function getTechnicians({
       next: {
         tags: ["technicians"],
       },
+      headers: {
+        "Content-Type": "application/json",
+        ...authHeaders,
+      },
+      credentials: 'include',
     });
 
     if (!response.ok) {
@@ -335,25 +342,30 @@ export async function createTechnicianPayload(
     }
     const { user } = await getUser()
     const tenantId = (user?.tenants?.[0]?.tenant as Tenant)?.id
+    const authHeaders = await getPayloadAuthHeaders();
 
     const formData = new FormData();
-    formData.append("_payload", JSON.stringify({
-      name: inputData.fullName,
-      email: inputData.email,
-      password: inputData.password,
-      tenant: Number(tenantId),
-      mobilePhone: inputData.mobilePhone,
-      twilioPhone: inputData.twilioPhone,
-      profilePhoto: profilePhotoId,
-      mobileTireVan: inputData.mobileTireVan.map(Number)
-    }));
 
 
     const response = await fetch(
       "http://localhost:3000/api/technicians?depth=0&fallback-locale=null",
       {
         method: "POST",
-        body: formData,
+        body: JSON.stringify({
+          name: inputData.fullName,
+          email: inputData.email,
+          password: inputData.password,
+          tenant: tenantId,
+          mobilePhone: inputData.mobilePhone,
+          twilioPhone: inputData.twilioPhone,
+          profilePhoto: profilePhotoId,
+          mobileTireVan: inputData.mobileTireVan.map(Number)
+        }),
+        headers: {
+          "Content-Type": "application/json",
+          ...authHeaders,
+        },
+        credentials: 'include',
       }
     );
 
