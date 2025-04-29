@@ -10,10 +10,10 @@ import { anyone, authenticated } from "@/access/authenticated";
 export const Technicians: CollectionConfig = {
   slug: "technicians",
   access: {
-    create: anyone,
-    delete: anyone,
-    read: anyone,
-    update: anyone,
+    create: createAccess,
+    delete: deleteAccess,
+    read: createAccess,
+    update: updateAccess,
   },
   admin: {
     useAsTitle: "name",

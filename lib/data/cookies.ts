@@ -19,6 +19,19 @@ export const getAuthHeaders = async (): Promise<
   return { authorization: `Bearer ${token}` };
 };
 
+export const getPayloadAuthHeaders = async (): Promise<
+  AuthHeaders | null
+> => {
+  const cookies = await nextCookies();
+  const token = cookies.get("payload-token")?.value;
+
+  if (!token) {
+    throw new Error("No token found");
+  }
+
+  return { authorization: `Bearer ${token}` };
+};
+
 export const setAuthToken = async (token: string, maxAge: number) => {
   const cookies = await nextCookies();
   cookies.set("payload-token", token, {
