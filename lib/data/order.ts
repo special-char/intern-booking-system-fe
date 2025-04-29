@@ -1,7 +1,7 @@
+import { getPayload } from "payload";
 import { sdk } from "../config";
-import { mapOrdersToDTO } from "../dto/order";
 import { getUser } from "./admin";
-import { getAuthHeaders } from "./cookies";
+import config from '@payload-config'
 import { HttpTypes } from "@medusajs/types";
 
 export async function getOrderList({
@@ -11,29 +11,21 @@ export async function getOrderList({
 }: {
   page?: number;
   limit?: number;
-  filters?: HttpTypes.AdminOrderFilters;
+  filters?: HttpTypes.AdminOrderFilters | any; //TODO: fix type any
 }) {
   try {
-    // const authHeaders = await getAuthHeaders();
-
     const offset = (page - 1) * limit;
-
     const queryParams: HttpTypes.AdminOrderFilters = filters
-      ? { ...filters, limit, offset }
-      : {
-        limit,
-        offset,
-        fields:
-          "*technician",
-        order: "-created_at",
+      ? { ...filters }
+      : ""
 
-      };
-    const orders = await sdk.admin.order.list(queryParams, {
-      // ...authHeaders,
+    const orders = await sdk.client.fetch(`store/custom`, {
+      method: "GET",
+      query: queryParams,
+    }
+    );
 
-    });
-
-    return orders as any;
+    return orders;
   } catch (error) {
     console.log(error);
     return null;
@@ -49,29 +41,21 @@ export async function getOrderListDTO({
 }) {
   try {
     const { user } = await getUser();
-    console.dir(user, { depth: null });
-    const orders = await getOrderList({ page, limit });
 
-    if (!orders) {
-      return null;
-    }
+    console.dir(user, { depth: null });
 
     const tenant_id = (user?.tenants?.[0]?.tenant as any)?.id
     const user_id = (user?.id)
     const technician_id = await getTechnicianIdByUserId(`${user_id}`);
-    const role = user?.roles?.[0]?.toString()
-    if (orders.orders.length > 0 && technician_id && role === "technician") {
-      const filteredOrders = orders.orders.filter((order: any) => {
-        return order.technician && technician_id && Number(order.technician.technician_id) === Number(technician_id);
-      });
 
-      return { orders: filteredOrders };
-    } else if (orders.orders.length > 0 && role === "owner" && tenant_id) {
-
-      const filteredOrders = orders.orders.filter((order: any) => {
-        return order.technician && order.technician.tenant_id && Number(order.technician.tenant_id) === Number(tenant_id);
-      });
-      return { orders: filteredOrders };
+    const orders = await getOrderList({
+      page, limit, filters: {
+        ...(technician_id && { technician_id: technician_id }),
+        tenant_id: tenant_id,
+      }
+    });
+    if (!orders) {
+      return null;
     }
     return orders;
   } catch (error) {
@@ -80,30 +64,19 @@ export async function getOrderListDTO({
   }
 }
 
-/**
- * Fetches the technician ID for a given user ID.
- * @param userId The user ID to search for.
- * @returns The technician ID as a string, or null if not found.
- */
-export async function getTechnicianIdByUserId(userId: string): Promise<string | null> {
+export async function getTechnicianIdByUserId(userId: string): Promise<string | number | null> {
   try {
-    const response = await fetch(
-      `http://localhost:3000/api/technicians?where[user][equals]=${userId}`,
-      {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
+    const payload = await getPayload({ config });
+
+    const data = await payload.find({
+      collection: "technicians",
+      where: {
+        user: {
+          equals: userId,
         },
-      }
-    );
+      },
+    });
 
-    if (!response.ok) {
-      throw new Error(`Failed to fetch technician: ${response.statusText}`);
-    }
-
-    const data = await response.json();
-    console.log("🚀 ~ getTechnicianIdByUserId ~ data:", data)
-    // Assuming the response structure is { docs: [ { id: ... } ] }
     if (data.docs && data.docs.length > 0) {
       return data.docs[0].id;
     }

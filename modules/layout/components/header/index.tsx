@@ -98,7 +98,7 @@ export async function Header() {
                     STORE ID
                   </p>
                   <p className="text-sm font-medium leading-none text-text-primary">
-                    {(user?.tenants?.[0]?.tenant as Tenant).id}
+                    {(user?.tenants?.[0]?.tenant as Tenant)?.id}
                   </p>
                 </DropdownMenuLabel>
               </DropdownMenuGroup>

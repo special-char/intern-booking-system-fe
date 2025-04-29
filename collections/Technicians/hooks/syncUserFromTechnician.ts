@@ -9,7 +9,7 @@ export const syncUserFromTechnician: CollectionAfterChangeHook<
 
   if (operation === "create" && doc.email && doc.password) {
     try {
-      await sdk.client.fetch("/custom", {
+      await sdk.client.fetch("store/custom", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: {
