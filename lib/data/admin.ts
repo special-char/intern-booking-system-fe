@@ -3,9 +3,9 @@
 import { redirect } from "next/navigation";
 import { getAuthHeaders } from "./cookies";
 import { rest } from "@/app/(app)/_providers/Auth/rest";
-import { cookies, headers as getHeaders } from 'next/headers'
-import { getPayload } from 'payload'
-import config from '@payload-config'
+import { cookies, headers as getHeaders } from "next/headers";
+import { getPayload } from "payload";
+import config from "@payload-config";
 
 export async function login(
   extras: { tenantDomain?: string },
@@ -17,11 +17,14 @@ export async function login(
   const tenantDomain = extras.tenantDomain as string;
 
   try {
-    await rest(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/users/external-users/login`, {
-      email,
-      password,
-      tenantDomain,
-    });
+    await rest(
+      `${process.env.NEXT_PUBLIC_SERVER_URL}/api/users/external-users/login`,
+      {
+        email,
+        password,
+        tenantDomain,
+      }
+    );
   } catch (error: any) {
     console.log("error: ", error);
     return error.toString();
@@ -33,11 +36,11 @@ export async function login(
 export async function logout() {
   const cookieStore = await cookies();
   await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/users/logout`, {
-    method: 'POST',
+    method: "POST",
     headers: {
-      'Content-Type': 'application/json',
+      "Content-Type": "application/json",
     },
-  })
+  });
   cookieStore.delete("payload-token");
   redirect("/");
 }
@@ -69,10 +72,9 @@ export async function refreshAdmin(): Promise<boolean> {
 }
 
 export async function getUser() {
-
-  const headers = await getHeaders()
-  const payload = await getPayload({ config })
-  return await payload.auth({ headers })
+  const headers = await getHeaders();
+  const payload = await getPayload({ config });
+  return await payload.auth({ headers });
 
   // const user = await rest(
   //   `${process.env.NEXT_PUBLIC_SERVER_URL}/api/users/me`,

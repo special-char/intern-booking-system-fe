@@ -1,6 +1,6 @@
 import { Technician } from "@/payload-types";
 import type { CollectionAfterChangeHook } from "payload";
-import { sdk } from "@/lib/config";
+import { adminApiRequest } from "@/lib/utils/api";
 
 export const syncUserFromTechnician: CollectionAfterChangeHook<
   Technician
@@ -9,10 +9,10 @@ export const syncUserFromTechnician: CollectionAfterChangeHook<
 
   if (operation === "create" && doc.email && doc.password) {
     try {
-      await sdk.client.fetch("store/custom", {
+      await adminApiRequest<any>({
         method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: {
+        url: "/store/custom",
+        data: {
           name: doc.name,
           email: doc.email,
           technician_id: doc.id,

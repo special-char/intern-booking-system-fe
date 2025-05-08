@@ -6,9 +6,7 @@ export interface AuthHeaders {
   authorization: string;
 }
 
-export const getAuthHeaders = async (): Promise<
-  AuthHeaders | null
-> => {
+export const getAuthHeaders = async (): Promise<AuthHeaders | null> => {
   const cookies = await nextCookies();
   const token = cookies.get("_medusa_jwt")?.value;
 
@@ -19,9 +17,7 @@ export const getAuthHeaders = async (): Promise<
   return { authorization: `Bearer ${token}` };
 };
 
-export const getPayloadAuthHeaders = async (): Promise<
-  AuthHeaders | null
-> => {
+export const getPayloadAuthHeaders = async (): Promise<AuthHeaders | null> => {
   const cookies = await nextCookies();
   const token = cookies.get("payload-token")?.value;
 
@@ -77,4 +73,40 @@ export const getCacheOptions = async (
 export const logout = async () => {
   const cookieStore = await cookies();
   cookieStore.delete("_medusa_jwt");
+};
+
+export const setSalesChannelId = async (
+  salesChannelId: string,
+  maxAge: number
+) => {
+  const cookies = await nextCookies();
+  cookies.set("sales-channel-id", salesChannelId, {
+    maxAge: maxAge,
+    httpOnly: true,
+    sameSite: "strict",
+    secure: process.env.NODE_ENV === "production",
+  });
+};
+
+export const setPublishableApiKey = async (
+  publishableApiKey: string,
+  maxAge: number
+) => {
+  const cookies = await nextCookies();
+  cookies.set("publishable-api-key", publishableApiKey, {
+    maxAge: maxAge,
+    httpOnly: true,
+    sameSite: "strict",
+    secure: process.env.NODE_ENV === "production",
+  });
+};
+
+export const getSalesChannelId = async (): Promise<string | undefined> => {
+  const cookies = await nextCookies();
+  return cookies.get("sales-channel-id")?.value;
+};
+
+export const getPublishableApiKey = async (): Promise<string | undefined> => {
+  const cookies = await nextCookies();
+  return cookies.get("publishable-api-key")?.value;
 };

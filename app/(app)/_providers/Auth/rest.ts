@@ -1,4 +1,8 @@
-import { setAuthToken } from "@/lib/data/cookies";
+import {
+  setAuthToken,
+  setSalesChannelId,
+  setPublishableApiKey,
+} from "@/lib/data/cookies";
 import type { User } from "../../../../payload-types";
 
 export const rest = async (
@@ -30,6 +34,14 @@ export const rest = async (
       const currentTimestamp = Math.floor(Date.now() / 1000);
       const maxAge = exp - currentTimestamp;
       await setAuthToken(token, maxAge);
+
+      if (user?.tenants?.[0]?.tenant) {
+        const { salesChannelId, publishableApiKey } = user.tenants[0].tenant;
+        if (salesChannelId) await setSalesChannelId(salesChannelId, maxAge);
+        if (publishableApiKey) {
+          await setPublishableApiKey(publishableApiKey, maxAge);
+        }
+      }
 
       return user;
     }
