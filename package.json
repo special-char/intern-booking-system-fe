@@ -59,6 +59,7 @@
     "moment": "^2.30.1",
     "motion": "^12.4.3",
     "next": "^15.2.3",
+    "nylas": "^7.9.0",
     "payload": "^3.35.1",
     "react": "^19.0.0",
     "react-big-calendar": "^1.18.0",
