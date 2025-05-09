@@ -1,5 +1,4 @@
 import type { CollectionAfterChangeHook } from "payload";
-import { sdk } from "@/lib/config";
 import type { Tenant } from "@/payload-types";
 import { adminApiRequest } from "@/lib/utils/api";
 

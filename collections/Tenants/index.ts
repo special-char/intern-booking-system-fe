@@ -1,10 +1,12 @@
-import type { CollectionConfig } from 'payload'
-import { isSuperAdminAccess } from '@/access/isSuperAdmin'
-import { updateAndDeleteAccess } from './access/updateAndDelete'
-import { afterTenantCreate } from './hooks/afterTenantCreate'
+import type { CollectionConfig } from "payload";
+import { isSuperAdminAccess } from "@/access/isSuperAdmin";
+import { updateAndDeleteAccess } from "./access/updateAndDelete";
+import { afterTenantCreate } from "./hooks/afterTenantCreate";
+import { syncAfterUserFromTenant } from "./hooks/syncAfterUserFromTenant";
+import { updateTenant } from "./hooks/updateTenant";
 
 export const Tenants: CollectionConfig = {
-  slug: 'tenants',
+  slug: "tenants",
   access: {
     create: isSuperAdminAccess,
     delete: updateAndDeleteAccess,
@@ -12,65 +14,85 @@ export const Tenants: CollectionConfig = {
     update: updateAndDeleteAccess,
   },
   admin: {
-    useAsTitle: 'name',
+    useAsTitle: "name",
   },
   fields: [
     {
-      name: 'name',
-      type: 'text',
+      name: "name",
+      type: "text",
       required: true,
     },
     {
-      name: 'domain',
-      type: 'text',
-      admin: {
-        description: 'Used for domain-based tenant handling',
+      name: "email",
+      type: "email",
+      required: true,
+      unique: true,
+      access: {
+        update: () => false,
       },
     },
     {
-      name: 'slug',
-      type: 'text',
+      name: "password",
+      type: "text",
+      required: true,
+      access: {
+        update: () => false,
+      },
+    },
+    {
+      name: "profilePhoto",
+      type: "upload",
+      relationTo: "media",
+    },
+    {
+      name: "domain",
+      type: "text",
       admin: {
-        description: 'Used for url paths, example: /tenant-slug/page-slug',
+        description: "Used for domain-based tenant handling",
+      },
+    },
+    {
+      name: "slug",
+      type: "text",
+      admin: {
+        description: "Used for url paths, example: /tenant-slug/page-slug",
       },
       index: true,
       required: true,
     },
     {
-      name: 'allowPublicRead',
-      type: 'checkbox',
+      name: "allowPublicRead",
+      type: "checkbox",
       admin: {
         description:
-          'If checked, logging in is not required to read. Useful for building public pages.',
-        position: 'sidebar',
+          "If checked, logging in is not required to read. Useful for building public pages.",
+        position: "sidebar",
       },
       defaultValue: false,
       index: true,
     },
     {
-      name: 'salesChannelId',
-      type: 'text',
+      name: "salesChannelId",
+      type: "text",
       admin: {
         readOnly: true,
-        position: 'sidebar',
-        description: 'The Medusa Sales Channel ID associated with this tenant.',
+        position: "sidebar",
+        description: "The Medusa Sales Channel ID associated with this tenant.",
       },
       index: true,
     },
     {
-      name: 'publishableApiKey',
-      type: 'text',
+      name: "publishableApiKey",
+      type: "text",
       admin: {
         readOnly: true,
-        position: 'sidebar',
-        description: 'Publishable API Key associated with this tenant.',
+        position: "sidebar",
+        description: "Publishable API Key associated with this tenant.",
       },
       index: true,
     },
   ],
   hooks: {
-    afterChange: [
-      afterTenantCreate,
-    ],
+    afterChange: [afterTenantCreate, updateTenant],
   },
-}
+};

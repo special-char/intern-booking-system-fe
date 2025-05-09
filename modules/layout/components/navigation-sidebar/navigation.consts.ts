@@ -76,10 +76,12 @@ export const menuItems = {
       icon: Map,
       isActive: false,
       isExpandable: true,
+      permissionSkip: true,
       items: [
         {
           title: "Hours of operation",
           url: "/territories-availability/hours-of-operation",
+          permissionSkip: true,
         },
       ],
     },

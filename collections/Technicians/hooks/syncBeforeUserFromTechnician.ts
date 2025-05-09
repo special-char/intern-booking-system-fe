@@ -4,7 +4,6 @@ import type { CollectionBeforeChangeHook } from "payload";
 export const syncBeforeUserFromTechnician: CollectionBeforeChangeHook<
   Technician
 > = async ({ data, operation, req }) => {
-
   const tenantId = (req?.user?.tenants?.[0]?.tenant as any)?.id;
 
   if (operation === "create" && data.email && data.password) {
@@ -12,7 +11,7 @@ export const syncBeforeUserFromTechnician: CollectionBeforeChangeHook<
       const user = await req.payload.create({
         collection: "users",
         data: {
-          email: data.email,
+          email: data.email!,
           password: data.password,
           roles: ["technician"],
           name: data.name!,
@@ -26,11 +25,7 @@ export const syncBeforeUserFromTechnician: CollectionBeforeChangeHook<
         },
       });
 
-      const id = user.id
-
-      data.user = id.toString()
-
-
+      data.user = `${user.id}`;
     } catch (error) {
       req.payload.logger.error(
         `Error creating user for technician ${data.email}: ${error}`

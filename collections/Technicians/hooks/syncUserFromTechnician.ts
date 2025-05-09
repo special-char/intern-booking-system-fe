@@ -21,7 +21,7 @@ export const syncUserFromTechnician: CollectionAfterChangeHook<
       });
     } catch (error) {
       req.payload.logger.error(
-        `Error creating user for technician ${doc.email}: ${error}`
+        `Error attching technician_id and tenant_id for ${doc.email}: ${error}`
       );
     }
   }
