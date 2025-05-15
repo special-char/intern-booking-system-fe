@@ -32,14 +32,6 @@ export const Tenants: CollectionConfig = {
       },
     },
     {
-      name: "password",
-      type: "text",
-      required: true,
-      access: {
-        update: () => false,
-      },
-    },
-    {
       name: "profilePhoto",
       type: "upload",
       relationTo: "media",
