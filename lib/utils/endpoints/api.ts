@@ -1,5 +1,5 @@
 import axios, { AxiosRequestConfig } from "axios";
-import { getPublishableApiKey } from "../data/cookies";
+import { getPublishableApiKey } from "../../data/cookies";
 
 const baseURL = process.env.MEDUSA_BACKEND_URL || "http://localhost:9000";
 
@@ -16,7 +16,9 @@ export const createApiClient = async () => {
   return api;
 };
 
-export const apiRequest = async <T>(config: AxiosRequestConfig): Promise<T> => {
+export const apiRequest = async <T = any>(
+  config: AxiosRequestConfig
+): Promise<T> => {
   const api = await createApiClient();
   const response = await api.request<T>(config);
   return response.data;
@@ -33,7 +35,7 @@ export const createAdminApiClient = async () => {
   return api;
 };
 
-export const adminApiRequest = async <T>(
+export const adminApiRequest = async <T = any>(
   config: AxiosRequestConfig
 ): Promise<T> => {
   const api = await createAdminApiClient();

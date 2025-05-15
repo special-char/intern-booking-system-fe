@@ -34,12 +34,17 @@ export async function GET(request: Request) {
       code,
     });
 
-    const { grantId } = response;
+    const { grantId, accessToken } = response;
 
+    console.log("Access Token:", accessToken);
     console.log("Grant ID:", grantId);
 
     return NextResponse.json({
-      message: "OAuth2 flow completed successfully for grant ID: " + grantId,
+      message:
+        "OAuth2 flow completed successfully for grant ID: " +
+        grantId +
+        " and access token: " +
+        accessToken,
     });
   } catch (error) {
     return NextResponse.json(
