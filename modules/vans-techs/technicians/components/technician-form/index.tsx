@@ -37,7 +37,6 @@ export function TechnicianForm({
   isEdit?: boolean;
   initialValues?: TechnicianFormType & { id: string };
 }) {
-  console.log("🚀 ~ initialValues:", initialValues);
   const [preview, setPreview] = useState(() => {
     if (initialValues?.profilePhoto?.url) {
       return `http://localhost:3000${initialValues.profilePhoto.url}`;

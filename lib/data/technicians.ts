@@ -184,8 +184,9 @@ export async function updateTechnician(
   inputData: CreateTechnicianInput,
   id: string
 ): Promise<PostTechnicianResponse> {
-  try {
 
+  const authHeaders = await getPayloadAuthHeaders();
+  try {
     const { user } = await getUser()
     const tenantId = (user?.tenants?.[0]?.tenant as Tenant)?.id
     const formData = new FormData();
@@ -206,6 +207,10 @@ export async function updateTechnician(
       `http://localhost:3000/api/technicians/${id}?depth=0&fallback-locale=null`,
       {
         method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+          ...authHeaders,
+        },
         body: formData
       }
     );
