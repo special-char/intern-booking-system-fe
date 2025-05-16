@@ -30,9 +30,9 @@ export default buildConfig({
     },
   }),
   onInit: async (args) => {
-    // if (process.env.SEED_DB) {
-    //   await seed(args);
-    // }
+    if (process.env.SEED_DB) {
+      await seed(args);
+    }
   },
   editor: lexicalEditor({}),
   graphQL: {

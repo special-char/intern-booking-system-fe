@@ -10,7 +10,6 @@ export const seed: NonNullable<Config["onInit"]> = async (
       slug: "gold",
       domain: "gold.localhost",
       email: "tenant1@payloadcms.com",
-      password: "demo",
     },
   });
 
@@ -21,7 +20,6 @@ export const seed: NonNullable<Config["onInit"]> = async (
       slug: "silver",
       domain: "silver.localhost",
       email: "tenant2@payloadcms.com",
-      password: "demo",
     },
   });
 
@@ -32,7 +30,6 @@ export const seed: NonNullable<Config["onInit"]> = async (
       slug: "bronze",
       domain: "bronze.localhost",
       email: "tenant3@payloadcms.com",
-      password: "demo",
     },
   });
 
@@ -43,6 +40,51 @@ export const seed: NonNullable<Config["onInit"]> = async (
       password: "demo",
       roles: ["super-admin"],
       name: "super-admin",
+    },
+  });
+
+  await payload.create({
+    collection: "users",
+    data: {
+      email: "tenant1@payloadcms.com",
+      password: "demo",
+      tenants: [
+        {
+          roles: ["tenant-admin"],
+          tenant: tenant1.id,
+        },
+      ],
+      name: "tenant1",
+    },
+  });
+
+  await payload.create({
+    collection: "users",
+    data: {
+      email: "tenant2@payloadcms.com",
+      password: "demo",
+      tenants: [
+        {
+          roles: ["tenant-admin"],
+          tenant: tenant2.id,
+        },
+      ],
+      name: "tenant2",
+    },
+  });
+
+  await payload.create({
+    collection: "users",
+    data: {
+      email: "tenant3@payloadcms.com",
+      password: "demo",
+      tenants: [
+        {
+          roles: ["tenant-admin"],
+          tenant: tenant3.id,
+        },
+      ],
+      name: "tenant3",
     },
   });
 
@@ -96,3 +138,4 @@ export const seed: NonNullable<Config["onInit"]> = async (
     },
   });
 };
+

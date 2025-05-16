@@ -145,7 +145,6 @@ export interface Tenant {
   id: number;
   name: string;
   email: string;
-  password: string;
   profilePhoto?: (number | null) | Media;
   /**
    * Used for domain-based tenant handling
@@ -376,7 +375,6 @@ export interface UsersSelect<T extends boolean = true> {
 export interface TenantsSelect<T extends boolean = true> {
   name?: T;
   email?: T;
-  password?: T;
   profilePhoto?: T;
   domain?: T;
   slug?: T;
