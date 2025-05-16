@@ -1,11 +1,11 @@
 import type { CollectionConfig } from "payload";
-import { syncUserFromTechnician } from "./hooks/syncUserFromTechnician";
 import { updateTechnicians } from "./hooks/updateTechnician";
 import { deleteUserWithTechnician } from "./hooks/deleteUserWithTechnician";
-import { syncBeforeUserFromTechnician } from "./hooks/syncBeforeUserFromTechnician";
+import { syncUserAndNylasCalendar } from "./hooks/syncUserAndNylasCalendar";
 import { createAccess } from "./acess/create";
 import { deleteAccess } from "./acess/delete";
 import { updateAccess } from "./acess/update";
+import { syncMedusaWithTechnician } from "./hooks/syncMedusaWithTechnician";
 
 export const Technicians: CollectionConfig = {
   slug: "technicians",
@@ -69,11 +69,34 @@ export const Technicians: CollectionConfig = {
       admin: {
         position: "sidebar",
       },
+      access: {
+        update: () => false,
+      },
+    },
+    {
+      name: "grant_id",
+      type: "text",
+      admin: {
+        position: "sidebar",
+      },
+      access: {
+        update: () => false,
+      },
+    },
+    {
+      name: "calendar_id",
+      type: "text",
+      admin: {
+        position: "sidebar",
+      },
+      access: {
+        update: () => false,
+      },
     },
   ],
   hooks: {
-    beforeChange: [syncBeforeUserFromTechnician],
-    afterChange: [syncUserFromTechnician, updateTechnicians],
+    beforeChange: [syncUserAndNylasCalendar],
+    afterChange: [syncMedusaWithTechnician, updateTechnicians],
     beforeDelete: [deleteUserWithTechnician],
   },
 };

@@ -166,6 +166,10 @@ export interface Tenant {
    * Publishable API Key associated with this tenant.
    */
   publishableApiKey?: string | null;
+  /**
+   * The Nylas Grant ID associated with this tenant.
+   */
+  grant_id?: string | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -256,6 +260,8 @@ export interface Technician {
   profilePhoto?: (number | null) | Media;
   mobileTireVan?: (number | Van)[] | null;
   user?: string | null;
+  grant_id?: string | null;
+  calendar_id?: string | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -381,6 +387,7 @@ export interface TenantsSelect<T extends boolean = true> {
   allowPublicRead?: T;
   salesChannelId?: T;
   publishableApiKey?: T;
+  grant_id?: T;
   updatedAt?: T;
   createdAt?: T;
 }
@@ -431,6 +438,8 @@ export interface TechniciansSelect<T extends boolean = true> {
   profilePhoto?: T;
   mobileTireVan?: T;
   user?: T;
+  grant_id?: T;
+  calendar_id?: T;
   updatedAt?: T;
   createdAt?: T;
 }

@@ -1,9 +1,9 @@
 import type { CollectionConfig } from "payload";
 import { isSuperAdminAccess } from "@/access/isSuperAdmin";
 import { updateAndDeleteAccess } from "./access/updateAndDelete";
-import { afterTenantCreate } from "./hooks/afterTenantCreate";
-import { syncAfterUserFromTenant } from "./hooks/syncAfterUserFromTenant";
 import { updateTenant } from "./hooks/updateTenant";
+import { syncMedusaAndNylasConfigurations } from "./hooks/syncMedusaAndNylasConfigurations";
+import { syncMedusaWithTenant } from "./hooks/syncTechnicianWithMedusa";
 
 export const Tenants: CollectionConfig = {
   slug: "tenants",
@@ -83,8 +83,20 @@ export const Tenants: CollectionConfig = {
       },
       index: true,
     },
+    {
+      name: "grant_id",
+      type: "text",
+      admin: {
+        position: "sidebar",
+        description: "The Nylas Grant ID associated with this tenant.",
+      },
+      access: {
+        update: () => false,
+      },
+    },
   ],
   hooks: {
-    afterChange: [afterTenantCreate, updateTenant],
+    beforeChange: [syncMedusaAndNylasConfigurations],
+    afterChange: [syncMedusaWithTenant, updateTenant],
   },
 };
