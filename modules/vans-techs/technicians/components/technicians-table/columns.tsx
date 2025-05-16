@@ -120,11 +120,8 @@ export function getColumns({
               email: row.original.email,
               mobilePhone: `${row.original.mobilePhone}`,
               ...(row.original.twilioPhone && { twilioPhone: `${row.original.twilioPhone}` }),
-              mobileTireVan: row.original.mobileTireVan?.map((van) => van.id),
-              assignMobileTireVan:
-                row.original.mobileTireVan && row.original.mobileTireVan.length > 0
-                  ? `${row.original.mobileTireVan[0].id}`
-                  : "",
+              mobileTireVan: row.original.mobileTireVan?.map((van) => van.id) || [],
+              assignMobileTireVan: row.original.mobileTireVan?.[0]?.id?.toString() || "",
               password: row.original.password,
               fullName: row.original.name,
               profilePhoto: row.original.profilePhoto,

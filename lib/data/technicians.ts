@@ -8,7 +8,9 @@ import {
 } from "@/types/technicians";
 import { getUser } from "./admin";
 import { Tenant } from "@/payload-types";
+import { getPayload } from "payload";
 
+import config from '../../payload.config'
 export interface GetTechniciansResponse {
   docs: Array<{
     id: number;
@@ -172,7 +174,6 @@ export async function createTechnician(
 
     return {
       isSuccess: true,
-      technician: data.technician,
     };
   } catch (error) {
     console.error("Error in createTechnician:", error);
@@ -189,40 +190,31 @@ export async function updateTechnician(
   try {
     const { user } = await getUser()
     const tenantId = (user?.tenants?.[0]?.tenant as Tenant)?.id
-    const formData = new FormData();
-    formData.append("_payload", JSON.stringify({
-      name: inputData.fullName,
-      email: inputData.email,
-      password: inputData.password,
-      tenant: tenantId,
-      mobilePhone: inputData.mobilePhone,
-      twilioPhone: inputData.twilioPhone,
-      profilePhoto: isFile(inputData.profilePhoto)
-        ? await uploadProfilePhoto(inputData.profilePhoto)
-        : inputData.profilePhoto,
-      mobileTireVan: inputData.mobileTireVan.map(Number)
-    }));
 
-    const response = await fetch(
-      `http://localhost:3000/api/technicians/${id}?depth=0&fallback-locale=null`,
-      {
-        method: "PATCH",
-        headers: {
-          "Content-Type": "application/json",
-          ...authHeaders,
-        },
-        body: formData
+    const profilePhoto = inputData.profilePhoto && isFile(inputData.profilePhoto)
+      ? await uploadProfilePhoto(inputData.profilePhoto)
+      : typeof inputData.profilePhoto === 'number' ? inputData.profilePhoto : null;
+
+    const payload = await getPayload({
+      config
+    })
+
+    const response = await payload.update({
+      collection: "technicians",
+      id: id,
+      data: {
+        name: inputData.fullName,
+        email: inputData.email,
+        password: inputData.password,
+        tenant: tenantId,
+        mobilePhone: inputData.mobilePhone,
+        twilioPhone: inputData.twilioPhone,
+        ...(profilePhoto ? { profilePhoto: profilePhoto } : {}),
+        mobileTireVan: inputData.mobileTireVan
       }
-    );
-
-    if (!response.ok) {
-      throw new Error(`Failed to update technician: ${response.statusText}`);
-    }
-
-    const data = await response.json();
+    })
     return {
       isSuccess: true,
-      technician: data.doc
     };
   } catch (error) {
     console.error("Error in updateTechnician:", error);
@@ -382,7 +374,6 @@ export async function createTechnicianPayload(
     const data = await response.json();
     return {
       isSuccess: true,
-      technician: data.doc
     };
   } catch (error) {
     throw error;
