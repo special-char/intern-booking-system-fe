@@ -1,9 +1,10 @@
 "use client";
 
-import React, { useState, useRef } from "react";
+import React, { useState } from "react";
 import { DndContext, useDraggable, useDroppable } from "@dnd-kit/core";
-import { format, setHours, setMinutes } from "date-fns";
+import { format, setHours } from "date-fns";
 import Image from "next/image";
+import { Sheet, SheetContent, SheetTrigger } from "@/components/shadcn/sheet";
 
 const HOURS = Array.from({ length: 13 }, (_, i) => 6 + i); // 6AM to 6PM
 const DAYS = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
@@ -19,7 +20,7 @@ function getBlockId(day: number, startHour: number, endHour: number) {
   return `${day}-${startHour}-${endHour}-${Math.random().toString(36).slice(2, 7)}`;
 }
 
-export default function CustomCalendar() {
+function HoursOfOperationPanel() {
   const [blocks, setBlocks] = useState<Block[]>([]);
   const [drawing, setDrawing] = useState<null | {
     day: number;
@@ -92,9 +93,8 @@ export default function CustomCalendar() {
         ref={setNodeRef}
         {...attributes}
         {...listeners}
-        className={`absolute left-0 right-0 mx-1 rounded bg-blue-500 text-white text-xs flex items-center px-2 shadow-md z-20 transition-all duration-75 ${
-          isDragging ? "opacity-60" : ""
-        }`}
+        className={`absolute left-0 right-0 mx-1 rounded bg-blue-500 text-white text-xs flex items-center px-2 shadow-md z-20 transition-all duration-75 ${isDragging ? "opacity-60" : ""
+          }`}
         style={{
           top,
           height,
@@ -119,9 +119,8 @@ export default function CustomCalendar() {
     return (
       <div
         ref={setNodeRef}
-        className={`h-10 border-b border-l relative ${
-          isOver ? "bg-blue-100" : ""
-        }`}
+        className={`h-10 border-b border-l relative ${isOver ? "bg-blue-100" : ""
+          }`}
       >
         {children}
       </div>
@@ -174,9 +173,9 @@ export default function CustomCalendar() {
   };
 
   return (
-    <div className="flex h-screen bg-gray-50">
+    <div className="flex flex-col md:flex-row h-full bg-white overflow-auto">
       {/* Sidebar */}
-      <div className="w-80 p-6 border-r bg-white flex flex-col justify-between">
+      <div className="w-full md:w-96 p-4 md:p-6 border-b md:border-b-0 md:border-r bg-white flex flex-col justify-between">
         <div>
           {/* User Info */}
           <div className="flex items-center mb-6">
@@ -256,7 +255,7 @@ export default function CustomCalendar() {
         </div>
       </div>
       {/* Calendar */}
-      <div className="flex-1 p-8">
+      <div className="flex-1 p-2 md:p-8 overflow-x-auto">
         <div className="mb-4 text-xl font-semibold">Hours of Operation</div>
         <DndContext onDragEnd={handleDragEnd}>
           <div className="border rounded overflow-hidden select-none">
@@ -296,14 +295,13 @@ export default function CustomCalendar() {
                     {HOURS.map((hour) => (
                       <CellDroppable key={hour} day={dayIdx} hour={hour}>
                         <div
-                          className={`absolute inset-0 ${
-                            drawing &&
+                          className={`absolute inset-0 ${drawing &&
                             drawing.day === dayIdx &&
                             drawPreview &&
                             isInDrawRange(drawPreview, hour)
-                              ? "bg-blue-200"
-                              : "hover:bg-blue-50"
-                          }`}
+                            ? "bg-blue-200"
+                            : "hover:bg-blue-50"
+                            }`}
                           onMouseDown={() => handleMouseDown(dayIdx, hour)}
                           onMouseEnter={() => handleMouseEnter(dayIdx, hour)}
                           onMouseUp={() => handleMouseUp(dayIdx, hour)}
@@ -321,7 +319,6 @@ export default function CustomCalendar() {
   );
 }
 
-// Helper to check if hour is in draw preview range
 function isInDrawRange(
   drawPreview: { startHour: number; endHour: number },
   hour: number
@@ -329,4 +326,22 @@ function isInDrawRange(
   const min = Math.min(drawPreview.startHour, drawPreview.endHour);
   const max = Math.max(drawPreview.startHour, drawPreview.endHour);
   return hour >= min && hour <= max;
+}
+
+export default function Page() {
+  return (
+    <Sheet>
+      <SheetTrigger asChild>
+        <button className="px-4 py-2 bg-blue-600 text-white rounded w-full md:w-auto">
+          Edit Hours of Operation
+        </button>
+      </SheetTrigger>
+      <SheetContent
+        side="right"
+        className="w-full max-w-[98vw] sm:max-w-[90vw] md:max-w-[900px] lg:max-w-[1200px] p-0"
+      >
+        <HoursOfOperationPanel />
+      </SheetContent>
+    </Sheet>
+  );
 }
