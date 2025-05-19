@@ -103,17 +103,21 @@ const isFile = (value: File): boolean => {
 export async function getTechnicians({
   page = DEFAULT_PAGE,
   limit = DEFAULT_LIMIT,
-  // searchQuery,
+  where,
 }: {
   page?: number;
   limit?: number;
-  where?: Record<string, any>;
+  where?: string;
 }): Promise<GetTechniciansResponse> {
   try {
-    const endpointUrl = new URL(`${API_BASE_URL}/api/technicians?page=${page}&limit=${limit}`);
-    // if (searchQuery) {
-      
-    // }
+    const endpointUrl = new URL(`${API_BASE_URL}/api/technicians`);
+    endpointUrl.searchParams.set('page', page.toString());
+    endpointUrl.searchParams.set('limit', limit.toString());
+    if (where) {
+      endpointUrl.searchParams.set('where[or][0][name][contains]', where);
+      endpointUrl.searchParams.set('where[or][1][email][contains]', where);
+    }
+
     const authHeaders = await getPayloadAuthHeaders();
 
     const response = await fetch(endpointUrl.toString(), {
@@ -132,7 +136,6 @@ export async function getTechnicians({
 
     return await response.json();
   } catch (error) {
-    // Add default return to satisfy TypeScript
     return {
       docs: [],
       hasNextPage: false,

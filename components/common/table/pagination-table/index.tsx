@@ -56,7 +56,6 @@ export function PaginationTable<TData>({
   const handlePageChange = (page: number) => {
     updateQueryParams({ page: page.toString() });
   };
-  console.log(" currentPage >= totalPages", currentPage >= totalPages);
 
   return (
     <div className="flex items-center justify-between">
