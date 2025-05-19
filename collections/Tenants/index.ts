@@ -94,6 +94,13 @@ export const Tenants: CollectionConfig = {
         update: () => false,
       },
     },
+    {
+      name: "configurations",
+      type: "join",
+      on: "tenantRelation",
+      hasMany: true,
+      collection: "configurations",
+    },
   ],
   hooks: {
     beforeChange: [syncMedusaAndNylasConfigurations],

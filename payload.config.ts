@@ -14,6 +14,7 @@ import { seed } from "./seed";
 import { Vans } from "./collections/Vans";
 import { Media } from "./collections/Media";
 import { Technicians } from "./collections/Technicians";
+import { Configurations } from "./collections/Configurations";
 
 const filename = fileURLToPath(import.meta.url);
 const dirname = path.dirname(filename);
@@ -23,7 +24,15 @@ export default buildConfig({
   admin: {
     user: "users",
   },
-  collections: [Pages, Users, Tenants, Vans, Media, Technicians],
+  collections: [
+    Pages,
+    Users,
+    Tenants,
+    Vans,
+    Media,
+    Technicians,
+    Configurations,
+  ],
   db: postgresAdapter({
     pool: {
       connectionString: process.env.DATABASE_URI,
@@ -49,6 +58,7 @@ export default buildConfig({
         technicians: {},
         vans: {},
         media: {},
+        configurations: {},
       },
       tenantField: {
         access: {
