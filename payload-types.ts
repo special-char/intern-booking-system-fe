@@ -73,11 +73,15 @@ export interface Config {
     vans: Van;
     media: Media;
     technicians: Technician;
+    configurations: Configuration;
     'payload-locked-documents': PayloadLockedDocument;
     'payload-preferences': PayloadPreference;
     'payload-migrations': PayloadMigration;
   };
   collectionsJoins: {
+    tenants: {
+      configurations: 'configurations';
+    };
     vans: {
       technician: 'technicians';
     };
@@ -89,6 +93,7 @@ export interface Config {
     vans: VansSelect<false> | VansSelect<true>;
     media: MediaSelect<false> | MediaSelect<true>;
     technicians: TechniciansSelect<false> | TechniciansSelect<true>;
+    configurations: ConfigurationsSelect<false> | ConfigurationsSelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
     'payload-preferences': PayloadPreferencesSelect<false> | PayloadPreferencesSelect<true>;
     'payload-migrations': PayloadMigrationsSelect<false> | PayloadMigrationsSelect<true>;
@@ -170,6 +175,11 @@ export interface Tenant {
    * The Nylas Grant ID associated with this tenant.
    */
   grant_id?: string | null;
+  configurations?: {
+    docs?: (number | Configuration)[];
+    hasNextPage?: boolean;
+    totalDocs?: number;
+  };
   updatedAt: string;
   createdAt: string;
 }
@@ -192,6 +202,21 @@ export interface Media {
   height?: number | null;
   focalX?: number | null;
   focalY?: number | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "configurations".
+ */
+export interface Configuration {
+  id: number;
+  tenant?: (number | null) | Tenant;
+  name: string;
+  territory: string;
+  tire_count: number;
+  configuration_id: string;
+  tenantRelation: number | Tenant;
+  updatedAt: string;
+  createdAt: string;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -295,6 +320,10 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'technicians';
         value: number | Technician;
+      } | null)
+    | ({
+        relationTo: 'configurations';
+        value: number | Configuration;
       } | null);
   globalSlug?: string | null;
   user: {
@@ -388,6 +417,7 @@ export interface TenantsSelect<T extends boolean = true> {
   salesChannelId?: T;
   publishableApiKey?: T;
   grant_id?: T;
+  configurations?: T;
   updatedAt?: T;
   createdAt?: T;
 }
@@ -440,6 +470,20 @@ export interface TechniciansSelect<T extends boolean = true> {
   user?: T;
   grant_id?: T;
   calendar_id?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "configurations_select".
+ */
+export interface ConfigurationsSelect<T extends boolean = true> {
+  tenant?: T;
+  name?: T;
+  territory?: T;
+  tire_count?: T;
+  configuration_id?: T;
+  tenantRelation?: T;
   updatedAt?: T;
   createdAt?: T;
 }
