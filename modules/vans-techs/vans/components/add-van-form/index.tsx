@@ -28,6 +28,7 @@ import {
 import { TireVanDTO } from "@/types/tire-vans";
 import { createTireVan, updateTireVan } from "@/lib/data/vans";
 import { useEffect, useState } from "react";
+import { useToast } from "@/hooks/use-toast";
 
 type AddTechnicianFormType = z.infer<typeof addTechnicianFormSchema>;
 
@@ -40,6 +41,8 @@ export function AddVanForm({
   isEdit?: boolean;
   setIsOpen: (isOpen: boolean) => void;
 }) {
+
+  const { toast } = useToast();
   const [isSuccess, setIsSuccess] = useState(false);
   const form = useForm<AddTechnicianFormType>({
     resolver: zodResolver(addTechnicianFormSchema),
@@ -56,9 +59,15 @@ export function AddVanForm({
     if (isEdit && van) {
       const updatedVan = await updateTireVan(values, van.id);
       setIsSuccess(updatedVan.isSuccess);
+      toast({
+        title: "Van updated successfully",
+      });
     } else {
       const newVan = await createTireVan(values);
       setIsSuccess(newVan.isSuccess);
+      toast({
+        title: "Van created successfully",
+      });
     }
   };
 

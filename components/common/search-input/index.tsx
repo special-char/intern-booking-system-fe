@@ -24,20 +24,26 @@ export default function SearchInput({
   // Handle the debounced value change
   const handleSearch = useCallback((value: string) => {
     const params = new URLSearchParams(searchParams.toString());
+
     if (value) {
       params.set('search', value);
     } else {
       params.delete('search');
     }
-    // Reset to first page when searching
-    params.set('page', '1');
+    // Only reset page if search value changes from empty to non-empty or vice versa
+    const currentSearch = searchParams.get('search') || '';
+    if ((value && !currentSearch) || (!value && currentSearch)) {
+      params.set('page', '1');
+    }
     router.push(`?${params.toString()}`);
   }, [router, searchParams]);
 
   // Effect to handle the debounced value
   useEffect(() => {
-    handleSearch(debouncedValue);
-  }, [debouncedValue, handleSearch]);
+    if (debouncedValue !== defaultValue) {
+      handleSearch(debouncedValue);
+    }
+  }, [debouncedValue, handleSearch, defaultValue]);
 
   return (
     <div className={cn("relative w-full max-w-sm", className)}>

@@ -15,7 +15,8 @@ import {
 import { Select } from "@/components/shadcn/select";
 import { Table as TableType } from "@tanstack/react-table";
 import { PaginationInterface } from "@/types/pagination";
-import { useUpdateQueryParams } from "@/hooks/use-update-query-params";
+import { useRouter, useSearchParams } from "next/navigation";
+
 interface PaginationTableProps<TData> {
   table: TableType<TData>;
   pagination: PaginationInterface;
@@ -45,7 +46,8 @@ export function PaginationTable<TData>({
   const { pageIndex, pageSize, totalCount } = pagination;
   const currentPage = pageIndex;
   const totalPages = Math.ceil(totalCount / pageSize);
-  const { updateQueryParams } = useUpdateQueryParams();
+  const router = useRouter();
+  const searchParams = useSearchParams();
 
   const paginationRange = getPaginationRange(currentPage, totalPages);
   const adjustedPageIndex = pageIndex - 1;
@@ -54,7 +56,9 @@ export function PaginationTable<TData>({
     startIndex < totalCount ? Math.min(pageSize, totalCount - startIndex) : 0;
 
   const handlePageChange = (page: number) => {
-    updateQueryParams({ page: page.toString() });
+    const params = new URLSearchParams(searchParams.toString());
+    params.set('page', page.toString());
+    router.push(`?${params.toString()}`);
   };
 
   return (
@@ -99,7 +103,9 @@ export function PaginationTable<TData>({
         </PaginationContent>
         <Select
           onValueChange={(value) => {
-            updateQueryParams({ page: "1", limit: value });
+            const params = new URLSearchParams(searchParams.toString());
+            params.set('limit', value);
+            router.push(`?${params.toString()}`);
           }}
         >
           <SelectTrigger className="w-[120px] text-sm">
