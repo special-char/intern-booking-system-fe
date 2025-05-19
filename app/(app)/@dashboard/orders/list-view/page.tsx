@@ -9,13 +9,20 @@ export const metadata: Metadata = {
 export default async function ListViewPage({
   searchParams,
 }: {
-  searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
+  searchParams: { [key: string]: string | string[] | undefined };
 }) {
-  const params = await searchParams;
-  const page = params.page ? parseInt(params.page as string) : 1;
-  const limit = params.limit ? parseInt(params.limit as string) : 20;
+  // Convert searchParams to numbers safely
+  const page = searchParams.page ? Number(searchParams.page) : 1;
+  const limit = searchParams.limit ? Number(searchParams.limit) : 15;
+  const search = searchParams.search as string | undefined;
+  const dateFilter = searchParams.dateFilter ? new Date(searchParams.dateFilter as string) : null;
 
   return (
-    <OrdersListViewTemplate page={page} limit={limit} />
+    <OrdersListViewTemplate
+      page={page}
+      limit={limit}
+      search={search}
+      dateFilter={dateFilter}
+    />
   );
 }
