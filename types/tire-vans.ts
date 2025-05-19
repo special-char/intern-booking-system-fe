@@ -1,3 +1,4 @@
+import { Van } from "@/payload-types";
 import { Technician } from "./technicians";
 
 export interface TireVan {
@@ -9,16 +10,21 @@ export interface TireVan {
 }
 
 export interface GetTireVansResponse {
-  page: number;
-  limit: number;
-  totalDocs: number;
   docs: TireVanDTO[];
-  tire_vans: TireVan[];
+  hasNextPage: boolean;
+  hasPrevPage: boolean;
+  limit: number;
+  nextPage: number | null;
+  page: number;
+  pagingCounter: number;
+  prevPage: number | null;
+  totalDocs: number;
+  totalPages: number;
 }
 
 export interface PostTireVanResponse {
   isSuccess: boolean;
-  tire_van: TireVan;
+  tire_van: Van;
 }
 
 export interface TireVanDTO {

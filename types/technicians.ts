@@ -26,7 +26,7 @@ export interface GetTechniciansResponse {
 
 export interface PostTechnicianResponse {
   isSuccess: boolean;
-  technician: Technician;
+  // technician: Technician;
 }
 
 export interface TechnicianDTO {

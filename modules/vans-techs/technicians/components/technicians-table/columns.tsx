@@ -25,7 +25,9 @@ export function getColumns({
         return (
           <Avatar>
             <AvatarImage src={photo?.url} alt={photo?.alt || ""} />
-            <AvatarFallback>{row.original.name}</AvatarFallback>
+            <AvatarFallback>
+              {row?.original?.name?.charAt(0)?.toUpperCase() || ""}
+            </AvatarFallback>
           </Avatar>
         );
       },
@@ -115,20 +117,23 @@ export function getColumns({
       cell: ({ row }) => {
         return (
           <TechniciansActions
-            initialValues={{
-              id: `${row.original.id}`,
-              email: row.original.email,
-              mobilePhone: `${row.original.mobilePhone}`,
-              ...(row.original.twilioPhone && { twilioPhone: `${row.original.twilioPhone}` }),
-              mobileTireVan: row.original.mobileTireVan?.map((van) => van.id),
-              assignMobileTireVan:
-                row.original.mobileTireVan && row.original.mobileTireVan.length > 0
-                  ? `${row.original.mobileTireVan[0].id}`
-                  : "",
-              password: row.original.password,
-              fullName: row.original.name,
-              profilePhoto: row.original.profilePhoto,
-            } as any}
+            initialValues={
+              {
+                id: `${row.original.id}`,
+                email: row.original.email,
+                mobilePhone: `${row.original.mobilePhone}`,
+                ...(row.original.twilioPhone && {
+                  twilioPhone: `${row.original.twilioPhone}`,
+                }),
+                mobileTireVan:
+                  row.original.mobileTireVan?.map((van) => van.id) || [],
+                assignMobileTireVan:
+                  row.original.mobileTireVan?.[0]?.id?.toString() || "",
+                password: row.original.password,
+                fullName: row.original.name,
+                profilePhoto: row.original.profilePhoto,
+              } as any
+            }
             disabled={isLoading}
           />
         );

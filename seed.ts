@@ -138,3 +138,4 @@ export const seed: NonNullable<Config["onInit"]> = async (
     },
   });
 };
+

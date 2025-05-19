@@ -25,6 +25,7 @@ import {
   updateTechnician,
 } from "@/lib/data/technicians";
 import { TechnicianFields } from "./technician-fields";
+import { useToast } from "@/hooks/use-toast";
 
 export type TechnicianFormType = z.infer<typeof technicianFormSchema>;
 
@@ -37,7 +38,8 @@ export function TechnicianForm({
   isEdit?: boolean;
   initialValues?: TechnicianFormType & { id: string };
 }) {
-  console.log("🚀 ~ initialValues:", initialValues);
+
+  const { toast } = useToast();
   const [preview, setPreview] = useState(() => {
     if (initialValues?.profilePhoto?.url) {
       return `http://localhost:3000${initialValues.profilePhoto.url}`;
@@ -60,6 +62,7 @@ export function TechnicianForm({
   } = form;
 
   const onSubmit = async (values: TechnicianFormType) => {
+
     try {
       const formData: CreateTechnicianInput = {
         fullName: values.fullName,
@@ -75,9 +78,19 @@ export function TechnicianForm({
       };
 
       if (isEdit && initialValues) {
-        await updateTechnician(formData, initialValues.id);
+        const response = await updateTechnician(formData, initialValues.id);
+        if (response.isSuccess) {
+          toast({
+            title: "Technician updated successfully",
+          });
+        }
       } else {
-        await createTechnicianPayload(formData);
+        const response = await createTechnicianPayload(formData);
+        if (response.isSuccess) {
+          toast({
+            title: "Technician created successfully",
+          });
+        }
       }
 
       router.refresh();
@@ -87,6 +100,9 @@ export function TechnicianForm({
       setIsOpen(false);
     } catch (error) {
       console.error("Form submission error:", error);
+      toast({
+        title: "Failed to create technician",
+      });
       // Add error handling here (e.g., show error message to user)
     }
   };

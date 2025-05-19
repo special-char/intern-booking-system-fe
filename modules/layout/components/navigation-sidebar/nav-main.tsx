@@ -97,7 +97,6 @@ export function NavMain({
                         {item.items?.map((subItem) => {
                           const isActive = pathname === subItem.url;
 
-                          console.log({ subItem: subItem.payloadCollection });
                           const hasReadPermission = permissions.collections?.[subItem.payloadCollection ?? ""]?.read || subItem?.permissionSkip;
                           if (!hasReadPermission) return null;
 
