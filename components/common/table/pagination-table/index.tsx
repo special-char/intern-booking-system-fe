@@ -42,16 +42,21 @@ export function PaginationTable<TData>({
   table,
   pagination,
 }: PaginationTableProps<TData>) {
-  const totalPages = table.getPageCount();
   const { pageIndex, pageSize, totalCount } = pagination;
   const currentPage = pageIndex;
+  const totalPages = Math.ceil(totalCount / pageSize);
+  const { updateQueryParams } = useUpdateQueryParams();
 
   const paginationRange = getPaginationRange(currentPage, totalPages);
-  const { updateQueryParams } = useUpdateQueryParams();
   const adjustedPageIndex = pageIndex - 1;
   const startIndex = adjustedPageIndex * pageSize;
   const currentPageCount =
     startIndex < totalCount ? Math.min(pageSize, totalCount - startIndex) : 0;
+
+  const handlePageChange = (page: number) => {
+    updateQueryParams({ page: page.toString() });
+  };
+  console.log(" currentPage >= totalPages", currentPage >= totalPages);
 
   return (
     <div className="flex items-center justify-between">
@@ -62,7 +67,7 @@ export function PaginationTable<TData>({
         <PaginationContent>
           <PaginationItem>
             <PaginationPrevious
-              href={`?page=${currentPage - 1}`}
+              onClick={() => handlePageChange(currentPage - 1)}
               className={
                 currentPage <= 1 ? "pointer-events-none opacity-50" : ""
               }
@@ -74,7 +79,7 @@ export function PaginationTable<TData>({
                 <PaginationEllipsis />
               ) : (
                 <PaginationLink
-                  href={`?page=${page}`}
+                  onClick={() => handlePageChange(page as number)}
                   isActive={currentPage === page}
                 >
                   {page}
@@ -84,7 +89,7 @@ export function PaginationTable<TData>({
           ))}
           <PaginationItem>
             <PaginationNext
-              href={`?page=${currentPage + 1}`}
+              onClick={() => handlePageChange(currentPage + 1)}
               className={
                 currentPage >= totalPages
                   ? "pointer-events-none opacity-50"

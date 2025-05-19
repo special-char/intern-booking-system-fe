@@ -3,13 +3,13 @@ import {
   PaginationInterface,
 } from "@/types/pagination";
 import { TechniciansTable } from ".";
-import { getTechniciansDTO } from "@/lib/data/technicians";
+import { getTechnicians } from "@/lib/data/technicians";
 
 export async function TechniciansTableTemplate({
   page,
   limit,
 }: PaginatedDataInterface) {
-  const technicians = await getTechniciansDTO({
+  const technicians = await getTechnicians({
     page,
     limit,
   });
