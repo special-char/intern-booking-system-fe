@@ -52,36 +52,62 @@ import {
 import { Button } from "@/components/shadcn/button";
 
 // Territory colors
-const TERRITORY_COLORS = {
-  "West Orlando": {
+const TERRITORY_COLORS: Record<string, TerritoryConfig> = {
+  West: {
+    name: "West",
     bg: "bg-cyan-50",
     border: "border-cyan-300",
     text: "text-cyan-800",
   },
-  "East Orlando": {
+  East: {
+    name: "East",
     bg: "bg-purple-50",
     border: "border-purple-300",
     text: "text-purple-800",
   },
-  "South Orlando": {
+  South: {
+    name: "South",
     bg: "bg-pink-50",
     border: "border-pink-300",
     text: "text-pink-800",
   },
 };
 
-type Territory = "West Orlando" | "East Orlando" | "South Orlando";
+// Update the Territory type to be more dynamic
+type Territory = string;
 
-type Block = {
+// Update the OpenHours type
+type OpenHours = {
   id: string;
-  day: number; // 0-6
-  startHour: number; // 6-18
-  endHour: number; // 7-19
+  days: number; // 0-6 (Sunday-Saturday)
+  start: number;
+  end: number;
   territory: Territory;
+  metadata?: Record<string, any>;
 };
 
-function getBlockId(day: number, startHour: number, endHour: number) {
-  return `${day}-${startHour}-${endHour}-${Math.random().toString(36).slice(2, 7)}`;
+// Add a type for the territory configuration
+type TerritoryConfig = {
+  name: string;
+  bg: string;
+  border: string;
+  text: string;
+};
+
+// Add a type for the save response
+type SaveResponse = {
+  success: boolean;
+  data?: OpenHours[];
+  error?: string;
+};
+
+// Define the default territory configs type
+type DefaultTerritoryConfigs = {
+  [key in "West" | "East" | "South"]: TerritoryConfig;
+};
+
+function getBlockId(days: number, start: number, end: number) {
+  return `${days}-${start}-${end}-${Math.random().toString(36).slice(2, 7)}`;
 }
 
 function formatTime(hour: number): string {
@@ -90,11 +116,31 @@ function formatTime(hour: number): string {
   return format(date, "h:mm a");
 }
 
-function HoursOfOperationPanel() {
+export interface HoursOfOperationPanelProps {
+  initialOpenHours?: OpenHours[];
+  territories?: Territory[];
+  territoryConfigs?: Record<string, TerritoryConfig>;
+  onSaveDefault?: (openHours: OpenHours[]) => Promise<SaveResponse>;
+  onSaveWeek?: (
+    openHours: OpenHours[],
+    weekStart: Date,
+    weekEnd: Date
+  ) => Promise<SaveResponse>;
+  onError?: (error: string) => void;
+}
+
+export const HoursOfOperationPanel: React.FC<HoursOfOperationPanelProps> = ({
+  initialOpenHours = [],
+  territories: propTerritories = ["West", "East", "South"],
+  territoryConfigs = TERRITORY_COLORS as Record<string, TerritoryConfig>,
+  onSaveDefault,
+  onSaveWeek,
+  onError,
+}) => {
   // Dynamic date state
   const [currentDate, setCurrentDate] = useState(new Date(2024, 6, 15)); // July 15, 2024
-  const weekStart = startOfWeek(currentDate, { weekStartsOn: 1 }); // Start on Monday
-  const weekEnd = endOfWeek(currentDate, { weekStartsOn: 1 }); // End on Sunday
+  const weekStart = startOfWeek(currentDate, { weekStartsOn: 1 }); // Start on Sunday
+  const weekEnd = endOfWeek(currentDate, { weekStartsOn: 1 }); // End on Saturday
 
   // Generate days dynamically
   const days = Array.from({ length: 7 }, (_, i) => {
@@ -103,6 +149,7 @@ function HoursOfOperationPanel() {
       name: format(date, "EEE").toUpperCase(),
       date: format(date, "d"),
       fullDate: date,
+      dayOfWeek: date.getDay(), // Add day of week (0 = Sunday, 6 = Saturday)
     };
   });
 
@@ -111,34 +158,31 @@ function HoursOfOperationPanel() {
     Array.from({ length: 13 }, (_, i) => 6 + i)
   );
 
-  // Remove the regions structure and keep only the three territories
-  const [territories] = useState<Territory[]>([
-    "West Orlando",
-    "East Orlando",
-    "South Orlando",
-  ]);
+  // Remove the regions structure and keep only the territories from props
+  const [territories] = useState<Territory[]>(propTerritories);
 
-  // Initialize with empty blocks (no default schedule)
-  const [blocks, setBlocks] = useState<Block[]>([]);
+  // Initialize with empty open hours (no default schedule)
+  const [openHours, setOpenHours] = useState<OpenHours[]>(initialOpenHours);
 
-  // Store original blocks for undo functionality
-  const [originalBlocks, setOriginalBlocks] = useState<Block[]>([]);
+  // Store original open hours for undo functionality
+  const [originalOpenHours, setOriginalOpenHours] =
+    useState<OpenHours[]>(initialOpenHours);
 
   const [drawing, setDrawing] = useState<null | {
-    day: number;
-    startHour: number;
+    days: number;
+    start: number;
     territory: Territory;
   }>(null);
 
   const [drawPreview, setDrawPreview] = useState<null | {
-    day: number;
-    startHour: number;
-    endHour: number;
+    days: number;
+    start: number;
+    end: number;
     territory: Territory;
   }>(null);
 
   const [activeTerritoryForDraw, setActiveTerritoryForDraw] =
-    useState<Territory>("South Orlando");
+    useState<Territory>("South");
 
   // Track if we're dragging over the delete zone
   const [isDraggingOverDeleteZone, setIsDraggingOverDeleteZone] =
@@ -183,51 +227,53 @@ function HoursOfOperationPanel() {
   };
 
   // Draw-to-create
-  const handleMouseDown = (day: number, hour: number) => {
-    setDrawing({ day, startHour: hour, territory: activeTerritoryForDraw });
+  const handleMouseDown = (days: number, hour: number) => {
+    setDrawing({ days, start: hour, territory: activeTerritoryForDraw });
     setDrawPreview({
-      day,
-      startHour: hour,
-      endHour: hour,
+      days,
+      start: hour,
+      end: hour,
       territory: activeTerritoryForDraw,
     });
   };
 
-  const handleMouseEnter = (day: number, hour: number) => {
-    if (drawing && drawing.day === day) {
+  const handleMouseEnter = (days: number, hour: number) => {
+    if (drawing && drawing.days === days) {
+      const adjustedHour = hour < 6 ? hour + 12 : hour;
       setDrawPreview({
-        day,
-        startHour: Math.min(drawing.startHour, hour),
-        endHour: Math.max(drawing.startHour, hour),
+        days,
+        start: Math.min(drawing.start, adjustedHour),
+        end: Math.max(drawing.start, adjustedHour),
         territory: drawing.territory,
       });
     }
   };
 
-  const handleMouseUp = (day: number, hour: number) => {
+  const handleMouseUp = (days: number, hour: number) => {
     if (drawing && drawPreview) {
-      // Prevent zero-length blocks
-      if (drawPreview.endHour !== drawPreview.startHour) {
-        // Remove overlapping blocks for this day
-        setBlocks((prev) => [
+      let minHour = Math.min(drawing.start, hour);
+      let maxHour = Math.max(drawing.start, hour) + 1;
+
+      minHour = Math.max(6, minHour);
+      maxHour = Math.min(18, maxHour);
+
+      if (maxHour > minHour) {
+        setOpenHours((prev) => [
           ...prev.filter(
-            (b) =>
+            (oh) =>
               !(
-                b.day === day &&
-                ((drawPreview!.startHour >= b.startHour &&
-                  drawPreview!.startHour < b.endHour) ||
-                  (drawPreview!.endHour > b.startHour &&
-                    drawPreview!.endHour <= b.endHour) ||
-                  (drawPreview!.startHour <= b.startHour &&
-                    drawPreview!.endHour >= b.endHour))
+                oh.days === days &&
+                ((minHour >= oh.start && minHour < oh.end) ||
+                  (maxHour > oh.start && maxHour <= oh.end) ||
+                  (minHour <= oh.start && maxHour >= oh.end))
               )
           ),
           {
-            id: getBlockId(day, drawPreview.startHour, drawPreview.endHour),
-            day,
-            startHour: drawPreview.startHour,
-            endHour: drawPreview.endHour,
-            territory: drawPreview.territory,
+            id: getBlockId(days, minHour, maxHour),
+            days,
+            start: minHour,
+            end: maxHour,
+            territory: drawing.territory,
           },
         ]);
       }
@@ -252,30 +298,26 @@ function HoursOfOperationPanel() {
     blockId: string,
     newTerritory: Territory
   ) => {
-    // Find the block to be replaced
-    const blockToReplace = blocks.find((block) => block.id === blockId);
+    const blockToReplace = openHours.find((block) => block.id === blockId);
     if (!blockToReplace) return;
 
-    // Find any blocks that would overlap with the new territory
-    const overlappingBlocks = blocks.filter(
+    const overlappingBlocks = openHours.filter(
       (block) =>
-        block.day === blockToReplace.day &&
+        block.days === blockToReplace.days &&
         block.territory === newTerritory &&
-        ((block.startHour >= blockToReplace.startHour &&
-          block.startHour < blockToReplace.endHour) ||
-          (block.endHour > blockToReplace.startHour &&
-            block.endHour <= blockToReplace.endHour) ||
-          (block.startHour <= blockToReplace.startHour &&
-            block.endHour >= blockToReplace.endHour))
+        ((block.start >= blockToReplace.start &&
+          block.start < blockToReplace.end) ||
+          (block.end > blockToReplace.start &&
+            block.end <= blockToReplace.end) ||
+          (block.start <= blockToReplace.start &&
+            block.end >= blockToReplace.end))
     );
 
     if (overlappingBlocks.length > 0) {
-      // Show confirmation dialog with details about overlapping blocks
       const confirmMessage = `This will delete ${overlappingBlocks.length} overlapping block(s) for ${newTerritory}. Do you want to continue?`;
 
       if (window.confirm(confirmMessage)) {
-        // Remove overlapping blocks and update the current block
-        setBlocks((prev) => [
+        setOpenHours((prev) => [
           ...prev.filter(
             (block) =>
               block.id !== blockId &&
@@ -287,8 +329,7 @@ function HoursOfOperationPanel() {
         ]);
       }
     } else {
-      // No overlapping blocks, just update the territory
-      setBlocks((prev) =>
+      setOpenHours((prev) =>
         prev.map((block) =>
           block.id === blockId ? { ...block, territory: newTerritory } : block
         )
@@ -299,20 +340,60 @@ function HoursOfOperationPanel() {
 
   // Delete block
   const handleDeleteBlock = (blockId: string) => {
-    setBlocks(blocks.filter((block) => block.id !== blockId));
+    setOpenHours(openHours.filter((oh) => oh.id !== blockId));
     setContextMenu(null);
   };
 
   // Undo all changes
   const handleUndoAllChanges = () => {
-    setBlocks([...originalBlocks]);
+    setOpenHours([...originalOpenHours]);
   };
 
-  // Save as default week
-  const handleSaveAsDefault = () => {
-    setOriginalBlocks([...blocks]);
-    // Here you would typically save to a database or localStorage
-    alert("Schedule saved as default week");
+  // Update the save handlers
+  const handleSaveAsDefault = async () => {
+    try {
+      if (onSaveDefault) {
+        const response = await onSaveDefault(openHours);
+        if (response.success) {
+          setOriginalOpenHours([...openHours]);
+          console.log("Default schedule saved:", response.data);
+        } else {
+          onError?.(response.error || "Failed to save default schedule");
+        }
+      } else {
+        console.log("Default schedule (mock save):", openHours);
+        setOriginalOpenHours([...openHours]);
+      }
+    } catch (error) {
+      onError?.(
+        error instanceof Error
+          ? error.message
+          : "Failed to save default schedule"
+      );
+    }
+  };
+
+  const handleSaveWeek = async () => {
+    try {
+      if (onSaveWeek) {
+        const response = await onSaveWeek(openHours, weekStart, weekEnd);
+        if (response.success) {
+          console.log("Week schedule saved:", response.data);
+        } else {
+          onError?.(response.error || "Failed to save week schedule");
+        }
+      } else {
+        console.log("Week schedule (mock save):", {
+          openHours,
+          weekStart,
+          weekEnd,
+        });
+      }
+    } catch (error) {
+      onError?.(
+        error instanceof Error ? error.message : "Failed to save week schedule"
+      );
+    }
   };
 
   // Handle drag start
@@ -323,17 +404,21 @@ function HoursOfOperationPanel() {
     }
   };
 
-  // Drag-to-move
-  function BlockDraggable({ block }: { block: Block }) {
+  // Update the BlockDraggable component
+  function BlockDraggable({ block }: { block: OpenHours }) {
     const { attributes, listeners, setNodeRef, transform, isDragging } =
       useDraggable({
         id: block.id,
         data: block,
       });
 
-    const top = (block.startHour - hours[0]) * 40;
-    const height = (block.endHour - block.startHour) * 40 - 4;
-    const colors = TERRITORY_COLORS[block.territory];
+    const top = (block.start - hours[0]) * 40;
+    const height = (block.end - block.start) * 40 - 4;
+    const colors = (territoryConfigs[block.territory] as TerritoryConfig) || {
+      bg: "bg-gray-50",
+      border: "border-gray-300",
+      text: "text-gray-800",
+    };
 
     return (
       <div
@@ -352,7 +437,7 @@ function HoursOfOperationPanel() {
       >
         <div className="font-medium">{block.territory}</div>
         <div className="text-xs">
-          {formatTime(block.startHour)} - {formatTime(block.endHour)}
+          {formatTime(block.start)} - {formatTime(block.end)}
         </div>
       </div>
     );
@@ -417,41 +502,47 @@ function HoursOfOperationPanel() {
     // Check if dropped in delete zone
     if (over.id === "delete-zone") {
       // Delete the block
-      setBlocks((prev) => prev.filter((block) => block.id !== active.id));
+      setOpenHours((prev) => prev.filter((block) => block.id !== active.id));
       return;
     }
 
     // Normal drop in calendar
-    const block: Block = active.data.current;
+    const block: OpenHours = active.data.current;
     const { day, hour } = over.data.current;
-    const duration = block.endHour - block.startHour;
+    const duration = block.end - block.start;
 
     // Remove old, add new at drop position
-    setBlocks((prev) => [
+    setOpenHours((prev) => [
       ...prev.filter((b) => b.id !== block.id),
       {
         ...block,
-        day,
-        startHour: hour,
-        endHour: hour + duration,
+        days: day,
+        start: hour,
+        end: hour + duration,
         id: getBlockId(day, hour, hour + duration),
       },
     ]);
   };
 
   // Render blocks for a day
-  const renderBlocks = (day: number) =>
-    blocks
-      .filter((b) => b.day === day)
-      .map((b) => <BlockDraggable key={b.id} block={b} />);
+  const renderBlocks = (days: number) =>
+    openHours
+      .filter((oh) => oh.days === days)
+      .map((oh) => <BlockDraggable key={oh.id} block={oh} />);
 
   // Render draw preview
-  const renderDrawPreview = (day: number) => {
-    if (!drawPreview || drawPreview.day !== day) return null;
+  const renderDrawPreview = (days: number) => {
+    if (!drawPreview || drawPreview.days !== days) return null;
 
-    const top = (drawPreview.startHour - hours[0]) * 40;
-    const height = (drawPreview.endHour - drawPreview.startHour + 1) * 40 - 4;
-    const colors = TERRITORY_COLORS[drawPreview.territory];
+    const top = (drawPreview.start - hours[0]) * 40;
+    const height = (drawPreview.end - drawPreview.start + 1) * 40 - 4;
+    const colors = (territoryConfigs[
+      drawPreview.territory
+    ] as TerritoryConfig) || {
+      bg: "bg-gray-50",
+      border: "border-gray-300",
+      text: "text-gray-800",
+    };
 
     return (
       <div
@@ -463,8 +554,7 @@ function HoursOfOperationPanel() {
       >
         <div className="font-medium">{drawPreview.territory}</div>
         <div className="text-xs">
-          {formatTime(drawPreview.startHour)} -{" "}
-          {formatTime(drawPreview.endHour)}
+          {formatTime(drawPreview.start)} - {formatTime(drawPreview.end)}
         </div>
       </div>
     );
@@ -472,12 +562,6 @@ function HoursOfOperationPanel() {
 
   return (
     <div className="flex flex-col h-full bg-white overflow-auto">
-      <SheetHeader className="w-full ">
-        <SheetTitle className="text-xl font-semibold">
-          Hours of Operation
-        </SheetTitle>
-      </SheetHeader>
-
       <div className="flex flex-col md:flex-row h-full">
         {/* Sidebar */}
         <div className="w-full md:w-64 p-4 border-b md:border-b-0 md:border-r bg-white flex flex-col">
@@ -524,7 +608,7 @@ function HoursOfOperationPanel() {
                 {territories.map((territory) => (
                   <div
                     key={territory}
-                    className={`p-2 mb-2 rounded-md border ${TERRITORY_COLORS[territory].border} ${TERRITORY_COLORS[territory].bg} ${TERRITORY_COLORS[territory].text} cursor-move transition-all duration-200 hover:shadow-md ${activeTerritoryForDraw === territory ? "ring-2 ring-offset-1 ring-blue-400" : ""}`}
+                    className={`p-2 mb-2 rounded-md border ${territoryConfigs[territory]?.border} ${territoryConfigs[territory]?.bg} ${territoryConfigs[territory]?.text} cursor-move transition-all duration-200 hover:shadow-md ${activeTerritoryForDraw === territory ? "ring-2 ring-offset-1 ring-blue-400" : ""}`}
                     onClick={() => setActiveTerritoryForDraw(territory)}
                   >
                     {territory}
@@ -533,11 +617,6 @@ function HoursOfOperationPanel() {
               </div>
             </CollapsibleContent>
           </Collapsible>
-
-          {/* Address */}
-          <div className="mt-auto pt-4 text-sm text-gray-500 hover:text-gray-700 cursor-pointer transition-colors">
-            Edit your start/end address
-          </div>
         </div>
 
         {/* Calendar */}
@@ -613,27 +692,35 @@ function HoursOfOperationPanel() {
                   </div>
 
                   {/* Days Columns */}
-                  {days.map((_, dayIdx) => (
+                  {days.map((day, dayIdx) => (
                     <div key={dayIdx} className="relative">
                       {/* Blocks */}
-                      {renderBlocks(dayIdx)}
-                      {renderDrawPreview(dayIdx)}
+                      {renderBlocks(day.dayOfWeek)}
+                      {renderDrawPreview(day.dayOfWeek)}
 
                       {/* Grid Cells */}
                       {hours.map((hour) => (
-                        <CellDroppable key={hour} day={dayIdx} hour={hour}>
+                        <CellDroppable
+                          key={hour}
+                          day={day.dayOfWeek}
+                          hour={hour}
+                        >
                           <div
                             className={`absolute inset-0 ${
                               drawing &&
-                              drawing.day === dayIdx &&
+                              drawing.days === day.dayOfWeek &&
                               drawPreview &&
                               isInDrawRange(drawPreview, hour)
                                 ? "bg-blue-100"
                                 : "hover:bg-blue-50"
                             } transition-colors duration-150`}
-                            onMouseDown={() => handleMouseDown(dayIdx, hour)}
-                            onMouseEnter={() => handleMouseEnter(dayIdx, hour)}
-                            onMouseUp={() => handleMouseUp(dayIdx, hour)}
+                            onMouseDown={() =>
+                              handleMouseDown(day.dayOfWeek, hour)
+                            }
+                            onMouseEnter={() =>
+                              handleMouseEnter(day.dayOfWeek, hour)
+                            }
+                            onMouseUp={() => handleMouseUp(day.dayOfWeek, hour)}
                           />
                         </CellDroppable>
                       ))}
@@ -668,10 +755,10 @@ function HoursOfOperationPanel() {
                           territory
                         )
                       }
-                      className={`flex items-center gap-2 ${TERRITORY_COLORS[territory].text}`}
+                      className={`flex items-center gap-2 ${territoryConfigs[territory]?.text}`}
                     >
                       <div
-                        className={`w-3 h-3 rounded-full ${TERRITORY_COLORS[territory].bg} ${TERRITORY_COLORS[territory].border}`}
+                        className={`w-3 h-3 rounded-full ${territoryConfigs[territory]?.bg} ${territoryConfigs[territory]?.border}`}
                       ></div>
                       {territory}
                     </DropdownMenuItem>
@@ -704,7 +791,10 @@ function HoursOfOperationPanel() {
             >
               Save as default week
             </Button>
-            <Button className="md:w-auto bg-indigo-600 hover:bg-indigo-700 rounded-md transition-colors">
+            <Button
+              className="md:w-auto bg-indigo-600 hover:bg-indigo-700 rounded-md transition-colors"
+              onClick={handleSaveWeek}
+            >
               Save for this week only
             </Button>
           </div>
@@ -719,18 +809,25 @@ function HoursOfOperationPanel() {
       )}
     </div>
   );
-}
+};
 
 function isInDrawRange(
-  drawPreview: { startHour: number; endHour: number },
+  drawPreview: { start: number; end: number },
   hour: number
 ) {
-  const min = Math.min(drawPreview.startHour, drawPreview.endHour);
-  const max = Math.max(drawPreview.startHour, drawPreview.endHour);
+  const min = Math.min(drawPreview.start, drawPreview.end);
+  const max = Math.max(drawPreview.start, drawPreview.end);
   return hour >= min && hour <= max;
 }
 
-export default function HoursOfOperation() {
+export default function HoursOfOperation({
+  initialOpenHours,
+  territories,
+  territoryConfigs,
+  onSaveDefault,
+  onSaveWeek,
+  onError,
+}: HoursOfOperationPanelProps) {
   return (
     <Sheet>
       <SheetTrigger asChild>
@@ -738,11 +835,24 @@ export default function HoursOfOperation() {
           Edit Hours of Operation
         </Button>
       </SheetTrigger>
+
       <SheetContent
         side="right"
         className="w-full max-w-[98vw] sm:max-w-[90vw] md:max-w-[900px] lg:max-w-[1200px] p-0"
       >
-        <HoursOfOperationPanel />
+        <SheetHeader className="w-full bg-white">
+          <SheetTitle className="text-xl font-semibold">
+            Hours of Operation
+          </SheetTitle>
+        </SheetHeader>
+        <HoursOfOperationPanel
+          initialOpenHours={initialOpenHours}
+          territories={territories}
+          territoryConfigs={territoryConfigs}
+          onSaveDefault={onSaveDefault}
+          onSaveWeek={onSaveWeek}
+          onError={onError}
+        />
       </SheetContent>
     </Sheet>
   );
