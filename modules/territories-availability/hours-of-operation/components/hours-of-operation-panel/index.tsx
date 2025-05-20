@@ -1,20 +1,29 @@
 "use client";
 
-import { Plus } from "lucide-react";
-import { Button } from "@/components/shadcn/button";
+import type React from "react";
+import { useState, useEffect, useRef } from "react";
+import { DndContext, useDraggable, useDroppable } from "@dnd-kit/core";
+import {
+  format,
+  addDays,
+  startOfWeek,
+  endOfWeek,
+  addWeeks,
+  subWeeks,
+} from "date-fns";
+import {
+  Avatar,
+  AvatarFallback,
+  AvatarImage,
+} from "@/components/shadcn/avatar";
 import {
   Sheet,
-  SheetTrigger,
   SheetContent,
+  SheetFooter,
   SheetHeader,
   SheetTitle,
-  SheetFooter,
+  SheetTrigger,
 } from "@/components/shadcn/sheet";
-import {
-  Collapsible,
-  CollapsibleContent,
-  CollapsibleTrigger,
-} from "@/components/shadcn/collapsible";
 import {
   ChevronDown,
   ChevronUp,
@@ -23,23 +32,29 @@ import {
   ChevronLeft,
   ChevronRight,
   Trash2,
-  PencilIcon,
 } from "lucide-react";
+import {
+  Collapsible,
+  CollapsibleContent,
+  CollapsibleTrigger,
+} from "@/components/shadcn/collapsible";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/shadcn/dropdown-menu";
 import {
   Tooltip,
   TooltipContent,
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/shadcn/tooltip";
-import {
-  Avatar,
-  AvatarFallback,
-  AvatarImage,
-} from "@/components/shadcn/avatar";
-import { Media, Technician } from "@/payload-types";
+import { Button } from "@/components/shadcn/button";
+import { Technician } from "@/payload-types";
 import { DateRange } from "@/types/date";
-import { ReactNode, useRef } from "react";
 import { TechnicianHoursOfOperationTerritory } from "@/types/territories/technician-hours-of-operation";
+import { Header } from "../header";
 
 interface HoursOfOperationFormProps {
   isLoading?: boolean;
@@ -63,9 +78,9 @@ export function HoursOfOperationPanel({
       <SheetHeader className="bg-white">
         <SheetTitle>Hours of Operation</SheetTitle>
       </SheetHeader>
-      <div className="grid grid-cols-[20%_1fr] h-full">
+      <div className="grid grid-cols-[20%_1fr] h-full px-4 gap-4">
         {/* Sidebar */}
-        <div className="w-full p-4 border-b md:border-b-0 md:border-r flex flex-col">
+        <div className="flex flex-col">
           {/* User Info */}
           <div className="flex items-center gap-2 mb-4">
             <Avatar className="w-12 h-12 border ">
@@ -117,7 +132,10 @@ export function HoursOfOperationPanel({
           </Collapsible>
         </div>
 
-        <div className="flex-1 p-4 overflow-x-auto">calendar</div>
+        {/* Calendar */}
+        <div className="p-4 overflow-x-auto bg-white rounded-lg border ">
+          <Header dateRange={dateRange} />
+        </div>
       </div>
 
       <SheetFooter className="bg-white">
