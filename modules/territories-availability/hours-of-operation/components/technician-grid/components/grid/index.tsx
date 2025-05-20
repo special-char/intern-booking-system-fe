@@ -14,16 +14,18 @@ import { TechnicianGridTechnicianCell } from "../technician-cell";
 import { TechnicianTerritoryCell } from "../territory-cell";
 import { TechnicianGridWrapper } from "./wrapper";
 import { DateRange } from "@/types/date";
-import { Technician } from "@/payload-types";
+import { Technician, Territory } from "@/payload-types";
 
 interface TechnicianGridProps {
   dateRange: DateRange;
   technicianHoursOfOperation: TechnicianHoursOfOperation;
+  territories: Territory[];
 }
 
 export function TechnicianGrid({
   dateRange,
   technicianHoursOfOperation,
+  territories,
 }: TechnicianGridProps) {
   const [hoveredTechnicianId, setHoveredTechnicianId] = useState<number>(0);
   const weekDays: string[] = getWeekDays(dateRange.from);
@@ -127,6 +129,7 @@ export function TechnicianGrid({
                   territories={technicianAllWeekTerritories}
                   technician={technician as Technician}
                   dateRange={dateRange}
+                  territoriesData={territories}
                 />
               ))}
             </Fragment>

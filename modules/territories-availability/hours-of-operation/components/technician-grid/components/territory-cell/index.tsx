@@ -5,7 +5,7 @@ import { cn } from "@/lib/utils";
 import moment from "moment";
 import { TechnicianTerritoryEmptyCellContent } from "./content/empty";
 import { TechnicianTerritoryFilledCellContent } from "./content/filled";
-import { Technician } from "@/payload-types";
+import { Technician, Territory } from "@/payload-types";
 import { DateRange } from "@/types/date";
 
 interface TechnicianTerritoryCellProps {
@@ -15,6 +15,7 @@ interface TechnicianTerritoryCellProps {
   territories: TechnicianHoursOfOperationTerritory[];
   technician: Technician;
   dateRange: DateRange;
+  territoriesData: Territory[];
 }
 
 export function TechnicianTerritoryCell({
@@ -24,6 +25,7 @@ export function TechnicianTerritoryCell({
   territories,
   technician,
   dateRange,
+  territoriesData,
 }: TechnicianTerritoryCellProps) {
   const [isFocused, setIsFocused] = useState<boolean>(false);
   const isSunday: boolean = moment(date).day() === 0;
@@ -57,6 +59,7 @@ export function TechnicianTerritoryCell({
         technician={technician}
         dateRange={dateRange}
         date={date}
+        territoriesData={territoriesData}
       />
     );
   }

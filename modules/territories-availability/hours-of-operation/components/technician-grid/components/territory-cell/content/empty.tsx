@@ -3,7 +3,7 @@
 import { Plus } from "lucide-react";
 import { Button } from "@/components/shadcn/button";
 import { Sheet, SheetTrigger, SheetContent } from "@/components/shadcn/sheet";
-import { Technician } from "@/payload-types";
+import { Technician, Territory } from "@/payload-types";
 import { DateRange } from "@/types/date";
 import { HoursOfOperationPanel } from "../../../../hours-of-operation-panel";
 interface TechnicianTerritoryEmptyCellContentProps {
@@ -12,6 +12,7 @@ interface TechnicianTerritoryEmptyCellContentProps {
   technician: Technician;
   dateRange: DateRange;
   date: string;
+  territoriesData: Territory[];
 }
 
 export function TechnicianTerritoryEmptyCellContent({
@@ -20,6 +21,7 @@ export function TechnicianTerritoryEmptyCellContent({
   technician,
   dateRange,
   date,
+  territoriesData,
 }: TechnicianTerritoryEmptyCellContentProps) {
   return (
     <Sheet>
@@ -47,6 +49,7 @@ export function TechnicianTerritoryEmptyCellContent({
           technician={technician}
           dateRange={dateRange}
           date={date}
+          territoriesData={territoriesData}
         />
       </SheetContent>
     </Sheet>
