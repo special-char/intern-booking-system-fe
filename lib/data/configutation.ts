@@ -1,8 +1,8 @@
 import { getPayload } from "payload";
 import { getUser } from "./admin";
 import config from "@payload-config";
-
-export const getConfiguration = async () => {
+import { Configuration } from "@/payload-types";
+export const getConfiguration = async (): Promise<Configuration[]> => {
     const { user } = await getUser();
     const tenant_id = (user?.tenants?.[0]?.tenant as any)?.id;
     try {
@@ -15,8 +15,8 @@ export const getConfiguration = async () => {
             }
           }
         });
-        return data;
+        return data.docs;
       } catch (error) {
-        return { docs: [] };
+        return [];
       }
 }
