@@ -3,15 +3,21 @@ import {
   PaginationInterface,
 } from "@/types/pagination";
 import { TechniciansTable } from ".";
-import { getTechniciansDTO } from "@/lib/data/technicians";
+import { getTechnicians } from "@/lib/data/technicians";
+
+interface TechniciansTableTemplateProps extends PaginatedDataInterface {
+  search?: string;
+}
 
 export async function TechniciansTableTemplate({
   page,
   limit,
-}: PaginatedDataInterface) {
-  const technicians = await getTechniciansDTO({
+  search,
+}: TechniciansTableTemplateProps) {
+  const technicians = await getTechnicians({
     page,
     limit,
+    where: search
   });
 
   const pagination: PaginationInterface = {

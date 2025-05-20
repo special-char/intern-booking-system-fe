@@ -11,6 +11,7 @@ import { Sheet } from "@/components/shadcn/sheet";
 import { AddVanForm } from "../add-van-form";
 import { TireVanDTO } from "@/types/tire-vans";
 import { deleteTireVan } from "@/lib/data/vans";
+import { useToast } from "@/hooks/use-toast";
 
 interface VanActionsProps {
   disabled?: boolean
@@ -20,11 +21,16 @@ interface VanActionsProps {
 export default function VanActions({ van, disabled }: VanActionsProps) {
   const [isSheetOpen, setSheetOpen] = useState(false);
   const [isDeleting, setIsDeleting] = useState(false);
-
+  const { toast } = useToast();
   const handleDelete = async () => {
     setIsDeleting(true);
     try {
-      await deleteTireVan(van.id);
+      const response = await deleteTireVan(van.id);
+      if (response.isSuccess) {
+        toast({
+          title: "Van deleted successfully",
+        });
+      }
     } catch (error) {
       console.error("Error deleting tire van:", error);
     }

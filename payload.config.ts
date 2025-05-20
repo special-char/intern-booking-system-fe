@@ -16,6 +16,7 @@ import { Media } from "./collections/Media";
 import { Technicians } from "./collections/Technicians";
 import { Services } from "./collections/Services";
 import { Territory } from "./collections/Territory";
+import { Configurations } from "./collections/Configurations";
 
 const filename = fileURLToPath(import.meta.url);
 const dirname = path.dirname(filename);
@@ -34,6 +35,7 @@ export default buildConfig({
     Technicians,
     Services,
     Territory,
+    Configurations,
   ],
   db: postgresAdapter({
     pool: {
@@ -45,6 +47,11 @@ export default buildConfig({
   //     await seed(args);
   //   }
   // },
+  onInit: async (args) => {
+    // if (process.env.SEED_DB) {
+    //   await seed(args);
+    // }
+  },
   editor: lexicalEditor({}),
   graphQL: {
     schemaOutputFile: path.resolve(dirname, "generated-schema.graphql"),
@@ -62,6 +69,7 @@ export default buildConfig({
         media: {},
         services: {},
         territory: {},
+        configurations: {},
       },
       tenantField: {
         access: {

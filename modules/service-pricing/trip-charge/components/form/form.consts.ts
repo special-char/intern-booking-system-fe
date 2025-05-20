@@ -5,4 +5,5 @@ export const tripChargeFormSchema = z.object({
     message: "Trip charge must be greater than 0.",
   }),
   isTripChargeEnabled: z.boolean().default(false),
+  serviceId: z.number().optional(),
 });

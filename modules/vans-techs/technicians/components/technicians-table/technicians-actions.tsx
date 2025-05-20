@@ -11,6 +11,7 @@ import { TechnicianForm, TechnicianFormType } from "../technician-form";
 import { Sheet } from "@/components/shadcn/sheet";
 import { deleteTechnician } from "@/lib/data/technicians";
 import { ConfirmDialog } from "@/components/common/confirm-dialog";
+import { useToast } from "@/hooks/use-toast";
 
 interface TechniciansActionsProps {
   disabled?: boolean;
@@ -25,10 +26,16 @@ export function TechniciansActions({
   const [isDeleting, setIsDeleting] = useState(false);
   const [isAlertOpen, setIsAlertOpen] = useState(false);
 
+  const { toast } = useToast();
   const handleDelete = async () => {
     setIsDeleting(true);
     try {
-      await deleteTechnician(initialValues.id);
+      const response = await deleteTechnician(initialValues.id);
+      if (response.isSuccess) {
+        toast({
+          title: "Technician deleted successfully",
+        });
+      }
     } catch (error) {
       console.error("Error deleting technician:", error);
     }

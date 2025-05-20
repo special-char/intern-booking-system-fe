@@ -15,7 +15,7 @@ export const Services: CollectionConfig = {
     {
       name: "tyre_type",
       type: "select",
-      options: ["4", "3", "2", "1"],
+      options: ["8", "6", "5", "4", "3", "2", "1"],
     },
     {
       name: "price",
@@ -36,6 +36,7 @@ export const Services: CollectionConfig = {
       options: [
         "Trip Charge",
         "Install",
+        "Tires & Install",
         "Patch Repair",
         "Balance & Rotation",
         "Fees",

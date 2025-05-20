@@ -10,4 +10,5 @@ export const installValueSchema = z.object({
   price: z.coerce.number().min(0, {
     message: "Price must be greater than 0.",
   }),
+  serviceId: z.number().optional(),
 });

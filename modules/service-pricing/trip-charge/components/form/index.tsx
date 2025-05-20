@@ -10,46 +10,86 @@ import {
   FormMessage,
 } from "@/components/shadcn/form";
 import { zodResolver } from "@hookform/resolvers/zod";
-
 import { z } from "zod";
-
 import { Input } from "@/components/shadcn/input";
 import { FormProvider, useForm } from "react-hook-form";
 import { Switch } from "@/components/shadcn/switch";
 import { CircleDollarSign } from "lucide-react";
-import { TripCharge } from "@/types/services/trip-charge";
 import { tripChargeFormSchema } from "./form.consts";
-import { CollectionAfterChangeHook } from "payload";
+import { useTerritory } from "@/contexts/territory-context";
+import {
+  getServiceByTerritory,
+  submitTripCharge,
+  updateTripCharge,
+} from "../../../actions";
+import { useToast } from "@/hooks/use-toast";
+import { useEffect, useState } from "react";
 
-interface TripChargeFormProps {
-  tripCharge: TripCharge;
-}
+export default function TripChargeForm() {
+  const { selectedTerritory } = useTerritory();
+  const { toast } = useToast();
+  const [isLoading, setIsLoading] = useState(false);
 
-export default function TripChargeForm({ tripCharge }: TripChargeFormProps) {
   const form = useForm<z.infer<typeof tripChargeFormSchema>>({
     resolver: zodResolver(tripChargeFormSchema),
     defaultValues: {
-      tripCharge: tripCharge.value,
-      isTripChargeEnabled: tripCharge.isEnabled,
+      tripCharge: 0,
+      isTripChargeEnabled: true,
+      serviceId: 0,
     },
   });
 
-  function onSubmit(values: z.infer<typeof tripChargeFormSchema>) {
-    console.log("trip charge values", values);
+  const getTripServices = async () => {
+    const tripServices = await getServiceByTerritory(
+      selectedTerritory?.id || 0,
+      "Trip Charge"
+    );
+    const services = tripServices.docs[0];
 
-    // const afterChangeHook: CollectionAfterChangeHook = async ({
-    //   req: { payload },
-    // }) => {
-    //   const posts = await payload.create({
-    //     collection: "services",
-    //     data: {
-    //       price: values.tripCharge,
-    //       isRefundable: values.isTripChargeEnabled ? "Yes" : "No",
-    //       service: "Trip Charge",
-    //       territory: "All",
-    //     },
-    //   });
-    // };
+    form.reset({
+      tripCharge: services?.price || 0,
+      isTripChargeEnabled: services?.isRefundable === "Yes" ? true : false,
+      serviceId: services?.id,
+    });
+  };
+
+  useEffect(() => {
+    getTripServices();
+  }, [selectedTerritory?.id, form]);
+
+  async function onSubmit(values: z.infer<typeof tripChargeFormSchema>) {
+    try {
+      console.log("values", values);
+
+      if (values.serviceId) {
+        setIsLoading(true);
+        await updateTripCharge({
+          price: values.tripCharge,
+          isRefundable: values.isTripChargeEnabled ? "Yes" : "No",
+          territory_id: selectedTerritory?.id || 1,
+          service: "Trip Charge",
+          serviceId: values.serviceId,
+        });
+        toast({
+          title: "Trip charge updated successfully",
+        });
+        setIsLoading(false);
+      } else {
+        setIsLoading(true);
+        await submitTripCharge({
+          price: values.tripCharge,
+          isRefundable: values.isTripChargeEnabled ? "Yes" : "No",
+          territory_id: selectedTerritory?.id || 1,
+          service: "Trip Charge",
+        });
+        toast({
+          title: "Trip charge created successfully",
+        });
+        setIsLoading(false);
+      }
+    } catch (error) {
+      console.log("error", error);
+    }
   }
 
   return (
@@ -59,6 +99,7 @@ export default function TripChargeForm({ tripCharge }: TripChargeFormProps) {
           <PricingCard
             title="Minimum Trip Charge"
             description="Non-Refundable Trip Charge"
+            isLoading={isLoading}
           >
             <div className="flex justify-between">
               <FormField

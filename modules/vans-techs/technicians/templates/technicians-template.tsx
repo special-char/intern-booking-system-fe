@@ -8,8 +8,13 @@ import { TechniciansTable } from "../components/technicians-table";
 import { Suspense } from "react";
 import { TechniciansTableTemplate } from "../components/technicians-table/template";
 
-export async function TechniciansTemplate(props: PaginatedDataInterface) {
-  const { data, pagination } = getTableLoadingData()
+interface TechniciansTemplateProps extends PaginatedDataInterface {
+  search?: string;
+}
+
+export async function TechniciansTemplate(props: TechniciansTemplateProps) {
+  const { data, pagination } = getTableLoadingData();
+  const { search } = props;
 
   return (
     <div className="py-8 px-6">
@@ -19,7 +24,10 @@ export async function TechniciansTemplate(props: PaginatedDataInterface) {
           <p className="text-lg font-bold">Technicians</p>
         </div>
         <div className="flex gap-5 flex-col md:flex-row">
-          <SearchInput className="md:min-w-[320px]" />
+          <SearchInput
+            className="md:min-w-[320px]"
+            defaultValue={search}
+          />
           <TechnicianFormModal />
         </div>
       </div>

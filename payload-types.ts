@@ -75,11 +75,15 @@ export interface Config {
     technicians: Technician;
     services: Service;
     territory: Territory;
+    configurations: Configuration;
     'payload-locked-documents': PayloadLockedDocument;
     'payload-preferences': PayloadPreference;
     'payload-migrations': PayloadMigration;
   };
   collectionsJoins: {
+    tenants: {
+      configurations: 'configurations';
+    };
     vans: {
       technician: 'technicians';
     };
@@ -93,6 +97,7 @@ export interface Config {
     technicians: TechniciansSelect<false> | TechniciansSelect<true>;
     services: ServicesSelect<false> | ServicesSelect<true>;
     territory: TerritorySelect<false> | TerritorySelect<true>;
+    configurations: ConfigurationsSelect<false> | ConfigurationsSelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
     'payload-preferences': PayloadPreferencesSelect<false> | PayloadPreferencesSelect<true>;
     'payload-migrations': PayloadMigrationsSelect<false> | PayloadMigrationsSelect<true>;
@@ -174,6 +179,11 @@ export interface Tenant {
    * The Nylas Grant ID associated with this tenant.
    */
   grant_id?: string | null;
+  configurations?: {
+    docs?: (number | Configuration)[];
+    hasNextPage?: boolean;
+    totalDocs?: number;
+  };
   updatedAt: string;
   createdAt: string;
 }
@@ -196,6 +206,21 @@ export interface Media {
   height?: number | null;
   focalX?: number | null;
   focalY?: number | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "configurations".
+ */
+export interface Configuration {
+  id: number;
+  tenant?: (number | null) | Tenant;
+  name: string;
+  territory: string;
+  tire_count: number;
+  configuration_id: string;
+  tenantRelation: number | Tenant;
+  updatedAt: string;
+  createdAt: string;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -276,11 +301,11 @@ export interface Technician {
 export interface Service {
   id: number;
   tenant?: (number | null) | Tenant;
-  tyre_type?: ('4' | '3' | '2' | '1') | null;
+  tyre_type?: ('8' | '6' | '5' | '4' | '3' | '2' | '1') | null;
   price: number;
   duration?: string | null;
   discount?: number | null;
-  service: 'Trip Charge' | 'Install' | 'Patch Repair' | 'Balance & Rotation' | 'Fees';
+  service: 'Trip Charge' | 'Install' | 'Tires & Install' | 'Patch Repair' | 'Balance & Rotation' | 'Fees';
   territory_id: number | Territory;
   isRefundable?: ('Yes' | 'No') | null;
   updatedAt: string;
@@ -335,6 +360,10 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'territory';
         value: number | Territory;
+      } | null)
+    | ({
+        relationTo: 'configurations';
+        value: number | Configuration;
       } | null);
   globalSlug?: string | null;
   user: {
@@ -428,6 +457,7 @@ export interface TenantsSelect<T extends boolean = true> {
   salesChannelId?: T;
   publishableApiKey?: T;
   grant_id?: T;
+  configurations?: T;
   updatedAt?: T;
   createdAt?: T;
 }
@@ -506,6 +536,20 @@ export interface ServicesSelect<T extends boolean = true> {
 export interface TerritorySelect<T extends boolean = true> {
   tenant?: T;
   name?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "configurations_select".
+ */
+export interface ConfigurationsSelect<T extends boolean = true> {
+  tenant?: T;
+  name?: T;
+  territory?: T;
+  tire_count?: T;
+  configuration_id?: T;
+  tenantRelation?: T;
   updatedAt?: T;
   createdAt?: T;
 }

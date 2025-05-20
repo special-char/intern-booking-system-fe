@@ -5,9 +5,15 @@ import { getTableLoadingData } from "@/utils/get-table-loading-data";
 import { VansTable, VansTableProps } from "../components/van-table";
 import { Suspense } from "react";
 import { VansTableTemplate } from "../components/van-table/template";
+import { PaginatedDataInterface } from "@/types/pagination";
 
-export async function VansTemplate() {
-  const { data, pagination } = getTableLoadingData()
+interface VansTemplateProps extends PaginatedDataInterface {
+  search?: string;
+}
+
+export async function VansTemplate(props: VansTemplateProps) {
+  const { data, pagination } = getTableLoadingData();
+  const { search } = props;
 
   return (
     <div className="py-8 px-6">
@@ -17,12 +23,12 @@ export async function VansTemplate() {
           <p className="text-lg font-bold">Movile tire vans</p>
         </div>
         <div className="flex gap-5">
-          <SearchInput className="min-w-[320px]" />
+          <SearchInput className="min-w-[320px]" defaultValue={search} />
           <AddVan />
         </div>
       </div>
       <Suspense fallback={<VansTable data={data as VansTableProps['data']} pagination={pagination} isLoading />}>
-        <VansTableTemplate />
+        <VansTableTemplate {...props} />
       </Suspense>
     </div>
   );

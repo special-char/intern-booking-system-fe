@@ -7,7 +7,7 @@ import {
 } from "@/components/shadcn/card";
 
 import { Button } from "@/components/shadcn/button";
-import { Undo2Icon } from "lucide-react";
+import { Loader2Icon, Undo2Icon } from "lucide-react";
 import { useFormContext } from "react-hook-form";
 import { Tooltip } from "@/components/common/tooltip";
 
@@ -15,12 +15,14 @@ interface PricingCardProps {
   children: React.ReactNode;
   title: string;
   description: string;
+  isLoading?: boolean;
 }
 
 export default function PricingCard({
   children,
   title,
   description,
+  isLoading,
 }: PricingCardProps) {
   const { reset } = useFormContext();
 
@@ -41,12 +43,15 @@ export default function PricingCard({
         <Button
           onClick={() => reset()}
           variant="ghost"
+          type="reset"
           className="px-0 hover:bg-transparent"
         >
           <Undo2Icon className="w-4 h-4" />
           Reset all changes
         </Button>
-        <Button type="submit">Save</Button>
+        <Button type="submit" disabled={isLoading}>
+          {isLoading ? <Loader2Icon className="w-4 h-4" /> : "Save"}
+        </Button>
       </CardFooter>
     </Card>
   );

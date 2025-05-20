@@ -3,16 +3,16 @@ import InstallBundleForm from "../components/form/bundle-form";
 import InstallOnlyForm from "../components/form/install-only-form";
 
 interface InstallTemplateProps {
-  install: Install
+  install: Install;
 }
 
 export function InstallTemplate({ install }: InstallTemplateProps) {
-  const { bundle, installOnly } = install;
+  const { bundle } = install;
 
   return (
     <>
       <InstallBundleForm values={bundle} />
-      <InstallOnlyForm values={installOnly} />
+      <InstallOnlyForm />
     </>
   );
 }

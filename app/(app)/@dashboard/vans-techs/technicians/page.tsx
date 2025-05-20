@@ -8,5 +8,7 @@ export default async function TechniciansPage({
   const params = await searchParams;
   const page = params.page ? parseInt(params.page as string) : 1;
   const limit = params.limit ? parseInt(params.limit as string) : 20;
-  return <TechniciansTemplate page={page} limit={limit} />;
+  const search = params.search as string | undefined;
+
+  return <TechniciansTemplate page={page} limit={limit} search={search} />;
 }
