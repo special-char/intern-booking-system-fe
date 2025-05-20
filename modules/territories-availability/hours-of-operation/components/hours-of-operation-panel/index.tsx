@@ -51,10 +51,13 @@ import {
   TooltipTrigger,
 } from "@/components/shadcn/tooltip";
 import { Button } from "@/components/shadcn/button";
-import { Technician } from "@/payload-types";
+import { Media, Technician } from "@/payload-types";
 import { DateRange } from "@/types/date";
 import { TechnicianHoursOfOperationTerritory } from "@/types/territories/technician-hours-of-operation";
 import { Header } from "../header";
+import { getWeekDays } from "@/utils/date";
+import { TechnicianGridDateCell } from "../technician-grid/components/header/date-cell";
+import { Moment } from "moment";
 
 interface HoursOfOperationFormProps {
   isLoading?: boolean;
@@ -73,6 +76,8 @@ export function HoursOfOperationPanel({
   territories = [],
   onSave,
 }: HoursOfOperationFormProps) {
+  const weekDays: string[] = getWeekDays(dateRange.from);
+
   return (
     <>
       <SheetHeader className="bg-white">
@@ -133,8 +138,21 @@ export function HoursOfOperationPanel({
         </div>
 
         {/* Calendar */}
-        <div className="p-4 overflow-x-auto bg-white rounded-lg border ">
+        <div className="py-4 overflow-x-auto bg-white rounded-lg border flex flex-col gap-2">
+          {/* Header */}
           <Header dateRange={dateRange} />
+          <DndContext>
+            <div className="grid grid-cols-[repeat(8,_minmax(6rem,auto))]">
+              <div className="border-b h-[81px]" />
+              {weekDays.map((day) => (
+                <TechnicianGridDateCell
+                  key={day}
+                  date={day}
+                  variant="HoursOfOperation"
+                />
+              ))}
+            </div>
+          </DndContext>
         </div>
       </div>
 
