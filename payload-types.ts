@@ -73,6 +73,8 @@ export interface Config {
     vans: Van;
     media: Media;
     technicians: Technician;
+    services: Service;
+    territory: Territory;
     'payload-locked-documents': PayloadLockedDocument;
     'payload-preferences': PayloadPreference;
     'payload-migrations': PayloadMigration;
@@ -89,6 +91,8 @@ export interface Config {
     vans: VansSelect<false> | VansSelect<true>;
     media: MediaSelect<false> | MediaSelect<true>;
     technicians: TechniciansSelect<false> | TechniciansSelect<true>;
+    services: ServicesSelect<false> | ServicesSelect<true>;
+    territory: TerritorySelect<false> | TerritorySelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
     'payload-preferences': PayloadPreferencesSelect<false> | PayloadPreferencesSelect<true>;
     'payload-migrations': PayloadMigrationsSelect<false> | PayloadMigrationsSelect<true>;
@@ -267,6 +271,34 @@ export interface Technician {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "services".
+ */
+export interface Service {
+  id: number;
+  tenant?: (number | null) | Tenant;
+  tyre_type?: ('4' | '3' | '2' | '1') | null;
+  price: number;
+  duration?: string | null;
+  discount?: number | null;
+  service: 'Trip Charge' | 'Install' | 'Patch Repair' | 'Balance & Rotation' | 'Fees';
+  territory_id: number | Territory;
+  isRefundable?: ('Yes' | 'No') | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "territory".
+ */
+export interface Territory {
+  id: number;
+  tenant?: (number | null) | Tenant;
+  name?: string | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "payload-locked-documents".
  */
 export interface PayloadLockedDocument {
@@ -295,6 +327,14 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'technicians';
         value: number | Technician;
+      } | null)
+    | ({
+        relationTo: 'services';
+        value: number | Service;
+      } | null)
+    | ({
+        relationTo: 'territory';
+        value: number | Territory;
       } | null);
   globalSlug?: string | null;
   user: {
@@ -440,6 +480,32 @@ export interface TechniciansSelect<T extends boolean = true> {
   user?: T;
   grant_id?: T;
   calendar_id?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "services_select".
+ */
+export interface ServicesSelect<T extends boolean = true> {
+  tenant?: T;
+  tyre_type?: T;
+  price?: T;
+  duration?: T;
+  discount?: T;
+  service?: T;
+  territory_id?: T;
+  isRefundable?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "territory_select".
+ */
+export interface TerritorySelect<T extends boolean = true> {
+  tenant?: T;
+  name?: T;
   updatedAt?: T;
   createdAt?: T;
 }
