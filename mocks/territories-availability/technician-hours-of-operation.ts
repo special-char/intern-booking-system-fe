@@ -114,6 +114,15 @@ function generateTechnicianHoursFromNylasConfig(
       }
     });
   });
+  //if technician not found in technicians.docs, add it to the data
+  technicians.docs.forEach(technician => {
+    if (!data.find(t => t.technician.email === technician.email)) {
+      data.push({
+        technician,
+        territories: []
+      });
+    }
+  });
 
   return {
     dateRange,
