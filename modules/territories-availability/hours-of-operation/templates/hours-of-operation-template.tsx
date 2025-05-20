@@ -7,11 +7,14 @@ import { FiltersPanel } from "../components/filters-panel";
 import { DateRange } from "@/types/date";
 
 interface HoursOfOperationTemplateProps {
-  dateRange: DateRange,
-  filters: Record<string, boolean>
+  dateRange: DateRange;
+  filters: Record<string, boolean>;
 }
 
-export async function HoursOfOperationTemplate({ dateRange, filters }: HoursOfOperationTemplateProps) {
+export async function HoursOfOperationTemplate({
+  dateRange,
+  filters,
+}: HoursOfOperationTemplateProps) {
   return (
     <div className="flex flex-col lg:flex-row gap-5 px-6 py-8">
       <div className="order-1 lg:order-none min-w-62.5">
@@ -21,11 +24,14 @@ export async function HoursOfOperationTemplate({ dateRange, filters }: HoursOfOp
         <SearchInput className="ml-auto" />
         <Header dateRange={dateRange} />
         <div className="border shadow-card rounded-lg overflow-y-scroll">
-          <Suspense key={`${JSON.stringify(dateRange)}-${JSON.stringify(filters)}`} fallback={<TechnicianGridSkeleton dateRange={dateRange} />}>
+          <Suspense
+            key={`${JSON.stringify(dateRange)}-${JSON.stringify(filters)}`}
+            fallback={<TechnicianGridSkeleton dateRange={dateRange} />}
+          >
             <TechnicianGridTemplate dateRange={dateRange} />
           </Suspense>
         </div>
       </div>
     </div>
-  )
-};
+  );
+}

@@ -5,28 +5,39 @@ import { cn } from "@/lib/utils";
 import moment from "moment";
 import { TechnicianTerritoryEmptyCellContent } from "./content/empty";
 import { TechnicianTerritoryFilledCellContent } from "./content/filled";
+import { Technician } from "@/payload-types";
+import { DateRange } from "@/types/date";
 
 interface TechnicianTerritoryCellProps {
-  date: string
-  isDefaultHover: boolean
-  isLoading?: boolean
-  onClick: () => void
-  territories: TechnicianHoursOfOperationTerritory[]
+  date: string;
+  isDefaultHover: boolean;
+  isLoading?: boolean;
+  territories: TechnicianHoursOfOperationTerritory[];
+  technician: Technician;
+  dateRange: DateRange;
 }
 
-export function TechnicianTerritoryCell({ date, isDefaultHover, isLoading = false, onClick, territories }: TechnicianTerritoryCellProps) {
+export function TechnicianTerritoryCell({
+  date,
+  isDefaultHover,
+  isLoading = false,
+  territories,
+  technician,
+  dateRange,
+}: TechnicianTerritoryCellProps) {
   const [isFocused, setIsFocused] = useState<boolean>(false);
   const isSunday: boolean = moment(date).day() === 0;
 
-  const technicianDateTerritories: TechnicianHoursOfOperationTerritory[] = territories.filter((territory) => {
-    return moment(territory.from).isSame(moment(date), 'day');
-  })
+  const technicianDateTerritories: TechnicianHoursOfOperationTerritory[] =
+    territories.filter((territory) => {
+      return moment(territory.from).isSame(moment(date), "day");
+    });
 
   const isFilled: boolean = !!technicianDateTerritories.length;
 
   function renderContent(): ReactElement | null {
     if (isSunday) {
-      return null
+      return null;
     }
 
     if (isFilled) {
@@ -34,19 +45,20 @@ export function TechnicianTerritoryCell({ date, isDefaultHover, isLoading = fals
         <TechnicianTerritoryFilledCellContent
           isLoading={isLoading}
           onButtonFocus={setIsFocused}
-          onClick={onClick}
           territories={technicianDateTerritories}
         />
-      )
+      );
     }
 
     return (
       <TechnicianTerritoryEmptyCellContent
         isLoading={isLoading}
         onButtonFocus={setIsFocused}
-        onClick={onClick}
+        technician={technician}
+        dateRange={dateRange}
+        date={date}
       />
-    )
+    );
   }
 
   return (
@@ -56,12 +68,14 @@ export function TechnicianTerritoryCell({ date, isDefaultHover, isLoading = fals
       className="group"
       isLoading={isLoading}
     >
-      <div className={
-        cn(
+      <div
+        className={cn(
           "w-full h-full flex items-center justify-center px-2 opacity-0 transition-all duration-300",
           isFilled && "opacity-100",
           isFocused && "bg-primary-50 opacity-100",
-          !isSunday && !isLoading && "group-hover:opacity-100 group-hover:bg-primary-50",
+          !isSunday &&
+            !isLoading &&
+            "group-hover:opacity-100 group-hover:bg-primary-50"
         )}
       >
         {renderContent()}
