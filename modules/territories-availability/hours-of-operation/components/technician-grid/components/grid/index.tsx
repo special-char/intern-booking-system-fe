@@ -18,7 +18,7 @@ interface TechnicianGridProps {
 }
 
 export function TechnicianGrid({ dateRange, technicianHoursOfOperation }: TechnicianGridProps) {
-  const [hoveredTechnicianId, setHoveredTechnicianId] = useState<string>("")
+  const [hoveredTechnicianId, setHoveredTechnicianId] = useState<number>(0)
   const weekDays: string[] = getWeekDays(dateRange.from);
 
   function getDateUniqueTerritories(date: string): TechnicianHoursOfOperationTerritory[] {
@@ -39,7 +39,7 @@ export function TechnicianGrid({ dateRange, technicianHoursOfOperation }: Techni
     return getTerritoriesSortedByName(uniqueTerritories)
   }
 
-  function getTechnicianUniqueWeekTerritories(technicianId: string): TechnicianHoursOfOperationTerritory[] {
+  function getTechnicianUniqueWeekTerritories(technicianId: number): TechnicianHoursOfOperationTerritory[] {
     const technicianAllWeekTerritories: TechnicianHoursOfOperationTerritory[] = getTechnicianAllWeekTerritories(technicianId)
     const uniqueTerritories: TechnicianHoursOfOperationTerritory[] = []
     const seenIds: Set<string> = new Set<string>()
@@ -54,12 +54,12 @@ export function TechnicianGrid({ dateRange, technicianHoursOfOperation }: Techni
     return getTerritoriesSortedByName(uniqueTerritories)
   }
 
-  function getTechnicianAllWeekTerritories(technicianId: string): TechnicianHoursOfOperationTerritory[] {
+  function getTechnicianAllWeekTerritories(technicianId: number): TechnicianHoursOfOperationTerritory[] {
     const technicianTerritories: TechnicianHoursOfOperationTerritory[] | undefined = technicianHoursOfOperation.data.find(({ technician }) => technician.id === technicianId)?.territories ?? [];
     return technicianTerritories;
   }
 
-  function handleTechnicianHover(technicianId: string): void {
+  function handleTechnicianHover(technicianId: number): void {
     setHoveredTechnicianId(technicianId)
   }
 
@@ -81,8 +81,8 @@ export function TechnicianGrid({ dateRange, technicianHoursOfOperation }: Techni
         ))}
 
         {technicianHoursOfOperation.data.map(({ technician }) => {
-          const technicianUniqueWeekTerritories: TechnicianHoursOfOperationTerritory[] = getTechnicianUniqueWeekTerritories(technician.id ?? "");
-          const technicianAllWeekTerritories: TechnicianHoursOfOperationTerritory[] = getTechnicianAllWeekTerritories(technician.id ?? "");
+          const technicianUniqueWeekTerritories: TechnicianHoursOfOperationTerritory[] = getTechnicianUniqueWeekTerritories(technician.id ?? 0);
+          const technicianAllWeekTerritories: TechnicianHoursOfOperationTerritory[] = getTechnicianAllWeekTerritories(technician.id ?? 0);
 
           return (
             <Fragment key={technician.id}>

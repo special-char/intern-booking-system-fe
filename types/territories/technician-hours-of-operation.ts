@@ -1,4 +1,4 @@
-import { Technician } from "@/modules/vans-techs/technicians/components/technicians-table/columns"
+import { Technician } from "@/lib/data/technicians"
 import { Territory } from "./territory"
 import { DateRange } from "../date"
 

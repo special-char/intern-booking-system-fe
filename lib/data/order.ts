@@ -53,7 +53,6 @@ export async function getOrderListDTO({
       }
     } : {};
 
-    console.log("🚀 ~ dateFilterQuery:", dateFilterQuery)
     const orders = await getOrderList({
       page,
       limit,
