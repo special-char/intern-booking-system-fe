@@ -1,319 +1,147 @@
 import { getUser } from "@/lib/data/admin";
 import { getConfiguration } from "@/lib/data/configutation";
+import { getNylasConfigurations } from "@/lib/data/nyals-configuration";
 import { GetTechniciansResponse, Technician } from "@/lib/data/technicians";
 import { getTechnicians } from "@/lib/data/technicians";
+import { Configuration } from "@/payload-types";
 import { DateRange } from "@/types/date";
 import { TechnicianHoursOfOperation } from "@/types/territories/technician-hours-of-operation";
 import { getLocalDateString, getLocalEndWeekDateString, getLocalStartWeekDateString } from "@/utils/date";
+import { territoryColors } from "@/utils/get-random-color";
 import moment from "moment";
 
-// export const MOCK_TECHNICIAN_HOURS_OF_OPERATION: TechnicianHoursOfOperation = {
-//   dateRange: {
-//     from: getLocalStartWeekDateString(),
-//     to: getLocalEndWeekDateString()
-//   },
-//   data: [
-//     {
-//       technician: {
-//         id: "1",
-//         name: "Johnathan D'Souza",
-//       },
-//       territories: [
-//         {
-//           id: "1",
-//           name: "West",
-//           from: `${getLocalDateString(moment().clone().startOf('isoWeek').toDate())}T09:00:00`,
-//           to: `${getLocalDateString(moment().clone().startOf('isoWeek').toDate())}T13:00:00`,
-//           color: "rgba(8, 145, 178, 1)"
-//         },
-//         {
-//           id: "3",
-//           name: "East",
-//           from: `${getLocalDateString(moment().clone().startOf('isoWeek').toDate())}T13:00:00`,
-//           to: `${getLocalDateString(moment().clone().startOf('isoWeek').toDate())}T14:00:00`,
-//           color: "rgba(168, 85, 247, 1)"
-//         },
-//         {
-//           id: "2",
-//           name: "South",
-//           from: `${getLocalDateString(moment().clone().startOf('isoWeek').toDate())}T14:00:00`,
-//           to: `${getLocalDateString(moment().clone().startOf('isoWeek').toDate())}T19:00:00`,
-//           color: "rgba(236, 72, 153, 1)"
-//         },
-//         {
-//           id: "1",
-//           name: "West",
-//           from: `${getLocalDateString(moment().clone().startOf('isoWeek').add(1, 'd').toDate())}T09:00:00`,
-//           to: `${getLocalDateString(moment().clone().startOf('isoWeek').add(1, 'd').toDate())}T14:00:00`,
-//           color: "rgba(8, 145, 178, 1)"
-//         },
-//         {
-//           id: "1",
-//           name: "West",
-//           from: `${getLocalDateString(moment().clone().startOf('isoWeek').add(2, 'd').toDate())}T09:00:00`,
-//           to: `${getLocalDateString(moment().clone().startOf('isoWeek').add(2, 'd').toDate())}T14:00:00`,
-//           color: "rgba(8, 145, 178, 1)"
-//         },
-//         {
-//           id: "1",
-//           name: "West",
-//           from: `${getLocalDateString(moment().clone().startOf('isoWeek').add(3, 'd').toDate())}T09:00:00`,
-//           to: `${getLocalDateString(moment().clone().startOf('isoWeek').add(3, 'd').toDate())}T14:00:00`,
-//           color: "rgba(8, 145, 178, 1)"
-//         },
-//         {
-//           id: "3",
-//           name: "East",
-//           from: `${getLocalDateString(moment().clone().startOf('isoWeek').add(3, 'd').toDate())}T14:00:00`,
-//           to: `${getLocalDateString(moment().clone().startOf('isoWeek').add(3, 'd').toDate())}T19:00:00`,
-//           color: "rgba(168, 85, 247, 1)"
-//         },
-//         {
-//           id: "1",
-//           name: "West",
-//           from: `${getLocalDateString(moment().clone().startOf('isoWeek').add(4, 'd').toDate())}T09:00:00`,
-//           to: `${getLocalDateString(moment().clone().startOf('isoWeek').add(4, 'd').toDate())}T14:00:00`,
-//           color: "rgba(8, 145, 178, 1)"
-//         },
-//         {
-//           id: "1",
-//           name: "West",
-//           from: `${getLocalDateString(moment().clone().startOf('isoWeek').add(5, 'd').toDate())}T09:00:00`,
-//           to: `${getLocalDateString(moment().clone().startOf('isoWeek').add(5, 'd').toDate())}T14:00:00`,
-//           color: "rgba(8, 145, 178, 1)"
-//         },
-//       ]
-//     },
-//     {
-//       technician: {
-//         id: "2",
-//         name: "Martin Brown",
-//       },
-//       territories: [
-//         {
-//           id: "1",
-//           name: "West",
-//           from: `${getLocalDateString(moment().clone().startOf('isoWeek').add(1, 'days').toDate())}T09:00:00`,
-//           to: `${getLocalDateString(moment().clone().startOf('isoWeek').add(1, 'days').toDate())}T14:00:00`,
-//           color: "rgba(8, 145, 178, 1)"
-//         },
-//         {
-//           id: "1",
-//           name: "West",
-//           from: `${getLocalDateString(moment().clone().startOf('isoWeek').add(2, 'days').toDate())}T09:00:00`,
-//           to: `${getLocalDateString(moment().clone().startOf('isoWeek').add(2, 'days').toDate())}T14:00:00`,
-//           color: "rgba(8, 145, 178, 1)"
-//         },
-//         {
-//           id: "2",
-//           name: "South",
-//           from: `${getLocalDateString(moment().clone().startOf('isoWeek').add(2, 'days').toDate())}T14:00:00`,
-//           to: `${getLocalDateString(moment().clone().startOf('isoWeek').add(2, 'days').toDate())}T19:00:00`,
-//           color: "rgba(236, 72, 153, 1)"
-//         },
-//         {
-//           id: "3",
-//           name: "East",
-//           from: `${getLocalDateString(moment().clone().startOf('isoWeek').add(3, 'days').toDate())}T09:00:00`,
-//           to: `${getLocalDateString(moment().clone().startOf('isoWeek').add(3, 'days').toDate())}T14:00:00`,
-//           color: "rgba(168, 85, 247, 1)"
-//         },
-//         {
-//           id: "1",
-//           name: "West",
-//           from: `${getLocalDateString(moment().clone().startOf('isoWeek').add(4, 'days').toDate())}T09:00:00`,
-//           to: `${getLocalDateString(moment().clone().startOf('isoWeek').add(4, 'days').toDate())}T14:00:00`,
-//           color: "rgba(8, 145, 178, 1)"
-//         },
-//         {
-//           id: "2",
-//           name: "South",
-//           from: `${getLocalDateString(moment().clone().startOf('isoWeek').add(5, 'days').toDate())}T09:00:00`,
-//           to: `${getLocalDateString(moment().clone().startOf('isoWeek').add(5, 'days').toDate())}T14:00:00`,
-//           color: "rgba(236, 72, 153, 1)"
-//         },
-//       ]
-//     },
-//     {
-//       technician: {
-//         id: "3",
-//         name: "Anthony Hawkins",
-//       },
-//       territories: [
-//         {
-//           id: "2",
-//           name: "South",
-//           from: `${getLocalDateString(moment().clone().startOf('isoWeek').toDate())}T09:00:00`,
-//           to: `${getLocalDateString(moment().clone().startOf('isoWeek').toDate())}T14:00:00`,
-//           color: "rgba(236, 72, 153, 1)"
-//         },
-//         {
-//           id: "3",
-//           name: "East",
-//           from: `${getLocalDateString(moment().clone().startOf('isoWeek').add(1, 'days').toDate())}T09:00:00`,
-//           to: `${getLocalDateString(moment().clone().startOf('isoWeek').add(1, 'days').toDate())}T14:00:00`,
-//           color: "rgba(168, 85, 247, 1)"
-//         },
-//         {
-//           id: "1",
-//           name: "West",
-//           from: `${getLocalDateString(moment().clone().startOf('isoWeek').add(2, 'days').toDate())}T09:00:00`,
-//           to: `${getLocalDateString(moment().clone().startOf('isoWeek').add(2, 'days').toDate())}T14:00:00`,
-//           color: "rgba(8, 145, 178, 1)"
-//         },
-//         {
-//           id: "2",
-//           name: "South",
-//           from: `${getLocalDateString(moment().clone().startOf('isoWeek').add(3, 'days').toDate())}T09:00:00`,
-//           to: `${getLocalDateString(moment().clone().startOf('isoWeek').add(3, 'days').toDate())}T14:00:00`,
-//           color: "rgba(236, 72, 153, 1)"
-//         },
-//         {
-//           id: "3",
-//           name: "East",
-//           from: `${getLocalDateString(moment().clone().startOf('isoWeek').add(4, 'days').toDate())}T09:00:00`,
-//           to: `${getLocalDateString(moment().clone().startOf('isoWeek').add(4, 'days').toDate())}T14:00:00`,
-//           color: "rgba(168, 85, 247, 1)"
-//         },
-//         {
-//           id: "1",
-//           name: "West",
-//           from: `${getLocalDateString(moment().clone().startOf('isoWeek').add(5, 'days').toDate())}T09:00:00`,
-//           to: `${getLocalDateString(moment().clone().startOf('isoWeek').add(5, 'days').toDate())}T14:00:00`,
-//           color: "rgba(8, 145, 178, 1)"
-//         },
-//       ]
-//     },
-//     {
-//       technician: {
-//         id: "4",
-//         name: "Christopher Green",
-//       },
-//       territories: [
-//         {
-//           id: "1",
-//           name: "West",
-//           from: `${getLocalDateString(moment().clone().startOf('isoWeek').toDate())}T09:00:00`,
-//           to: `${getLocalDateString(moment().clone().startOf('isoWeek').toDate())}T14:00:00`,
-//           color: "rgba(8, 145, 178, 1)"
-//         },
-//         {
-//           id: "3",
-//           name: "East",
-//           from: `${getLocalDateString(moment().clone().startOf('isoWeek').toDate())}T14:00:00`,
-//           to: `${getLocalDateString(moment().clone().startOf('isoWeek').toDate())}T19:00:00`,
-//           color: "rgba(168, 85, 247, 1)"
-//         },
-//         {
-//           id: "1",
-//           name: "West",
-//           from: `${getLocalDateString(moment().clone().startOf('isoWeek').add(1, 'days').toDate())}T09:00:00`,
-//           to: `${getLocalDateString(moment().clone().startOf('isoWeek').add(1, 'days').toDate())}T14:00:00`,
-//           color: "rgba(8, 145, 178, 1)"
-//         },
-//         {
-//           id: "3",
-//           name: "East",
-//           from: `${getLocalDateString(moment().clone().startOf('isoWeek').add(1, 'days').toDate())}T09:00:00`,
-//           to: `${getLocalDateString(moment().clone().startOf('isoWeek').add(1, 'days').toDate())}T14:00:00`,
-//           color: "rgba(168, 85, 247, 1)"
-//         },
-//         {
-//           id: "1",
-//           name: "West",
-//           from: `${getLocalDateString(moment().clone().startOf('isoWeek').add(2, 'days').toDate())}T09:00:00`,
-//           to: `${getLocalDateString(moment().clone().startOf('isoWeek').add(2, 'days').toDate())}T14:00:00`,
-//           color: "rgba(8, 145, 178, 1)"
-//         },
-//         {
-//           id: "3",
-//           name: "East",
-//           from: `${getLocalDateString(moment().clone().startOf('isoWeek').add(3, 'days').toDate())}T09:00:00`,
-//           to: `${getLocalDateString(moment().clone().startOf('isoWeek').add(3, 'days').toDate())}T14:00:00`,
-//           color: "rgba(168, 85, 247, 1)"
-//         },
-//         {
-//           id: "3",
-//           name: "East",
-//           from: `${getLocalDateString(moment().clone().startOf('isoWeek').add(4, 'days').toDate())}T09:00:00`,
-//           to: `${getLocalDateString(moment().clone().startOf('isoWeek').add(4, 'days').toDate())}T14:00:00`,
-//           color: "rgba(168, 85, 247, 1)"
-//         },
-//         {
-//           id: "2",
-//           name: "South",
-//           from: `${getLocalDateString(moment().clone().startOf('isoWeek').add(5, 'days').toDate())}T09:00:00`,
-//           to: `${getLocalDateString(moment().clone().startOf('isoWeek').add(5, 'days').toDate())}T14:00:00`,
-//           color: "rgba(236, 72, 153, 1)"
-//         },
-//         {
-//           id: "4",
-//           name: "North",
-//           from: `${getLocalDateString(moment().clone().startOf('isoWeek').add(5, 'days').toDate())}T14:00:00`,
-//           to: `${getLocalDateString(moment().clone().startOf('isoWeek').add(5, 'days').toDate())}T19:00:00`,
-//           color: "rgba(249, 115, 22, 1)"
-//         },
-//       ]
-//     },
-//   ]
-// }
+interface NylasParticipant {
+  email: string;
+  name: string;
+  availability: {
+    calendar_ids: string[];
+    open_hours: Array<{
+      days: number[];
+      exdates: any[];
+      timezone: string;
+      start: string;
+      end: string;
+    }>;
+  };
+  booking: {
+    calendar_id: string;
+  };
+  timezone: string;
+}
 
-// async function mockFetchTechnicianHoursOfOperation(): Promise<TechnicianHoursOfOperation> {
-//   return new Promise((resolve) => {
-//     setTimeout(() => {
-//       resolve(MOCK_TECHNICIAN_HOURS_OF_OPERATION);
-//     }, 100);
-//   });
-// }
+interface NylasConfiguration {
+  territory: {
+    id: number;
+    name: string;
+  };
+  nylasConfiguration: {
+    data: {
+      participants: NylasParticipant[];
+    };
+  };
+}
 
+function generateTechnicianHoursFromNylasConfig(
+  technicians: GetTechniciansResponse,
+  nylasConfigurations: NylasConfiguration[],
+  dateRange: DateRange
+): TechnicianHoursOfOperation {
+  const data: Array<{
+    technician: Technician;
+    territories: Array<{
+      id: string;
+      name: string;
+      from: string;
+      to: string;
+      color: string;
+    }>;
+  }> = [];
 
+  // Process each territory configuration
+  nylasConfigurations.forEach(config => {
+    if (!config?.nylasConfiguration?.data?.participants) return;
+
+    const territory = config.territory;
+    const participants = config.nylasConfiguration.data.participants;
+
+    // Process each participant (technician)
+    participants.forEach((participant: NylasParticipant, index: number) => {
+      const technicianId = index + 1;
+      const existingTechnician = data.find(t => t.technician.id === technicianId);
+
+      if (existingTechnician) {
+        // Add territories to existing technician
+        participant.availability.open_hours.forEach((hours) => {
+          hours.days.forEach((day: number) => {
+            const date = moment(dateRange.from).clone().startOf('isoWeek').add(day - 1, 'days');
+            existingTechnician.territories.push({
+              id: territory.id.toString(),
+              name: territory.name,
+              from: `${getLocalDateString(date.toDate())}T${hours.start}:00`,
+              to: `${getLocalDateString(date.toDate())}T${hours.end}:00`,
+              color: territoryColors[territory.name.toLowerCase()] || "rgba(8, 145, 178, 1)"
+            });
+          });
+        });
+      } else {
+        // Create new technician entry
+        const territories: Array<{
+          id: string;
+          name: string;
+          from: string;
+          to: string;
+          color: string;
+        }> = [];
+
+        participant.availability.open_hours.forEach((hours) => {
+          hours.days.forEach((day: number) => {
+            const date = moment(dateRange.from).clone().startOf('isoWeek').add(day - 1, 'days');
+            territories.push({
+              id: territory.id.toString(),
+              name: territory.name,
+              from: `${getLocalDateString(date.toDate())}T${hours.start}:00`,
+              to: `${getLocalDateString(date.toDate())}T${hours.end}:00`,
+              color: territoryColors[territory.name.toLowerCase()] || "rgba(8, 145, 178, 1)"
+            });
+          });
+        });
+        if (technicians.docs.find(t => t.email === participant.email)) {
+          data.push({
+            technician: technicians.docs.find(t => t.email === participant.email) as Technician,
+            territories
+          });
+        }
+      }
+    });
+  });
+
+  return {
+    dateRange,
+    data
+  };
+}
 
 export async function getTechnicianHoursOfOperation(dateRange: DateRange): Promise<TechnicianHoursOfOperation | null> {
   try {
-    const technicians: GetTechniciansResponse = await getTechnicians({})
-    // const technicianHoursOfOperation: TechnicianHoursOfOperation = await mockFetchTechnicianHoursOfOperation()
+    const technicians: GetTechniciansResponse = await getTechnicians({});
     const isThisWeek: boolean = moment(dateRange.from).isSame(moment(), 'isoWeek');
 
     const configuration = await getConfiguration();
-    
-    if (isThisWeek) {
-      return {
-        dateRange: {
-          from: getLocalStartWeekDateString(),
-          to: getLocalEndWeekDateString()
-        },
-        data: technicians.docs.map((technician) => ({
-          technician: {
-            id: technician.id,
-            name: technician.name,
-            email: technician.email,
-            mobilePhone: technician.mobilePhone,
-            twilioPhone: technician.twilioPhone,
-            profilePhoto: technician.profilePhoto,
-            mobileTireVan: technician.mobileTireVan
-          },
-          territories: []
-        }))
-      };
-    }
-    return {
-      dateRange: {
-        from: getLocalStartWeekDateString(),
-        to: getLocalEndWeekDateString()
-      },
-      data: technicians.docs.map((technician) => ({
-        technician: {
-          id: technician.id,
-          name: technician.name,
-          email: technician.email,
-          mobilePhone: technician.mobilePhone,
-          twilioPhone: technician.twilioPhone,
-          profilePhoto: technician.profilePhoto,
-          mobileTireVan: technician.mobileTireVan
-        },
-        territories: []
-      }))
-    };
+
+    const nylasConfigurations = await Promise.all(configuration.map(async (configuration: Configuration) => {
+      const tenant = configuration.tenant;
+      if (tenant && typeof tenant === 'object' && 'grant_id' in tenant && tenant.grant_id) {
+        const nylasConfiguration = await getNylasConfigurations(tenant.grant_id, configuration.configuration_id);
+        return { territory: configuration.territory, nylasConfiguration };
+      }
+      return null;
+    }));
+
+    return generateTechnicianHoursFromNylasConfig(
+      technicians,
+      nylasConfigurations.filter(Boolean) as NylasConfiguration[],
+      dateRange
+    );
   } catch (error) {
     console.error(error);
     return null;
