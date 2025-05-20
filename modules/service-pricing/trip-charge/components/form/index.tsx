@@ -19,6 +19,7 @@ import { Switch } from "@/components/shadcn/switch";
 import { CircleDollarSign } from "lucide-react";
 import { TripCharge } from "@/types/services/trip-charge";
 import { tripChargeFormSchema } from "./form.consts";
+import { CollectionAfterChangeHook } from "payload";
 
 interface TripChargeFormProps {
   tripCharge: TripCharge;
@@ -34,7 +35,21 @@ export default function TripChargeForm({ tripCharge }: TripChargeFormProps) {
   });
 
   function onSubmit(values: z.infer<typeof tripChargeFormSchema>) {
-    console.log(values);
+    console.log("trip charge values", values);
+
+    // const afterChangeHook: CollectionAfterChangeHook = async ({
+    //   req: { payload },
+    // }) => {
+    //   const posts = await payload.create({
+    //     collection: "services",
+    //     data: {
+    //       price: values.tripCharge,
+    //       isRefundable: values.isTripChargeEnabled ? "Yes" : "No",
+    //       service: "Trip Charge",
+    //       territory: "All",
+    //     },
+    //   });
+    // };
   }
 
   return (

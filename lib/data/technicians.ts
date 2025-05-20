@@ -101,8 +101,8 @@ const isFile = (value: File): boolean => {
 
 // API functions
 export async function getTechnicians({
-  page = DEFAULT_PAGE,
-  limit = DEFAULT_LIMIT,
+  page,
+  limit,
   where,
 }: {
   page?: number;
@@ -111,8 +111,12 @@ export async function getTechnicians({
 }): Promise<GetTechniciansResponse> {
   try {
     const endpointUrl = new URL(`${API_BASE_URL}/api/technicians`);
-    endpointUrl.searchParams.set('page', page.toString());
-    endpointUrl.searchParams.set('limit', limit.toString());
+    if (page) {
+      endpointUrl.searchParams.set('page', page.toString());
+    }
+    if (limit) {
+      endpointUrl.searchParams.set('limit', limit.toString());
+    }
     if (where) {
       endpointUrl.searchParams.set('where[or][0][name][contains]', where);
       endpointUrl.searchParams.set('where[or][1][email][contains]', where);
@@ -140,9 +144,9 @@ export async function getTechnicians({
       docs: [],
       hasNextPage: false,
       hasPrevPage: false,
-      limit,
+      limit: limit || 0,
       nextPage: null,
-      page,
+      page: page || 0,
       pagingCounter: 0,
       prevPage: null,
       totalDocs: 0,

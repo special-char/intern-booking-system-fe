@@ -2,13 +2,34 @@ import { getOrderListDTO } from "@/lib/data/order";
 import { PaginatedDataInterface, PaginationInterface } from "@/types/pagination";
 import { OrdersTable } from ".";
 
-export async function OrdersTableTemplate({ page, limit }: PaginatedDataInterface) {
-  const { orders, count } = await getOrderListDTO({ page, limit }) ?? {};
+interface OrdersTableTemplateProps extends PaginatedDataInterface {
+  search?: string;
+  dateFilter?: Date | null;
+}
+
+export async function OrdersTableTemplate({ 
+  page, 
+  limit, 
+  search,
+  dateFilter 
+}: OrdersTableTemplateProps) {
+  const result = await getOrderListDTO({
+    page,
+    limit,
+    search,
+    dateFilter
+  });
 
   const pagination: PaginationInterface = {
     pageIndex: page,
     pageSize: limit,
-    totalCount: count ?? 0,
-  }
-  return (<OrdersTable data={orders ?? []} pagination={pagination} />);
+    totalCount: result.count as number,
+  };
+
+  return (
+    <OrdersTable
+      data={result.orders}
+      pagination={pagination}
+    />
+  );
 }

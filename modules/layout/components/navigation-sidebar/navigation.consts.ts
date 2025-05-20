@@ -120,26 +120,32 @@ export const menuItems = {
       icon: CircleDollarSign,
       isActive: false,
       isExpandable: true,
+      permissionSkip: true,
       items: [
         {
           title: "Trip charge",
           url: "/service-pricing/trip-charge",
+          permissionSkip: true,
         },
         {
           title: "Install",
           url: "/service-pricing/install",
+          permissionSkip: true,
         },
         {
           title: "Patch repair",
           url: "/service-pricing/patch-repair",
+          permissionSkip: true,
         },
         {
           title: "Balance & rotation",
           url: "/service-pricing/balance-rotation",
+          permissionSkip: true,
         },
         {
           title: "Fees",
           url: "/service-pricing/fees",
+          permissionSkip: true,
         },
       ],
     },
