@@ -6,8 +6,11 @@ import { Tenant, Van } from "@/payload-types";
 import { getPayload } from "payload";
 import config from "@payload-config";
 
-export async function getTireVans(page: number, limit: number, search?: string): Promise<any> {
-
+export async function getTireVans(
+  page: number,
+  limit: number,
+  search?: string
+): Promise<any> {
   try {
     const payload = await getPayload({ config });
     const data = await payload.find({
@@ -37,8 +40,7 @@ export async function getTireVans(page: number, limit: number, search?: string):
       page,
     });
     return data;
-  } catch (error) {
-    console.log("Error in getTireVans: ", error);
+  } catch {
     return { docs: [] };
   }
 }
@@ -46,11 +48,11 @@ export async function getTireVans(page: number, limit: number, search?: string):
 export async function getTireVansDTO({
   page = 1,
   limit = 20,
-  search
+  search,
 }: {
-  page: number,
-  limit: number,
-  search?: string
+  page: number;
+  limit: number;
+  search?: string;
 }): Promise<GetTireVansResponse> {
   try {
     const tireVans = await getTireVans(page, limit, search);
@@ -64,9 +66,9 @@ export async function getTireVansDTO({
       pagingCounter: tireVans.pagingCounter,
       prevPage: tireVans.prevPage,
       totalDocs: tireVans.totalDocs,
-      totalPages: tireVans.totalPages
+      totalPages: tireVans.totalPages,
     };
-  } catch (error) {
+  } catch {
     return {
       docs: [],
       hasNextPage: false,
@@ -77,7 +79,7 @@ export async function getTireVansDTO({
       pagingCounter: 0,
       prevPage: null,
       totalDocs: 0,
-      totalPages: 0
+      totalPages: 0,
     };
   }
 }

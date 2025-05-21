@@ -25,9 +25,8 @@ export async function login(
         tenantDomain,
       }
     );
-  } catch (error: any) {
-    console.log("error: ", error);
-    return error.toString();
+  } catch (error: unknown) {
+    return error instanceof Error ? error.message : "An unknown error occurred";
   }
 
   redirect("/");

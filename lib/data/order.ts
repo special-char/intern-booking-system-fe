@@ -4,8 +4,6 @@ import { HttpTypes } from "@medusajs/types";
 import { getTechnicianIdByUserId } from "./payload";
 
 export async function getOrderList({
-  page = 1,
-  limit = 10,
   filters,
 }: {
   page?: number;
@@ -47,18 +45,20 @@ export async function getOrderListDTO({
     const technician = await getTechnicianIdByUserId(`${user_id}`);
 
     // Prepare date filter if provided
-    const dateFilterQuery = dateFilter ? {
-      created_at: {
-        gte: dateFilter.toISOString(),
-      }
-    } : {};
+    const dateFilterQuery = dateFilter
+      ? {
+          created_at: {
+            gte: dateFilter.toISOString(),
+          },
+        }
+      : {};
 
     const orders = await getOrderList({
       page,
       limit,
       filters: {
         ...(technician?.id && { technician_id: technician?.id }),
-        tenant_id: tenant_id,
+        ...(tenant_id && { tenant_id: tenant_id }),
         ...(search && search !== "" && { q: search }),
         ...dateFilterQuery,
         offset: (page - 1) * limit,
@@ -71,8 +71,8 @@ export async function getOrderListDTO({
     }
 
     return {
-      orders: (orders as any)?.orders as any[],
-      count: (orders as any)?.count as number,
+      orders: (orders as any)?.orders, //TODO: fix type any
+      count: (orders as any)?.count,
     };
   } catch (error) {
     console.error(error);

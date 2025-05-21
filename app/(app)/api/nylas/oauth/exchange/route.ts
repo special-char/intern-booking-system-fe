@@ -47,8 +47,12 @@ export async function GET(request: Request) {
         accessToken,
     });
   } catch (error) {
+    console.error("OAuth exchange error:", error);
     return NextResponse.json(
-      { error: "Failed to exchange authorization code for token" },
+      {
+        error: "Failed to exchange authorization code for token",
+        details: error instanceof Error ? error.message : "Unknown error",
+      },
       { status: 500 }
     );
   }

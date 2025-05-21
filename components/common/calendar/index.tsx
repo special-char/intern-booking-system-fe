@@ -20,7 +20,7 @@ export function Calendar<TEvent extends object, TResource extends object>({
   timeIndicatorInterval,
   ...props
 }: CalendarProps<TEvent, TResource>) {
-  const todayDate: Date = moment().toDate()
+  const todayDate: Date = moment().toDate();
   const [currentTime, setCurrentTime] = useState(todayDate);
 
   useEffect(() => {
@@ -42,7 +42,6 @@ export function Calendar<TEvent extends object, TResource extends object>({
         getNow={() => currentTime}
         components={{
           ...props.components,
-          // eslint-disable-next-line
           timeSlotWrapper: (wrapperProps: any) => {
             const Component: ComponentType | undefined =
               props.components?.timeSlotWrapper;
