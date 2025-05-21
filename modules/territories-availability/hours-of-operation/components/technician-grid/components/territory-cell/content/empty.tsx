@@ -42,7 +42,7 @@ export function TechnicianTerritoryEmptyCellContent({
       </SheetTrigger>
       <SheetContent
         side="right"
-        className="w-full max-w-[900px] lg:max-w-[1200px] bg-background"
+        className="w-full md:max-w-[900px] lg:max-w-[1200px] bg-background"
       >
         <HoursOfOperationPanel
           isLoading={isLoading}
