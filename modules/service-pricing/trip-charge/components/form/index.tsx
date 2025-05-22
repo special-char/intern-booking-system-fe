@@ -19,16 +19,16 @@ import { tripChargeFormSchema } from "./form.consts";
 import { useTerritory } from "@/contexts/territory-context";
 import {
   getServiceByTerritory,
-  submitTripCharge,
-  updateTripCharge,
+  submitService,
+  changeService,
 } from "../../../actions";
 import { useToast } from "@/hooks/use-toast";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 
 export default function TripChargeForm() {
-  const { selectedTerritory } = useTerritory();
+  const { selectedTerritory, applyToAllTerritories, territories } =
+    useTerritory();
   const { toast } = useToast();
-  const [isLoading, setIsLoading] = useState(false);
 
   const form = useForm<z.infer<typeof tripChargeFormSchema>>({
     resolver: zodResolver(tripChargeFormSchema),
@@ -39,56 +39,87 @@ export default function TripChargeForm() {
     },
   });
 
-  const getTripServices = async () => {
-    const tripServices = await getServiceByTerritory(
-      selectedTerritory?.id || 0,
-      "Trip Charge"
-    );
-    const services = tripServices.docs[0];
-
-    form.reset({
-      tripCharge: services?.price || 0,
-      isTripChargeEnabled: services?.isRefundable === "Yes" ? true : false,
-      serviceId: services?.id,
-    });
-  };
-
   useEffect(() => {
-    getTripServices();
+    async function getTripServices() {
+      const tripServices = await getServiceByTerritory(
+        selectedTerritory?.id || 0,
+        "Trip Charge"
+      );
+      const services = tripServices.docs[0];
+
+      if (services) {
+        form.reset({
+          tripCharge: services.price || 0,
+          isTripChargeEnabled: services.isRefundable === "Yes",
+          serviceId: services.id,
+        });
+      }
+    }
+
+    if (selectedTerritory?.id) {
+      getTripServices();
+    }
   }, [selectedTerritory?.id, form]);
 
-  async function onSubmit(values: z.infer<typeof tripChargeFormSchema>) {
-    try {
-      console.log("values", values);
+  async function handleServiceUpdate(
+    territoryId: number,
+    values: z.infer<typeof tripChargeFormSchema>
+  ) {
+    const isRefundable = values.isTripChargeEnabled ? "Yes" : ("No" as const);
 
-      if (values.serviceId) {
-        setIsLoading(true);
-        await updateTripCharge({
-          price: values.tripCharge,
-          isRefundable: values.isTripChargeEnabled ? "Yes" : "No",
-          territory_id: selectedTerritory?.id || 1,
-          service: "Trip Charge",
-          serviceId: values.serviceId,
-        });
+    if (values.serviceId) {
+      await changeService({
+        price: values.tripCharge,
+        isRefundable,
+        service: "Trip Charge",
+        territory_id: territoryId,
+        serviceId: values.serviceId,
+      });
+      return "updated";
+    } else {
+      await submitService({
+        price: values.tripCharge,
+        isRefundable,
+        service: "Trip Charge",
+        territory_id: territoryId,
+      });
+      return "created";
+    }
+  }
+
+  async function onSubmit(values: z.infer<typeof tripChargeFormSchema>) {
+    if (!selectedTerritory?.id && !applyToAllTerritories) {
+      toast({
+        title: "Please select territory",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    try {
+      if (applyToAllTerritories) {
+        const promises = territories.map((territory) =>
+          handleServiceUpdate(territory.id, values)
+        );
+        await Promise.all(promises);
+
         toast({
-          title: "Trip charge updated successfully",
+          title: `Trip charge ${values.serviceId ? "updated" : "created"} for all territories`,
         });
-        setIsLoading(false);
       } else {
-        setIsLoading(true);
-        await submitTripCharge({
-          price: values.tripCharge,
-          isRefundable: values.isTripChargeEnabled ? "Yes" : "No",
-          territory_id: selectedTerritory?.id || 1,
-          service: "Trip Charge",
-        });
+        const result = await handleServiceUpdate(
+          selectedTerritory?.id as number,
+          values
+        );
         toast({
-          title: "Trip charge created successfully",
+          title: `Trip charge ${result} successfully`,
         });
-        setIsLoading(false);
       }
     } catch (error) {
-      console.log("error", error);
+      toast({
+        title: `Error submitting trip charge: ${error}`,
+        variant: "destructive",
+      });
     }
   }
 
@@ -99,7 +130,7 @@ export default function TripChargeForm() {
           <PricingCard
             title="Minimum Trip Charge"
             description="Non-Refundable Trip Charge"
-            isLoading={isLoading}
+            isLoading={form.formState.isSubmitting}
           >
             <div className="flex justify-between">
               <FormField

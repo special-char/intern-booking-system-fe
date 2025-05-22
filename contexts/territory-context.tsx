@@ -8,8 +8,12 @@ interface Territory {
 }
 
 interface TerritoryContextType {
+  territories: Territory[];
+  setTerritories: (territories: Territory[]) => void;
   selectedTerritory: Territory | null;
   setSelectedTerritory: (territory: Territory | null) => void;
+  applyToAllTerritories: boolean;
+  setApplyToAllTerritories: (apply: boolean) => void;
 }
 
 const TerritoryContext = createContext<TerritoryContextType | undefined>(
@@ -17,15 +21,21 @@ const TerritoryContext = createContext<TerritoryContextType | undefined>(
 );
 
 export function TerritoryProvider({ children }: { children: ReactNode }) {
+  const [territories, setTerritories] = useState<Territory[]>([]);
   const [selectedTerritory, setSelectedTerritory] = useState<Territory | null>(
     null
   );
+  const [applyToAllTerritories, setApplyToAllTerritories] = useState(false);
 
   return (
     <TerritoryContext.Provider
       value={{
+        territories,
+        setTerritories,
         selectedTerritory,
         setSelectedTerritory,
+        applyToAllTerritories,
+        setApplyToAllTerritories,
       }}
     >
       {children}

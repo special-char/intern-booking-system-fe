@@ -76,6 +76,7 @@ export interface Config {
     services: Service;
     territory: Territory;
     configurations: Configuration;
+    'state-environmental': StateEnvironmental;
     'payload-locked-documents': PayloadLockedDocument;
     'payload-preferences': PayloadPreference;
     'payload-migrations': PayloadMigration;
@@ -98,6 +99,7 @@ export interface Config {
     services: ServicesSelect<false> | ServicesSelect<true>;
     territory: TerritorySelect<false> | TerritorySelect<true>;
     configurations: ConfigurationsSelect<false> | ConfigurationsSelect<true>;
+    'state-environmental': StateEnvironmentalSelect<false> | StateEnvironmentalSelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
     'payload-preferences': PayloadPreferencesSelect<false> | PayloadPreferencesSelect<true>;
     'payload-migrations': PayloadMigrationsSelect<false> | PayloadMigrationsSelect<true>;
@@ -324,6 +326,24 @@ export interface Territory {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "state-environmental".
+ */
+export interface StateEnvironmental {
+  id: number;
+  tenant?: (number | null) | Tenant;
+  state?: string | null;
+  fees?:
+    | {
+        fee?: string | null;
+        description?: string | null;
+        id?: string | null;
+      }[]
+    | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "payload-locked-documents".
  */
 export interface PayloadLockedDocument {
@@ -364,6 +384,10 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'configurations';
         value: number | Configuration;
+      } | null)
+    | ({
+        relationTo: 'state-environmental';
+        value: number | StateEnvironmental;
       } | null);
   globalSlug?: string | null;
   user: {
@@ -550,6 +574,23 @@ export interface ConfigurationsSelect<T extends boolean = true> {
   tire_count?: T;
   configuration_id?: T;
   tenantRelation?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "state-environmental_select".
+ */
+export interface StateEnvironmentalSelect<T extends boolean = true> {
+  tenant?: T;
+  state?: T;
+  fees?:
+    | T
+    | {
+        fee?: T;
+        description?: T;
+        id?: T;
+      };
   updatedAt?: T;
   createdAt?: T;
 }

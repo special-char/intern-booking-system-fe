@@ -10,14 +10,43 @@ import {
 import { ChevronDown } from "lucide-react";
 import { useTerritory } from "@/contexts/territory-context";
 import { Territory } from "@/payload-types";
+import { useToast } from "@/hooks/use-toast";
+import { Checkbox } from "@/components/shadcn/checkbox";
+import { Label } from "@/components/shadcn/label";
+import { useEffect } from "react";
 
 export function SelectTerritory({ territories }: { territories: Territory[] }) {
-  const { selectedTerritory, setSelectedTerritory } = useTerritory();
+  const { selectedTerritory, setSelectedTerritory, setTerritories } =
+    useTerritory();
+  const { toast } = useToast();
+
+  const handleTerritorySelect = (territory: Territory) => {
+    setSelectedTerritory(territory);
+  };
+
+  useEffect(() => {
+    setTerritories(territories);
+  }, [territories, setTerritories]);
+
+  const handleDropdownClick = () => {
+    if (!selectedTerritory) {
+      toast({
+        title: "Territory Selection Required",
+        description: "Please select a territory to continue",
+        variant: "destructive",
+      });
+    }
+  };
 
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button variant="secondary" size="sm" className="bg-red">
+        <Button
+          variant="secondary"
+          size="sm"
+          className="bg-red"
+          onClick={handleDropdownClick}
+        >
           {selectedTerritory ? selectedTerritory.name : "All"}
           <ChevronDown />
         </Button>
@@ -26,9 +55,16 @@ export function SelectTerritory({ territories }: { territories: Territory[] }) {
         {territories.map((territory) => (
           <DropdownMenuItem
             key={territory.id}
-            onClick={() => setSelectedTerritory(territory)}
+            onClick={() => handleTerritorySelect(territory)}
           >
-            {territory.name}
+            <Checkbox
+              id={territory.id.toString()}
+              checked={selectedTerritory?.id === territory.id}
+              onCheckedChange={() => handleTerritorySelect(territory)}
+            />
+            <Label className="text-secondary" htmlFor={territory.id.toString()}>
+              {territory.name}
+            </Label>
           </DropdownMenuItem>
         ))}
       </DropdownMenuContent>

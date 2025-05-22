@@ -17,6 +17,7 @@ import { Technicians } from "./collections/Technicians";
 import { Services } from "./collections/Services";
 import { Territory } from "./collections/Territory";
 import { Configurations } from "./collections/Configurations";
+import { StateEnvironmental } from "./collections/State Environmental";
 
 const filename = fileURLToPath(import.meta.url);
 const dirname = path.dirname(filename);
@@ -36,6 +37,7 @@ export default buildConfig({
     Services,
     Territory,
     Configurations,
+    StateEnvironmental,
   ],
   db: postgresAdapter({
     pool: {
@@ -70,6 +72,7 @@ export default buildConfig({
         services: {},
         territory: {},
         configurations: {},
+        "state-environmental": {},
       },
       tenantField: {
         access: {

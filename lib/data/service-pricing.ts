@@ -53,10 +53,13 @@ export async function getServices(territoryId: number, service: string) {
 
   const result = await payload.find({
     collection: "services",
+    limit: 16,
     where: {
-      territory_id: {
-        equals: territoryId,
-      },
+      ...(territoryId !== 0 && {
+        territory_id: {
+          equals: territoryId,
+        },
+      }),
       service: {
         equals: service,
       },
@@ -74,6 +77,7 @@ export async function updateService(data: TripCharge, service: ServiceType) {
   await payload.update({
     collection: "services",
     data,
+    limit: 16,
     where: {
       territory_id: {
         equals: data.territory_id,
@@ -86,4 +90,15 @@ export async function updateService(data: TripCharge, service: ServiceType) {
       },
     },
   });
+}
+
+export async function getStateEnvironments() {
+  const payload = await getPayload({ config });
+
+  const result = await payload.find({
+    collection: "state-environmental",
+    limit: 50,
+  });
+
+  return result.docs;
 }

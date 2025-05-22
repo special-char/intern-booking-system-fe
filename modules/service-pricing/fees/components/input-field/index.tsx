@@ -2,7 +2,6 @@ import {
   FormControl,
   FormField,
   FormItem,
-  FormLabel,
   FormMessage,
 } from "@/components/shadcn/form";
 
@@ -10,28 +9,45 @@ import { PriceInput } from "@/components/common/price-input";
 import { useFormContext } from "react-hook-form";
 import { InputField } from "@/types/form";
 
-export default function FeeInputField({ name }: InputField) {
+interface FeeInputFieldProps extends InputField {
+  description?: string;
+  defaultValue?: string;
+  isTextarea?: boolean;
+  disabled?: boolean;
+  icon?: boolean;
+}
+
+export default function FeeInputField({
+  name,
+  defaultValue,
+  isTextarea,
+  disabled,
+  icon,
+}: FeeInputFieldProps) {
   const { control } = useFormContext();
 
   return (
     <FormField
       control={control}
       name={name}
-      render={({ field }) => (
-        <FormItem className="flex items-center justify-between">
-          <FormLabel className="mb-0 text-sm text-text-secondary">
-            Recycling Fee per tire
-          </FormLabel>
-          <FormControl>
-            <PriceInput
-              className="text-right font-medium"
-              placeholder="Recycling fee"
-              {...field}
-            />
-          </FormControl>
-          <FormMessage />
-        </FormItem>
-      )}
+      defaultValue={defaultValue}
+      render={({ field }) => {
+        return (
+          <FormItem>
+            <FormControl>
+              <PriceInput
+                disabled={disabled}
+                icon={icon}
+                isTextarea={isTextarea}
+                placeholder={defaultValue || "Recycling Fee per tire"}
+                {...field}
+                className="text-right"
+              />
+            </FormControl>
+            <FormMessage />
+          </FormItem>
+        );
+      }}
     />
   );
 }

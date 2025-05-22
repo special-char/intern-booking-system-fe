@@ -2,13 +2,14 @@
 
 import {
   getServices,
+  getStateEnvironments,
   postService,
   ServiceType,
   TyreType,
   updateService,
 } from "@/lib/data/service-pricing";
 
-export async function submitTripCharge(data: {
+export async function submitService(data: {
   price: number;
   isRefundable?: "Yes" | "No";
   territory_id: number;
@@ -27,7 +28,7 @@ export async function getServiceByTerritory(
   return await getServices(territoryId, service);
 }
 
-export async function updateTripCharge(data: {
+export async function changeService(data: {
   price: number;
   isRefundable?: "Yes" | "No";
   territory_id: number;
@@ -37,7 +38,11 @@ export async function updateTripCharge(data: {
   discount?: number;
   serviceId?: number;
 }) {
-  console.log("data updateTripCharge", data);
+  console.log("data changeService", data);
 
   return await updateService(data, data.service);
+}
+
+export async function fetchStateEnvironments() {
+  return await getStateEnvironments();
 }

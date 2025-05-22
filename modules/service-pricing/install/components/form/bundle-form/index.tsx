@@ -3,11 +3,8 @@
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { FormProvider, useForm } from "react-hook-form";
-
 import { Form } from "@/components/shadcn/form";
-
 import { Tooltip } from "@/components/common/tooltip";
-import { InstallBundle } from "@/types/services/install";
 import { installBundleFormSchema } from "./form.consts";
 import PriceInputField from "@/modules/service-pricing/common/components/price-input-field";
 import PricingCard from "@/modules/service-pricing/common/components/pricing-card";
@@ -16,27 +13,29 @@ import { FlexDiscountInputField } from "../../flex-discount-input-field";
 import { InstallFormHeader } from "../../header";
 import {
   getServiceByTerritory,
-  submitTripCharge,
-  updateTripCharge,
+  submitService,
+  changeService,
 } from "@/modules/service-pricing/actions";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useTerritory } from "@/contexts/territory-context";
 import { useToast } from "@/hooks/use-toast";
-import { TyreType } from "@/lib/data/service-pricing";
+import { TyreType, ServiceType } from "@/lib/data/service-pricing";
 
-interface InstallBundleFormProps {
-  values?: InstallBundle;
-}
+import { Service } from "@/payload-types";
 
-export default function InstallBundleForm({ values }: InstallBundleFormProps) {
-  const form = useForm<z.infer<typeof installBundleFormSchema>>({
-    resolver: zodResolver(installBundleFormSchema),
-    // defaultValues: values ? installBundleFormSchema.parse(values) : undefined,
-  });
+type TireFormValues = {
+  duration: number;
+  price: number;
+  flexDiscount: number;
+  serviceId: number;
+};
 
-  const { selectedTerritory } = useTerritory();
+type FormValues = z.infer<typeof installBundleFormSchema>;
+
+export default function InstallBundleForm() {
+  const { selectedTerritory, applyToAllTerritories, territories } =
+    useTerritory();
   const { toast } = useToast();
-  const [isLoading, setIsLoading] = useState(false);
 
   const allDefaultValues = {
     tires4: { duration: 0, price: 0, flexDiscount: 0, serviceId: 0 },
@@ -45,172 +44,180 @@ export default function InstallBundleForm({ values }: InstallBundleFormProps) {
     tires1: { duration: 0, price: 0, flexDiscount: 0, serviceId: 0 },
   };
 
+  const form = useForm<FormValues>({
+    resolver: zodResolver(installBundleFormSchema),
+    defaultValues: allDefaultValues,
+  });
+
+  const formatServiceData = (services: Service[]) => {
+    return services.reduce((acc: Record<string, TireFormValues>, service) => {
+      if (service.tyre_type) {
+        acc[`tires${service.tyre_type}`] = {
+          duration:
+            typeof service.duration === "string"
+              ? parseFloat(service.duration)
+              : (service.duration ?? 0),
+          price:
+            typeof service.price === "string"
+              ? parseFloat(service.price)
+              : (service.price ?? 0),
+          flexDiscount:
+            typeof service.discount === "string"
+              ? parseFloat(service.discount)
+              : (service.discount ?? 0),
+          serviceId: service.id,
+        };
+      }
+      return acc;
+    }, {});
+  };
+
   const getTripServices = async () => {
+    if (!selectedTerritory?.id) return;
+
     const tripServices = await getServiceByTerritory(
-      selectedTerritory?.id || 0,
+      selectedTerritory.id,
       "Tires & Install"
     );
-    const services = tripServices.docs;
 
-    console.log("services", services);
-
-    // Initialize with default values for all tire types
-
-    // Merge with existing services data
-    const existingValues = services.reduce(
-      (
-        acc: Record<
-          string,
-          {
-            duration: number;
-            price: number;
-            flexDiscount: number;
-            serviceId: number;
-          }
-        >,
-        service
-      ) => {
-        if (service.tyre_type) {
-          acc[`tires${service.tyre_type}`] = {
-            duration:
-              typeof service.duration === "string"
-                ? parseFloat(service.duration)
-                : (service.duration ?? 0),
-            price:
-              typeof service.price === "string"
-                ? parseFloat(service.price)
-                : (service.price ?? 0),
-            flexDiscount:
-              typeof service.discount === "string"
-                ? parseFloat(service.discount)
-                : (service.discount ?? 0),
-            serviceId: service.id,
-          };
-        }
-        return acc;
-      },
-      {}
-    );
-
-    // Combine default values with existing values
-    const defaultValues = { ...allDefaultValues, ...existingValues };
-
-    form.reset(defaultValues);
+    const existingValues = formatServiceData(tripServices.docs);
+    form.reset({ ...allDefaultValues, ...existingValues });
   };
 
   useEffect(() => {
     getTripServices();
-  }, [selectedTerritory?.id, form]);
+  }, [selectedTerritory?.id]);
 
-  async function onSubmit(values: z.infer<typeof installBundleFormSchema>) {
-    console.log("Form values:", values);
-    setIsLoading(true);
+  const handleServiceUpdate = async (
+    territoryId: number,
+    tireType: string,
+    values: TireFormValues
+  ) => {
+    const tireNumber = tireType.replace("tires", "") as TyreType;
+    const serviceData = {
+      price: values.price,
+      territory_id: territoryId,
+      service: "Tires & Install" as ServiceType,
+      tyre_type: tireNumber,
+      duration: values.duration,
+      discount: values.flexDiscount,
+    };
+
+    if (values.serviceId !== 0) {
+      await changeService({ ...serviceData, serviceId: values.serviceId });
+      return "updated";
+    } else {
+      await submitService(serviceData);
+      return "added";
+    }
+  };
+
+  async function onSubmit(values: FormValues) {
+    const results = { added: false, updated: false };
 
     try {
-      for (const tireType of Object.keys(values)) {
-        const installValue = values[tireType as keyof typeof values];
+      const territoriesToUpdate = applyToAllTerritories
+        ? territories
+        : [selectedTerritory].filter(Boolean);
 
-        console.log("installValue", installValue, selectedTerritory?.id);
-        const tireNumber = tireType.replace("tires", "");
+      if (territoriesToUpdate.length === 0) {
+        throw new Error("No territory selected");
+      }
 
-        if (installValue.serviceId !== 0) {
-          await updateTripCharge({
-            price: installValue.price,
-            territory_id: selectedTerritory?.id || 1,
-            service: "Tires & Install",
-            tyre_type: tireNumber as TyreType,
-            duration: installValue.duration,
-            discount: installValue.flexDiscount,
-            serviceId: installValue.serviceId,
-          });
-        } else {
-          await submitTripCharge({
-            price: installValue.price,
-            territory_id: selectedTerritory?.id || 1,
-            service: "Tires & Install",
-            tyre_type: tireNumber as TyreType,
-            duration: installValue.duration,
-            discount: installValue.flexDiscount,
-          });
+      for (const territory of territoriesToUpdate) {
+        for (const tireType of Object.keys(values)) {
+          const tireValue = values[tireType as keyof FormValues];
+
+          if (applyToAllTerritories) {
+            const territoryServices = await getServiceByTerritory(
+              territory?.id as number,
+              "Tires & Install"
+            );
+            const tireNumber = tireType.replace("tires", "");
+
+            const existingService = territoryServices.docs.find(
+              (service) => service.tyre_type === tireNumber
+            );
+
+            const updatedValue = {
+              ...tireValue,
+              serviceId: existingService?.id || 0,
+            };
+
+            const result = await handleServiceUpdate(
+              territory?.id as number,
+              tireType,
+              updatedValue
+            );
+            results[result] = true;
+          } else {
+            const result = await handleServiceUpdate(
+              territory?.id as number,
+              tireType,
+              {
+                ...tireValue,
+                serviceId: tireValue.serviceId || 0,
+              }
+            );
+            results[result] = true;
+          }
         }
       }
+
+      if (results.added && results.updated) {
+        toast({ title: "Tires & Install added and updated successfully" });
+      } else if (results.added) {
+        toast({ title: "Tires & Install added successfully" });
+      } else if (results.updated) {
+        toast({ title: "Tires & Install updated successfully" });
+      }
     } catch (error) {
-      toast({
-        title: "Error updating install pricing",
-        variant: "destructive",
-      });
-      console.error(error);
-    } finally {
-      setIsLoading(false);
+      if (!selectedTerritory?.id && !applyToAllTerritories) {
+        toast({ title: "Please select territory", variant: "destructive" });
+      } else {
+        toast({
+          title: `Error updating tires & install ${error}`,
+          variant: "destructive",
+        });
+      }
     }
   }
+
+  const tireConfigs = [
+    { type: "tires4", label: "4 Tires" },
+    { type: "tires3", label: "3 Tires" },
+    { type: "tires2", label: "2 Tires" },
+    { type: "tires1", label: "1 Tire" },
+  ];
+
+  const renderTireRow = (type: string, label: string) => (
+    <div className="grid grid-cols-4 gap-4 mb-4" key={type}>
+      <div className="flex items-center gap-1 text-sm text-text-secondary">
+        {label}
+        <Tooltip>
+          This is a tooltip. It will display additional information about the
+          item.
+        </Tooltip>
+      </div>
+      <DurationInputField name={`${type}.duration`} />
+      <PriceInputField name={`${type}.price`} />
+      <FlexDiscountInputField name={`${type}.flexDiscount`} />
+    </div>
+  );
 
   return (
     <FormProvider {...form}>
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)}>
           <PricingCard
-            isLoading={isLoading}
+            isLoading={form.formState.isSubmitting}
             title="Tires + Install Bundle"
             description="Set the values for the installation bundle"
           >
             <InstallFormHeader />
-
-            <div className="grid grid-cols-4 gap-4 mb-4">
-              <div className="flex items-center gap-1 text-sm text-text-secondary">
-                4 Tires
-                <Tooltip>
-                  This is a tooltip. It will display additional information
-                  about the item.
-                </Tooltip>
-              </div>
-
-              <DurationInputField name="tires4.duration" />
-              <PriceInputField name="tires4.price" />
-              <FlexDiscountInputField name="tires4.flexDiscount" />
-            </div>
-
-            <div className="grid grid-cols-4 gap-4  mb-4">
-              <div className="flex items-center gap-1 text-sm text-text-secondary">
-                3 Tires
-                <Tooltip>
-                  This is a tooltip. It will display additional information
-                  about the item.
-                </Tooltip>
-              </div>
-
-              <DurationInputField name="tires3.duration" />
-              <PriceInputField name="tires3.price" />
-              <FlexDiscountInputField name="tires3.flexDiscount" />
-            </div>
-
-            <div className="grid grid-cols-4 gap-4 mb-4">
-              <div className="flex items-center gap-1 text-sm text-text-secondary">
-                2 Tires
-                <Tooltip>
-                  This is a tooltip. It will display additional information
-                  about the item.
-                </Tooltip>
-              </div>
-
-              <DurationInputField name="tires2.duration" />
-              <PriceInputField name="tires2.price" />
-              <FlexDiscountInputField name="tires2.flexDiscount" />
-            </div>
-
-            <div className="grid grid-cols-4 gap-4 mb-4">
-              <div className="flex items-center gap-1 text-sm text-text-secondary">
-                1 Tires
-                <Tooltip>
-                  This is a tooltip. It will display additional information
-                  about the item.
-                </Tooltip>
-              </div>
-
-              <DurationInputField name="tires1.duration" />
-              <PriceInputField name="tires1.price" />
-              <FlexDiscountInputField name="tires1.flexDiscount" />
-            </div>
+            {tireConfigs.map((config) =>
+              renderTireRow(config.type, config.label)
+            )}
           </PricingCard>
         </form>
       </Form>
