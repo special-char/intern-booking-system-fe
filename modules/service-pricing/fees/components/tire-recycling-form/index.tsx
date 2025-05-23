@@ -45,6 +45,12 @@ export default function TireRecyclingFeeForm() {
           tireRecycling: serviceData.price || 0,
           serviceId: serviceData.id || 0,
         });
+      } else {
+        // Reset form to default values when no service exists for territory
+        form.reset({
+          tireRecycling: 0,
+          serviceId: 0,
+        });
       }
     }
 
@@ -83,6 +89,14 @@ export default function TireRecyclingFeeForm() {
       return;
     }
 
+    if (!applyToAllTerritories) {
+      await submitFormValues(values);
+    }
+  }
+
+  async function submitFormValues(
+    values: z.infer<typeof tireRecyclingFormSchema>
+  ) {
     try {
       const results: string[] = [];
 
@@ -128,6 +142,11 @@ export default function TireRecyclingFeeForm() {
     }
   }
 
+  const handleConfirmApplyToAll = async () => {
+    const values = form.getValues();
+    await submitFormValues(values);
+  };
+
   return (
     <FormProvider {...form}>
       <Form {...form}>
@@ -136,6 +155,7 @@ export default function TireRecyclingFeeForm() {
             isLoading={form.formState.isSubmitting}
             title="Tire Recycling"
             description="Set the values for the tire recycling"
+            onConfirmApplyToAll={handleConfirmApplyToAll}
           >
             <div className="flex items-center justify-between">
               <Label>Tire Recycling</Label>

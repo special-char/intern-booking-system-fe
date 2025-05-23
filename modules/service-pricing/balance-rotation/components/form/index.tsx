@@ -52,6 +52,14 @@ export default function BalanceRotationForm() {
           flexDiscount: serviceData.discount || 0,
           serviceId: serviceData.id || 0,
         });
+      } else {
+        // Reset form to default values when no service exists for territory
+        form.reset({
+          duration: 0,
+          price: 0,
+          flexDiscount: 0,
+          serviceId: 0,
+        });
       }
     }
 
@@ -79,6 +87,7 @@ export default function BalanceRotationForm() {
       return "updated";
     } else {
       await submitService(serviceData);
+
       return "created";
     }
   }
@@ -92,6 +101,14 @@ export default function BalanceRotationForm() {
       return;
     }
 
+    if (!applyToAllTerritories) {
+      await submitFormValues(values);
+    }
+  }
+
+  async function submitFormValues(
+    values: z.infer<typeof balanceRotationFormSchema>
+  ) {
     try {
       const results: string[] = [];
 
@@ -137,6 +154,11 @@ export default function BalanceRotationForm() {
     }
   }
 
+  const handleConfirmApplyToAll = async () => {
+    const values = form.getValues();
+    await submitFormValues(values);
+  };
+
   return (
     <FormProvider {...form}>
       <Form {...form}>
@@ -145,6 +167,7 @@ export default function BalanceRotationForm() {
             isLoading={form.formState.isSubmitting}
             title="Balance & Rotation"
             description="Set the values for the balance & rotation"
+            onConfirmApplyToAll={handleConfirmApplyToAll}
           >
             <InstallFormHeader />
             <div className="grid grid-cols-4 gap-4 mb-4">

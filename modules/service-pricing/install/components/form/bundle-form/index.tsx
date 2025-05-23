@@ -20,7 +20,6 @@ import { useEffect } from "react";
 import { useTerritory } from "@/contexts/territory-context";
 import { useToast } from "@/hooks/use-toast";
 import { TyreType, ServiceType } from "@/lib/data/service-pricing";
-
 import { Service } from "@/payload-types";
 
 type TireFormValues = {
@@ -113,6 +112,17 @@ export default function InstallBundleForm() {
   };
 
   async function onSubmit(values: FormValues) {
+    if (!selectedTerritory?.id && !applyToAllTerritories) {
+      toast({ title: "Please select territory", variant: "destructive" });
+      return;
+    }
+
+    if (!applyToAllTerritories) {
+      await submitFormValues(values);
+    }
+  }
+
+  async function submitFormValues(values: FormValues) {
     const results = { added: false, updated: false };
 
     try {
@@ -172,16 +182,17 @@ export default function InstallBundleForm() {
         toast({ title: "Tires & Install updated successfully" });
       }
     } catch (error) {
-      if (!selectedTerritory?.id && !applyToAllTerritories) {
-        toast({ title: "Please select territory", variant: "destructive" });
-      } else {
-        toast({
-          title: `Error updating tires & install ${error}`,
-          variant: "destructive",
-        });
-      }
+      toast({
+        title: `Error updating tires & install ${error}`,
+        variant: "destructive",
+      });
     }
   }
+
+  const handleConfirmApplyToAll = async () => {
+    const values = form.getValues();
+    await submitFormValues(values);
+  };
 
   const tireConfigs = [
     { type: "tires4", label: "4 Tires" },
@@ -213,6 +224,7 @@ export default function InstallBundleForm() {
             isLoading={form.formState.isSubmitting}
             title="Tires + Install Bundle"
             description="Set the values for the installation bundle"
+            onConfirmApplyToAll={handleConfirmApplyToAll}
           >
             <InstallFormHeader />
             {tireConfigs.map((config) =>

@@ -2,8 +2,15 @@
 
 import React, { useEffect, useState } from "react";
 import { cn } from "@/lib/utils";
-import { Card, CardContent, CardHeader } from "@/components/shadcn/card";
+import {
+  Card,
+  CardContent,
+  CardHeader,
+  CardTitle,
+} from "@/components/shadcn/card";
 import { Tooltip } from "@/components/common/tooltip";
+import { usePathname } from "next/navigation";
+import { Badge } from "@/components/shadcn/badge";
 
 // Define types for the chart data
 interface BarData {
@@ -33,14 +40,33 @@ interface ServiceChartProps {
 }
 
 const ServiceChart: React.FC<ServiceChartProps> = ({
-  title = "Minimum Trip Charge",
   description = "Breakdown of service charges by type",
   data = defaultData,
   userData = defaultUserData,
   className,
 }) => {
   const [animatedBars, setAnimatedBars] = useState(false);
-  const maxValue = Math.max(...data.map((item) => item.value));
+
+  const pathname = usePathname();
+
+  const name = pathname.split("/").pop();
+
+  const getTitle = () => {
+    switch (name) {
+      case "trip-charge":
+        return "Minimum Trip Charge";
+      case "install":
+        return "Job Profit Simulator";
+      case "patch-repair":
+        return "Job Profit Simulator";
+      case "balance-rotation":
+        return "Job Profit Simulator";
+      case "fees":
+        return "Job Profit Simulator";
+      default:
+        return "Job Profit Simulator";
+    }
+  };
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -54,16 +80,19 @@ const ServiceChart: React.FC<ServiceChartProps> = ({
     <Card className={cn("col-span-4", className)}>
       <CardHeader>
         <div className="flex items-center gap-1">
-          <h2 className="text-xl font-medium">{title}</h2>
+          <CardTitle>{getTitle()}</CardTitle>
           <Tooltip>
             <p>{description}</p>
           </Tooltip>
+          <Badge className="rounded-full bg-brand-primary-100 text-secondary ml-3 hover:text-white hover:cursor-default">
+            Coming Soon
+          </Badge>
         </div>
       </CardHeader>
-      <CardContent>
-        <div className="relative h-[400px] mt-4 bg-gray-50 rounded-lg p-4">
+      <CardContent className="blur-xs">
+        <div className="relative mt-4 bg-gray-50 rounded-lg p-4 pt-8 pb-8">
           {/* Y-axis values */}
-          <div className="absolute left-0 top-0 bottom-0 w-10 flex flex-col justify-between text-sm text-gray-500 p-4">
+          <div className="absolute left-0 top-8 bottom-8 w-10 flex flex-col justify-between text-sm text-gray-500 p-4">
             <span>60</span>
             <span>40</span>
             <span>20</span>
@@ -71,20 +100,21 @@ const ServiceChart: React.FC<ServiceChartProps> = ({
           </div>
 
           {/* Chart area */}
-          <div className="flex h-full pl-10">
+          <div className="flex h-full pl-10 pt-4 pb-4">
             {data.map((item, index) => {
-              // Calculate proportional height based on max value
-              const barHeight = (item.value / maxValue) * 300;
+              // Cap bar height at 300px (representing value of 60)
+              // and scale values proportionally
+              const barHeight = Math.min((item.value / 60) * 300, 300);
 
               return (
                 <div key={index} className="flex-1 flex flex-col items-center">
-                  {/* Value and percentage label */}
-                  <div className="text-sm font-medium mb-1 text-center">
-                    ${item.value} | {item.percentage}%
-                  </div>
-
                   {/* Bar container */}
-                  <div className="w-full flex justify-center mb-8 h-[300px] flex items-end">
+                  <div className="w-full justify-center h-[300px] flex items-end relative">
+                    {/* Value and percentage label - moved above the chart area */}
+                    <div className="absolute top-[-24px] left-0 right-0 text-sm font-medium text-center">
+                      ${item.value} | {item.percentage}%
+                    </div>
+
                     <div
                       className="w-[75%] transition-all duration-700 rounded-t-md overflow-hidden border border-blue-300"
                       style={{
@@ -109,10 +139,12 @@ const ServiceChart: React.FC<ServiceChartProps> = ({
                         );
                       })}
                     </div>
-                  </div>
 
-                  {/* Title below bar */}
-                  <div className="text-sm text-center">{item.title}</div>
+                    {/* Title below bar - positioned absolutely */}
+                    <div className="absolute bottom-[-24px] left-0 right-0 text-sm text-center flex-wrap">
+                      {item.title}
+                    </div>
+                  </div>
                 </div>
               );
             })}
@@ -146,11 +178,11 @@ const ServiceChart: React.FC<ServiceChartProps> = ({
                   {user.initials}
                 </div>
                 <div>
-                  <p className="font-medium">{user.name}</p>
-                  <p className="text-sm text-gray-500">{user.time}</p>
+                  <p className="text-sm">{user.name}</p>
+                  <p className="text-xs text-gray-500">{user.time}</p>
                 </div>
               </div>
-              <div className="text-green-600 font-medium">
+              <div className="text-text-success-primary font-semibold text-sm">
                 ${user.amount.toFixed(2)}
               </div>
             </div>

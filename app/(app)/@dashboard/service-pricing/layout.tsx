@@ -3,6 +3,7 @@ import { SelectTerritory } from "@/modules/service-pricing/common/components/sel
 import { ServicePricingTabs } from "@/modules/service-pricing/common/components/tabs";
 import { TerritoryProvider } from "@/contexts/territory-context";
 import { fetchAllTerritories } from "@/lib/data/service-pricing";
+import ServiceChart from "@/modules/service-pricing/common/components/service-chart";
 
 export default async function ServicePricingLayout({
   children,
@@ -24,6 +25,7 @@ export default async function ServicePricingLayout({
         <ServicePricingTabs />
         <div className="grid grid-cols-1 lg:grid-cols-8 gap-5">
           <div className="lg:col-span-4 space-y-3">{children}</div>
+          <ServiceChart />
         </div>
       </div>
     </TerritoryProvider>

@@ -3,7 +3,7 @@ import { installValueSchema } from "../../../install/components/form/install-sch
 
 export const patchRepairFormSchema = z.object({
   tires4: installValueSchema,
-  tires5: installValueSchema,
-  tires6: installValueSchema,
-  tires8: installValueSchema,
+  tires3: installValueSchema,
+  tires2: installValueSchema,
+  tires1: installValueSchema,
 });

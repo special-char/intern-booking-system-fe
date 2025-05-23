@@ -1,4 +1,5 @@
 import { Config } from "payload";
+import { stateEnvironmentalData } from "./public/data/state-environmental";
 
 export const seed: NonNullable<Config["onInit"]> = async (
   payload
@@ -111,6 +112,21 @@ export const seed: NonNullable<Config["onInit"]> = async (
     },
   });
 
+  const tenants = [tenant1, tenant2, tenant3];
+
+  for (const tenant of tenants) {
+    for (const stateData of stateEnvironmentalData) {
+      await payload.create({
+        collection: "state-environmental",
+        data: {
+          state: stateData.state,
+          fees: stateData.fees,
+          tenant: tenant.id,
+        },
+      });
+    }
+  }
+
   await payload.create({
     collection: "pages",
     data: {
@@ -138,4 +154,3 @@ export const seed: NonNullable<Config["onInit"]> = async (
     },
   });
 };
-

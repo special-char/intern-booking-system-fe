@@ -53,13 +53,20 @@ export default function TripChargeForm() {
           isTripChargeEnabled: services.isRefundable === "Yes",
           serviceId: services.id,
         });
+      } else {
+        // Reset form to default values when no service exists for territory
+        form.reset({
+          tripCharge: 0,
+          isTripChargeEnabled: true,
+          serviceId: 0,
+        });
       }
     }
 
     if (selectedTerritory?.id) {
       getTripServices();
     }
-  }, [selectedTerritory?.id, form]);
+  }, [selectedTerritory?.id, form.reset]);
 
   async function handleServiceUpdate(
     territoryId: number,
@@ -96,11 +103,31 @@ export default function TripChargeForm() {
       return;
     }
 
+    if (!applyToAllTerritories) {
+      await submitFormValues(values);
+    }
+  }
+
+  async function submitFormValues(
+    values: z.infer<typeof tripChargeFormSchema>
+  ) {
     try {
       if (applyToAllTerritories) {
-        const promises = territories.map((territory) =>
-          handleServiceUpdate(territory.id, values)
-        );
+        const promises = territories.map(async (territory) => {
+          const territoryServices = await getServiceByTerritory(
+            territory.id,
+            "Trip Charge"
+          );
+
+          // Find existing service ID for this territory
+          const existingService = territoryServices.docs[0];
+          const territoryValues = {
+            ...values,
+            serviceId: existingService?.id || 0,
+          };
+
+          return handleServiceUpdate(territory.id, territoryValues);
+        });
         await Promise.all(promises);
 
         toast({
@@ -123,6 +150,11 @@ export default function TripChargeForm() {
     }
   }
 
+  const handleConfirmApplyToAll = async () => {
+    const values = form.getValues();
+    await submitFormValues(values);
+  };
+
   return (
     <FormProvider {...form}>
       <Form {...form}>
@@ -131,6 +163,7 @@ export default function TripChargeForm() {
             title="Minimum Trip Charge"
             description="Non-Refundable Trip Charge"
             isLoading={form.formState.isSubmitting}
+            onConfirmApplyToAll={handleConfirmApplyToAll}
           >
             <div className="flex justify-between">
               <FormField

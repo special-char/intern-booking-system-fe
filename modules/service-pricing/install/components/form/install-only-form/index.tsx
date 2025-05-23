@@ -37,9 +37,9 @@ export default function InstallOnlyForm() {
 
   const allDefaultValues = {
     tires4: { duration: 0, price: 0, flexDiscount: 0, serviceId: 0 },
-    tires5: { duration: 0, price: 0, flexDiscount: 0, serviceId: 0 },
-    tires6: { duration: 0, price: 0, flexDiscount: 0, serviceId: 0 },
-    tires8: { duration: 0, price: 0, flexDiscount: 0, serviceId: 0 },
+    tires3: { duration: 0, price: 0, flexDiscount: 0, serviceId: 0 },
+    tires2: { duration: 0, price: 0, flexDiscount: 0, serviceId: 0 },
+    tires1: { duration: 0, price: 0, flexDiscount: 0, serviceId: 0 },
   };
 
   const form = useForm<FormValues>({
@@ -111,6 +111,17 @@ export default function InstallOnlyForm() {
   };
 
   async function onSubmit(values: FormValues) {
+    if (!selectedTerritory?.id && !applyToAllTerritories) {
+      toast({ title: "Please select territory", variant: "destructive" });
+      return;
+    }
+
+    if (!applyToAllTerritories) {
+      await submitFormValues(values);
+    }
+  }
+
+  async function submitFormValues(values: FormValues) {
     const results = { added: false, updated: false };
 
     try {
@@ -172,22 +183,23 @@ export default function InstallOnlyForm() {
         toast({ title: "Install Only updated successfully" });
       }
     } catch (error) {
-      if (!selectedTerritory?.id && !applyToAllTerritories) {
-        toast({ title: "Please select territory", variant: "destructive" });
-      } else {
-        toast({
-          title: `Error updating install only ${error}`,
-          variant: "destructive",
-        });
-      }
+      toast({
+        title: `Error updating install only ${error}`,
+        variant: "destructive",
+      });
     }
   }
 
+  const handleConfirmApplyToAll = async () => {
+    const values = form.getValues();
+    await submitFormValues(values);
+  };
+
   const tireConfigs = [
     { type: "tires4", label: "4 Tires" },
-    { type: "tires5", label: "5 Tires" },
-    { type: "tires6", label: "6 Tires" },
-    { type: "tires8", label: "8 Tires" },
+    { type: "tires3", label: "3 Tires" },
+    { type: "tires2", label: "2 Tires" },
+    { type: "tires1", label: "1 Tire" },
   ];
 
   const renderTireRow = (type: string, label: string) => (
@@ -213,6 +225,7 @@ export default function InstallOnlyForm() {
             isLoading={form.formState.isSubmitting}
             title="Install Only"
             description="Set the values for the installation only"
+            onConfirmApplyToAll={handleConfirmApplyToAll}
           >
             <InstallFormHeader />
             {tireConfigs.map((config) =>

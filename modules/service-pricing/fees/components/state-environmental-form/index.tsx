@@ -43,7 +43,6 @@ export default function StateEnvironmentalFeeForm({
   async function environment() {
     const data = await fetchStateEnvironments();
     setStateData(data as StateEnvironmentalData[]);
-    console.log(data, "data");
   }
 
   useEffect(() => {
@@ -64,33 +63,37 @@ export default function StateEnvironmentalFeeForm({
             description="Set the values for the state environmental fees"
           >
             <div className="space-y-3">
-              {stateData
-                .slice()
-                .sort((a, b) => (a.state || "").localeCompare(b.state || ""))
-                .map((state) => {
-                  const value = state.fees
-                    ?.map((fee) => `${fee.fee} ${fee.description}`)
-                    .join("\n")
-                    .replace("$", "");
-                  return (
-                    <div
-                      key={state.id}
-                      className="grid grid-cols-2 items-center"
-                    >
-                      <div className="text-sm text-text-secondary">
-                        {state.state || ""}
-                      </div>
+              {stateData.length > 0 ? (
+                stateData
+                  .slice()
+                  .sort((a, b) => (a.state || "").localeCompare(b.state || ""))
+                  .map((state) => {
+                    const value = state.fees
+                      ?.map((fee) => `${fee.fee} ${fee.description || ""}`)
+                      .join("\n")
+                      .replace("$", "");
+                    return (
+                      <div
+                        key={state.id}
+                        className="grid grid-cols-2 items-center"
+                      >
+                        <div className="text-sm text-text-secondary">
+                          {state.state || ""}
+                        </div>
 
-                      <FeeInputField
-                        disabled={true}
-                        icon={true}
-                        isTextarea={true}
-                        name={state.id.toString()}
-                        defaultValue={value}
-                      />
-                    </div>
-                  );
-                })}
+                        <FeeInputField
+                          disabled={true}
+                          icon={true}
+                          isTextarea={true}
+                          name={state.id.toString()}
+                          defaultValue={value}
+                        />
+                      </div>
+                    );
+                  })
+              ) : (
+                <div>No data available.</div>
+              )}
               {stateData.length === 0 && <div>Loading state fees...</div>}
             </div>
           </PricingCard>

@@ -15,6 +15,20 @@ export const Territory: CollectionConfig = {
     {
       name: "name",
       type: "text",
+      required: true,
+    },
+    {
+      name: "coordinates",
+      type: "json",
+      required: true,
+    },
+    {
+      name: "properties",
+      type: "json",
+    },
+    {
+      name: "type",
+      type: "text",
     },
   ],
   admin: {

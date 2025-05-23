@@ -38,8 +38,6 @@ export async function changeService(data: {
   discount?: number;
   serviceId?: number;
 }) {
-  console.log("data changeService", data);
-
   return await updateService(data, data.service);
 }
 

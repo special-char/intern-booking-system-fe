@@ -320,7 +320,26 @@ export interface Service {
 export interface Territory {
   id: number;
   tenant?: (number | null) | Tenant;
-  name?: string | null;
+  name: string;
+  coordinates:
+    | {
+        [k: string]: unknown;
+      }
+    | unknown[]
+    | string
+    | number
+    | boolean
+    | null;
+  properties?:
+    | {
+        [k: string]: unknown;
+      }
+    | unknown[]
+    | string
+    | number
+    | boolean
+    | null;
+  type?: string | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -331,10 +350,10 @@ export interface Territory {
 export interface StateEnvironmental {
   id: number;
   tenant?: (number | null) | Tenant;
-  state?: string | null;
+  state: string;
   fees?:
     | {
-        fee?: string | null;
+        fee: string;
         description?: string | null;
         id?: string | null;
       }[]
@@ -560,6 +579,9 @@ export interface ServicesSelect<T extends boolean = true> {
 export interface TerritorySelect<T extends boolean = true> {
   tenant?: T;
   name?: T;
+  coordinates?: T;
+  properties?: T;
+  type?: T;
   updatedAt?: T;
   createdAt?: T;
 }

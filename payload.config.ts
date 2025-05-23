@@ -44,11 +44,6 @@ export default buildConfig({
       connectionString: process.env.DATABASE_URI,
     },
   }),
-  // onInit: async (args) => {
-  //   if (process.env.SEED_DB) {
-  //     await seed(args);
-  //   }
-  // },
   onInit: async (args) => {
     // if (process.env.SEED_DB) {
     //   await seed(args);

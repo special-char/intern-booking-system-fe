@@ -51,6 +51,9 @@ export async function postService(data: TripCharge, service: ServiceType) {
 export async function getServices(territoryId: number, service: string) {
   const payload = await getPayload({ config });
 
+  const { user } = await getUser();
+  const tenantId = (user?.tenants?.[0]?.tenant as Tenant)?.id;
+
   const result = await payload.find({
     collection: "services",
     limit: 16,
@@ -63,6 +66,9 @@ export async function getServices(territoryId: number, service: string) {
       service: {
         equals: service,
       },
+      tenant: {
+        equals: tenantId,
+      },
     },
   });
 
@@ -72,7 +78,8 @@ export async function getServices(territoryId: number, service: string) {
 export async function updateService(data: TripCharge, service: ServiceType) {
   const payload = await getPayload({ config });
 
-  console.log("data updateService", data);
+  const { user } = await getUser();
+  const tenantId = (user?.tenants?.[0]?.tenant as Tenant)?.id;
 
   await payload.update({
     collection: "services",
@@ -87,6 +94,9 @@ export async function updateService(data: TripCharge, service: ServiceType) {
       },
       service: {
         equals: service,
+      },
+      tenant: {
+        equals: tenantId,
       },
     },
   });

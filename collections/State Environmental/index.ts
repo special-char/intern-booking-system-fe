@@ -15,6 +15,7 @@ export const StateEnvironmental: CollectionConfig = {
     {
       name: "state",
       type: "text",
+      required: true,
     },
     {
       name: "fees",
@@ -23,6 +24,7 @@ export const StateEnvironmental: CollectionConfig = {
         {
           name: "fee",
           type: "text",
+          required: true,
         },
         {
           name: "description",
