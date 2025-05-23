@@ -8,53 +8,63 @@ import {
   DropdownMenuTrigger,
 } from "@/components/shadcn/dropdown-menu";
 import { ChevronDown } from "lucide-react";
-import { useState, useEffect } from "react";
+import { useTerritory } from "@/contexts/territory-context";
+import { Territory } from "@/payload-types";
+import { useToast } from "@/hooks/use-toast";
+import { Checkbox } from "@/components/shadcn/checkbox";
+import { Label } from "@/components/shadcn/label";
+import { useEffect } from "react";
 
-interface Territory {
-  id: string;
-  name: string;
-}
+export function SelectTerritory({ territories }: { territories: Territory[] }) {
+  const { selectedTerritory, setSelectedTerritory, setTerritories } =
+    useTerritory();
+  const { toast } = useToast();
 
-export function SelectTerritory() {
-  const [territories, setTerritories] = useState<Territory[]>([]);
-  const [selectedTerritory, setSelectedTerritory] = useState<Territory | null>(
-    null
-  );
+  const handleTerritorySelect = (territory: Territory) => {
+    setSelectedTerritory(territory);
+  };
 
   useEffect(() => {
-    async function fetchTerritories() {
-      try {
-        const response = await fetch(
-          "/api/service-pricing/fetchAllTerritories"
-        );
-        const data = await response.json();
-        setTerritories(data.docs || []);
-      } catch (error) {
-        console.error("Failed to fetch territories:", error);
-      }
-    }
+    setTerritories(territories);
+  }, [territories, setTerritories]);
 
-    fetchTerritories();
-  }, []);
+  const handleDropdownClick = () => {
+    if (!selectedTerritory) {
+      toast({
+        title: "Territory Selection Required",
+        description: "Please select a territory to continue",
+        variant: "destructive",
+      });
+    }
+  };
 
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button variant="secondary" size="sm" className="bg-red">
+        <Button
+          variant="secondary"
+          size="sm"
+          className="bg-red"
+          onClick={handleDropdownClick}
+        >
           {selectedTerritory ? selectedTerritory.name : "All"}
           <ChevronDown />
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent>
-        <DropdownMenuItem key="all" onClick={() => setSelectedTerritory(null)}>
-          All
-        </DropdownMenuItem>
         {territories.map((territory) => (
           <DropdownMenuItem
             key={territory.id}
-            onClick={() => setSelectedTerritory(territory)}
+            onClick={() => handleTerritorySelect(territory)}
           >
-            {territory.name}
+            <Checkbox
+              id={territory.id.toString()}
+              checked={selectedTerritory?.id === territory.id}
+              onCheckedChange={() => handleTerritorySelect(territory)}
+            />
+            <Label className="text-secondary" htmlFor={territory.id.toString()}>
+              {territory.name}
+            </Label>
           </DropdownMenuItem>
         ))}
       </DropdownMenuContent>

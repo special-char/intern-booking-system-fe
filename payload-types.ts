@@ -13,53 +13,53 @@
  * via the `definition` "supportedTimezones".
  */
 export type SupportedTimezones =
-  | 'Pacific/Midway'
-  | 'Pacific/Niue'
-  | 'Pacific/Honolulu'
-  | 'Pacific/Rarotonga'
-  | 'America/Anchorage'
-  | 'Pacific/Gambier'
-  | 'America/Los_Angeles'
-  | 'America/Tijuana'
-  | 'America/Denver'
-  | 'America/Phoenix'
-  | 'America/Chicago'
-  | 'America/Guatemala'
-  | 'America/New_York'
-  | 'America/Bogota'
-  | 'America/Caracas'
-  | 'America/Santiago'
-  | 'America/Buenos_Aires'
-  | 'America/Sao_Paulo'
-  | 'Atlantic/South_Georgia'
-  | 'Atlantic/Azores'
-  | 'Atlantic/Cape_Verde'
-  | 'Europe/London'
-  | 'Europe/Berlin'
-  | 'Africa/Lagos'
-  | 'Europe/Athens'
-  | 'Africa/Cairo'
-  | 'Europe/Moscow'
-  | 'Asia/Riyadh'
-  | 'Asia/Dubai'
-  | 'Asia/Baku'
-  | 'Asia/Karachi'
-  | 'Asia/Tashkent'
-  | 'Asia/Calcutta'
-  | 'Asia/Dhaka'
-  | 'Asia/Almaty'
-  | 'Asia/Jakarta'
-  | 'Asia/Bangkok'
-  | 'Asia/Shanghai'
-  | 'Asia/Singapore'
-  | 'Asia/Tokyo'
-  | 'Asia/Seoul'
-  | 'Australia/Brisbane'
-  | 'Australia/Sydney'
-  | 'Pacific/Guam'
-  | 'Pacific/Noumea'
-  | 'Pacific/Auckland'
-  | 'Pacific/Fiji';
+  | "Pacific/Midway"
+  | "Pacific/Niue"
+  | "Pacific/Honolulu"
+  | "Pacific/Rarotonga"
+  | "America/Anchorage"
+  | "Pacific/Gambier"
+  | "America/Los_Angeles"
+  | "America/Tijuana"
+  | "America/Denver"
+  | "America/Phoenix"
+  | "America/Chicago"
+  | "America/Guatemala"
+  | "America/New_York"
+  | "America/Bogota"
+  | "America/Caracas"
+  | "America/Santiago"
+  | "America/Buenos_Aires"
+  | "America/Sao_Paulo"
+  | "Atlantic/South_Georgia"
+  | "Atlantic/Azores"
+  | "Atlantic/Cape_Verde"
+  | "Europe/London"
+  | "Europe/Berlin"
+  | "Africa/Lagos"
+  | "Europe/Athens"
+  | "Africa/Cairo"
+  | "Europe/Moscow"
+  | "Asia/Riyadh"
+  | "Asia/Dubai"
+  | "Asia/Baku"
+  | "Asia/Karachi"
+  | "Asia/Tashkent"
+  | "Asia/Calcutta"
+  | "Asia/Dhaka"
+  | "Asia/Almaty"
+  | "Asia/Jakarta"
+  | "Asia/Bangkok"
+  | "Asia/Shanghai"
+  | "Asia/Singapore"
+  | "Asia/Tokyo"
+  | "Asia/Seoul"
+  | "Australia/Brisbane"
+  | "Australia/Sydney"
+  | "Pacific/Guam"
+  | "Pacific/Noumea"
+  | "Pacific/Auckland"
+  | "Pacific/Fiji";
 
 export interface Config {
   auth: {
@@ -73,16 +73,17 @@ export interface Config {
     vans: Van;
     media: Media;
     technicians: Technician;
-    configurations: Configuration;
     services: Service;
     territory: Territory;
-    'payload-locked-documents': PayloadLockedDocument;
-    'payload-preferences': PayloadPreference;
-    'payload-migrations': PayloadMigration;
+    configurations: Configuration;
+    "state-environmental": StateEnvironmental;
+    "payload-locked-documents": PayloadLockedDocument;
+    "payload-preferences": PayloadPreference;
+    "payload-migrations": PayloadMigration;
   };
   collectionsJoins: {
     vans: {
-      technician: 'technicians';
+      technician: "technicians";
     };
   };
   collectionsSelect: {
@@ -92,12 +93,21 @@ export interface Config {
     vans: VansSelect<false> | VansSelect<true>;
     media: MediaSelect<false> | MediaSelect<true>;
     technicians: TechniciansSelect<false> | TechniciansSelect<true>;
-    configurations: ConfigurationsSelect<false> | ConfigurationsSelect<true>;
     services: ServicesSelect<false> | ServicesSelect<true>;
     territory: TerritorySelect<false> | TerritorySelect<true>;
-    'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
-    'payload-preferences': PayloadPreferencesSelect<false> | PayloadPreferencesSelect<true>;
-    'payload-migrations': PayloadMigrationsSelect<false> | PayloadMigrationsSelect<true>;
+    configurations: ConfigurationsSelect<false> | ConfigurationsSelect<true>;
+    "state-environmental":
+      | StateEnvironmentalSelect<false>
+      | StateEnvironmentalSelect<true>;
+    "payload-locked-documents":
+      | PayloadLockedDocumentsSelect<false>
+      | PayloadLockedDocumentsSelect<true>;
+    "payload-preferences":
+      | PayloadPreferencesSelect<false>
+      | PayloadPreferencesSelect<true>;
+    "payload-migrations":
+      | PayloadMigrationsSelect<false>
+      | PayloadMigrationsSelect<true>;
   };
   db: {
     defaultIDType: number;
@@ -106,7 +116,7 @@ export interface Config {
   globalsSelect: {};
   locale: null;
   user: User & {
-    collection: 'users';
+    collection: "users";
   };
   jobs: {
     tasks: unknown;
@@ -205,13 +215,13 @@ export interface Media {
  */
 export interface User {
   id: number;
-  roles?: ('super-admin' | 'owner' | 'manager' | 'technician')[] | null;
+  roles?: ("super-admin" | "owner" | "manager" | "technician")[] | null;
   name: string;
   profilePhoto?: (number | null) | Media;
   tenants?:
     | {
         tenant: number | Tenant;
-        roles: ('tenant-admin' | 'tenant-viewer')[];
+        roles: ("tenant-admin" | "tenant-viewer")[];
         id?: string | null;
       }[]
     | null;
@@ -287,13 +297,6 @@ export interface Configuration {
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "territory".
  */
-export interface Territory {
-  id: number;
-  tenant?: (number | null) | Tenant;
-  name?: string | null;
-  updatedAt: string;
-  createdAt: string;
-}
 /**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "services".
@@ -301,13 +304,67 @@ export interface Territory {
 export interface Service {
   id: number;
   tenant?: (number | null) | Tenant;
-  tyre_type?: ('4' | '3' | '2' | '1') | null;
+  tyre_type?: ("8" | "6" | "5" | "4" | "3" | "2" | "1") | null;
   price: number;
   duration?: string | null;
   discount?: number | null;
-  service: 'Trip Charge' | 'Install' | 'Patch Repair' | 'Balance & Rotation' | 'Fees';
+  service:
+    | "Trip Charge"
+    | "Install"
+    | "Tires & Install"
+    | "Patch Repair"
+    | "Balance & Rotation"
+    | "Fees";
   territory_id: number | Territory;
-  isRefundable?: ('Yes' | 'No') | null;
+  isRefundable?: ("Yes" | "No") | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "territory".
+ */
+export interface Territory {
+  id: number;
+  tenant?: (number | null) | Tenant;
+  name: string;
+  coordinates:
+    | {
+        [k: string]: unknown;
+      }
+    | unknown[]
+    | string
+    | number
+    | boolean
+    | null;
+  properties?:
+    | {
+        [k: string]: unknown;
+      }
+    | unknown[]
+    | string
+    | number
+    | boolean
+    | null;
+  type?: string | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "state-environmental".
+ */
+export interface StateEnvironmental {
+  id: number;
+  tenant?: (number | null) | Tenant;
+  state: string;
+  fees?:
+    | {
+        fee: string;
+        description?: string | null;
+        id?: string | null;
+      }[]
+    | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -319,44 +376,52 @@ export interface PayloadLockedDocument {
   id: number;
   document?:
     | ({
-        relationTo: 'pages';
+        relationTo: "pages";
         value: number | Page;
       } | null)
     | ({
-        relationTo: 'users';
+        relationTo: "users";
         value: number | User;
       } | null)
     | ({
-        relationTo: 'tenants';
+        relationTo: "tenants";
         value: number | Tenant;
       } | null)
     | ({
-        relationTo: 'vans';
+        relationTo: "vans";
         value: number | Van;
       } | null)
     | ({
-        relationTo: 'media';
+        relationTo: "media";
         value: number | Media;
       } | null)
     | ({
-        relationTo: 'technicians';
+        relationTo: "technicians";
         value: number | Technician;
       } | null)
     | ({
-        relationTo: 'configurations';
+        relationTo: "configurations";
         value: number | Configuration;
       } | null)
     | ({
-        relationTo: 'services';
+        relationTo: "services";
         value: number | Service;
       } | null)
     | ({
-        relationTo: 'territory';
+        relationTo: "territory";
         value: number | Territory;
+      } | null)
+    | ({
+        relationTo: "configurations";
+        value: number | Configuration;
+      } | null)
+    | ({
+        relationTo: "state-environmental";
+        value: number | StateEnvironmental;
       } | null);
   globalSlug?: string | null;
   user: {
-    relationTo: 'users';
+    relationTo: "users";
     value: number | User;
   };
   updatedAt: string;
@@ -369,7 +434,7 @@ export interface PayloadLockedDocument {
 export interface PayloadPreference {
   id: number;
   user: {
-    relationTo: 'users';
+    relationTo: "users";
     value: number | User;
   };
   key?: string | null;
@@ -535,6 +600,40 @@ export interface ServicesSelect<T extends boolean = true> {
 export interface TerritorySelect<T extends boolean = true> {
   tenant?: T;
   name?: T;
+  coordinates?: T;
+  properties?: T;
+  type?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "configurations_select".
+ */
+export interface ConfigurationsSelect<T extends boolean = true> {
+  tenant?: T;
+  name?: T;
+  territory?: T;
+  tire_count?: T;
+  configuration_id?: T;
+  tenantRelation?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "state-environmental_select".
+ */
+export interface StateEnvironmentalSelect<T extends boolean = true> {
+  tenant?: T;
+  state?: T;
+  fees?:
+    | T
+    | {
+        fee?: T;
+        description?: T;
+        id?: T;
+      };
   updatedAt?: T;
   createdAt?: T;
 }
@@ -578,7 +677,6 @@ export interface Auth {
   [k: string]: unknown;
 }
 
-
-declare module 'payload' {
+declare module "payload" {
   export interface GeneratedTypes extends Config {}
 }

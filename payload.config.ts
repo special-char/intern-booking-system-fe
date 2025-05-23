@@ -14,9 +14,10 @@ import { seed } from "./seed";
 import { Vans } from "./collections/Vans";
 import { Media } from "./collections/Media";
 import { Technicians } from "./collections/Technicians";
-import { Configurations } from "./collections/Configurations";
 import { Services } from "./collections/Services";
 import { Territory } from "./collections/Territory";
+import { Configurations } from "./collections/Configurations";
+import { StateEnvironmental } from "./collections/State Environmental";
 
 const filename = fileURLToPath(import.meta.url);
 const dirname = path.dirname(filename);
@@ -33,20 +34,21 @@ export default buildConfig({
     Vans,
     Media,
     Technicians,
-    Configurations,
     Services,
     Territory,
+    Configurations,
+    StateEnvironmental,
   ],
   db: postgresAdapter({
     pool: {
       connectionString: process.env.DATABASE_URI,
     },
   }),
-  // onInit: async (args) => {
-  //   if (process.env.SEED_DB) {
-  //     await seed(args);
-  //   }
-  // },
+  onInit: async (args) => {
+    // if (process.env.SEED_DB) {
+    //   await seed(args);
+    // }
+  },
   editor: lexicalEditor({}),
   graphQL: {
     schemaOutputFile: path.resolve(dirname, "generated-schema.graphql"),
@@ -62,9 +64,10 @@ export default buildConfig({
         technicians: {},
         vans: {},
         media: {},
-        configurations: {},
         services: {},
         territory: {},
+        configurations: {},
+        "state-environmental": {},
       },
       tenantField: {
         access: {

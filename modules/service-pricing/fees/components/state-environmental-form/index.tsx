@@ -1,27 +1,53 @@
 "use client";
 
-import {
-  Form,
-} from "@/components/shadcn/form";
+import { Form } from "@/components/shadcn/form";
 import { zodResolver } from "@hookform/resolvers/zod";
-
 import { z } from "zod";
-
 import { FormProvider, useForm } from "react-hook-form";
 import { stateEnvironmentalFormSchema } from "./form.consts";
 import { Fees } from "@/types/services/fees";
 import PricingCard from "../../../common/components/pricing-card";
 import FeeInputField from "../input-field";
+import { fetchStateEnvironments } from "@/modules/service-pricing/actions";
+import { useEffect, useState } from "react";
 
-interface StateEnvironmentalFeeFormProps {
-  values?: Pick<Fees, 'state'>;
+// Define the StateEnvironmentalFee type based on your data structure
+interface StateFee {
+  id: string;
+  fee: string;
+  description: string;
 }
 
-export default function StateEnvironmentalFeeForm({ values }: StateEnvironmentalFeeFormProps) {
+interface StateEnvironmentalData {
+  id: number;
+  state: string | null | undefined;
+  fees: StateFee[] | null | undefined;
+}
+
+interface StateEnvironmentalFeeFormProps {
+  values?: Pick<Fees, "state">;
+}
+
+export default function StateEnvironmentalFeeForm({
+  values,
+}: StateEnvironmentalFeeFormProps) {
+  const [stateData, setStateData] = useState<StateEnvironmentalData[]>([]);
+
   const form = useForm<z.infer<typeof stateEnvironmentalFormSchema>>({
     resolver: zodResolver(stateEnvironmentalFormSchema),
-    defaultValues: values ? stateEnvironmentalFormSchema.parse(values) : undefined,
+    defaultValues: values
+      ? stateEnvironmentalFormSchema.parse(values)
+      : undefined,
   });
+
+  async function environment() {
+    const data = await fetchStateEnvironments();
+    setStateData(data as StateEnvironmentalData[]);
+  }
+
+  useEffect(() => {
+    environment();
+  }, []);
 
   function onSubmit(values: z.infer<typeof stateEnvironmentalFormSchema>) {
     console.log(values);
@@ -32,10 +58,44 @@ export default function StateEnvironmentalFeeForm({ values }: StateEnvironmental
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)}>
           <PricingCard
-            title="State Environmental"
-            description="Set the values for the state environmental"
+            stateEnvironment={true}
+            title="State Environmental Fees"
+            description="Set the values for the state environmental fees"
           >
-            <FeeInputField name="state" />
+            <div className="space-y-3">
+              {stateData.length > 0 ? (
+                stateData
+                  .slice()
+                  .sort((a, b) => (a.state || "").localeCompare(b.state || ""))
+                  .map((state) => {
+                    const value = state.fees
+                      ?.map((fee) => `${fee.fee} ${fee.description || ""}`)
+                      .join("\n")
+                      .replace("$", "");
+                    return (
+                      <div
+                        key={state.id}
+                        className="grid grid-cols-2 items-center"
+                      >
+                        <div className="text-sm text-text-secondary">
+                          {state.state || ""}
+                        </div>
+
+                        <FeeInputField
+                          disabled={true}
+                          icon={true}
+                          isTextarea={true}
+                          name={state.id.toString()}
+                          defaultValue={value}
+                        />
+                      </div>
+                    );
+                  })
+              ) : (
+                <div>No data available.</div>
+              )}
+              {stateData.length === 0 && <div>Loading state fees...</div>}
+            </div>
           </PricingCard>
         </form>
       </Form>

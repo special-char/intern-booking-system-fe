@@ -9,7 +9,7 @@ export type InputProps = Omit<React.ComponentProps<"input">, "size"> & {
   skeletonClassName?: string;
   wrapperClassName?: string;
   caption?: string;
-  loading?: boolean
+  loading?: boolean;
 };
 
 const Input = React.forwardRef<HTMLInputElement, InputProps>(
@@ -35,15 +35,28 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
 
     if (loading) {
       return (
-        <div className={cn("relative border rounded-md h-9 px-3 py-2 flex items-center bg-background", wrapperClassName)}>
-          <Skeleton variant="default" className={cn("h-5 rounded-md absolute", leftIcon ? "left-10" : "left-3", leftIcon ? "w-[calc(70%-1rem)]" : "w-[70%]", skeletonClassName)} />
+        <div
+          className={cn(
+            "relative border rounded-md h-9 px-3 py-2 flex items-center bg-background",
+            wrapperClassName
+          )}
+        >
+          <Skeleton
+            variant="default"
+            className={cn(
+              "h-5 rounded-md absolute",
+              leftIcon ? "left-10" : "left-3",
+              leftIcon ? "w-[calc(70%-1rem)]" : "w-[70%]",
+              skeletonClassName
+            )}
+          />
           {(rightIcon || leftIcon) && (
             <div className={cn("absolute", leftIcon ? "left-3" : "right-3")}>
               {rightIcon || leftIcon}
             </div>
           )}
         </div>
-      )
+      );
     }
 
     return (
@@ -73,9 +86,7 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
           )}
         </div>
         {props.caption && (
-          <p className="mt-1 text-xs text-text-placeholder">
-            {props.caption}
-          </p>
+          <p className="mt-1 text-xs text-text-placeholder">{props.caption}</p>
         )}
       </>
     );

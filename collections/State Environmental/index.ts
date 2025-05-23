@@ -3,35 +3,37 @@ import { createAccess } from "../Technicians/acess/create";
 import { updateAccess } from "../Technicians/acess/update";
 import { deleteAccess } from "../Technicians/acess/delete";
 
-export const Territory: CollectionConfig = {
+export const StateEnvironmental: CollectionConfig = {
   access: {
     read: () => true,
     create: createAccess,
     update: updateAccess,
     delete: deleteAccess,
   },
-  slug: "territory",
+  slug: "state-environmental",
   fields: [
     {
-      name: "name",
+      name: "state",
       type: "text",
       required: true,
     },
     {
-      name: "coordinates",
-      type: "json",
-      required: true,
-    },
-    {
-      name: "properties",
-      type: "json",
-    },
-    {
-      name: "type",
-      type: "text",
+      name: "fees",
+      type: "array",
+      fields: [
+        {
+          name: "fee",
+          type: "text",
+          required: true,
+        },
+        {
+          name: "description",
+          type: "text",
+        },
+      ],
     },
   ],
   admin: {
-    useAsTitle: "name",
+    useAsTitle: "state",
   },
 };

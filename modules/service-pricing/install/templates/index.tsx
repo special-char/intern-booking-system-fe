@@ -1,18 +1,11 @@
-import { Install } from "@/types/services/install";
 import InstallBundleForm from "../components/form/bundle-form";
 import InstallOnlyForm from "../components/form/install-only-form";
 
-interface InstallTemplateProps {
-  install: Install
-}
-
-export function InstallTemplate({ install }: InstallTemplateProps) {
-  const { bundle, installOnly } = install;
-
+export function InstallTemplate() {
   return (
     <>
-      <InstallBundleForm values={bundle} />
-      <InstallOnlyForm values={installOnly} />
+      <InstallBundleForm />
+      <InstallOnlyForm />
     </>
   );
 }
