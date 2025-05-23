@@ -29,7 +29,8 @@ export function OrdersTable({
   data,
   pagination,
   isLoading = false,
-}: OrdersTableProps) {
+  onDateFilterChange,
+}: OrdersTableProps & { onDateFilterChange?: (date: Date | null) => void }) {
   const columns = useMemo(() => getColumns({ isLoading }), []);
 
   const { table } = useTable({
@@ -40,7 +41,7 @@ export function OrdersTable({
       pageCount: Math.ceil(pagination.totalCount / pagination.pageSize),
       initialState: {
         pagination: {
-          pageIndex: pagination.pageIndex,
+          pageIndex: pagination.pageIndex - 1,
           pageSize: pagination.pageSize,
         },
       },
@@ -65,7 +66,10 @@ export function OrdersTable({
           )}
           <div className="flex items-center gap-2">
             <ClearTableFiltersButton table={table} disabled={isLoading} />
-            <DateFilter table={table} disabled={isLoading} />
+            <DateFilter
+              table={table}
+              disabled={isLoading}
+            />
             <FilterOptionsButton
               table={table}
               filters={filters}

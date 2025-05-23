@@ -2,15 +2,12 @@
 
 import { revalidateTag } from "next/cache";
 import { getPayloadAuthHeaders } from "./cookies";
-import {
-
-  PostTechnicianResponse,
-} from "@/types/technicians";
+import { PostTechnicianResponse } from "@/types/technicians";
 import { getUser } from "./admin";
 import { Tenant } from "@/payload-types";
 import { getPayload } from "payload";
 
-import config from '../../payload.config'
+import config from "../../payload.config";
 
 // Types
 export interface Technician {
@@ -84,25 +81,22 @@ export interface CreateTechnicianInput {
 
 // Constants
 const API_BASE_URL = process.env.NEXT_PUBLIC_SERVER_URL;
-const DEFAULT_PAGE = 1;
-const DEFAULT_LIMIT = 10;
 
 // Helper functions
 const isFile = (value: File): boolean => {
   return (
     value !== null &&
-    typeof value === 'object' &&
-    typeof value.name === 'string' &&
-    typeof value.size === 'number' &&
-    typeof value.type === 'string'
+    typeof value === "object" &&
+    typeof value.name === "string" &&
+    typeof value.size === "number" &&
+    typeof value.type === "string"
   );
 };
 
-
 // API functions
 export async function getTechnicians({
-  page = DEFAULT_PAGE,
-  limit = DEFAULT_LIMIT,
+  page,
+  limit,
   where,
 }: {
   page?: number;
@@ -111,11 +105,15 @@ export async function getTechnicians({
 }): Promise<GetTechniciansResponse> {
   try {
     const endpointUrl = new URL(`${API_BASE_URL}/api/technicians`);
-    endpointUrl.searchParams.set('page', page.toString());
-    endpointUrl.searchParams.set('limit', limit.toString());
+    if (page) {
+      endpointUrl.searchParams.set("page", page.toString());
+    }
+    if (limit) {
+      endpointUrl.searchParams.set("limit", limit.toString());
+    }
     if (where) {
-      endpointUrl.searchParams.set('where[or][0][name][contains]', where);
-      endpointUrl.searchParams.set('where[or][1][email][contains]', where);
+      endpointUrl.searchParams.set("where[or][0][name][contains]", where);
+      endpointUrl.searchParams.set("where[or][1][email][contains]", where);
     }
 
     const authHeaders = await getPayloadAuthHeaders();
@@ -127,7 +125,7 @@ export async function getTechnicians({
         "Content-Type": "application/json",
         ...authHeaders,
       },
-      credentials: 'include',
+      credentials: "include",
     });
 
     if (!response.ok) {
@@ -135,18 +133,18 @@ export async function getTechnicians({
     }
 
     return await response.json();
-  } catch (error) {
+  } catch {
     return {
       docs: [],
       hasNextPage: false,
       hasPrevPage: false,
-      limit,
+      limit: limit || 0,
       nextPage: null,
-      page,
+      page: page || 0,
       pagingCounter: 0,
       prevPage: null,
       totalDocs: 0,
-      totalPages: 0
+      totalPages: 0,
     };
   }
 }
@@ -157,10 +155,13 @@ async function uploadProfilePhoto(file: File): Promise<number> {
     const tenantId = (user?.tenants?.[0]?.tenant as Tenant)?.id;
 
     const formData = new FormData();
-    formData.append("_payload", JSON.stringify({
-      alt: "technician photo",
-      tenant: tenantId
-    }));
+    formData.append(
+      "_payload",
+      JSON.stringify({
+        alt: "technician photo",
+        tenant: tenantId,
+      })
+    );
     formData.append("file", file);
 
     const response = await fetch(
@@ -168,19 +169,23 @@ async function uploadProfilePhoto(file: File): Promise<number> {
       {
         method: "POST",
         body: formData,
-        credentials: 'include',
+        credentials: "include",
       }
     );
 
     if (!response.ok) {
       const errorData = await response.json();
-      throw new Error(`Upload failed: ${errorData?.message || response.statusText}`);
+      throw new Error(
+        `Upload failed: ${errorData?.message || response.statusText}`
+      );
     }
 
     const data = await response.json();
     return data.doc.id;
   } catch (error) {
-    throw error;
+    throw new Error(
+      `Failed to upload profile photo: ${error instanceof Error ? error.message : String(error)}`
+    );
   }
 }
 
@@ -188,9 +193,10 @@ export async function createTechnicianPayload(
   inputData: CreateTechnicianInput
 ): Promise<PostTechnicianResponse> {
   try {
-    const profilePhotoId = inputData.profilePhoto && isFile(inputData.profilePhoto)
-      ? await uploadProfilePhoto(inputData.profilePhoto)
-      : null;
+    const profilePhotoId =
+      inputData.profilePhoto && isFile(inputData.profilePhoto)
+        ? await uploadProfilePhoto(inputData.profilePhoto)
+        : null;
 
     const { user } = await getUser();
     const tenantId = (user?.tenants?.[0]?.tenant as Tenant)?.id;
@@ -208,24 +214,28 @@ export async function createTechnicianPayload(
           mobilePhone: inputData.mobilePhone,
           twilioPhone: inputData.twilioPhone,
           profilePhoto: profilePhotoId,
-          mobileTireVan: inputData.mobileTireVan.map(Number)
+          mobileTireVan: inputData.mobileTireVan.map(Number),
         }),
         headers: {
           "Content-Type": "application/json",
           ...authHeaders,
         },
-        credentials: 'include',
+        credentials: "include",
       }
     );
 
     if (!response.ok) {
       const errorData = await response.json();
-      throw new Error(`Failed to create technician: ${errorData?.message || response.statusText}`);
+      throw new Error(
+        `Failed to create technician: ${errorData?.message || response.statusText}`
+      );
     }
 
     return { isSuccess: true };
   } catch (error) {
-    throw new Error(`Failed to create technician: ${error}`);
+    throw new Error(
+      `Failed to create technician: ${error instanceof Error ? error.message : String(error)}`
+    );
   }
 }
 
@@ -238,9 +248,12 @@ export async function updateTechnician(
     const tenantId = (user?.tenants?.[0]?.tenant as Tenant)?.id;
     const payload = await getPayload({ config });
 
-    const profilePhoto = inputData.profilePhoto && isFile(inputData.profilePhoto)
-      ? await uploadProfilePhoto(inputData.profilePhoto)
-      : typeof inputData.profilePhoto === 'number' ? inputData.profilePhoto : null;
+    const profilePhoto =
+      inputData.profilePhoto && isFile(inputData.profilePhoto)
+        ? await uploadProfilePhoto(inputData.profilePhoto)
+        : typeof inputData.profilePhoto === "number"
+          ? inputData.profilePhoto
+          : null;
 
     await payload.update({
       collection: "technicians",
@@ -253,17 +266,21 @@ export async function updateTechnician(
         mobilePhone: inputData.mobilePhone,
         twilioPhone: inputData.twilioPhone,
         ...(profilePhoto ? { profilePhoto } : {}),
-        mobileTireVan: inputData.mobileTireVan
-      }
+        mobileTireVan: inputData.mobileTireVan,
+      },
     });
 
     return { isSuccess: true };
   } catch (error) {
-    throw new Error(`Failed to update technician: ${error}`);
+    throw new Error(
+      `Failed to update technician: ${error instanceof Error ? error.message : String(error)}`
+    );
   }
 }
 
-export async function deleteTechnician(id: string): Promise<{ isSuccess: boolean }> {
+export async function deleteTechnician(
+  id: string
+): Promise<{ isSuccess: boolean }> {
   try {
     const authHeaders = await getPayloadAuthHeaders();
     const url = new URL(`${API_BASE_URL}/api/technicians/${id}`);
@@ -278,13 +295,17 @@ export async function deleteTechnician(id: string): Promise<{ isSuccess: boolean
 
     if (!response.ok) {
       const data = await response.json();
-      throw new Error(`Error deleting technician: ${data.message || response.statusText}`);
+      throw new Error(
+        `Error deleting technician: ${data.message || response.statusText}`
+      );
     }
 
     revalidateTag("technicians");
     return { isSuccess: true };
   } catch (error) {
-    throw new Error(`Failed to delete technician: ${error}`);
+    throw new Error(
+      `Failed to delete technician: ${error instanceof Error ? error.message : String(error)}`
+    );
   }
 }
 
@@ -304,6 +325,8 @@ export async function fetchVans(): Promise<Van[]> {
     const data = await response.json();
     return data?.docs || [];
   } catch (error) {
-    throw new Error(`Failed to fetch vans: ${error}`);
+    throw new Error(
+      `Failed to fetch vans: ${error instanceof Error ? error.message : String(error)}`
+    );
   }
 }

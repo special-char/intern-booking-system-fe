@@ -1,3 +1,5 @@
+"use client";
+
 import { Table } from "@tanstack/react-table";
 import {
   Select,
@@ -8,6 +10,7 @@ import {
 } from "@/components/shadcn/select";
 import { Row } from "@tanstack/react-table";
 import { CalendarIcon } from "lucide-react";
+import { useRouter, useSearchParams } from "next/navigation";
 
 interface DateFilterProps<TData> {
   disabled?: boolean;
@@ -29,17 +32,26 @@ export function dateRangeFilterFn<TData>(
 }
 
 export function DateFilter<TData>({ disabled, table }: DateFilterProps<TData>) {
+  const router = useRouter();
+  const searchParams = useSearchParams();
+
   function handleValueChange(value: string) {
     const days = parseInt(value, 10);
     const threshold = new Date();
     threshold.setDate(threshold.getDate() - days);
 
+    // Update table filters
     table.setColumnFilters([
       {
-        id: "date",
+        id: "created_at",
         value: threshold,
       },
     ]);
+
+    // Update URL search params
+    const params = new URLSearchParams(searchParams);
+    params.set('dateFilter', threshold.toISOString());
+    router.push(`?${params.toString()}`);
   }
 
   return (

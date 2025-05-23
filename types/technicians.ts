@@ -10,7 +10,7 @@ export interface Van {
 }
 
 export interface Technician {
-  id: string;
+  id: number;
   name: string;
   start_time: string;
   end_time: string;
@@ -30,7 +30,7 @@ export interface PostTechnicianResponse {
 }
 
 export interface TechnicianDTO {
-  id: string;
+  id: number;
   name: string;
   email: string;
   mobilePhone: string;

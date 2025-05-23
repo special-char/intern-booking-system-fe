@@ -26,7 +26,15 @@ export function TechnicianGridSkeleton({ dateRange }: TechnicianGridSkeletonProp
         />
       ))}
 
-      {Array.from({ length: 4 }, (_, i) => ({ id: i.toString(), name: "" })).map((technician) => (
+      {Array.from({ length: 4 }, (_, i) => ({
+        id: i,
+        name: "",
+        email: "",
+        password: "",
+        mobilePhone: 0,
+        updatedAt: "",
+        createdAt: ""
+      })).map((technician) => (
         <Fragment key={technician.id}>
           <TechnicianGridTechnicianCell
             isDefaultHover={false}
@@ -42,8 +50,10 @@ export function TechnicianGridSkeleton({ dateRange }: TechnicianGridSkeletonProp
               date={day}
               isDefaultHover={false}
               isLoading
-              onClick={() => { }}
               territories={[]}
+              technician={technician}
+              dateRange={dateRange}
+              territoriesData={[]}
             />
           ))}
         </Fragment>

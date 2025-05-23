@@ -40,7 +40,6 @@ function getPaginationRange(
 }
 
 export function PaginationTable<TData>({
-  table,
   pagination,
 }: PaginationTableProps<TData>) {
   const { pageIndex, pageSize, totalCount } = pagination;
@@ -57,7 +56,7 @@ export function PaginationTable<TData>({
 
   const handlePageChange = (page: number) => {
     const params = new URLSearchParams(searchParams.toString());
-    params.set('page', page.toString());
+    params.set("page", page.toString());
     router.push(`?${params.toString()}`);
   };
 
@@ -104,7 +103,7 @@ export function PaginationTable<TData>({
         <Select
           onValueChange={(value) => {
             const params = new URLSearchParams(searchParams.toString());
-            params.set('limit', value);
+            params.set("limit", value);
             router.push(`?${params.toString()}`);
           }}
         >

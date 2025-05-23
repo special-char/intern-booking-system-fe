@@ -24,6 +24,7 @@ import { GetColumnsInterface } from "@/types/table";
 import { LoadingHeader } from "@/components/common/table/loading-header";
 import { LoadingCell } from "@/components/common/table/loading-cell";
 import { ReactNode } from "react";
+import { format } from "date-fns";
 //TODO ::: fix type any
 export function getColumns({ isLoading }: GetColumnsInterface): ColumnDef<Order | any, string>[] {
   return [
@@ -51,7 +52,7 @@ export function getColumns({ isLoading }: GetColumnsInterface): ColumnDef<Order 
       ),
       cell: ({ row }) => (
         <LoadingCell isLoading={isLoading}>
-          {new Date(row.original.created_at).toLocaleString()}
+          {format(new Date(row.original.created_at), 'MMM yy, dd')}
         </LoadingCell>
       ),
     },
@@ -61,7 +62,7 @@ export function getColumns({ isLoading }: GetColumnsInterface): ColumnDef<Order 
       header: () => <LoadingHeader isLoading={isLoading}>Status</LoadingHeader>,
       cell: ({ row }) => (
         <LoadingCell isLoading={isLoading}>
-          {row.original.status}
+          {renderOrderStatus(row.original.payment_status)}
         </LoadingCell>
       ),
     },
@@ -108,7 +109,7 @@ export function getColumns({ isLoading }: GetColumnsInterface): ColumnDef<Order 
       cell: ({ row }) => {
         return (
           <LoadingCell isLoading={isLoading}>
-            {renderQBOStatus(row.getValue("qboStatus") as string)}
+            {renderQBOStatus("-")}
           </LoadingCell>
         )
       },
@@ -125,9 +126,12 @@ export function getColumns({ isLoading }: GetColumnsInterface): ColumnDef<Order 
         </LoadingHeader>
       ),
       cell: ({ row }) => {
+        const startTime = row.original.metadata?.startTime;
         return (
           <LoadingCell isLoading={isLoading}>
-            {row.original.appointmentDate}
+            {startTime
+              ? format(new Date(startTime * 1000), 'h:mm a MMM dd, yy')
+              : "-"}
           </LoadingCell>
         )
       }
@@ -180,6 +184,12 @@ function renderOrderStatus(orderStatus: string): ReactNode {
   }
   if (orderStatus === "Cancelled") {
     return <StatusBadge level="error" label={orderStatus} />
+  }
+  if (orderStatus === "authorized") {
+    return <StatusBadge level="warning" label={orderStatus} />
+  }
+  if (orderStatus === "captured") {
+    return <StatusBadge level="success" label={orderStatus} />
   }
   return <StatusBadge level="default" label={orderStatus} />
 }

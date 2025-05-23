@@ -12,10 +12,21 @@ export default async function ListViewPage({
   searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
 }) {
   const params = await searchParams;
-  const page = params.page ? parseInt(params.page as string) : 1;
-  const limit = params.limit ? parseInt(params.limit as string) : 20;
+
+  // Convert searchParams to numbers safely
+  const page = params.page ? Number(params.page) : 1;
+  const limit = params.limit ? Number(params.limit) : 15;
+  const search = params.search as string | undefined;
+  const dateFilter = params.dateFilter
+    ? new Date(params.dateFilter as string)
+    : null;
 
   return (
-    <OrdersListViewTemplate page={page} limit={limit} />
+    <OrdersListViewTemplate
+      page={page}
+      limit={limit}
+      search={search}
+      dateFilter={dateFilter}
+    />
   );
 }

@@ -15,3 +15,10 @@ export function generateUniqueColors(numColors: number): string[] {
   }
   return colors;
 }
+
+export const territoryColors: Record<string, string> = {
+  "east": "rgba(168, 85, 247, 1)",
+  "south": "rgba(236, 72, 153, 1)",
+  "west": "rgba(8, 145, 178, 1)",
+  "north": "rgba(102, 237, 172, 1)",
+};

@@ -4,8 +4,6 @@ import { HttpTypes } from "@medusajs/types";
 import { getTechnicianIdByUserId } from "./payload";
 
 export async function getOrderList({
-  page = 1,
-  limit = 10,
   filters,
 }: {
   page?: number;
@@ -13,7 +11,6 @@ export async function getOrderList({
   filters?: HttpTypes.AdminOrderFilters | any; //TODO: fix type any
 }) {
   try {
-    const offset = (page - 1) * limit;
     const queryParams: HttpTypes.AdminOrderFilters = filters
       ? { ...filters }
       : "";
@@ -33,31 +30,52 @@ export async function getOrderList({
 export async function getOrderListDTO({
   page = 1,
   limit = 10,
+  search,
+  dateFilter,
 }: {
   page?: number;
   limit?: number;
+  search?: string;
+  dateFilter?: Date | null;
 }) {
   try {
     const { user } = await getUser();
-
     const tenant_id = (user?.tenants?.[0]?.tenant as any)?.id;
     const user_id = user?.id;
     const technician = await getTechnicianIdByUserId(`${user_id}`);
+
+    // Prepare date filter if provided
+    const dateFilterQuery = dateFilter
+      ? {
+          created_at: {
+            gte: dateFilter.toISOString(),
+          },
+        }
+      : {};
 
     const orders = await getOrderList({
       page,
       limit,
       filters: {
         ...(technician?.id && { technician_id: technician?.id }),
-        tenant_id: tenant_id,
+        ...(tenant_id && { tenant_id: tenant_id }),
+        ...(search && search !== "" && { q: search }),
+        ...dateFilterQuery,
+        offset: (page - 1) * limit,
+        limit: limit,
       },
     });
+
     if (!orders) {
-      return null;
+      return { orders: [], count: 0 };
     }
-    return orders;
+
+    return {
+      orders: (orders as any)?.orders, //TODO: fix type any
+      count: (orders as any)?.count,
+    };
   } catch (error) {
     console.error(error);
-    return null;
+    return { orders: [], count: 0 };
   }
 }

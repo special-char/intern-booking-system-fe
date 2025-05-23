@@ -93,14 +93,7 @@ export const Tenants: CollectionConfig = {
       access: {
         update: () => false,
       },
-    },
-    {
-      name: "configurations",
-      type: "join",
-      on: "tenantRelation",
-      hasMany: true,
-      collection: "configurations",
-    },
+    }
   ],
   hooks: {
     beforeChange: [syncMedusaAndNylasConfigurations],
