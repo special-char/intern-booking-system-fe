@@ -24,9 +24,16 @@ export type ServiceType =
 export async function fetchAllTerritories() {
   const payload = await getPayload({ config });
 
+  const { user } = await getUser();
+  const tenantId = (user?.tenants?.[0]?.tenant as Tenant)?.id;
+
   const result = await payload.find({
     collection: "territory",
-    where: {},
+    where: {
+      tenant: {
+        equals: tenantId,
+      },
+    },
   });
 
   return result;

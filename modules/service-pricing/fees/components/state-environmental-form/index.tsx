@@ -94,7 +94,6 @@ export default function StateEnvironmentalFeeForm({
               ) : (
                 <div>No data available.</div>
               )}
-              {stateData.length === 0 && <div>Loading state fees...</div>}
             </div>
           </PricingCard>
         </form>
