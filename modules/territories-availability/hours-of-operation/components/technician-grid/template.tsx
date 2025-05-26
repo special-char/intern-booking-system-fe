@@ -2,7 +2,7 @@ import { getTechnicianHoursOfOperation } from "@/mocks/territories-availability/
 import { TechnicianGrid } from "./components/grid"
 import { TechnicianHoursOfOperation } from "@/types/territories/technician-hours-of-operation"
 import { DateRange } from "@/types/date"
-import { getTerritories } from "@/lib/data/configutation"
+import { getTerritories } from "@/lib/data/territories"
 
 interface TechnicianGridTemplateProps {
   dateRange: DateRange

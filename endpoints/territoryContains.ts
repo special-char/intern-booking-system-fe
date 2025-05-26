@@ -72,12 +72,18 @@ export const territoryQuery: Endpoint = {
     path: '/territory-contains',
     method: 'get',
     handler: async (req: PayloadRequest) => {
-        const { lat, lng } = req.query as { lat?: string; lng?: string };
+        const { lat, lng, tenant_id } = req.query as { lat?: string; lng?: string; tenant_id?: string };
 
         if (!lat || !lng) {
             return new Response(
                 JSON.stringify({ error: 'lat and lng parameters are required' }),
                 { status: 400, headers: { 'Content-Type': 'application/json' } }
+            );
+        }
+
+        if (!tenant_id) {
+            return new Response(
+                JSON.stringify({ error: 'tenant_id parameter is required' }),
             );
         }
 
@@ -94,6 +100,7 @@ export const territoryQuery: Endpoint = {
             // Get all territories
             const territories = await req.payload.find({
                 collection: 'territory',
+                where: { tenant: { equals: tenant_id } },
                 limit: 0, // Get all
                 req,
             });
