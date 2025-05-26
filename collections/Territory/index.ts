@@ -18,9 +18,22 @@ export const Territory: CollectionConfig = {
       required: true,
     },
     {
-      name: "coordinates",
-      type: "json",
+      name: "polygon",
+      type: "array",
       required: true,
+      minRows: 3, 
+      fields: [
+        {
+          name: "lat",
+          type: "number",
+          required: true,
+        },
+        {
+          name: "lng",
+          type: "number", 
+          required: true,
+        }
+      ],
     },
     {
       name: "properties",
@@ -29,6 +42,7 @@ export const Territory: CollectionConfig = {
     {
       name: "type",
       type: "text",
+      defaultValue: "polygon",
     },
   ],
   admin: {
