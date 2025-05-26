@@ -18,6 +18,8 @@ import { Services } from "./collections/Services";
 import { Territory } from "./collections/Territory";
 import { Configurations } from "./collections/Configurations";
 import { StateEnvironmental } from "./collections/State Environmental";
+import { territoryCheckPoint } from "./endpoints/territoryContains";
+import { territoryQuery } from "./endpoints/territoryContains";
 
 const filename = fileURLToPath(import.meta.url);
 const dirname = path.dirname(filename);
@@ -45,9 +47,9 @@ export default buildConfig({
     },
   }),
   onInit: async (args) => {
-    // if (process.env.SEED_DB) {
-    //   await seed(args);
-    // }
+      // if (process.env.SEED_DB) {
+      //   await seed(args);
+      // }
   },
   editor: lexicalEditor({}),
   graphQL: {
@@ -86,4 +88,8 @@ export default buildConfig({
       userHasAccessToAllTenants: (user) => isSuperAdmin(user),
     }),
   ],
+  endpoints:[
+    territoryQuery,
+    territoryCheckPoint,
+  ]
 });
