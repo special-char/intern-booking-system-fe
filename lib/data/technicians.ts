@@ -57,28 +57,24 @@ export async function getTechnicians({
 }): Promise<PaginatedDocs<Technician>> {
   try {
     const payload = await getPayload({ config });
+    const { user } = await getUser();
+    const tenantId = (user?.tenants?.[0]?.tenant as Tenant)?.id;
 
     const query: any = {
       page: page || 1,
       limit: limit || 10,
+      where: {
+        and: [
+          { tenant: { equals: tenantId } },
+          where ? {
+            or: [
+              { name: { contains: where } },
+              { email: { contains: where } }
+            ]
+          } : {}
+        ]
+      }
     };
-
-    if (where) {
-      query.where = {
-        or: [
-          {
-            name: {
-              contains: where,
-            },
-          },
-          {
-            email: {
-              contains: where,
-            },
-          },
-        ],
-      };
-    }
 
     const response = await payload.find({
       collection: "technicians",
