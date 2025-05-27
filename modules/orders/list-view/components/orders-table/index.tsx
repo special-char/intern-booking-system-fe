@@ -28,9 +28,8 @@ export interface OrdersTableProps extends TableProps {
 export function OrdersTable({
   data,
   pagination,
-  isLoading = false,
-  onDateFilterChange,
-}: OrdersTableProps & { onDateFilterChange?: (date: Date | null) => void }) {
+  isLoading = false
+}: OrdersTableProps) {
   const columns = useMemo(() => getColumns({ isLoading }), []);
 
   const { table } = useTable({

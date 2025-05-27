@@ -1,7 +1,7 @@
 import { sdk } from "../config";
 import { getUser } from "./admin";
 import { HttpTypes } from "@medusajs/types";
-import { getTechnicianIdByUserId } from "./payload";
+import { getTechnicianByUserId } from "./payload";
 
 export async function getOrderList({
   filters,
@@ -42,22 +42,22 @@ export async function getOrderListDTO({
     const { user } = await getUser();
     const tenant_id = (user?.tenants?.[0]?.tenant as any)?.id;
     const user_id = user?.id;
-    const technician = await getTechnicianIdByUserId(`${user_id}`);
+    const technician = await getTechnicianByUserId(user_id as number);
 
     // Prepare date filter if provided
     const dateFilterQuery = dateFilter
       ? {
-          created_at: {
-            gte: dateFilter.toISOString(),
-          },
-        }
+        created_at: {
+          gte: dateFilter.toISOString(),
+        },
+      }
       : {};
 
     const orders = await getOrderList({
       page,
       limit,
       filters: {
-        ...(technician?.id && { technician_id: technician?.id }),
+        ...(technician?.docs?.[0]?.id && { technician_id: technician?.docs?.[0]?.id }),
         ...(tenant_id && { tenant_id: tenant_id }),
         ...(search && search !== "" && { q: search }),
         ...dateFilterQuery,

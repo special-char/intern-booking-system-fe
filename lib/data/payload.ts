@@ -1,10 +1,10 @@
-import { Technician } from "@/payload-types";
+import { Technician, Tenant } from "@/payload-types";
 import config from "@payload-config";
-import { getPayload } from "payload";
+import { getPayload, PaginatedDocs } from "payload";
 
-export async function getTechnicianIdByUserId(
-  userId: string
-): Promise<Technician | null> {
+export async function getTechnicianByUserId(
+  userId: number
+): Promise<PaginatedDocs<Technician> | null> {
   try {
     const payload = await getPayload({ config });
 
@@ -19,11 +19,34 @@ export async function getTechnicianIdByUserId(
     });
 
     if (data.docs && data.docs.length > 0) {
-      return data.docs[0];
+      return data;
     }
     return null;
   } catch (error) {
     console.error("Error fetching technician by user ID:", error);
     return null;
+  }
+}
+
+
+export async function getTenantById(
+  tenantId: number
+): Promise<PaginatedDocs<Tenant> | null> {
+  try {
+    const payload = await getPayload({ config });
+
+    const tenant = await payload.find({
+      collection: "tenants",
+      where: {
+        id: {
+          equals: tenantId,
+        },
+      },
+    });
+
+    return tenant;
+  } catch (error) {
+    console.error("Error fetching tenant by ID:", error);
+    return null
   }
 }

@@ -33,13 +33,13 @@ export function TechnicianGrid({
   function getDateUniqueTerritories(
     date: string
   ): TechnicianHoursOfOperationTerritory[] {
-    const targetDate: Moment = moment(date);
+    const targetDate: Moment = moment(date, "YYYY-MM-DD");
     const uniqueTerritories: TechnicianHoursOfOperationTerritory[] = [];
     const seenIds: Set<string> = new Set<string>();
 
     for (const { territories } of technicianHoursOfOperation.data) {
       for (const territory of territories) {
-        const territoryDate: Moment = moment(territory.from);
+        const territoryDate: Moment = moment(territory.from, "YYYY-MM-DD");
         if (
           territoryDate.isSame(targetDate, "day") &&
           !seenIds.has(territory.id)
@@ -126,10 +126,10 @@ export function TechnicianGrid({
                   key={`${technician.id}-${day}`}
                   date={day}
                   isDefaultHover={hoveredTechnicianId === technician.id}
-                  territories={technicianAllWeekTerritories}
+                  technicianAllWeekTerritories={technicianAllWeekTerritories}
                   technician={technician as Technician}
                   dateRange={dateRange}
-                  territoriesData={territories}
+                  territories={territories}
                 />
               ))}
             </Fragment>

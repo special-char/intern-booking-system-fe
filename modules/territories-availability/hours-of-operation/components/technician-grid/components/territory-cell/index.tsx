@@ -7,35 +7,34 @@ import { TechnicianTerritoryEmptyCellContent } from "./content/empty";
 import { TechnicianTerritoryFilledCellContent } from "./content/filled";
 import { Technician, Territory } from "@/payload-types";
 import { DateRange } from "@/types/date";
+import { filterTerritoriesByDate } from "@/modules/territories-availability/hours-of-operation/lib/utils";
 
 interface TechnicianTerritoryCellProps {
   date: string;
   isDefaultHover: boolean;
   isLoading?: boolean;
-  territories: TechnicianHoursOfOperationTerritory[];
+  technicianAllWeekTerritories: TechnicianHoursOfOperationTerritory[];
   technician: Technician;
   dateRange: DateRange;
-  territoriesData: Territory[];
+  territories: Territory[];
 }
 
 export function TechnicianTerritoryCell({
   date,
   isDefaultHover,
   isLoading = false,
-  territories,
+  technicianAllWeekTerritories,
   technician,
   dateRange,
-  territoriesData,
+  territories,
 }: TechnicianTerritoryCellProps) {
   const [isFocused, setIsFocused] = useState<boolean>(false);
   const isSunday: boolean = moment(date).day() === 0;
 
   const technicianDateTerritories: TechnicianHoursOfOperationTerritory[] =
-    territories.filter((territory) => {
-      return moment(territory.from).isSame(moment(date), "day");
-    });
+    filterTerritoriesByDate(technicianAllWeekTerritories, date);
 
-  const isFilled: boolean = !!technicianDateTerritories.length;
+  const isFilled: boolean = !!technicianDateTerritories?.length;
 
   function renderContent(): ReactElement | null {
     if (isSunday) {
@@ -46,8 +45,11 @@ export function TechnicianTerritoryCell({
       return (
         <TechnicianTerritoryFilledCellContent
           isLoading={isLoading}
-          onButtonFocus={setIsFocused}
-          territories={technicianDateTerritories}
+          technician={technician}
+          dateRange={dateRange}
+          territories={territories}
+          technicianAllWeekTerritories={technicianAllWeekTerritories}
+          date={date}
         />
       );
     }
@@ -55,11 +57,10 @@ export function TechnicianTerritoryCell({
     return (
       <TechnicianTerritoryEmptyCellContent
         isLoading={isLoading}
-        onButtonFocus={setIsFocused}
         technician={technician}
         dateRange={dateRange}
-        date={date}
-        territoriesData={territoriesData}
+        territories={territories}
+        technicianAllWeekTerritories={technicianAllWeekTerritories}
       />
     );
   }

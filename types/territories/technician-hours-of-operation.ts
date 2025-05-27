@@ -1,14 +1,14 @@
-import { Technician } from "@/lib/data/technicians"
+
 import { Territory } from "./territory"
 import { DateRange } from "../date"
-
+import { Technician } from "@/payload-types"
 export interface TechnicianHoursOfOperationTerritory extends Territory {
   from: string,
   to: string,
 }
 
 export interface TechnicianHoursOfOperationData {
-  technician: Partial<Technician>,
+  technician: Technician,
   territories: TechnicianHoursOfOperationTerritory[]
 }
 

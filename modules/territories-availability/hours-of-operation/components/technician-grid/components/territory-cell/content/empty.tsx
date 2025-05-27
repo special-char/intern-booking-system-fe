@@ -6,31 +6,37 @@ import { Sheet, SheetTrigger, SheetContent } from "@/components/shadcn/sheet";
 import { Technician, Territory } from "@/payload-types";
 import { DateRange } from "@/types/date";
 import { HoursOfOperationPanel } from "../../../../hours-of-operation-panel";
+import { useState } from "react";
+import useToggleState from "@/hooks/use-toggle-state";
+
+import { TechnicianHoursOfOperationTerritory } from "@/types/territories/technician-hours-of-operation";
+import moment from "moment";
 interface TechnicianTerritoryEmptyCellContentProps {
   isLoading?: boolean;
-  onButtonFocus: (isFocused: boolean) => void;
   technician: Technician;
   dateRange: DateRange;
-  date: string;
-  territoriesData: Territory[];
+  territories: Territory[];
+  technicianAllWeekTerritories: TechnicianHoursOfOperationTerritory[];
 }
 
 export function TechnicianTerritoryEmptyCellContent({
   isLoading = false,
-  onButtonFocus,
   technician,
   dateRange,
-  date,
-  territoriesData,
+  territories,
+  technicianAllWeekTerritories,
 }: TechnicianTerritoryEmptyCellContentProps) {
+  const [isOpen, openSheet, closeSheet] = useToggleState(false);
+
   return (
-    <Sheet>
+    <Sheet
+      open={isOpen}
+      onOpenChange={(open) => (open ? openSheet() : closeSheet())}
+    >
       <SheetTrigger asChild>
         <Button
           variant="ghost"
           className="flex flex-col items-center justify-center gap-2 min-h-fit max-w-full transition-all duration-300"
-          onFocus={() => onButtonFocus(true)}
-          onBlur={() => onButtonFocus(false)}
           disabled={isLoading}
         >
           <Plus className="min-h-6 min-w-6" />
@@ -42,14 +48,15 @@ export function TechnicianTerritoryEmptyCellContent({
       </SheetTrigger>
       <SheetContent
         side="right"
-        className="w-full md:max-w-[900px] lg:max-w-[1200px] bg-background"
+        className="w-full sm:max-w-[80vw] lg:max-w-[70vw] bg-background"
       >
         <HoursOfOperationPanel
           isLoading={isLoading}
           technician={technician}
           dateRange={dateRange}
-          date={date}
-          territoriesData={territoriesData}
+          territories={territories}
+          onClose={closeSheet}
+          technicianAllWeekTerritories={technicianAllWeekTerritories}
         />
       </SheetContent>
     </Sheet>

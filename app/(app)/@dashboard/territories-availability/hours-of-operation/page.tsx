@@ -3,9 +3,9 @@ import { DateRange } from "@/types/date";
 import { getLocalEndWeekDateString, getLocalStartWeekDateString, isValidDateString } from "@/utils/date";
 import { safeParseJSON } from "@/utils/safe-parse-json";
 
-export default async function HoursOfOperationPage(props: { searchParams: Promise<{ dateRange: string, filters: string }> }) {
+export default async function HoursOfOperationPage(props: { searchParams: Promise<{ dateRange: string, filters: string, search: string }> }) {
   const params = await props.searchParams
-  const { dateRange = "", filters = "" } = params;
+  const { dateRange = "", filters = "", search = "" } = params;
 
   const dateRangeObject: DateRange = safeParseJSON(decodeURIComponent(dateRange));
   const filtersObject: Record<string, boolean> = safeParseJSON(decodeURIComponent(filters));
@@ -23,5 +23,6 @@ export default async function HoursOfOperationPage(props: { searchParams: Promis
           : thisWeekDateRange
       }
       filters={filtersObject}
+      search={search}
     />);
 }

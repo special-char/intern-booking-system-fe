@@ -87,11 +87,22 @@ export function getFormattedDate(date: string, includeYear?: boolean): string {
 }
 
 export function getFormattedHour(date: string): string {
+  if (!date) {
+    return '';
+  }
+
+  // Add leading zero to single-digit hours if missing
+  const formattedDate = date.replace(/T(\d):/, 'T0$1:');
+  const momentDate = moment(formattedDate);
+  if (!momentDate.isValid()) {
+    return `${date}`;
+  }
+
   return new Intl.DateTimeFormat("en-US", {
-    hour: "numeric",
-    minute: "numeric",
+    hour: "2-digit",
+    minute: "2-digit",
     hour12: true,
-  }).format(moment(date).toDate());
+  }).format(momentDate.toDate());
 }
 
 export function getPreInspectionTitle(checkType: string): string {

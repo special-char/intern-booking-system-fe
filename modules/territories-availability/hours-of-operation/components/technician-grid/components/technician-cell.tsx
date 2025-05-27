@@ -3,14 +3,14 @@ import { TechnicianHoursOfOperationTerritory } from "@/types/territories/technic
 import { TerritoryChips } from "./common/territory-chips";
 import { Button } from "@/components/shadcn/button";
 import { TechnicianGridContentCell } from "./common/content-cell";
+import { Media, Technician } from "@/payload-types";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/shadcn/avatar";
-import { Technician } from "@/lib/data/technicians";
 
 interface TechnicianGridTechnicianCellProps {
   isDefaultHover: boolean
   onDefaultHover: (technicianId: number) => void
   isLoading?: boolean
-  technician: Partial<Technician>
+  technician: Technician
   weeklyTerritories: TechnicianHoursOfOperationTerritory[]
 }
 
@@ -21,12 +21,12 @@ export function TechnicianGridTechnicianCell({ isDefaultHover, isLoading = false
       <div className="flex flex-col gap-3">
         {/* <Skeleton className="w-10 h-10 rounded-lg" /> */}
         <Avatar>
-          <AvatarImage src={technician?.profilePhoto?.url} alt={technician?.profilePhoto?.alt || ""} />
+          <AvatarImage src={(technician?.profilePhoto as Media)?.url || ""} alt={(technician?.profilePhoto as Media)?.alt || ""} />
           <AvatarFallback>
             {technician.name?.charAt(0)?.toUpperCase() || ""}
           </AvatarFallback>
         </Avatar>
-        <p className="font-medium line-clamp-1 overflow-hidden text-ellipsis max-w-full">
+        <p className="font-medium line-clamp-1 overflow-hidden text-ellipsis max-w-full text-[15px]">
           {technician.name}
         </p>
         {!!weeklyTerritories.length && <TerritoryChips className="px-0 justify-start" territories={weeklyTerritories} maxVisibleChipsNum={1} />}

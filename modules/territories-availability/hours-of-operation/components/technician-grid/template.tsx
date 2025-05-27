@@ -2,15 +2,18 @@ import { getTechnicianHoursOfOperation } from "@/mocks/territories-availability/
 import { TechnicianGrid } from "./components/grid"
 import { TechnicianHoursOfOperation } from "@/types/territories/technician-hours-of-operation"
 import { DateRange } from "@/types/date"
-import { getTerritories } from "@/lib/data/territories"
+import { Territory } from "@/payload-types"
 
 interface TechnicianGridTemplateProps {
   dateRange: DateRange
+  territories: Territory[]
+  filters: Record<string, boolean>
+  search: string
 }
 
-export async function TechnicianGridTemplate({ dateRange }: TechnicianGridTemplateProps) {
-  const technicianHoursOfOperation: TechnicianHoursOfOperation | null = await getTechnicianHoursOfOperation(dateRange)
-  const territories = await getTerritories();
+export async function TechnicianGridTemplate({ dateRange, territories, filters, search }: TechnicianGridTemplateProps) {
+  const technicianHoursOfOperation: TechnicianHoursOfOperation | null = await getTechnicianHoursOfOperation(dateRange, filters, search)
+
   if (!technicianHoursOfOperation) {
     return <div>No technician hours of operation found</div>;
   }

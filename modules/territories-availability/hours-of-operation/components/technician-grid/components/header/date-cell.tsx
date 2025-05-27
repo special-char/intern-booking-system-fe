@@ -32,7 +32,8 @@ export function TechnicianGridDateCell({
     >
       <div
         className={cn(
-          "flex flex-col gap-2 font-medium items-center border-b w-full pb-2"
+          "flex flex-col gap-2 font-medium items-center border-b w-full pb-2",
+          variant === "HoursOfOperation" && "border-none"
         )}
       >
         <span>{dayLabel}</span>

@@ -40,18 +40,12 @@ export function DateFilter<TData>({ disabled, table }: DateFilterProps<TData>) {
     const threshold = new Date();
     threshold.setDate(threshold.getDate() - days);
 
-    // Update table filters
-    table.setColumnFilters([
-      {
-        id: "created_at",
-        value: threshold,
-      },
-    ]);
-
-    // Update URL search params
+    // Update URL search params first
     const params = new URLSearchParams(searchParams);
     params.set('dateFilter', threshold.toISOString());
-    router.push(`?${params.toString()}`);
+
+    // Use replace instead of push to avoid adding to history stack
+    router.replace(`?${params.toString()}`, { scroll: false });
   }
 
   return (

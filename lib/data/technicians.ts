@@ -4,57 +4,12 @@ import { revalidateTag } from "next/cache";
 import { getPayloadAuthHeaders } from "./cookies";
 import { PostTechnicianResponse } from "@/types/technicians";
 import { getUser } from "./admin";
-import { Tenant } from "@/payload-types";
-import { getPayload } from "payload";
+import { Technician, Tenant } from "@/payload-types";
+import { getPayload, PaginatedDocs } from "payload";
 
 import config from "../../payload.config";
 
-// Types
-export interface Technician {
-  id: number;
-  tenant: number;
-  name: string;
-  email: string;
-  password: string;
-  mobilePhone: number;
-  twilioPhone: number;
-  profilePhoto: ProfilePhoto | null;
-  mobileTireVan: MobileTireVan[];
-  updatedAt: string;
-  createdAt: string;
-}
 
-interface ProfilePhoto {
-  id: number;
-  tenant: number;
-  alt: string;
-  updatedAt: string;
-  createdAt: string;
-  url: string;
-  thumbnailURL: string | null;
-  filename: string;
-  mimeType: string;
-  filesize: number;
-  width: number;
-  height: number;
-  focalX: number;
-  focalY: number;
-}
-
-interface MobileTireVan {
-  id: number;
-  tenant: number;
-  vehicleId: string;
-  yearMake: string;
-  modelTrim: string;
-  tireCount: number;
-  technician: {
-    docs: number[];
-    hasNextPage: boolean;
-  };
-  updatedAt: string;
-  createdAt: string;
-}
 
 export interface GetTechniciansResponse {
   docs: Technician[];
@@ -79,10 +34,8 @@ export interface CreateTechnicianInput {
   mobileTireVan: number[];
 }
 
-// Constants
 const API_BASE_URL = process.env.NEXT_PUBLIC_SERVER_URL;
 
-// Helper functions
 const isFile = (value: File): boolean => {
   return (
     value !== null &&
@@ -93,7 +46,6 @@ const isFile = (value: File): boolean => {
   );
 };
 
-// API functions
 export async function getTechnicians({
   page,
   limit,
@@ -102,38 +54,39 @@ export async function getTechnicians({
   page?: number;
   limit?: number;
   where?: string;
-}): Promise<GetTechniciansResponse> {
+}): Promise<PaginatedDocs<Technician>> {
   try {
-    const endpointUrl = new URL(`${API_BASE_URL}/api/technicians`);
-    if (page) {
-      endpointUrl.searchParams.set("page", page.toString());
-    }
-    if (limit) {
-      endpointUrl.searchParams.set("limit", limit.toString());
-    }
+    const payload = await getPayload({ config });
+
+    const query: any = {
+      page: page || 1,
+      limit: limit || 10,
+    };
+
     if (where) {
-      endpointUrl.searchParams.set("where[or][0][name][contains]", where);
-      endpointUrl.searchParams.set("where[or][1][email][contains]", where);
+      query.where = {
+        or: [
+          {
+            name: {
+              contains: where,
+            },
+          },
+          {
+            email: {
+              contains: where,
+            },
+          },
+        ],
+      };
     }
 
-    const authHeaders = await getPayloadAuthHeaders();
-
-    const response = await fetch(endpointUrl.toString(), {
-      method: "GET",
-      next: { tags: ["technicians"] },
-      headers: {
-        "Content-Type": "application/json",
-        ...authHeaders,
-      },
-      credentials: "include",
+    const response = await payload.find({
+      collection: "technicians",
+      ...query,
     });
 
-    if (!response.ok) {
-      throw new Error(`Error fetching technicians: ${response.statusText}`);
-    }
-
-    return await response.json();
-  } catch {
+    return response as PaginatedDocs<Technician>;
+  } catch (error) {
     return {
       docs: [],
       hasNextPage: false,
