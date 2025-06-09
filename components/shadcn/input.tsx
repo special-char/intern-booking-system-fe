@@ -2,7 +2,8 @@ import * as React from "react";
 import { cn } from "@/lib/utils";
 import { Skeleton } from "./skeleton";
 
-export type InputProps = Omit<React.ComponentProps<"input">, "size"> & {
+export interface InputProps
+  extends React.InputHTMLAttributes<HTMLInputElement> {
   size?: "small" | "default" | "large";
   leftIcon?: React.ReactNode;
   rightIcon?: React.ReactNode;
@@ -10,23 +11,10 @@ export type InputProps = Omit<React.ComponentProps<"input">, "size"> & {
   wrapperClassName?: string;
   caption?: string;
   loading?: boolean;
-};
+}
 
 const Input = React.forwardRef<HTMLInputElement, InputProps>(
-  (
-    {
-      className,
-      type,
-      size = "default",
-      leftIcon,
-      rightIcon,
-      wrapperClassName,
-      loading,
-      skeletonClassName,
-      ...props
-    },
-    ref
-  ) => {
+  ({ className, type, size = "default", leftIcon, rightIcon, wrapperClassName, loading, skeletonClassName, ...props }, ref) => {
     const sizeClasses = {
       small: "h-8",
       default: "h-9",
