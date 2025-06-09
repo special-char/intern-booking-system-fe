@@ -2,11 +2,11 @@
 
 import { ColumnDef } from "@tanstack/react-table";
 import { SortableHeader } from "@/components/common/table/sortable-header";
-import { TechniciansActions } from "./technicians-actions";
+import { ManagersActions } from "./technicians-actions";
 import { GetColumnsInterface } from "@/types/table";
 import { LoadingHeader } from "@/components/common/table/loading-header";
 import { LoadingCell } from "@/components/common/table/loading-cell";
-import { Technician } from ".";
+import { Manager } from ".";
 import {
   Avatar,
   AvatarFallback,
@@ -15,7 +15,7 @@ import {
 
 export function getColumns({
   isLoading,
-}: GetColumnsInterface): ColumnDef<Technician, string>[] {
+}: GetColumnsInterface): ColumnDef<Manager, string>[] {
   return [
     {
       accessorKey: "profilePhoto",
@@ -30,6 +30,9 @@ export function getColumns({
             </AvatarFallback>
           </Avatar>
         );
+      },
+      meta: {
+        label: "Photo",
       },
     },
     {
@@ -83,30 +86,15 @@ export function getColumns({
       },
     },
     {
-      header: ({ column }) => (
-        <LoadingHeader isLoading={isLoading}>
-          <SortableHeader column={column}>Twilio Phone</SortableHeader>
-        </LoadingHeader>
-      ),
-      accessorKey: "twilioPhone",
-      meta: {
-        label: "Twilio Phone",
-      },
-      cell: ({ row }) => {
-        return (
-          <LoadingCell isLoading={isLoading}>
-            {row.original.twilioPhone}
-          </LoadingCell>
-        );
-      },
-    },
-    {
       accessorKey: "mobileTireVan",
-      header: "Assigned Van",
+      header: "Assigned Venue",
       cell: ({ row }) => {
         const vans = row.original.mobileTireVan || [];
         const van = vans[0];
-        return van ? `${van.vehicleId}` : "No van assigned";
+        return van ? `Venue ${van.vehicleId}` : "No venue assigned";
+      },
+      meta: {
+        label: "Assigned Venue",
       },
     },
     {
@@ -116,15 +104,12 @@ export function getColumns({
       },
       cell: ({ row }) => {
         return (
-          <TechniciansActions
+          <ManagersActions
             initialValues={
               {
                 id: `${row.original.id}`,
                 email: row.original.email,
                 mobilePhone: `${row.original.mobilePhone}`,
-                ...(row.original.twilioPhone && {
-                  twilioPhone: `${row.original.twilioPhone}`,
-                }),
                 mobileTireVan:
                   row.original.mobileTireVan?.map((van) => van.id) || [],
                 assignMobileTireVan:

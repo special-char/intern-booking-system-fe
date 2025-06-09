@@ -2,16 +2,14 @@
 
 import { revalidateTag } from "next/cache";
 import { getPayloadAuthHeaders } from "./cookies";
-import { PostTechnicianResponse } from "@/types/technicians";
+import { PostManagerResponse } from "@/types/technicians";
 import { getUser } from "./admin";
 import { Technician, Tenant } from "@/payload-types";
 import { getPayload, PaginatedDocs } from "payload";
 
 import config from "../../payload.config";
 
-
-
-export interface GetTechniciansResponse {
+export interface GetManagersResponse {
   docs: Technician[];
   hasNextPage: boolean;
   hasPrevPage: boolean;
@@ -24,7 +22,7 @@ export interface GetTechniciansResponse {
   totalPages: number;
 }
 
-export interface CreateTechnicianInput {
+export interface CreateManagerInput {
   fullName: string;
   email: string;
   password: string;
@@ -46,7 +44,7 @@ const isFile = (value: File): boolean => {
   );
 };
 
-export async function getTechnicians({
+export async function getManagers({
   page,
   limit,
   where,
@@ -107,7 +105,7 @@ async function uploadProfilePhoto(file: File): Promise<number> {
     formData.append(
       "_payload",
       JSON.stringify({
-        alt: "technician photo",
+        alt: "manager photo",
         tenant: tenantId,
       })
     );
@@ -138,9 +136,9 @@ async function uploadProfilePhoto(file: File): Promise<number> {
   }
 }
 
-export async function createTechnicianPayload(
-  inputData: CreateTechnicianInput
-): Promise<PostTechnicianResponse> {
+export async function createManagerPayload(
+  inputData: CreateManagerInput
+): Promise<PostManagerResponse> {
   try {
     const profilePhotoId =
       inputData.profilePhoto && isFile(inputData.profilePhoto)
@@ -176,22 +174,22 @@ export async function createTechnicianPayload(
     if (!response.ok) {
       const errorData = await response.json();
       throw new Error(
-        `Failed to create technician: ${errorData?.message || response.statusText}`
+        `Failed to create manager: ${errorData?.message || response.statusText}`
       );
     }
 
     return { isSuccess: true };
   } catch (error) {
     throw new Error(
-      `Failed to create technician: ${error instanceof Error ? error.message : String(error)}`
+      `Failed to create manager: ${error instanceof Error ? error.message : String(error)}`
     );
   }
 }
 
-export async function updateTechnician(
-  inputData: CreateTechnicianInput,
+export async function updateManager(
+  inputData: CreateManagerInput,
   id: string
-): Promise<PostTechnicianResponse> {
+): Promise<PostManagerResponse> {
   try {
     const { user } = await getUser();
     const tenantId = (user?.tenants?.[0]?.tenant as Tenant)?.id;
@@ -222,12 +220,12 @@ export async function updateTechnician(
     return { isSuccess: true };
   } catch (error) {
     throw new Error(
-      `Failed to update technician: ${error instanceof Error ? error.message : String(error)}`
+      `Failed to update manager: ${error instanceof Error ? error.message : String(error)}`
     );
   }
 }
 
-export async function deleteTechnician(
+export async function deleteManager(
   id: string
 ): Promise<{ isSuccess: boolean }> {
   try {
@@ -245,7 +243,7 @@ export async function deleteTechnician(
     if (!response.ok) {
       const data = await response.json();
       throw new Error(
-        `Error deleting technician: ${data.message || response.statusText}`
+        `Error deleting manager: ${data.message || response.statusText}`
       );
     }
 
@@ -253,7 +251,7 @@ export async function deleteTechnician(
     return { isSuccess: true };
   } catch (error) {
     throw new Error(
-      `Failed to delete technician: ${error instanceof Error ? error.message : String(error)}`
+      `Failed to delete manager: ${error instanceof Error ? error.message : String(error)}`
     );
   }
 }
@@ -265,17 +263,22 @@ export interface Van {
 
 export async function fetchVans(): Promise<Van[]> {
   try {
-    const response = await fetch(`${API_BASE_URL}/api/vans`);
+    const payload = await getPayload({ config });
+    const { user } = await getUser();
+    const tenantId = (user?.tenants?.[0]?.tenant as Tenant)?.id;
 
-    if (!response.ok) {
-      throw new Error(`HTTP error! status: ${response.status}`);
-    }
+    const response = await payload.find({
+      collection: "mobile-tire-vans",
+      where: {
+        tenant: { equals: tenantId },
+      },
+    });
 
-    const data = await response.json();
-    return data?.docs || [];
+    return response.docs.map((van) => ({
+      id: van.id,
+      vehicleId: van.vehicleId,
+    }));
   } catch (error) {
-    throw new Error(
-      `Failed to fetch vans: ${error instanceof Error ? error.message : String(error)}`
-    );
+    return [];
   }
 }

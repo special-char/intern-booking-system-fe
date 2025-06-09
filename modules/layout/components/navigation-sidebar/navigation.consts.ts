@@ -64,7 +64,7 @@ export const menuItems = {
           payloadCollection: "vans",
         },
         {
-          title: "Technicians",
+          title: "Managers",
           url: "/vans-techs/technicians",
           payloadCollection: "technicians",
         },
