@@ -72,6 +72,7 @@ export interface Config {
     tenants: Tenant;
     vans: Van;
     media: Media;
+    mybrand: Mybrand;
     technicians: Technician;
     services: Service;
     territory: Territory;
@@ -92,6 +93,7 @@ export interface Config {
     tenants: TenantsSelect<false> | TenantsSelect<true>;
     vans: VansSelect<false> | VansSelect<true>;
     media: MediaSelect<false> | MediaSelect<true>;
+    mybrand: MybrandSelect<false> | MybrandSelect<true>;
     technicians: TechniciansSelect<false> | TechniciansSelect<true>;
     services: ServicesSelect<false> | ServicesSelect<true>;
     territory: TerritorySelect<false> | TerritorySelect<true>;
@@ -275,6 +277,24 @@ export interface Technician {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "mybrand".
+ */
+export interface Mybrand {
+  id: number;
+  user?: string | null;
+  logo: number | Media;
+  coverImage: number | Media;
+  colorPalette: {
+    name: 'primary' | 'light1' | 'light2' | 'dark';
+    value: string;
+    id?: string | null;
+  }[];
+  fontStyle: 'Inter' | 'Roboto' | 'Poppins' | 'Lato' | 'Montserrat';
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "services".
  */
 export interface Service {
@@ -372,6 +392,10 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'media';
         value: number | Media;
+      } | null)
+    | ({
+        relationTo: 'mybrand';
+        value: number | Mybrand;
       } | null)
     | ({
         relationTo: 'technicians';
@@ -520,6 +544,25 @@ export interface MediaSelect<T extends boolean = true> {
   height?: T;
   focalX?: T;
   focalY?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "mybrand_select".
+ */
+export interface MybrandSelect<T extends boolean = true> {
+  user?: T;
+  logo?: T;
+  coverImage?: T;
+  colorPalette?:
+    | T
+    | {
+        name?: T;
+        value?: T;
+        id?: T;
+      };
+  fontStyle?: T;
+  updatedAt?: T;
+  createdAt?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema

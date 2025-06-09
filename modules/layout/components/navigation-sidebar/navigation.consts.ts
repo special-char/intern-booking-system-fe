@@ -151,7 +151,7 @@ export const menuItems = {
     },
     {
       title: "My brand",
-      url: "/dashboard",
+      url: "/mybrand",
       icon: Asterisk,
       isActive: false,
       isExpandable: false,
