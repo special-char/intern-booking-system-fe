@@ -29,10 +29,8 @@ export default async function Layout({
   const { user } = await getUser()
 
   return (
-    <html lang="en">
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      >
+    <html lang="en" className={`${geistSans.variable} ${geistMono.variable}`}>
+      <body className="antialiased">
         <Providers>{user ? dashboard : login}</Providers>
       </body>
     </html>
