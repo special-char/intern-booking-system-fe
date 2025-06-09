@@ -1,4 +1,4 @@
-import { Bell, LogOutIcon } from "lucide-react";
+import { Bell, LogOutIcon, MapPin } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -17,6 +17,14 @@ import { Logo } from "@/icons/logo";
 import { logout } from "@/lib/data/admin";
 import { getUser } from "@/lib/data/admin";
 import { Media, Tenant } from "@/payload-types";
+
+// Static venue data for demonstration
+const venues = [
+  { id: 1, name: "Venue A", location: "London" },
+  { id: 2, name: "Venue B", location: "Manchester" },
+  { id: 3, name: "Venue C", location: "Birmingham" },
+  { id: 4, name: "Venue D", location: "Liverpool" },
+];
 
 interface User {
   name: string;
@@ -50,6 +58,28 @@ export async function Header() {
         </Link>
 
         <div className="ml-auto flex items-center space-x-4">
+          {/* Venue Selector Dropdown */}
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button variant="outline" className="flex items-center gap-2 rounded-xl">
+                <MapPin className="h-4 w-4" />
+                <span>Select Venue</span>
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end" className="w-[200px]">
+              <DropdownMenuLabel>Your Venues</DropdownMenuLabel>
+              <DropdownMenuSeparator />
+              {venues.map((venue) => (
+                <DropdownMenuItem key={venue.id} className="cursor-pointer">
+                  <div className="flex flex-col">
+                    <span className="font-medium">{venue.name}</span>
+                    <span className="text-xs text-gray-500">{venue.location}</span>
+                  </div>
+                </DropdownMenuItem>
+              ))}
+            </DropdownMenuContent>
+          </DropdownMenu>
+
           <Button variant="outline" size="icon" className="rounded-xl">
             <Bell className="h-5 w-5 " />
           </Button>
@@ -73,7 +103,7 @@ export async function Header() {
                 </Avatar>
               </Button>
             </DropdownMenuTrigger>
-            <DropdownMenuContent className="min-w-40" align="end">
+            <DropdownMenuContent align="end">
               <DropdownMenuLabel className="font-normal py-2 px-3">
                 <div className="flex flex-col space-y-2">
                   <p className="text-[10px] leading-none text-text-primary">
