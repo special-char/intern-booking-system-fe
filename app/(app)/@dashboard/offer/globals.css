@@ -1,0 +1,120 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 0 0% 98%; /* gray-50 */
+    --foreground: 222.2 84% 4.9%;
+
+    --card: 0 0% 100%; /* white */
+    --card-foreground: 222.2 84% 4.9%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 222.2 84% 4.9%;
+
+    --primary: 226 70% 55.9%; /* indigo-600 */
+    --primary-foreground: 210 40% 98%;
+
+    --secondary: 210 40% 96.1%;
+    --secondary-foreground: 222.2 47.4% 11.2%;
+
+    --muted: 210 40% 96.1%;
+    --muted-foreground: 215.4 16.3% 46.9%;
+
+    --accent: 210 40% 96.1%;
+    --accent-foreground: 222.2 47.4% 11.2%;
+
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 210 40% 98%;
+
+    --border: 214.3 31.8% 91.4%;
+    --input: 214.3 31.8% 91.4%;
+    --ring: 221.2 83.2% 53.3%;
+
+    --radius: 0.5rem;
+  }
+
+  .dark {
+    --background: 222.2 84% 4.9%;
+    --foreground: 210 40% 98%;
+
+    --card: 222.2 84% 4.9%;
+    --card-foreground: 210 40% 98%;
+
+    --popover: 222.2 84% 4.9%;
+    --popover-foreground: 210 40% 98%;
+
+    --primary: 217.2 91.2% 59.8%;
+    --primary-foreground: 222.2 47.4% 11.2%;
+
+    --secondary: 217.2 32.6% 17.5%;
+    --secondary-foreground: 210 40% 98%;
+
+    --muted: 217.2 32.6% 17.5%;
+    --muted-foreground: 215 20.2% 65.1%;
+
+    --accent: 217.2 32.6% 17.5%;
+    --accent-foreground: 210 40% 98%;
+
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 210 40% 98%;
+
+    --border: 217.2 32.6% 17.5%;
+    --input: 217.2 32.6% 17.5%;
+    --ring: 224.3 76.5% 48%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border antialiased;
+  }
+  body {
+    @apply bg-gray-50 text-gray-900 font-sans;
+  }
+  h1 {
+    @apply text-3xl font-extrabold;
+  }
+  h2 {
+    @apply text-xl font-semibold;
+  }
+  h3 {
+    @apply text-lg font-medium;
+  }
+  h4 {
+    @apply text-base font-medium;
+  }
+}
+
+@layer components {
+  .card-title {
+    @apply text-sm font-medium;
+  }
+  .large-number {
+    @apply text-4xl font-bold;
+  }
+  .body-text {
+    @apply text-sm;
+  }
+  .small-text {
+    @apply text-xs;
+  }
+  .table-header {
+    @apply text-xs font-semibold uppercase tracking-wider;
+  }
+
+  /* Status badges */
+  .status-success {
+    @apply bg-status-success-bg text-status-success-text border border-status-success-border;
+  }
+  .status-warning {
+    @apply bg-status-warning-bg text-status-warning-text border border-status-warning-border;
+  }
+  .status-error {
+    @apply bg-status-error-bg text-status-error-text border border-status-error-border;
+  }
+  .status-info {
+    @apply bg-status-info-bg text-status-info-text border border-status-info-border;
+  }
+}
