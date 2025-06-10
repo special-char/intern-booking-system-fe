@@ -165,7 +165,7 @@ export const menuItems = {
     },
     {
       title: "Banking",
-      url: "/dashboard",
+      url: "/banking",
       icon: Landmark,
       isActive: false,
       isExpandable: false,
