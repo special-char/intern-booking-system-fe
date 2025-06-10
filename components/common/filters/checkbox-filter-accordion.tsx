@@ -1,35 +1,59 @@
-import { AccordionTrigger } from "@/components/shadcn/accordion";
-import { Checkbox } from "@/components/shadcn/checkbox";
-import { Label } from "@/components/shadcn/label";
-import { cn } from "@/lib/utils";
+"use client"
+
+import * as React from "react"
+import { ChevronDown } from "lucide-react"
+import { cn } from "@/lib/utils"
+import { CheckboxFilter } from "./checkbox-filter"
 
 interface CheckboxFilterAccordionProps {
-  checked: boolean
+  id: string
+  label: string
+  options: {
+    label: string
+    value: string
+  }[]
+  value: string[]
+  onChange: (value: string[]) => void
   className?: string
-  id: string;
-  label: string;
-  onCheckedChange: (checked: boolean) => void;
-  onTriggerClick?: () => void;
+  defaultOpen?: boolean
 }
 
-export function CheckboxFilterAccordion({ checked, className, id, label, onCheckedChange, onTriggerClick }: CheckboxFilterAccordionProps) {
+export function CheckboxFilterAccordion({
+  id,
+  label,
+  options,
+  value,
+  onChange,
+  className,
+  defaultOpen = false,
+}: CheckboxFilterAccordionProps) {
+  const [isOpen, setIsOpen] = React.useState(defaultOpen)
+
   return (
-    <div className={cn("flex items-center justify-between pt-4 px-3", className)}>
-      <div className="flex items-center gap-3">
-        <Checkbox
-          id={id}
-          checked={checked}
-          onCheckedChange={onCheckedChange}
+    <div className={cn("border-b", className)}>
+      <button
+        className="flex w-full items-center justify-between py-4 text-sm font-medium"
+        onClick={() => setIsOpen(!isOpen)}
+      >
+        <span>{label}</span>
+        <ChevronDown
+          className={cn(
+            "h-4 w-4 transition-transform duration-200",
+            isOpen && "rotate-180"
+          )}
         />
-        <Label className="text-secondary" htmlFor={id}>
-          {label}
-        </Label>
-      </div>
-      <AccordionTrigger
-        className="p-0 m-0 -mt-1"
-        onClick={onTriggerClick}
-      />
+      </button>
+      {isOpen && (
+        <div className="pb-4">
+          <CheckboxFilter
+            id={id}
+            label=""
+            options={options}
+            value={value}
+            onChange={onChange}
+          />
+        </div>
+      )}
     </div>
-  );
-}
-
+  )
+} 

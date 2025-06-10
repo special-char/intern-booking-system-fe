@@ -6,6 +6,7 @@ import {
   ThumbsUp,
   Truck,
   Map,
+  MapPin,
   ShoppingCart,
   CircleDollarSign,
   Asterisk,
@@ -64,7 +65,7 @@ export const menuItems = {
           payloadCollection: "vans",
         },
         {
-          title: "Technicians",
+          title: "Managers",
           url: "/vans-techs/technicians",
           payloadCollection: "technicians",
         },
@@ -84,6 +85,14 @@ export const menuItems = {
           permissionSkip: true,
         },
       ],
+    },
+    {
+      title: "Courts",
+      url: "/courts",
+      icon: MapPin,
+      isActive: false,
+      isExpandable: false,
+      matchNested: true,
     },
     {
       title: "Orders",
@@ -165,7 +174,14 @@ export const menuItems = {
     },
     {
       title: "Banking",
-      url: "/dashboard",
+      url: "/banking",
+      icon: Landmark,
+      isActive: false,
+      isExpandable: false,
+    },
+     {
+      title: "Offer",
+      url: "/offer",
       icon: Landmark,
       isActive: false,
       isExpandable: false,

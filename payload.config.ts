@@ -13,7 +13,6 @@ import { getUserTenantIDs } from "./utilities/getUserTenantIDs";
 import { seed } from "./seed";
 import { Vans } from "./collections/Vans";
 import { Media } from "./collections/Media";
-import { MyBrand } from "./collections/MyBrand";
 import { Technicians } from "./collections/Technicians";
 import { Services } from "./collections/Services";
 import { Territory } from "./collections/Territory";
@@ -36,7 +35,6 @@ export default buildConfig({
     Tenants,
     Vans,
     Media,
-    MyBrand,
     Technicians,
     Services,
     Territory,

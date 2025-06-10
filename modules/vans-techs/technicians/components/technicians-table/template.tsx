@@ -2,19 +2,19 @@ import {
   PaginatedDataInterface,
   PaginationInterface,
 } from "@/types/pagination";
-import { TechniciansTable } from ".";
-import { getTechnicians } from "@/lib/data/technicians";
+import { ManagersTable } from ".";
+import { getManagers } from "@/lib/data/technicians";
 
-interface TechniciansTableTemplateProps extends PaginatedDataInterface {
+interface ManagersTableTemplateProps extends PaginatedDataInterface {
   search?: string;
 }
 
-export async function TechniciansTableTemplate({
+export async function ManagersTableTemplate({
   page,
   limit,
   search,
-}: TechniciansTableTemplateProps) {
-  const technicians = await getTechnicians({
+}: ManagersTableTemplateProps) {
+  const managers = await getManagers({
     page,
     limit,
     where: search
@@ -23,8 +23,8 @@ export async function TechniciansTableTemplate({
   const pagination: PaginationInterface = {
     pageIndex: page,
     pageSize: limit,
-    totalCount: technicians.totalDocs,
+    totalCount: managers.totalDocs,
   };
 
-  return <TechniciansTable data={technicians.docs} pagination={pagination} />;
+  return <ManagersTable data={managers.docs} pagination={pagination} />;
 }
