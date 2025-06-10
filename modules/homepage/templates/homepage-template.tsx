@@ -6,6 +6,7 @@
 
 import { useState } from "react";
 import { Button } from "@/components/shadcn/button";
+import { BookOpen } from "lucide-react";
 import {
   Card,
   CardContent,
@@ -220,8 +221,8 @@ export function CricketDashboard() {
         {/* Action Buttons */}
         <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
           <div className="flex items-center gap-3">
-            <Select value={timeRange} onValueChange={setTimeRange}>
-              <SelectTrigger className="w-36 border-gray-300 rounded-lg text-gray-700 hover:border-gray-400 transition-colors">
+            {/* <Select value={timeRange} onValueChange={setTimeRange}> */}
+            {/* <SelectTrigger className="w-36 border-gray-300 rounded-lg text-gray-700 hover:border-gray-400 transition-colors">
                 <SelectValue placeholder="Time Range" />
               </SelectTrigger>
               <SelectContent className="rounded-lg shadow-lg">
@@ -229,20 +230,22 @@ export function CricketDashboard() {
                 <SelectItem value="weekly">Weekly</SelectItem>
                 <SelectItem value="monthly">Monthly</SelectItem>
                 <SelectItem value="yearly">Yearly</SelectItem>
-              </SelectContent>
-
-              <Button onClick={openModal}>View Bookings</Button>
-            </Select>
+              </SelectContent> */}
+            {/* </Select> */}
+            <Button onClick={openModal}>
+              <BookOpen className="w-4 h-4 mr-2"  />
+              View Bookings
+            </Button>
           </div>
 
           <div className="flex items-center gap-3">
-            <Button
+            {/* <Button
               variant="outline"
               className="gap-2 bg-white border-gray-300 text-gray-700 hover:bg-gray-100 transition-all rounded-lg shadow-sm"
             >
               <Calendar className="w-4 h-4 text-gray-500" />
               <span className="font-medium">Last 30 days</span>
-            </Button>
+            </Button> */}
             <Button
               className="gap-2 bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg shadow-md hover:shadow-lg transition-all"
               onClick={handleExportPDF}
@@ -374,7 +377,7 @@ export function CricketDashboard() {
                 ✕
               </button>
 
-              <h2 className="text-xl font-semibold mb-4">Book a Slot</h2>
+              <h2 className="text-xl font-semibold mb-4">All Bookings</h2>
 
               <EventCalendar
                 events={events}

@@ -1,7 +1,7 @@
 "use client"
 
 import { useEffect, useMemo, useState } from "react"
-import { RiCalendarLine, RiDeleteBinLine } from "@remixicon/react"
+import { Calendar as CalendarIcon, Trash2 } from "lucide-react"
 import { format, isBefore } from "date-fns"
 
 import type {
@@ -291,7 +291,7 @@ export function EventDialog({
                     >
                       {startDate ? format(startDate, "PPP") : "Pick a date"}
                     </span>
-                    <RiCalendarLine
+                    <CalendarIcon
                       size={16}
                       className="text-muted-foreground/80 shrink-0"
                       aria-hidden="true"
@@ -359,7 +359,7 @@ export function EventDialog({
                     >
                       {endDate ? format(endDate, "PPP") : "Pick a date"}
                     </span>
-                    <RiCalendarLine
+                    <CalendarIcon
                       size={16}
                       className="text-muted-foreground/80 shrink-0"
                       aria-hidden="true"
@@ -454,7 +454,7 @@ export function EventDialog({
               onClick={handleDelete}
               aria-label="Delete event"
             >
-              <RiDeleteBinLine size={16} aria-hidden="true" />
+              <Trash2 size={16} aria-hidden="true" />
             </Button>
           )}
           <div className="flex flex-1 justify-end gap-2">
