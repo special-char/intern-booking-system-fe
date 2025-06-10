@@ -69,9 +69,7 @@ export function ManagersTable({
             />
           </div>
         </div>
-        <div className="w-full overflow-x-auto">
-          <ContentTable table={table} columns={columns} />
-        </div>
+        <ContentTable table={table} columns={columns} />
       </Card>
       <PaginationTable table={table} pagination={pagination} />
     </div>
