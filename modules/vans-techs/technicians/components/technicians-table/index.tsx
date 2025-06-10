@@ -15,7 +15,7 @@ import { useTable } from "@/hooks/use-table";
 import { TableProps } from "@/types/table";
 import { useMemo } from "react";
 
-export interface Technician {
+export interface Manager {
   id: number;
   name: string;
   email: string;
@@ -36,15 +36,15 @@ export interface Technician {
   createdAt: string;
 }
 
-export interface TechniciansTable extends TableProps {
-  data: Technician[];
+export interface ManagersTable extends TableProps {
+  data: Manager[];
 }
 
-export function TechniciansTable({
+export function ManagersTable({
   data,
   isLoading = false,
   pagination,
-}: TechniciansTable) {
+}: ManagersTable) {
   const columns = useMemo(() => getColumns({ isLoading }), []);
 
   const { table } = useTable({ data, columns });
@@ -56,7 +56,7 @@ export function TechniciansTable({
           <div className="flex items-center justify-end gap-2 w-full">
             <ClearTableFiltersButton table={table} disabled={isLoading} />
 
-            <FilterOptionsButton<Technician>
+            <FilterOptionsButton<Manager>
               disabled={isLoading}
               label="Filter"
               table={table}

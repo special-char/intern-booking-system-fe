@@ -9,24 +9,24 @@ export function DashboardTabs() {
 
   const { onTabChange, activeTab } = useTabs({ value: pathname })
 
-  if (!["/", "/appointments"].some(p => p === pathname)) {
-    return null
-  }
-
   return (
-    <Tabs
-      className="px-6 py-8"
-      value={activeTab}
-      onValueChange={onTabChange}
-    >
-      <TabsList>
-        <TabsTrigger value="/">
-          All orders
-        </TabsTrigger>
-        <TabsTrigger value="/appointments">
-          Appointments
-        </TabsTrigger>
-      </TabsList>
-    </Tabs>
+    <div>
+      {["/", "/appointments"].some(p => p === pathname) && (
+        <Tabs
+          className="px-6 py-8"
+          value={activeTab}
+          onValueChange={onTabChange}
+        >
+          <TabsList>
+            <TabsTrigger value="/">
+              All orders
+            </TabsTrigger>
+            <TabsTrigger value="/appointments">
+              Appointments
+            </TabsTrigger>
+          </TabsList>
+        </Tabs>
+      )}
+    </div>
   );
 }
