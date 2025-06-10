@@ -6,6 +6,7 @@ import {
   ThumbsUp,
   Truck,
   Map,
+  MapPin,
   ShoppingCart,
   CircleDollarSign,
   Asterisk,
@@ -84,6 +85,14 @@ export const menuItems = {
           permissionSkip: true,
         },
       ],
+    },
+    {
+      title: "Courts",
+      url: "/courts",
+      icon: MapPin,
+      isActive: false,
+      isExpandable: false,
+      matchNested: true,
     },
     {
       title: "Orders",
