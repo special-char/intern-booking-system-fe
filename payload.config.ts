@@ -69,6 +69,7 @@ export default buildConfig({
         services: {},
         territory: {},
         configurations: {},
+        mybrand:{},
         "state-environmental": {},
       },
       tenantField: {
