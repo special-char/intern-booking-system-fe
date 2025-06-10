@@ -160,7 +160,7 @@ export const menuItems = {
     },
     {
       title: "My brand",
-      url: "/mybrand",
+      url: "/dashboard",
       icon: Asterisk,
       isActive: false,
       isExpandable: false,
