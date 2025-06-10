@@ -207,7 +207,7 @@ export interface Media {
  */
 export interface User {
   id: number;
-  roles?: ('super-admin' | 'owner' | 'manager' | 'technician')[] | null;
+  roles?: ('super-admin' | 'owner' | 'manager')[] | null;
   name: string;
   profilePhoto?: (number | null) | Media;
   tenants?:
