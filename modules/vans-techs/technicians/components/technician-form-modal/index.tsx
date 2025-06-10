@@ -3,10 +3,10 @@
 import { Button } from "@/components/shadcn/button";
 import { Plus } from "lucide-react";
 import { Sheet, SheetTrigger } from "@/components/shadcn/sheet";
-import { TechnicianForm } from "@/modules/vans-techs/technicians/components/technician-form";
+import { ManagerForm } from "@/modules/vans-techs/technicians/components/technician-form";
 import { useState } from "react";
 
-export function TechnicianFormModal() {
+export function ManagerFormModal() {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
@@ -14,10 +14,10 @@ export function TechnicianFormModal() {
       <SheetTrigger asChild>
         <Button>
           <Plus />
-          Add Technician
+          Add Manager
         </Button>
       </SheetTrigger>
-      <TechnicianForm setIsOpen={setIsOpen} />
+      <ManagerForm setIsOpen={setIsOpen} />
     </Sheet>
   );
 }

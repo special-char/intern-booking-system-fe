@@ -16,27 +16,27 @@ import {
 import { Button } from "@/components/shadcn/button";
 
 import {
-  technicianFormSchema,
-  technicianFormDefaultValues,
+  managerFormSchema,
+  managerFormDefaultValues,
 } from "./technician-form.consts";
 import {
-  CreateTechnicianInput,
-  createTechnicianPayload,
-  updateTechnician,
+  CreateManagerInput,
+  createManagerPayload,
+  updateManager,
 } from "@/lib/data/technicians";
-import { TechnicianFields } from "./technician-fields";
+import { ManagerFields } from "./technician-fields";
 import { useToast } from "@/hooks/use-toast";
 
-export type TechnicianFormType = z.infer<typeof technicianFormSchema>;
+export type ManagerFormType = z.infer<typeof managerFormSchema>;
 
-export function TechnicianForm({
+export function ManagerForm({
   setIsOpen,
   isEdit = false,
   initialValues,
 }: {
   setIsOpen: (isOpen: boolean) => void;
   isEdit?: boolean;
-  initialValues?: TechnicianFormType & { id: string };
+  initialValues?: ManagerFormType & { id: string };
 }) {
 
   const { toast } = useToast();
@@ -49,10 +49,10 @@ export function TechnicianForm({
   const [isSuccess, setIsSuccess] = useState(false);
   const router = useRouter();
 
-  const form = useForm<TechnicianFormType>({
-    resolver: zodResolver(technicianFormSchema),
+  const form = useForm<ManagerFormType>({
+    resolver: zodResolver(managerFormSchema),
     defaultValues: {
-      ...technicianFormDefaultValues,
+      ...managerFormDefaultValues,
       ...initialValues,
     },
   });
@@ -61,10 +61,10 @@ export function TechnicianForm({
     formState: { isSubmitting },
   } = form;
 
-  const onSubmit = async (values: TechnicianFormType) => {
+  const onSubmit = async (values: ManagerFormType) => {
 
     try {
-      const formData: CreateTechnicianInput = {
+      const formData: CreateManagerInput = {
         fullName: values.fullName,
         email: values.email,
         mobileTireVan: values.mobileTireVan,
@@ -72,23 +72,22 @@ export function TechnicianForm({
           values.profilePhoto instanceof File
             ? values.profilePhoto
             : initialValues?.profilePhoto?.id || null,
-        twilioPhone: Number(values.twilioPhone),
         mobilePhone: Number(values.mobilePhone),
         password: values.password,
       };
 
       if (isEdit && initialValues) {
-        const response = await updateTechnician(formData, initialValues.id);
+        const response = await updateManager(formData, initialValues.id);
         if (response.isSuccess) {
           toast({
-            title: "Technician updated successfully",
+            title: "Manager updated successfully",
           });
         }
       } else {
-        const response = await createTechnicianPayload(formData);
+        const response = await createManagerPayload(formData);
         if (response.isSuccess) {
           toast({
-            title: "Technician created successfully",
+            title: "Manager created successfully",
           });
         }
       }
@@ -101,7 +100,7 @@ export function TechnicianForm({
     } catch (error) {
       console.error("Form submission error:", error);
       toast({
-        title: "Failed to create technician",
+        title: "Failed to create manager",
       });
       // Add error handling here (e.g., show error message to user)
     }
@@ -132,7 +131,7 @@ export function TechnicianForm({
   return (
     <SheetContent className="sm:max-w-[500px]">
       <SheetHeader>
-        <SheetTitle>{isEdit ? "Edit Technician" : "Add Technician"}</SheetTitle>
+        <SheetTitle>{isEdit ? "Edit Manager" : "Add Manager"}</SheetTitle>
       </SheetHeader>
 
       <Form {...form}>
@@ -140,7 +139,7 @@ export function TechnicianForm({
           onSubmit={form.handleSubmit(onSubmit)}
           className="py-2 flex flex-col gap-4 h-full"
         >
-          <TechnicianFields
+          <ManagerFields
             form={form}
             setPreview={setPreview}
             preview={preview}

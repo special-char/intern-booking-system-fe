@@ -1,6 +1,6 @@
-import { TechniciansTemplate } from "@/modules/vans-techs/technicians/templates/technicians-template";
+import { ManagersTemplate } from "@/modules/vans-techs/technicians/templates/technicians-template";
 
-export default async function TechniciansPage({
+export default async function ManagersPage({
   searchParams,
 }: {
   searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
@@ -10,5 +10,5 @@ export default async function TechniciansPage({
   const limit = params.limit ? parseInt(params.limit as string) : 20;
   const search = params.search as string | undefined;
 
-  return <TechniciansTemplate page={page} limit={limit} search={search} />;
+  return <ManagersTemplate page={page} limit={limit} search={search} />;
 }
