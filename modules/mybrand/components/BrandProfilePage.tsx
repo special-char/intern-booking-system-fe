@@ -14,16 +14,18 @@ import { ColorPalettePreview } from './preview/ColorPalettePreview';
 import { FontPreview } from './preview/FontPreview';
 import { brandFormSchema } from './schema';
 import type { BrandFormData } from './types';
+import { BrandService } from '../services/brand.service';
 
 export default function BrandProfilePage() {
   const [isBrandEditOpen, setIsBrandEditOpen] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const { toast } = useToast();
 
   const form = useForm<BrandFormData>({
     resolver: zodResolver(brandFormSchema),
     defaultValues: {
-      brandLogo: "",
-      coverImage: "",
+      brandLogo: undefined,
+      coverImage: undefined,
       themeColors: {
         base: "#000000",
         lighter1: "#333333",
@@ -36,15 +38,29 @@ export default function BrandProfilePage() {
 
   const onSubmit = async (values: BrandFormData) => {
     try {
-      console.log(values);
-      toast({ title: "Brand images updated successfully" });
+      setIsSubmitting(true);
+      
+      // Validate required fields
+      if (!values.brandLogo?.file) {
+        throw new Error("Brand logo is required");
+      }
+      if (!values.coverImage?.file) {
+        throw new Error("Cover image is required");
+      }
+
+      await BrandService.createBrand(values);
+      toast({ title: "Brand created successfully" });
       setIsBrandEditOpen(false);
+      form.reset();
     } catch (error) {
+      console.error('Failed to create brand:', error);
       toast({
         title: "Error",
-        description: "Something went wrong. Please try again.",
+        description: error instanceof Error ? error.message : "Failed to create brand. Please try again.",
         variant: "destructive",
       });
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
@@ -57,11 +73,18 @@ export default function BrandProfilePage() {
             <SheetTrigger asChild>
               <Button>Add Brand</Button>
             </SheetTrigger>
-            <SheetContent>
+            <SheetContent className="overflow-y-auto">
               <SheetHeader>
                 <SheetTitle>Add Brand Images</SheetTitle>
               </SheetHeader>
-              <BrandForm form={form} onSubmit={onSubmit} onCancel={() => setIsBrandEditOpen(false)} />
+              <BrandForm 
+                form={form} 
+                onSubmit={onSubmit} 
+                onCancel={() => {
+                  setIsBrandEditOpen(false);
+                  form.reset();
+                }} 
+              />
             </SheetContent>
           </Sheet>
         </CardHeader>

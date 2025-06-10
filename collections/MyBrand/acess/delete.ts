@@ -1,13 +1,13 @@
 import type { Access } from 'payload'
 
-import type { Technician } from '../../../payload-types'
+import type { Mybrand } from '../../../payload-types'
 
 import { isSuperAdmin } from '../../../access/isSuperAdmin'
 import { getUserTenantIDs } from '../../../utilities/getUserTenantIDs'
 import { isOwner } from '@/access/isOwner'
 import { isManager } from '@/access/isManager'
 
-export const deleteAccess: Access<Technician> = ({ req }) => {
+export const deleteAccess: Access<Mybrand> = ({ req }) => {
   if (!req.user) {
     return false
   }

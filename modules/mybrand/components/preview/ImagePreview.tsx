@@ -1,16 +1,46 @@
+import { useEffect, useState } from "react";
 import { PreviewProps } from "../types";
 
 export function ImagePreview({ form }: PreviewProps) {
+  const [logoPreview, setLogoPreview] = useState<string>("");
+  const [coverPreview, setCoverPreview] = useState<string>("");
+
+  useEffect(() => {
+    const brandLogo = form.watch('brandLogo');
+    if (brandLogo?.file) {
+      setLogoPreview(URL.createObjectURL(brandLogo.file));
+    } else {
+      setLogoPreview("");
+    }
+
+    return () => {
+      if (logoPreview) URL.revokeObjectURL(logoPreview);
+    };
+  }, [form.watch('brandLogo')]);
+
+  useEffect(() => {
+    const coverImage = form.watch('coverImage');
+    if (coverImage?.file) {
+      setCoverPreview(URL.createObjectURL(coverImage.file));
+    } else {
+      setCoverPreview("");
+    }
+
+    return () => {
+      if (coverPreview) URL.revokeObjectURL(coverPreview);
+    };
+  }, [form.watch('coverImage')]);
+
   return (
     <div className="grid grid-cols-12 gap-6">
       {/* Logo */}
       <div className="col-span-4 space-y-2">
         <h3 className="text-sm font-medium text-gray-500">Brand Logo</h3>
         <div className="aspect-square w-full rounded-xl bg-gray-100 flex items-center justify-center overflow-hidden">
-          {form.getValues().brandLogo ? (
+          {logoPreview ? (
             <img 
-              src={form.getValues().brandLogo}
-              alt="Brand logo"
+              src={logoPreview}
+              alt={form.watch('brandLogo.alt') || "Brand logo"}
               className="w-full h-full object-contain"
             />
           ) : (
@@ -19,16 +49,21 @@ export function ImagePreview({ form }: PreviewProps) {
             </svg>
           )}
         </div>
+        {form.watch('brandLogo.alt') && (
+          <p className="text-sm text-gray-500 mt-1">
+            Alt: {form.watch('brandLogo.alt')}
+          </p>
+        )}
       </div>
 
       {/* Cover Image */}
       <div className="col-span-8 space-y-2">
         <h3 className="text-sm font-medium text-gray-500">Cover Image</h3>
         <div className="aspect-[2/1] w-full rounded-xl bg-gray-100 flex items-center justify-center overflow-hidden">
-          {form.getValues().coverImage ? (
+          {coverPreview ? (
             <img 
-              src={form.getValues().coverImage}
-              alt="Cover image"
+              src={coverPreview}
+              alt={form.watch('coverImage.alt') || "Cover image"}
               className="w-full h-full object-cover"
             />
           ) : (
@@ -37,6 +72,11 @@ export function ImagePreview({ form }: PreviewProps) {
             </svg>
           )}
         </div>
+        {form.watch('coverImage.alt') && (
+          <p className="text-sm text-gray-500 mt-1">
+            Alt: {form.watch('coverImage.alt')}
+          </p>
+        )}
       </div>
     </div>
   );

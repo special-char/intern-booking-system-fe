@@ -281,7 +281,7 @@ export interface Technician {
  */
 export interface Mybrand {
   id: number;
-  user?: string | null;
+  tenant?: (number | null) | Tenant;
   logo: number | Media;
   coverImage: number | Media;
   colorPalette: {
@@ -289,7 +289,37 @@ export interface Mybrand {
     value: string;
     id?: string | null;
   }[];
-  fontStyle: 'Inter' | 'Roboto' | 'Poppins' | 'Lato' | 'Montserrat';
+  fontStyle:
+    | 'inter'
+    | 'roboto'
+    | 'opensans'
+    | 'lato'
+    | 'poppins'
+    | 'montserrat'
+    | 'sourcesans'
+    | 'raleway'
+    | 'nunito'
+    | 'rubik'
+    | 'workSans'
+    | 'quicksand'
+    | 'manrope'
+    | 'dmsans'
+    | 'urbanist'
+    | 'playfair'
+    | 'merriweather'
+    | 'lora'
+    | 'crimsonPro'
+    | 'spectral'
+    | 'dmSerif'
+    | 'cormorant'
+    | 'josefinSans'
+    | 'comfortaa'
+    | 'righteous'
+    | 'bebasNeue'
+    | 'pacifico'
+    | 'firaCode'
+    | 'jetBrainsMono'
+    | 'robotomono';
   updatedAt: string;
   createdAt: string;
 }
@@ -550,7 +580,7 @@ export interface MediaSelect<T extends boolean = true> {
  * via the `definition` "mybrand_select".
  */
 export interface MybrandSelect<T extends boolean = true> {
-  user?: T;
+  tenant?: T;
   logo?: T;
   coverImage?: T;
   colorPalette?:

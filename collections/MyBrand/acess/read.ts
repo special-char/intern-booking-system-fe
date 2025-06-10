@@ -1,7 +1,9 @@
 import type { Access } from 'payload'
 import type { Mybrand } from '../../../payload-types'
 import { isSuperAdmin } from '../../../access/isSuperAdmin'
+import { getUserTenantIDs } from '../../../utilities/getUserTenantIDs'
 import { isOwner } from '@/access/isOwner'
+
 
 export const readAccess: Access<Mybrand> = async ({ req }) => {
   // If no user is logged in, deny access
@@ -10,15 +12,17 @@ export const readAccess: Access<Mybrand> = async ({ req }) => {
   }
 
   // Super admins can see all brands
-  if (isSuperAdmin(req.user)) {
+  if (isSuperAdmin(req.user) || isOwner(req.user) ) {
     return true
   }
 
-  // Owners can only see their own brand
-  if (isOwner(req.user)) {
+  // Check if user has tenant-admin access to any tenants
+  const adminTenantAccessIDs = getUserTenantIDs(req.user, 'tenant-admin')
+
+  if (adminTenantAccessIDs.length) {
     return {
-      user: {
-        equals: req.user.id,
+      tenant: {
+        in: adminTenantAccessIDs,
       },
     }
   }

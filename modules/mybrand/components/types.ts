@@ -9,6 +9,11 @@ export type ThemeColors = {
   darker: string;
 };
 
+export type ImageWithAlt = {
+  file: File;
+  alt: string;
+};
+
 export type BrandFormData = z.infer<typeof brandFormSchema>;
 
 export type BrandFormProps = {

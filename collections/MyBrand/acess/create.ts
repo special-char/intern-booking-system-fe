@@ -1,19 +1,17 @@
 import type { Access } from 'payload'
 
-import type { Technician } from '../../../payload-types'
 import type { Mybrand } from '../../../payload-types'
 
 import { isSuperAdmin } from '../../../access/isSuperAdmin'
 import { getUserTenantIDs } from '../../../utilities/getUserTenantIDs'
 import { isOwner } from '@/access/isOwner'
-import { isManager } from '@/access/isManager'
 
 export const createAccess: Access<Mybrand> = ({ req }) => {
   if (!req.user) {
     return false
   }
 
-  if (isSuperAdmin(req.user) || isOwner(req.user) || isManager(req.user)) {
+  if (isSuperAdmin(req.user) || isOwner(req.user)) {
     return true
   }
 

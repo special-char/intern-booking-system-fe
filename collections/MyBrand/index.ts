@@ -20,18 +20,18 @@ export const MyBrand: CollectionConfig = {
   // },
   timestamps: true,
   fields: [
-   
-    {
-      name: "user",
-      label: "User ID",
-      type: "text",
-      admin: {
-        position: "sidebar",
-      },
-      access: {
-        update: () => false,
-      },
-    },
+
+    // {
+    //   name: "user",
+    //   label: "User ID",
+    //   type: "text",
+    //   admin: {
+    //     position: "sidebar",
+    //   },
+    //   access: {
+    //     update: () => false,
+    //   },
+    // },
     {
       name: 'logo',
       label: 'Logo',
@@ -123,73 +123,89 @@ export const MyBrand: CollectionConfig = {
       type: 'select',
       required: true,
       options: [
-        {
-          label: 'Inter',
-          value: 'Inter',
-        },
-        {
-          label: 'Roboto',
-          value: 'Roboto',
-        },
-        {
-          label: 'Poppins',
-          value: 'Poppins',
-        },
-        {
-          label: 'Lato',
-          value: 'Lato',
-        },
-        {
-          label: 'Montserrat',
-          value: 'Montserrat',
-        },
+        { value: 'inter', label: 'Inter' },
+        { value: 'roboto', label: 'Roboto' },
+        { value: 'opensans', label: 'Open Sans' },
+        { value: 'lato', label: 'Lato' },
+        { value: 'poppins', label: 'Poppins' },
+        { value: 'montserrat', label: 'Montserrat' },
+        { value: 'sourcesans', label: 'Source Sans Pro' },
+        { value: 'raleway', label: 'Raleway' },
+        { value: 'nunito', label: 'Nunito' },
+        { value: 'rubik', label: 'Rubik' },
+        { value: 'workSans', label: 'Work Sans' },
+        { value: 'quicksand', label: 'Quicksand' },
+        { value: 'manrope', label: 'Manrope' },
+        { value: 'dmsans', label: 'DM Sans' },
+        { value: 'urbanist', label: 'Urbanist' },
+
+        // Serif fonts
+        { value: 'playfair', label: 'Playfair Display' },
+        { value: 'merriweather', label: 'Merriweather' },
+        { value: 'lora', label: 'Lora' },
+        { value: 'crimsonPro', label: 'Crimson Pro' },
+        { value: 'spectral', label: 'Spectral' },
+        { value: 'dmSerif', label: 'DM Serif Display' },
+        { value: 'cormorant', label: 'Cormorant' },
+
+        // Display and Decorative fonts
+        { value: 'josefinSans', label: 'Josefin Sans' },
+        { value: 'comfortaa', label: 'Comfortaa' },
+        { value: 'righteous', label: 'Righteous' },
+        { value: 'bebasNeue', label: 'Bebas Neue' },
+        { value: 'pacifico', label: 'Pacifico' },
+
+        // Monospace fonts
+        { value: 'firaCode', label: 'Fira Code' },
+        { value: 'jetBrainsMono', label: 'JetBrains Mono' },
+        { value: 'robotomono', label: 'Roboto Mono' }
       ],
       admin: {
         placeholder: 'Select a font style',
       },
-       // {
-    //   name: "name",
-    //   type: "text",
-    //   required: true,
-    // },
-    // {
-    //   name: "email",
-    //   type: "email",
-    //   required: true,
-    //   unique: true,
-    //   access: {
-    //     update: () => false,
-    //   },
-    // },
-    // {
-    //   name: "password",
-    //   type: "text",
-    //   required: true,
-    //   access: {
-    //     update: () => false,
-    //   },
-    // },
-    // {
-    //   name: "mobilePhone",
-    //   type: "number",
-    //   required: true,
-    // },
-    // {
-    //   name: "twilioPhone",
-    //   type: "number",
-    // },
-    // {
-    //   name: "profilePhoto",
-    //   type: "upload",
-    //   relationTo: "media",
-    // },
-    // {
-    //   name: "mobileTireVan",
-    //   label: "Mobile Tire Van",
-    //   type: "relationship",
-    //   relationTo: "vans",
-    //   hasMany: true,
-    // },
+      // {
+      //   name: "name",
+      //   type: "text",
+      //   required: true,
+      // },
+      // {
+      //   name: "email",
+      //   type: "email",
+      //   required: true,
+      //   unique: true,
+      //   access: {
+      //     update: () => false,
+      //   },
+      // },
+      // {
+      //   name: "password",
+      //   type: "text",
+      //   required: true,
+      //   access: {
+      //     update: () => false,
+      //   },
+      // },
+      // {
+      //   name: "mobilePhone",
+      //   type: "number",
+      //   required: true,
+      // },
+      // {
+      //   name: "twilioPhone",
+      //   type: "number",
+      // },
+      // {
+      //   name: "profilePhoto",
+      //   type: "upload",
+      //   relationTo: "media",
+      // },
+      // {
+      //   name: "mobileTireVan",
+      //   label: "Mobile Tire Van",
+      //   type: "relationship",
+      //   relationTo: "vans",
+      //   hasMany: true,
+      // },
 
     },
   ],
