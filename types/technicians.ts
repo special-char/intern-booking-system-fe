@@ -9,7 +9,7 @@ export interface Van {
   technician_id: string;
 }
 
-export interface Technician {
+export interface Manager {
   id: number;
   name: string;
   start_time: string;
@@ -20,16 +20,16 @@ export interface Technician {
   van: Van | null;
 }
 
-export interface GetTechniciansResponse {
-  technicians: Technician[];
+export interface GetManagersResponse {
+  technicians: Manager[];
 }
 
-export interface PostTechnicianResponse {
+export interface PostManagerResponse {
   isSuccess: boolean;
-  // technician: Technician;
+  // manager: Manager;
 }
 
-export interface TechnicianDTO {
+export interface ManagerDTO {
   id: number;
   name: string;
   email: string;
@@ -39,8 +39,8 @@ export interface TechnicianDTO {
   mobileTireVan: string;
 }
 
-export interface TechnicianPaginationDTO {
-  technicians: TechnicianDTO[];
+export interface ManagerPaginationDTO {
+  technicians: ManagerDTO[];
   count: number;
   offset: number;
   limit: number;
