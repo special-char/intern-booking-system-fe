@@ -179,9 +179,16 @@ export const menuItems = {
       isActive: false,
       isExpandable: false,
     },
-     {
+    {
       title: "Offer",
       url: "/offer",
+      icon: Landmark,
+      isActive: false,
+      isExpandable: false,
+    },
+    {
+      title: "Payment History",
+      url: "/payment",
       icon: Landmark,
       isActive: false,
       isExpandable: false,
