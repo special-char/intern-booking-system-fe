@@ -87,6 +87,14 @@ export const menuItems = {
       ],
     },
     {
+      title: "Venues",
+      url: "/venues",
+      icon: MapPin,
+      isActive: false,
+      isExpandable: false,
+      matchNested: true,
+    },
+    {
       title: "Courts",
       url: "/courts",
       icon: MapPin,
