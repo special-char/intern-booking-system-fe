@@ -5,6 +5,8 @@ import { MoreHorizontal, Eye, FileText, RotateCcw } from "lucide-react"
 import { StatusBadge } from "../StatusBadge"
 import { PaymentMethodIcon } from "../PaymentMethodIcon"
 import { RazorpayPayment } from "../../types"
+import jsPDF from "jspdf"
+import autoTable from "jspdf-autotable"
 
 interface PaymentTableRowProps {
    payment: RazorpayPayment
@@ -14,6 +16,51 @@ interface PaymentTableRowProps {
 }
 
 export function PaymentTableRow({ payment, index, onViewDetails, onRefund }: PaymentTableRowProps) {
+   const handleDownloadReceipt = () => {
+      const doc = new jsPDF()
+
+      // Add header
+      doc.setFontSize(20)
+      doc.text("Payment Receipt", 105, 20, { align: "center" })
+
+      // Add payment details
+      const details = [
+         ["Payment ID", payment.id || "N/A"],
+         ["Order ID", payment.order_id || "N/A"],
+         ["Email", payment.email || "N/A"],
+         ["Contact", payment.contact || "N/A"],
+         ["Amount", `₹${((payment.amount || 0) / 100).toFixed(2)}`],
+         ["Status", payment.status || "created"],
+         ["Payment Method", payment.method || "N/A"],
+         ["Date", new Date((payment.created_at || 0) * 1000).toLocaleDateString("en-US", {
+            month: "short",
+            day: "numeric",
+            year: "numeric",
+         })],
+      ]
+
+      if ((payment.amount_refunded || 0) > 0) {
+         details.push(["Refunded Amount", `₹${((payment.amount_refunded || 0) / 100).toFixed(2)}`])
+      }
+
+      autoTable(doc, {
+         startY: 30,
+         head: [["Field", "Value"]],
+         body: details,
+         theme: "grid",
+         headStyles: { fillColor: [79, 70, 229] },
+         styles: { fontSize: 10 },
+      })
+
+      // Add footer
+      const pageHeight = doc.internal.pageSize.height
+      doc.setFontSize(8)
+      doc.text("This is a computer-generated receipt and does not require a signature.", 105, pageHeight - 10, { align: "center" })
+
+      // Save the PDF
+      doc.save(`payment-receipt-${payment.id}.pdf`)
+   }
+
    return (
       <ShadcnTableRow
          className={`transition-colors ${index % 2 === 0 ? "bg-white" : "bg-gray-50"} hover:bg-indigo-50`}
@@ -70,7 +117,7 @@ export function PaymentTableRow({ payment, index, onViewDetails, onRefund }: Pay
                      <Eye className="w-4 h-4 mr-2" />
                      View Details
                   </DropdownMenuItem>
-                  <DropdownMenuItem>
+                  <DropdownMenuItem onClick={handleDownloadReceipt}>
                      <FileText className="w-4 h-4 mr-2" />
                      Download Receipt
                   </DropdownMenuItem>
