@@ -24,7 +24,8 @@ const defaultValues: VenueFormValues = {
   categories: [],
   description: "",
   address: {
-    street: "",
+    street1: "",
+    street2: "",
     city: "",
     pincode: "",
     state: "",

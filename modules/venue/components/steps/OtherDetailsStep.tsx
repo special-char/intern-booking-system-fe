@@ -2,7 +2,7 @@
 
 import { useState } from "react"
 import { useFormContext } from "react-hook-form"
-import { PlusIcon, XIcon } from "lucide-react"
+import { PlusIcon, XIcon, ChevronDownIcon } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
@@ -36,6 +36,7 @@ interface OtherDetailsStepProps extends StepProps {
 export function OtherDetailsStep({ onPrevious, onSubmit }: OtherDetailsStepProps) {
   const [newQuestion, setNewQuestion] = useState("")
   const [newAnswer, setNewAnswer] = useState("")
+  const [openFAQs, setOpenFAQs] = useState<Set<string>>(new Set())
 
   const { control, watch, setValue, trigger } = useFormContext<VenueFormValues>()
 
@@ -86,6 +87,24 @@ export function OtherDetailsStep({ onPrevious, onSubmit }: OtherDetailsStepProps
       faqs.filter((faq) => faq.id !== id),
       { shouldValidate: true },
     )
+    // Remove from open FAQs set when deleting
+    setOpenFAQs((prev) => {
+      const newSet = new Set(prev)
+      newSet.delete(id)
+      return newSet
+    })
+  }
+
+  const toggleFAQ = (faqId: string) => {
+    setOpenFAQs((prev) => {
+      const newSet = new Set(prev)
+      if (newSet.has(faqId)) {
+        newSet.delete(faqId)
+      } else {
+        newSet.add(faqId)
+      }
+      return newSet
+    })
   }
 
   return (
@@ -181,7 +200,7 @@ export function OtherDetailsStep({ onPrevious, onSubmit }: OtherDetailsStepProps
               type="button"
               onClick={addFAQ}
               disabled={!newQuestion.trim() || !newAnswer.trim()}
-              className="bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg shadow-sm hover:shadow-md transition-all"
+              className="w-full bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg shadow-sm hover:shadow-md transition-all"
             >
               <PlusIcon className="h-4 w-4 mr-2" />
               Add FAQ
@@ -190,28 +209,60 @@ export function OtherDetailsStep({ onPrevious, onSubmit }: OtherDetailsStepProps
 
           {faqs.length > 0 && (
             <div className="space-y-4">
-              <h4 className="font-medium text-sm">Added FAQs</h4>
-              {faqs.map((faq) => (
-                <Card key={faq.id} className="rounded-lg shadow-sm">
-                  <CardContent className="p-4">
-                    <div className="flex justify-between items-start gap-4">
-                      <div className="flex-1 space-y-2">
-                        <h5 className="font-medium text-sm">{faq.question}</h5>
-                        <p className="text-sm text-gray-600">{faq.answer}</p>
+              <div className="flex items-center justify-between">
+                <h4 className="font-medium text-sm">Added FAQs ({faqs.length})</h4>
+              </div>
+              <div className="space-y-2">
+                {faqs.map((faq) => {
+                  const isOpen = openFAQs.has(faq.id)
+
+                  return (
+                    <div key={faq.id} className="border rounded-lg overflow-hidden">
+                      <div className="flex items-center w-full">
+                        <button
+                          type="button"
+                          className="p-3 hover:bg-gray-50 transition-colors"
+                          onClick={() => toggleFAQ(faq.id)}
+                        >
+                          <ChevronDownIcon
+                            className={`h-4 w-4 transition-transform duration-200 ${
+                              isOpen ? "rotate-180" : "rotate-0"
+                            }`}
+                          />
+                        </button>
+
+                        <div
+                          className="flex-1 py-3 text-[15px] leading-6 cursor-pointer"
+                          onClick={() => toggleFAQ(faq.id)}
+                        >
+                          {faq.question}
+                        </div>
+
+                        <Button
+                          type="button"
+                          variant="ghost"
+                          size="sm"
+                          onClick={(e) => {
+                            e.stopPropagation()
+                            removeFAQ(faq.id)
+                          }}
+                          className="text-red-600 hover:text-red-700 hover:bg-red-50 h-8 w-8 p-0 rounded-md mr-3"
+                        >
+                          <XIcon className="h-4 w-4" />
+                        </Button>
                       </div>
-                      <Button
-                        type="button"
-                        variant="ghost"
-                        size="sm"
-                        onClick={() => removeFAQ(faq.id)}
-                        className="text-red-600 hover:text-red-700 hover:bg-red-50 h-8 w-8 p-0 rounded-md"
+
+                      <div
+                        className={`overflow-hidden transition-all duration-200 ease-in-out ${
+                          isOpen ? "max-h-96 opacity-100" : "max-h-0 opacity-0"
+                        }`}
                       >
-                        <XIcon className="h-4 w-4" />
-                      </Button>
+                        <div className="px-12 pb-4 text-muted-foreground">{faq.answer}</div>
+                      </div>
                     </div>
-                  </CardContent>
-                </Card>
-              ))}
+                  )
+                })}
+              </div>
             </div>
           )}
         </CardContent>

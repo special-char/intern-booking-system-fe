@@ -11,7 +11,7 @@ export function getColumns({ isLoading }: GetColumnsInterface): ColumnDef<any, s
     {
       header: ({ column }) => (
         <LoadingHeader isLoading={isLoading}>
-          <SortableHeader column={column}>Account Holder Name</SortableHeader>
+          <SortableHeader column={column} title="Account Holder Name" />
         </LoadingHeader>
       ),
       accessorKey: "accountHolderName",
@@ -23,7 +23,7 @@ export function getColumns({ isLoading }: GetColumnsInterface): ColumnDef<any, s
     {
       header: ({ column }) => (
         <LoadingHeader isLoading={isLoading}>
-          <SortableHeader column={column}>Bank Name</SortableHeader>
+          <SortableHeader column={column} title="Bank Name" />
         </LoadingHeader>
       ),
       accessorKey: "bankName",
@@ -35,7 +35,7 @@ export function getColumns({ isLoading }: GetColumnsInterface): ColumnDef<any, s
     {
       header: ({ column }) => (
         <LoadingHeader isLoading={isLoading}>
-          <SortableHeader column={column}>Account Number</SortableHeader>
+          <SortableHeader column={column} title="Account Number" />
         </LoadingHeader>
       ),
       accessorKey: "accountNumber",
@@ -49,7 +49,7 @@ export function getColumns({ isLoading }: GetColumnsInterface): ColumnDef<any, s
     {
       header: ({ column }) => (
         <LoadingHeader isLoading={isLoading}>
-          <SortableHeader column={column}>IFSC Code</SortableHeader>
+          <SortableHeader column={column} title="IFSC Code" />
         </LoadingHeader>
       ),
       accessorKey: "ifscCode",
@@ -61,7 +61,7 @@ export function getColumns({ isLoading }: GetColumnsInterface): ColumnDef<any, s
     {
       header: ({ column }) => (
         <LoadingHeader isLoading={isLoading}>
-          <SortableHeader column={column}>Venue</SortableHeader>
+          <SortableHeader column={column} title="Venue" />
         </LoadingHeader>
       ),
       accessorKey: "venue",

@@ -5,6 +5,7 @@ import { PlusIcon } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { VenueCard } from "./VenueCard"
 import { VenueFormDialog } from "./VenueFormDialog"
+import { VenuePreviewDialog } from "./VenuePreviewDialog"
 import type { Venue, VenueFormValues } from "../types"
 
 // Mock data for demonstration
@@ -15,7 +16,8 @@ const mockVenues: Venue[] = [
     categories: ["hotel", "wedding-venue"],
     description: "A luxurious hotel perfect for weddings and corporate events with stunning architecture.",
     address: {
-      street: "123 Main Street",
+      street1: "123 Main Street",
+      street2: "Near City Center",
       city: "Mumbai",
       pincode: "400001",
       state: "maharashtra",
@@ -34,7 +36,8 @@ const mockVenues: Venue[] = [
     categories: ["resort", "spa"],
     description: "Beautiful beachfront resort with amazing sunset views and world-class amenities.",
     address: {
-      street: "456 Beach Road",
+      street1: "456 Beach Road",
+      street2: "Calangute",
       city: "Goa",
       pincode: "403001",
       state: "goa",
@@ -52,7 +55,9 @@ const mockVenues: Venue[] = [
 export default function VenueListPage() {
   const [venues, setVenues] = useState<Venue[]>(mockVenues)
   const [isDialogOpen, setIsDialogOpen] = useState(false)
+  const [isPreviewOpen, setIsPreviewOpen] = useState(false)
   const [editingVenue, setEditingVenue] = useState<Venue | undefined>()
+  const [previewVenue, setPreviewVenue] = useState<Venue | undefined>()
 
   const handleAddVenue = (data: VenueFormValues) => {
     const newVenue: Venue = {
@@ -93,6 +98,11 @@ export default function VenueListPage() {
     setIsDialogOpen(true)
   }
 
+  const openPreviewDialog = (venue: Venue) => {
+    setPreviewVenue(venue)
+    setIsPreviewOpen(true)
+  }
+
   return (
     <div className="bg-gray-50 min-h-screen">
       <div className="max-w-7xl mx-auto p-4 md:p-8 lg:p-12">
@@ -121,7 +131,13 @@ export default function VenueListPage() {
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
             {venues.map((venue) => (
-              <VenueCard key={venue.id} venue={venue} onEdit={openEditDialog} onDelete={handleDeleteVenue} />
+              <VenueCard
+                key={venue.id}
+                venue={venue}
+                onEdit={openEditDialog}
+                onDelete={handleDeleteVenue}
+                onPreview={openPreviewDialog}
+              />
             ))}
           </div>
         )}
@@ -133,6 +149,8 @@ export default function VenueListPage() {
         onSubmit={editingVenue ? handleEditVenue : handleAddVenue}
         venue={editingVenue}
       />
+
+      {previewVenue && <VenuePreviewDialog open={isPreviewOpen} onOpenChange={setIsPreviewOpen} venue={previewVenue} />}
     </div>
   )
 }

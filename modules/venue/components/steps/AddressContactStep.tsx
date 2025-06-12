@@ -1,16 +1,15 @@
 "use client"
 
-import type React from "react"
-
 import { useState } from "react"
 import { useFormContext } from "react-hook-form"
-import { PlusIcon, XIcon, UploadIcon, PhoneIcon } from "lucide-react"
+import { PlusIcon, XIcon, ImageIcon, UploadIcon, PhoneIcon, AlertCircleIcon } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { FormField, FormItem, FormLabel, FormControl, FormMessage } from "@/components/shadcn/form"
 import { Combobox } from "@/components/shadcn/combobox"
 import { PhoneInputComponent } from "../ui/PhoneInputComponent"
+import { useFileUpload } from "@/hooks/use-file-upload"
 import { indianStates } from "../../data/indian-states"
 import type { StepProps, VenueFormValues } from "../../types"
 
@@ -22,16 +21,33 @@ export function AddressContactStep({ onNext, onPrevious }: StepProps) {
 
   const phoneNumbers = watch("phoneNumbers") || []
   const websiteLinks = watch("websiteLinks") || []
-  const photos = watch("photos") || []
+
+  const maxSizeMB = 5
+  const maxSize = maxSizeMB * 1024 * 1024 // 5MB
+  const maxFiles = 6
+
+  const [
+    { files, isDragging, errors },
+    { handleDragEnter, handleDragLeave, handleDragOver, handleDrop, openFileDialog, removeFile, getInputProps },
+  ] = useFileUpload({
+    accept: "image/svg+xml,image/png,image/jpeg,image/jpg,image/gif",
+    maxSize,
+    multiple: true,
+    maxFiles,
+  })
 
   const handleNext = async () => {
     const isValid = await trigger([
-      "address.street",
+      "address.street1",
       "address.city",
       "address.pincode",
       "address.state",
       "phoneNumbers",
     ])
+
+    // Update photos in form
+    const photoFiles = files.map((f) => f.file)
+    setValue("photos", photoFiles)
 
     if (isValid) {
       onNext()
@@ -86,17 +102,6 @@ export function AddressContactStep({ onNext, onPrevious }: StepProps) {
     )
   }
 
-  const handlePhotoUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const files = Array.from(event.target.files || [])
-    setValue("photos", [...photos, ...files], { shouldValidate: true })
-  }
-
-  const removePhoto = (index: number) => {
-    const newPhotos = [...photos]
-    newPhotos.splice(index, 1)
-    setValue("photos", newPhotos, { shouldValidate: true })
-  }
-
   return (
     <div className="space-y-8">
       <Card className="shadow-lg rounded-xl">
@@ -108,15 +113,35 @@ export function AddressContactStep({ onNext, onPrevious }: StepProps) {
             <div className="md:col-span-2">
               <FormField
                 control={control}
-                name="address.street"
+                name="address.street1"
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel className="text-sm font-medium">
-                      Street Address <span className="text-red-500">*</span>
+                      Street Address 1 <span className="text-red-500">*</span>
                     </FormLabel>
                     <FormControl>
                       <Input
                         placeholder="Enter street address"
+                        {...field}
+                        className="h-9 rounded-lg focus:border-indigo-500 focus:ring-2 focus:ring-indigo-100"
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </div>
+
+            <div className="md:col-span-2">
+              <FormField
+                control={control}
+                name="address.street2"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel className="text-sm font-medium">Street Address 2 (Optional)</FormLabel>
+                    <FormControl>
+                      <Input
+                        placeholder="Apartment, suite, etc."
                         {...field}
                         className="h-9 rounded-lg focus:border-indigo-500 focus:ring-2 focus:ring-indigo-100"
                       />
@@ -295,47 +320,70 @@ export function AddressContactStep({ onNext, onPrevious }: StepProps) {
           <CardTitle className="text-xl font-semibold">Photo Gallery</CardTitle>
         </CardHeader>
         <CardContent className="p-6">
-          <div className="space-y-4">
-            <div>
-              <input
-                type="file"
-                multiple
-                accept="image/*"
-                onChange={handlePhotoUpload}
-                className="hidden"
-                id="photos"
-              />
-              <Button
-                type="button"
-                variant="outline"
-                onClick={() => document.getElementById("photos")?.click()}
-                className="w-full rounded-lg h-9 border-dashed border-2 flex items-center justify-center gap-2"
-              >
-                <UploadIcon className="h-4 w-4" />
-                Upload Photos
-              </Button>
-            </div>
-
-            {photos.length > 0 && (
-              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-                {photos.map((photo, index) => (
-                  <div key={index} className="relative group">
-                    <img
-                      src={URL.createObjectURL(photo) || "/placeholder.svg"}
-                      alt={`Photo ${index + 1}`}
-                      className="w-full h-24 object-cover rounded-md"
-                    />
-                    <Button
-                      type="button"
-                      variant="destructive"
-                      size="sm"
-                      onClick={() => removePhoto(index)}
-                      className="absolute top-1 right-1 h-6 w-6 p-0 opacity-0 group-hover:opacity-100 transition-opacity rounded-full"
-                    >
-                      <XIcon className="h-3 w-3" />
+          <div className="flex flex-col gap-2">
+            {/* Drop area */}
+            <div
+              onDragEnter={handleDragEnter}
+              onDragLeave={handleDragLeave}
+              onDragOver={handleDragOver}
+              onDrop={handleDrop}
+              data-dragging={isDragging || undefined}
+              data-files={files.length > 0 || undefined}
+              className="border-input data-[dragging=true]:bg-accent/50 has-[input:focus]:border-ring has-[input:focus]:ring-ring/50 relative flex min-h-52 flex-col items-center overflow-hidden rounded-xl border border-dashed p-4 transition-colors not-data-[files]:justify-center has-[input:focus]:ring-[3px]"
+            >
+              <input {...getInputProps()} className="sr-only" aria-label="Upload image file" />
+              {files.length > 0 ? (
+                <div className="flex w-full flex-col gap-3">
+                  <div className="flex items-center justify-between gap-2">
+                    <h3 className="truncate text-sm font-medium">Uploaded Files ({files.length})</h3>
+                    <Button variant="outline" size="sm" onClick={openFileDialog} disabled={files.length >= maxFiles}>
+                      <UploadIcon className="-ms-0.5 size-3.5 opacity-60" aria-hidden="true" />
+                      Add more
                     </Button>
                   </div>
-                ))}
+
+                  <div className="grid grid-cols-2 gap-4 md:grid-cols-3">
+                    {files.map((file) => (
+                      <div key={file.id} className="bg-accent relative aspect-square rounded-md">
+                        <img
+                          src={file.preview || "/placeholder.svg"}
+                          alt={file.file.name}
+                          className="size-full rounded-[inherit] object-cover"
+                        />
+                        <Button
+                          onClick={() => removeFile(file.id)}
+                          size="icon"
+                          className="border-background focus-visible:border-background absolute -top-2 -right-2 size-6 rounded-full border-2 shadow-none"
+                          aria-label="Remove image"
+                        >
+                          <XIcon className="size-3.5" />
+                        </Button>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              ) : (
+                <div className="flex flex-col items-center justify-center px-4 py-3 text-center">
+                  <div
+                    className="bg-background mb-2 flex size-11 shrink-0 items-center justify-center rounded-full border"
+                    aria-hidden="true"
+                  >
+                    <ImageIcon className="size-4 opacity-60" />
+                  </div>
+                  <p className="mb-1.5 text-sm font-medium">Drop your images here</p>
+                  <p className="text-muted-foreground text-xs">SVG, PNG, JPG or GIF (max. {maxSizeMB}MB)</p>
+                  <Button variant="outline" className="mt-4" onClick={openFileDialog}>
+                    <UploadIcon className="-ms-1 opacity-60" aria-hidden="true" />
+                    Select images
+                  </Button>
+                </div>
+              )}
+            </div>
+
+            {errors.length > 0 && (
+              <div className="text-destructive flex items-center gap-1 text-xs" role="alert">
+                <AlertCircleIcon className="size-3 shrink-0" />
+                <span>{errors[0]}</span>
               </div>
             )}
           </div>

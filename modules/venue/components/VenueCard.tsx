@@ -1,6 +1,6 @@
 "use client"
 
-import { EditIcon, TrashIcon, MapPinIcon, PhoneIcon, GlobeIcon } from "lucide-react"
+import { EditIcon, TrashIcon, MapPinIcon, PhoneIcon, GlobeIcon, EyeIcon } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
@@ -11,9 +11,10 @@ interface VenueCardProps {
   venue: Venue
   onEdit: (venue: Venue) => void
   onDelete: (venueId: string) => void
+  onPreview: (venue: Venue) => void
 }
 
-export function VenueCard({ venue, onEdit, onDelete }: VenueCardProps) {
+export function VenueCard({ venue, onEdit, onDelete, onPreview }: VenueCardProps) {
   const getCategoryLabel = (id: string) => {
     return venueCategories.find((cat) => cat.id === id)?.label || id
   }
@@ -24,6 +25,15 @@ export function VenueCard({ venue, onEdit, onDelete }: VenueCardProps) {
         <div className="flex items-start justify-between">
           <CardTitle className="text-sm font-medium line-clamp-1">{venue.name}</CardTitle>
           <div className="flex gap-1">
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={() => onPreview(venue)}
+              className="text-blue-600 hover:text-blue-700 hover:bg-blue-50 h-8 w-8 p-0 rounded-md"
+            >
+              <EyeIcon className="h-4 w-4" />
+              <span className="sr-only">Preview</span>
+            </Button>
             <Button
               variant="ghost"
               size="sm"
@@ -70,7 +80,7 @@ export function VenueCard({ venue, onEdit, onDelete }: VenueCardProps) {
           <div className="flex items-center gap-2 text-sm text-gray-500">
             <MapPinIcon className="h-4 w-4 flex-shrink-0" />
             <span className="line-clamp-1">
-              {venue.address.city}, {venue.address.state}
+              {venue.address.street1}, {venue.address.city}
             </span>
           </div>
 

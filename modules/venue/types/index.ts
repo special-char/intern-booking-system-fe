@@ -27,7 +27,8 @@ export const venueFormSchema = z.object({
 
   // Address & Contact
   address: z.object({
-    street: z.string().min(1, "Street address is required"),
+    street1: z.string().min(1, "Street address is required"),
+    street2: z.string().optional(),
     city: z.string().min(1, "City is required"),
     pincode: z.string().min(6, "Valid pincode is required"),
     state: z.string().min(1, "State is required"),

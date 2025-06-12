@@ -20,20 +20,34 @@ interface BankingTemplateProps {
 
 export function BankingTemplate(props: BankingTemplateProps) {
   const { data, venues = [] } = props;
-  const [accounts, setAccounts] = useState(data);
+  const [accounts, setAccounts] = useState(data.map(acc => ({ ...acc, isEnabled: acc.isEnabled !== false })));
 
   const handleAddAccount = (newAccount: any) => {
     if (!newAccount.logo_url) {
       newAccount.logo_url = bankLogos[newAccount.bank_name] || defaultLogo;
     }
+    newAccount.isEnabled = true;
     setAccounts(prev => [...prev, newAccount]);
     dummyAccounts.push(newAccount);
   };
 
   const handleUpdateAccount = (updatedAccount: any) => {
     setAccounts(prev => prev.map(account => 
-      account.id === updatedAccount.id ? updatedAccount : account
+      account.id === updatedAccount.id ? { ...updatedAccount, isEnabled: updatedAccount.isEnabled !== false } : account
     ));
+  };
+
+  const handleToggleAccount = (accountId: string | number, newStatus: boolean) => {
+    setAccounts(prev => {
+      const enabledCount = prev.filter(acc => acc.isEnabled).length;
+      return prev.map(acc => {
+        if (acc.id === accountId) {
+          if (!newStatus && enabledCount === 1) return acc;
+          return { ...acc, isEnabled: newStatus };
+        }
+        return acc;
+      });
+    });
   };
 
   const handleDeleteAccount = (accountId: string | number) => {
@@ -57,6 +71,7 @@ export function BankingTemplate(props: BankingTemplateProps) {
           venues={venues}
           onDeleteAccount={handleDeleteAccount}
           onUpdateAccount={handleUpdateAccount}
+          onToggleAccount={handleToggleAccount}
         />
       </Suspense>
     </div>
