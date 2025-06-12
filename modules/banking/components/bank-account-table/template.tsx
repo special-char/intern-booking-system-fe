@@ -14,6 +14,7 @@ interface BankAccount {
   account_number: string;
   ifsc_code: string;
   venue: string;
+  isEnabled: boolean;
 }
 
 interface BankAccountTableTemplateProps {
@@ -21,10 +22,11 @@ interface BankAccountTableTemplateProps {
   venues: Venue[];
   onUpdateAccount: (account: BankAccount) => void;
   onDeleteAccount: (accountId: string | number) => void;
+  onToggleAccount: (accountId: string | number, newStatus: boolean) => void;
 }
 
 export function BankAccountTableTemplate(props: BankAccountTableTemplateProps) {
-  const { data, venues, onUpdateAccount, onDeleteAccount } = props;
+  const { data, venues, onUpdateAccount, onDeleteAccount, onToggleAccount } = props;
 
   return (
     <div className="mt-8">
@@ -33,6 +35,7 @@ export function BankAccountTableTemplate(props: BankAccountTableTemplateProps) {
         venues={venues}
         onUpdateAccount={onUpdateAccount}
         onDeleteAccount={onDeleteAccount}
+        onToggleAccount={onToggleAccount}
       />
     </div>
   );

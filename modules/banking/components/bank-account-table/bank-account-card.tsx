@@ -18,8 +18,10 @@ interface BankAccountCardProps {
     account_number: string;
     ifsc_code: string;
     venue: string;
+    isEnabled: boolean;
   };
   isOnlyAccount: boolean;
+  isEnabled: boolean;
   onToggle: (accountId: string | number, newStatus: boolean) => Promise<void>;
   venues: { value: string; label: string }[];
   onUpdateAccount: (account: any) => void;
@@ -29,6 +31,7 @@ interface BankAccountCardProps {
 export function BankAccountCard({ 
   account, 
   isOnlyAccount, 
+  isEnabled,
   onToggle, 
   venues,
   onUpdateAccount,
@@ -66,6 +69,15 @@ export function BankAccountCard({
   return (
     <Card className="group relative bg-white dark:bg-gray-900 rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300">
       <div className="p-5">
+        {/* Toggle in top-right */}
+        <div className="absolute top-4 right-4 z-10">
+          <BankAccountToggle
+            accountId={account.id}
+            isEnabled={isEnabled}
+            isOnlyAccount={isOnlyAccount}
+            onToggle={onToggle}
+          />
+        </div>
         <div className="flex items-start gap-4">
           {/* Left: Bank Logo/Icon */}
           <div className="flex-shrink-0 w-14 h-14 rounded-full bg-gray-100 dark:bg-gray-800 flex items-center justify-center overflow-hidden ring-1 ring-gray-200 dark:ring-gray-700">
@@ -94,14 +106,19 @@ export function BankAccountCard({
 
             <div className="mt-2 space-y-0.5">
               <div className="flex items-center gap-2 text-sm font-mono text-gray-500 dark:text-gray-400">
-                {showAccountNumber ? account.account_number : '****' + account.account_number.slice(-4)}
+                <span className="transition-opacity duration-200">
+                  {showAccountNumber 
+                    ? account.account_number 
+                    : '*'.repeat(account.account_number.length - 4) + account.account_number.slice(-4)
+                  }
+                </span>
                 <button
                   type="button"
                   aria-label={showAccountNumber ? 'Hide account number' : 'Show account number'}
                   onClick={() => setShowAccountNumber((v) => !v)}
                   className="ml-1 p-1 rounded-full hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
                 >
-                  <Info className="w-4 h-4 text-blue-500" />
+                  <Info className={`w-4 h-4 transition-colors duration-200 ${showAccountNumber ? 'text-blue-600' : 'text-blue-500'}`} />
                 </button>
               </div>
               <div className="text-sm text-gray-500 dark:text-gray-400">

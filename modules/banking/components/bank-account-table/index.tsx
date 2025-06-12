@@ -47,6 +47,7 @@ interface BankAccount {
   account_number: string;
   ifsc_code: string;
   venue: string;
+  isEnabled: boolean;
 }
 
 interface BankAccountTableProps {
@@ -54,9 +55,10 @@ interface BankAccountTableProps {
   venues: Venue[];
   onUpdateAccount: (account: BankAccount) => void;
   onDeleteAccount: (accountId: string | number) => void;
+  onToggleAccount: (accountId: string | number, newStatus: boolean) => void;
 }
 
-export function BankAccountTable({ data, venues, onUpdateAccount, onDeleteAccount }: BankAccountTableProps) {
+export function BankAccountTable({ data, venues, onUpdateAccount, onDeleteAccount, onToggleAccount }: BankAccountTableProps) {
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
       {data.map((account) => (
@@ -66,8 +68,9 @@ export function BankAccountTable({ data, venues, onUpdateAccount, onDeleteAccoun
           venues={venues}
           onUpdateAccount={onUpdateAccount}
           onDeleteAccount={onDeleteAccount}
-          isOnlyAccount={data.length === 1}
-          onToggle={async () => {}}
+          isOnlyAccount={data.filter(acc => acc.isEnabled).length === 1 && account.isEnabled}
+          isEnabled={account.isEnabled}
+          onToggle={async (id, status) => { onToggleAccount(id, status); }}
         />
       ))}
     </div>

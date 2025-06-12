@@ -26,6 +26,7 @@ import {
   addBankAccountFormSchema,
   addBankAccountFormDefaultValues,
   addBankAccountFormInitialValues,
+  commonBanks,
 } from "./add-bank-account-form.consts";
 import { Trash2 } from "lucide-react";
 
@@ -59,6 +60,7 @@ export function AddBankAccountForm({
     defaultValues: account
       ? addBankAccountFormInitialValues(account)
       : addBankAccountFormDefaultValues,
+    mode: "onChange",
   });
 
   const {
@@ -169,7 +171,40 @@ export function AddBankAccountForm({
                 <FormItem>
                   <FormLabel>Bank Name</FormLabel>
                   <FormControl>
-                    <Input placeholder="Enter bank name" {...field} />
+                    <div className="relative">
+                      <Input 
+                        placeholder="Enter bank name" 
+                        {...field} 
+                        list="bank-list"
+                        className="pr-8"
+                        autoComplete="off"
+                        onFocus={(e) => {
+                          // Only show suggestions if there's input
+                          if (!e.target.value) {
+                            e.target.setAttribute('list', '');
+                          } else {
+                            e.target.setAttribute('list', 'bank-list');
+                          }
+                        }}
+                        onChange={(e) => {
+                          field.onChange(e);
+                          // Show/hide datalist based on input
+                          if (e.target.value) {
+                            e.target.setAttribute('list', 'bank-list');
+                          } else {
+                            e.target.setAttribute('list', '');
+                          }
+                        }}
+                      />
+                      <datalist 
+                        id="bank-list" 
+                        className="absolute z-50 w-full bg-white border border-gray-200 rounded-md shadow-lg mt-1"
+                      >
+                        {commonBanks.map((bank) => (
+                          <option key={bank} value={bank} />
+                        ))}
+                      </datalist>
+                    </div>
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -187,7 +222,38 @@ export function AddBankAccountForm({
                       placeholder="Enter account number"
                       {...field}
                       type="text"
-                      value={field.value}
+                      inputMode="numeric"
+                      pattern="[0-9]*"
+                      value={field.value || ""}
+                      onChange={(e) => {
+                        const value = e.target.value.replace(/[^0-9]/g, '');
+                        field.onChange(value);
+                      }}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            <FormField
+              control={form.control}
+              name="confirmAccountNumber"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Confirm Account Number</FormLabel>
+                  <FormControl>
+                    <Input
+                      placeholder="Re-enter account number"
+                      {...field}
+                      type="password"
+                      inputMode="numeric"
+                      pattern="[0-9]*"
+                      value={field.value || ""}
+                      onChange={(e) => {
+                        const value = e.target.value.replace(/[^0-9]/g, '');
+                        field.onChange(value);
+                      }}
                     />
                   </FormControl>
                   <FormMessage />
@@ -202,7 +268,24 @@ export function AddBankAccountForm({
                 <FormItem>
                   <FormLabel>IFSC Code</FormLabel>
                   <FormControl>
-                    <Input placeholder="Enter IFSC code" {...field} />
+                    <Input
+                      placeholder="Enter IFSC code"
+                      {...field}
+                      value={field.value || ""}
+                      onChange={(e) => {
+                        // Convert to uppercase immediately as user types
+                        const value = e.target.value.toUpperCase();
+                        field.onChange(value);
+                      }}
+                      maxLength={11}
+                      onKeyPress={(e) => {
+                        // Allow only letters and numbers
+                        const char = String.fromCharCode(e.which);
+                        if (!/[A-Za-z0-9]/.test(char)) {
+                          e.preventDefault();
+                        }
+                      }}
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -238,7 +321,7 @@ export function AddBankAccountForm({
             />
           </div>
 
-          <SheetFooter className="flex flex-col gap-2 px-4">
+          <SheetFooter className="flex flex-row gap-2 px-4">
             {isEdit && onDelete && (
               <Button
                 type="button"
@@ -251,7 +334,7 @@ export function AddBankAccountForm({
                 {isDeleting ? "Deleting..." : "Delete Account"}
               </Button>
             )}
-            <Button variant="secondary" type="button" className="w-full" onClick={() => setIsOpen(false)}>
+            <Button variant="outline" type="button" className="w-full" onClick={() => setIsOpen(false)}>
               Cancel
             </Button>
             <Button type="submit" className="w-full" disabled={isSubmitting}>
