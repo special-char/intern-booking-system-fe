@@ -7,27 +7,39 @@ export function ImagePreview({ form }: PreviewProps) {
 
   useEffect(() => {
     const brandLogo = form.watch('brandLogo');
+    console.log('Brand logo data:', brandLogo);
     if (brandLogo?.file) {
       setLogoPreview(URL.createObjectURL(brandLogo.file));
+    } else if (brandLogo?.url) {
+      console.log('Setting logo preview URL:', brandLogo.url);
+      setLogoPreview(brandLogo.url);
     } else {
       setLogoPreview("");
     }
 
     return () => {
-      if (logoPreview) URL.revokeObjectURL(logoPreview);
+      if (logoPreview && logoPreview.startsWith('blob:')) {
+        URL.revokeObjectURL(logoPreview);
+      }
     };
   }, [form.watch('brandLogo')]);
 
   useEffect(() => {
     const coverImage = form.watch('coverImage');
+    console.log('Cover image data:', coverImage);
     if (coverImage?.file) {
       setCoverPreview(URL.createObjectURL(coverImage.file));
+    } else if (coverImage?.url) {
+      console.log('Setting cover preview URL:', coverImage.url);
+      setCoverPreview(coverImage.url);
     } else {
       setCoverPreview("");
     }
 
     return () => {
-      if (coverPreview) URL.revokeObjectURL(coverPreview);
+      if (coverPreview && coverPreview.startsWith('blob:')) {
+        URL.revokeObjectURL(coverPreview);
+      }
     };
   }, [form.watch('coverImage')]);
 

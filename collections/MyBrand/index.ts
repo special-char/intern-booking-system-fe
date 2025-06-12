@@ -5,6 +5,7 @@ import { deleteAccess } from "./acess/delete";
 import { updateAccess } from "./acess/update";
 import { readAccess } from "./acess/read";
 import { validateUniqueColorRoles } from "./hooks/validateUniqueColorRoles";
+import { deleteMediaWithBrand } from "./hooks/deleteMediaWithBrand";
 
 
 export const MyBrand: CollectionConfig = {
@@ -15,9 +16,9 @@ export const MyBrand: CollectionConfig = {
     read: readAccess,
     update: updateAccess,
   },
-  // admin: {
-  //   useAsTitle: "name",
-  // },
+  admin: {
+    useAsTitle: 'id',
+  },
   timestamps: true,
   fields: [
 
@@ -206,8 +207,17 @@ export const MyBrand: CollectionConfig = {
       //   relationTo: "vans",
       //   hasMany: true,
       // },
-
+       
     },
+    // {
+    //   name: 'tenant',
+    //   type: 'relationship',
+    //   relationTo: 'tenants',
+    //   required: true,
+    // },
   ],
+  hooks: {
+    afterDelete: [deleteMediaWithBrand],
+  },
 };
 
