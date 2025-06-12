@@ -3,7 +3,7 @@
 import { Tabs, TabsList, TabsTrigger } from "@/components/shadcn/tabs";
 import { useNestedPathname } from "@/hooks/use-nested-pathname";
 import { useTabs } from "@/hooks/use-tabs";
-import { Calendar, List, Route, Table2 } from "lucide-react";
+import { Calendar, List } from "lucide-react";
 
 export function OrdersTabs() {
   const { path } = useNestedPathname({})
@@ -28,14 +28,6 @@ export function OrdersTabs() {
         <TabsTrigger value="calendar-view">
           <Calendar className={iconClassname} />
           Calendar
-        </TabsTrigger>
-        <TabsTrigger value="map-view">
-          <Table2 className={iconClassname} />
-          Map
-        </TabsTrigger>
-        <TabsTrigger value="route-view">
-          <Route className={iconClassname} />
-          Route
         </TabsTrigger>
       </TabsList>
     </Tabs>

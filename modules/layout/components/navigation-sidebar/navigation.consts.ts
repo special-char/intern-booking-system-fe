@@ -35,23 +35,11 @@ export const menuItems = {
     },
     {
       title: "Orders",
-      url: "#",
+      url: "/orders/list-view",
       icon: ShoppingCart,
       isActive: false,
-      isExpandable: true,
-      permissionSkip: true,
-      items: [
-        {
-          title: "List view",
-          url: "/orders/list-view",
-          permissionSkip: true,
-        },
-        {
-          title: "Calendar view",
-          url: "/orders/calendar-view",
-          permissionSkip: true,
-        },
-      ],
+      isExpandable: false,
+      matchNested: true,
     },
     {
       title: "My brand",
