@@ -11,60 +11,51 @@ export function PaymentDetailsModal({ payment, onClose }: PaymentDetailsModalPro
    if (!payment) return null
 
    return (
-      <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
-         <Card className="max-w-2xl w-full max-h-[80vh] overflow-auto">
-            <CardHeader>
+      <div className="fixed inset-0 bg-black/30 backdrop-blur-sm flex items-center justify-center z-50 p-4">
+         <Card className="max-w-2xl w-full max-h-[80vh] overflow-auto shadow-2xl">
+            <CardHeader className="border-b bg-gray-50">
                <div className="flex items-center justify-between">
-                  <h3 className="text-lg font-semibold">Payment Details</h3>
-                  <Button variant="ghost" size="sm" onClick={onClose}>
+                  <h3 className="text-xl font-semibold text-gray-900">Payment Details</h3>
+                  <Button variant="ghost" size="sm" onClick={onClose} className="hover:bg-gray-200">
                      ×
                   </Button>
                </div>
             </CardHeader>
-            <CardContent className="space-y-4">
-               <div className="grid grid-cols-2 gap-4 text-sm">
-                  <div>
+            <CardContent className="p-6 space-y-6">
+               <div className="grid grid-cols-1 md:grid-cols-2 gap-6 text-sm">
+                  <div className="space-y-1">
                      <span className="font-medium text-gray-600">Payment ID:</span>
-                     <p className="font-mono">{payment.id}</p>
+                     <p className="font-mono text-gray-900">{payment.id}</p>
                   </div>
-                  <div>
+                  <div className="space-y-1">
                      <span className="font-medium text-gray-600">Amount:</span>
-                     <p>₹{(payment.amount / 100).toFixed(2)}</p>
+                     <p className="text-gray-900">₹{(payment.amount / 100).toFixed(2)}</p>
                   </div>
-                  <div>
+                  <div className="space-y-1">
                      <span className="font-medium text-gray-600">Status:</span>
-                     <p className="capitalize">{payment.status}</p>
+                     <p className="capitalize text-gray-900">{payment.status}</p>
                   </div>
-                  <div>
+                  <div className="space-y-1">
                      <span className="font-medium text-gray-600">Method:</span>
-                     <p className="capitalize">{payment.method}</p>
+                     <p className="capitalize text-gray-900">{payment.method}</p>
                   </div>
-                  <div>
+                  <div className="space-y-1">
                      <span className="font-medium text-gray-600">Email:</span>
-                     <p>{payment.email}</p>
+                     <p className="text-gray-900">{payment.email}</p>
                   </div>
-                  <div>
+                  <div className="space-y-1">
                      <span className="font-medium text-gray-600">Contact:</span>
-                     <p>{payment.contact}</p>
+                     <p className="text-gray-900">{payment.contact}</p>
                   </div>
-                  <div>
+                  <div className="space-y-1">
                      <span className="font-medium text-gray-600">Created:</span>
-                     <p>{new Date(payment.created_at * 1000).toLocaleString()}</p>
+                     <p className="text-gray-900">{new Date(payment.created_at * 1000).toLocaleString()}</p>
                   </div>
-                  <div>
+                  <div className="space-y-1">
                      <span className="font-medium text-gray-600">Currency:</span>
-                     <p>{payment.currency}</p>
+                     <p className="text-gray-900">{payment.currency}</p>
                   </div>
                </div>
-
-               {payment.notes && Object.keys(payment.notes).length > 0 && (
-                  <div>
-                     <span className="font-medium text-gray-600">Notes:</span>
-                     <pre className="text-xs bg-gray-100 p-2 rounded mt-1 overflow-auto">
-                        {JSON.stringify(payment.notes, null, 2)}
-                     </pre>
-                  </div>
-               )}
             </CardContent>
          </Card>
       </div>
