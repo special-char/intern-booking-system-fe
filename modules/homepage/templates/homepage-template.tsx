@@ -1,18 +1,20 @@
 "use client";
 
-// import { Calendar as BigCalendar, Views } from "react-big-calendar";
-// import "react-big-calendar/lib/css/react-big-calendar.css";
-// import { localizer } from "@/lib/calendar-utils";
-
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Button } from "@/components/shadcn/button";
 import { BookOpen } from "lucide-react";
+import axios from "axios";
+import { jsPDF } from "jspdf";
+import autoTable from "jspdf-autotable";
+import { EventCalendar, type CalendarEvent } from "@/components/event-calendar";
+
 import {
   Card,
   CardContent,
   CardHeader,
   CardTitle,
 } from "@/components/shadcn/card";
+
 import {
   Select,
   SelectContent,
@@ -20,6 +22,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/shadcn/select";
+
 import {
   Calendar,
   Download,
@@ -28,8 +31,7 @@ import {
   Activity,
   BarChart3,
 } from "lucide-react";
-import { jsPDF } from "jspdf";
-import autoTable from "jspdf-autotable";
+
 import {
   BarChart,
   Bar,
@@ -50,8 +52,6 @@ import {
   PolarRadiusAxis,
   Radar,
 } from "recharts";
-
-import { EventCalendar, type CalendarEvent } from "@/components/event-calendar";
 
 // Mock data for cricket bookings
 const dailyBookings = [
@@ -116,6 +116,40 @@ const COLORS = [
 export function CricketDashboard() {
   const [timeRange, setTimeRange] = useState("weekly");
   const [events, setEvents] = useState<CalendarEvent[]>([]);
+  const [orders, setOrders] = useState([]);
+  // const [orders, setOrders] = useState<Order[]>([]);
+  const [totalRevenue, setTotalRevenue] = useState(0);
+  const [totalBookings, setTotalBookings] = useState(0);
+
+  console.log("Orders: ", orders);
+  console.log("Counts", totalBookings);
+  console.log("Revenue: ", totalRevenue);
+
+  useEffect(() => {
+    const fetchOrders = async () => {
+      try {
+        const res = await axios.get("/api/nylas/admin-orders");
+        const medusa_orders = res.data.orders;
+        const count = medusa_orders.length;
+
+        setTotalBookings(count);
+        setOrders(medusa_orders);
+
+        // Calculate total revenue from `original_order_total`
+        const total = medusa_orders.reduce((sum: number, order: any) => {
+          return sum + (order.summary.paid_total || 0);
+        }, 0);
+
+        // console.log("Total revenue :", total)
+
+        setTotalRevenue(total); // Make sure setTotalRevenue is defined in your state
+      } catch (error) {
+        console.error("Failed to fetch orders", error);
+      }
+    };
+
+    fetchOrders();
+  }, []);
 
   const handleEventAdd = (event: CalendarEvent) => {
     setEvents([...events, event]);
@@ -130,14 +164,14 @@ export function CricketDashboard() {
   };
 
   // Calculate summary statistics
-  const totalRevenue = monthlyBookings.reduce(
-    (sum, month) => sum + month.revenue,
-    0
-  );
-  const totalBookings = monthlyBookings.reduce(
-    (sum, month) => sum + month.bookings,
-    0
-  );
+  // const totalRevenuee = monthlyBookings.reduce(
+  //   (sum, month) => sum + month.revenue,
+  //   0
+  // );
+  // const totalBookingss = monthlyBookings.reduce(
+  //   (sum, month) => sum + month.bookings,
+  //   0
+  // );
   const averageBookingValue = totalRevenue / totalBookings;
   const peakUtilization = Math.max(
     ...courtUtilization.map((court) => court.utilization)
@@ -221,8 +255,8 @@ export function CricketDashboard() {
         {/* Action Buttons */}
         <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
           <div className="flex items-center gap-3">
-            {/* <Select value={timeRange} onValueChange={setTimeRange}> */}
-            {/* <SelectTrigger className="w-36 border-gray-300 rounded-lg text-gray-700 hover:border-gray-400 transition-colors">
+            <Select value={timeRange} onValueChange={setTimeRange}>
+              <SelectTrigger className="w-36 border-gray-300 rounded-lg text-gray-700 hover:border-gray-400 transition-colors">
                 <SelectValue placeholder="Time Range" />
               </SelectTrigger>
               <SelectContent className="rounded-lg shadow-lg">
@@ -230,10 +264,10 @@ export function CricketDashboard() {
                 <SelectItem value="weekly">Weekly</SelectItem>
                 <SelectItem value="monthly">Monthly</SelectItem>
                 <SelectItem value="yearly">Yearly</SelectItem>
-              </SelectContent> */}
-            {/* </Select> */}
+              </SelectContent>
+            </Select>
             <Button onClick={openModal}>
-              <BookOpen className="w-4 h-4 mr-2"  />
+              <BookOpen className="w-4 h-4 mr-2" />
               View Bookings
             </Button>
           </div>
@@ -279,7 +313,7 @@ export function CricketDashboard() {
                   +15.2% from last period
                 </div>
                 <div className="absolute top-6 right-6">
-                  <div className="rounded-full bg-blue-100 p-1 shadow-inner">
+                  <div className="rounded-fullz bg-blue-100 p-1 shadow-inner">
                     <BarChart3 className="w-4 h-4 text-blue-600" />
                   </div>
                 </div>
@@ -321,7 +355,7 @@ export function CricketDashboard() {
                 </div>
                 <div className="mt-3 flex items-baseline">
                   <span className="text-3xl font-bold text-gray-900">
-                    ₹{averageBookingValue.toFixed(0)}
+                    ₹{averageBookingValue.toFixed(2)}
                   </span>
                 </div>
                 <div className="mt-3 flex items-center text-sm text-green-600 font-medium">
@@ -367,9 +401,8 @@ export function CricketDashboard() {
         {/* <div className="container mx-auto"> */}
         {/* <div className="container mx-auto relative border border-gray-200 rounded-xl shadow-lg bg-white overflow-hidden"> */}
         {isModalOpen && (
-          <div className="fixed inset-0 z-50 h-screen w-screen flex items-center justify-center backdrop-blur-sm bg-white/30">
-
-            <div className="bg-white rounded-xl shadow-xl p-6 w-full max-w-4xl max-h-[80vh] overflow-y-auto relative scrollbar-hide">
+          <div className="fixed inset-0 z-50 h-screen w-screen flex items-center justify-center bg-white/30">
+            <div className="bg-white rounded-xl shadow-xl p-6 w-full max-w-4xl max-h-[80vh] overflow-y-auto relative scrollbar-hide border border-black/20">
               <button
                 onClick={closeModal}
                 className="absolute top-4 right-4 text-gray-500 hover:text-gray-800"
