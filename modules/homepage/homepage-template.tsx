@@ -53,6 +53,8 @@ import {
   Radar,
 } from "recharts";
 
+import { bookingData } from "./bookingData";
+
 // Mock data for cricket bookings
 const dailyBookings = [
   { day: "Mon", bookings: 12, revenue: 6000 },
@@ -114,6 +116,7 @@ const COLORS = [
 
 // Main Cricket Dashboard Template
 export function CricketDashboard() {
+  
   const [timeRange, setTimeRange] = useState("weekly");
   const [events, setEvents] = useState<CalendarEvent[]>([]);
   const [orders, setOrders] = useState([]);
@@ -124,6 +127,8 @@ export function CricketDashboard() {
   console.log("Orders: ", orders);
   console.log("Counts", totalBookings);
   console.log("Revenue: ", totalRevenue);
+
+  const juneData = bookingData["June"];
 
   useEffect(() => {
     const fetchOrders = async () => {
