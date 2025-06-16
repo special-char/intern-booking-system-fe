@@ -15,20 +15,24 @@ import { FontPreview } from './preview/FontPreview';
 import { brandFormSchema } from './schema';
 import type { BrandFormData } from './types';
 import { BrandService } from '../services/brand.service';
-import { Loader2 } from 'lucide-react';
+import { Loader2, X } from 'lucide-react';
 import { useRouter } from 'next/navigation';
+import { getUser } from '@/lib/data/admin';
+import { Tenant } from '@/payload-types';
 
-// Default configurations
 const DEFAULT_FONT = 'Inter';
-const DEFAULT_LOGO = {
-  file: undefined,
-  alt: 'Default Brand Logo',
-  url: '/images/mybrand/logo.png'
-};
-const DEFAULT_COVER_IMAGE = {
-  file: undefined,
-  alt: 'Default Cover Image',
-  url: '/images/mybrand/cover.jpg'
+
+// Function to generate default SVG logo
+const generateSVGLogo = (initials: string) => {
+  const svg = `
+    <svg width="100" height="100" xmlns="http://www.w3.org/2000/svg">
+      <circle cx="50" cy="50" r="50" fill="#1D4ED8" />
+      <text x="50%" y="55%" text-anchor="middle" fill="white" font-size="35" font-family="Arial" dy=".3em">
+        ${initials.toUpperCase()}
+      </text>
+    </svg>
+  `;
+  return `data:image/svg+xml;base64,${btoa(svg)}`;
 };
 
 export default function BrandProfilePage() {
@@ -36,14 +40,29 @@ export default function BrandProfilePage() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const [brand, setBrand] = useState<any>(null);
+  const [tenantInitials, setTenantInitials] = useState<string>("");
   const { toast } = useToast();
   const router = useRouter();
+
+  useEffect(() => {
+    const fetchTenantInfo = async () => {
+      const { user } = await getUser();
+      const tenantName = (user?.tenants?.[0]?.tenant as Tenant)?.name || '';
+      const initials = tenantName.split(' ').map(word => word[0]).join('').slice(0, 2);
+      setTenantInitials(initials);
+    };
+    fetchTenantInfo();
+  }, []);
 
   const form = useForm<BrandFormData>({
     resolver: zodResolver(brandFormSchema),
     defaultValues: {
-      brandLogo: DEFAULT_LOGO,
-      coverImage: DEFAULT_COVER_IMAGE,
+      brandLogo: {
+        file: undefined,
+        alt: 'Default Brand Logo',
+        url: generateSVGLogo(tenantInitials),
+      },
+      coverImage: undefined, // Cover image is optional now
       themeColors: {
         base: "#000000",
         lighter1: "#333333",
@@ -54,6 +73,19 @@ export default function BrandProfilePage() {
     },
   });
 
+  useEffect(() => {
+    if (tenantInitials) {
+      form.reset({
+        ...form.getValues(), // Keep existing values
+        brandLogo: {
+          file: undefined,
+          alt: 'Default Brand Logo',
+          url: generateSVGLogo(tenantInitials),
+        },
+      });
+    }
+  }, [tenantInitials]);
+
   const fetchBrand = useCallback(async () => {
     try {
       setIsLoading(true);
@@ -61,8 +93,7 @@ export default function BrandProfilePage() {
       if (brands.docs.length > 0) {
         const brandData = brands.docs[0];
         setBrand(brandData);
-        console.log('Brand data from API:', brandData);
-        // Map the color palette to our form structure
+
         const colorPalette = {
           base: brandData.colorPalette.find(c => c.name === 'primary')?.value || '#000000',
           lighter1: brandData.colorPalette.find(c => c.name === 'light1')?.value || '#333333',
@@ -70,27 +101,30 @@ export default function BrandProfilePage() {
           darker: brandData.colorPalette.find(c => c.name === 'dark')?.value || '#000000',
         };
 
-        const formData = {
+        const formData: BrandFormData = {
           themeColors: colorPalette,
           fontFamily: brandData.fontStyle || DEFAULT_FONT,
           brandLogo: {
             file: undefined,
-            alt: brandData.logo?.alt || DEFAULT_LOGO.alt,
-            url: brandData.logo?.url || DEFAULT_LOGO.url
+            alt: brandData.logo?.alt || 'Default Brand Logo',
+            url: brandData.logo?.url || generateSVGLogo(tenantInitials)
           },
-          coverImage: {
+          coverImage: brandData.coverImage ? {
             file: undefined,
-            alt: brandData.coverImage?.alt || DEFAULT_COVER_IMAGE.alt,
-            url: brandData.coverImage?.url || DEFAULT_COVER_IMAGE.url
-          }
+            alt: brandData.coverImage?.alt || '',
+            url: brandData.coverImage?.url || ''
+          } : undefined
         };
-        console.log('Form data being set:', formData);
         form.reset(formData);
       } else {
         setBrand(null);
         form.reset({
-          brandLogo: DEFAULT_LOGO,
-          coverImage: DEFAULT_COVER_IMAGE,
+          brandLogo: {
+            file: undefined,
+            alt: 'Default Brand Logo',
+            url: generateSVGLogo(tenantInitials),
+          },
+          coverImage: undefined,
           themeColors: {
             base: "#000000",
             lighter1: "#333333",
@@ -110,7 +144,7 @@ export default function BrandProfilePage() {
     } finally {
       setIsLoading(false);
     }
-  }, [form, toast]);
+  }, [form, toast, tenantInitials]);
 
   useEffect(() => {
     fetchBrand();
@@ -120,16 +154,6 @@ export default function BrandProfilePage() {
     try {
       setIsSubmitting(true);
       
-      // Only require images if creating a new brand
-      if (!brand) {
-        if (!values.brandLogo?.file) {
-          throw new Error("Brand logo is required");
-        }
-        if (!values.coverImage?.file) {
-          throw new Error("Cover image is required");
-        }
-      }
-
       if (brand) {
         // Update existing brand
         await BrandService.updateBrand(brand.id, values, router);
@@ -141,7 +165,6 @@ export default function BrandProfilePage() {
       }
       
       setIsBrandEditOpen(false);
-      // Fetch updated brand data
       await fetchBrand();
     } catch (error) {
       console.error('Failed to save brand:', error);
@@ -166,26 +189,15 @@ export default function BrandProfilePage() {
   return (
     <div className="container max-w-6xl mx-auto px-4 py-8">
       <Card>
-        <CardHeader className="flex flex-row items-center justify-between">
-          <CardTitle>Brand Profile</CardTitle>
+        <CardHeader className="flex flex-row items-center justify-between p-6">
+          <CardTitle className="text-2xl font-bold">My Brand Profile</CardTitle>
           <Sheet open={isBrandEditOpen} onOpenChange={setIsBrandEditOpen}>
             <SheetTrigger asChild>
-              <Button disabled={isSubmitting}>
-                {isSubmitting ? (
-                  <>
-                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                    Saving...
-                  </>
-                ) : brand ? (
-                  'Edit Brand'
-                ) : (
-                  'Add Brand'
-                )}
-              </Button>
+              <Button>{brand ? "Edit Brand" : "Add Brand"}</Button>
             </SheetTrigger>
-            <SheetContent className="overflow-y-auto">
-              <SheetHeader>
-                <SheetTitle>{brand ? 'Edit Brand' : 'Add Brand'}</SheetTitle>
+            <SheetContent className="w-full sm:max-w-md flex flex-col overflow-y-auto">
+              <SheetHeader className="pb-4">
+                <SheetTitle>{brand ? "Edit Brand Profile" : "Add New Brand Profile"}</SheetTitle>
               </SheetHeader>
               <BrandForm 
                 form={form} 
@@ -193,8 +205,12 @@ export default function BrandProfilePage() {
                 onCancel={() => {
                   setIsBrandEditOpen(false);
                   form.reset({
-                    brandLogo: DEFAULT_LOGO,
-                    coverImage: DEFAULT_COVER_IMAGE,
+                    brandLogo: {
+                      file: undefined,
+                      alt: 'Default Brand Logo',
+                      url: generateSVGLogo(tenantInitials),
+                    },
+                    coverImage: undefined,
                     themeColors: {
                       base: "#000000",
                       lighter1: "#333333",
@@ -206,8 +222,12 @@ export default function BrandProfilePage() {
                 }} 
                 onResetToDefault={() => {
                   form.reset({
-                    brandLogo: DEFAULT_LOGO,
-                    coverImage: DEFAULT_COVER_IMAGE,
+                    brandLogo: {
+                      file: undefined,
+                      alt: 'Default Brand Logo',
+                      url: generateSVGLogo(tenantInitials),
+                    },
+                    coverImage: undefined,
                     themeColors: {
                       base: "#000000",
                       lighter1: "#333333",

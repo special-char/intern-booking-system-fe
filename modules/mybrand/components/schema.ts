@@ -41,7 +41,7 @@ export const brandFormSchema = z.object({
   }).optional(),
   coverImage: z.object({
     file: z.instanceof(File).optional(),
-    alt: z.string().min(1, "Alt text is required for cover image"),
+    alt: z.string().optional(),
     url: z.string().optional()
   }).optional(),
   themeColors: z.object({

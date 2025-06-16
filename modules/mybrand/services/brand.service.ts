@@ -17,6 +17,17 @@ class BrandServiceError extends Error {
 }
 
 export class BrandService {
+  private static generateDefaultSVGLogo(initials: string): string {
+    return `
+      <svg width="100" height="100" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="50" cy="50" r="50" fill="#1D4ED8" />
+        <text x="50%" y="55%" text-anchor="middle" fill="white" font-size="35" font-family="Arial" dy=".3em">
+          ${initials.toUpperCase()}
+        </text>
+      </svg>
+    `;
+  }
+
   private static async uploadMedia(imageWithAlt: ImageWithAlt): Promise<string> {
     if (!imageWithAlt?.file) {
       throw new BrandServiceError('No file provided for upload');
@@ -159,28 +170,38 @@ export class BrandService {
       const tenantId = (user?.tenants?.[0]?.tenant as Tenant)?.id;
       const authHeaders = await getPayloadAuthHeaders();
 
-      // Validate required files
-      if (!validatedData.brandLogo?.file) {
-        throw new BrandServiceError('Brand logo is required', 'VALIDATION_ERROR');
-      }
-      if (!validatedData.coverImage?.file) {
-        throw new BrandServiceError('Cover image is required', 'VALIDATION_ERROR');
-      }
-
-      // Upload media files
-      const [logoId, coverId] = await Promise.all([
-        this.uploadMedia(validatedData.brandLogo),
-        this.uploadMedia(validatedData.coverImage),
-      ]);
+      // Get tenant name for default logo
+      const tenantName = (user?.tenants?.[0]?.tenant as Tenant)?.name || '';
+      const initials = tenantName.split(' ').map(word => word[0]).join('').slice(0, 2);
 
       // Create brand payload
-      const brandData = {
-        logo: logoId,
-        coverImage: coverId,
+      const brandData: any = {
         colorPalette: this.formatColorPalette(validatedData.themeColors),
-        fontStyle: validatedData.fontFamily,
+        fontStyle: validatedData.fontFamily.toLowerCase(),
         tenant: tenantId,
+        coverImage: null,
       };
+
+      // Handle logo - use default SVG if no file provided
+      if (validatedData.brandLogo?.file) {
+        brandData.logo = await this.uploadMedia(validatedData.brandLogo);
+      } else {
+        // Create a Blob from the SVG string
+        const svgBlob = new Blob([this.generateDefaultSVGLogo(initials)], { type: 'image/svg+xml' });
+        const svgFile = new File([svgBlob], 'default-logo.svg', { type: 'image/svg+xml' });
+        const defaultLogo: ImageWithAlt = {
+          file: svgFile,
+          alt: `${initials} Logo`
+        };
+        brandData.logo = await this.uploadMedia(defaultLogo);
+      }
+
+      // Handle cover image - make it optional
+      if (validatedData.coverImage?.file) {
+        brandData.coverImage = await this.uploadMedia(validatedData.coverImage);
+      }
+
+      console.log('Brand data being sent to API:', JSON.stringify(brandData, null, 2));
 
       const response = await fetch(`${API_BASE_URL}/api/mybrand?depth=0&fallback-locale=null`, {
         method: 'POST',
@@ -195,6 +216,7 @@ export class BrandService {
 
       if (!response.ok) {
         const error = await response.json();
+        console.error('API Error Response:', error);
         throw new BrandServiceError(
           error.message || 'Failed to create brand',
           'CREATE_ERROR',
@@ -225,17 +247,32 @@ export class BrandService {
       const tenantId = (user?.tenants?.[0]?.tenant as Tenant)?.id;
       const authHeaders = await getPayloadAuthHeaders();
 
-      // Upload any new images if provided
+      // Get tenant name for default logo if needed
+      const tenantName = (user?.tenants?.[0]?.tenant as Tenant)?.name || '';
+      const initials = tenantName.split(' ').map(word => word[0]).join('').slice(0, 2);
+
+      // Create brand payload
       const brandData: any = {
         colorPalette: this.formatColorPalette(validatedData.themeColors),
-        fontStyle: validatedData.fontFamily,
+        fontStyle: validatedData.fontFamily.toLowerCase(),
         tenant: tenantId,
       };
 
+      // Handle logo - use default SVG if no file provided
       if (validatedData.brandLogo?.file) {
         brandData.logo = await this.uploadMedia(validatedData.brandLogo);
+      } else if (!data.brandLogo?.url) {
+        // Only create default logo if there's no existing logo
+        const svgBlob = new Blob([this.generateDefaultSVGLogo(initials)], { type: 'image/svg+xml' });
+        const svgFile = new File([svgBlob], 'default-logo.svg', { type: 'image/svg+xml' });
+        const defaultLogo: ImageWithAlt = {
+          file: svgFile,
+          alt: `${initials} Logo`
+        };
+        brandData.logo = await this.uploadMedia(defaultLogo);
       }
 
+      // Handle cover image - make it optional
       if (validatedData.coverImage?.file) {
         brandData.coverImage = await this.uploadMedia(validatedData.coverImage);
       }

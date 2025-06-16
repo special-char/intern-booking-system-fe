@@ -45,7 +45,7 @@ export const MyBrand: CollectionConfig = {
       label: 'Cover Image',
       type: 'upload',
       relationTo: 'media',
-      required: true,
+      required: false,
     },
     {
       name: 'colorPalette',

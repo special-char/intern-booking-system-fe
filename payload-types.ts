@@ -326,7 +326,7 @@ export interface Mybrand {
   id: number;
   tenant?: (number | null) | Tenant;
   logo: number | Media;
-  coverImage: number | Media;
+  coverImage?: (number | null) | Media;
   colorPalette: {
     name: 'primary' | 'light1' | 'light2' | 'dark';
     value: string;
