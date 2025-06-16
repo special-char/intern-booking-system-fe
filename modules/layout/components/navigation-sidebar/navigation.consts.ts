@@ -176,21 +176,14 @@ import {
   Grid2X2,
   Map,
   Building2,
-  BadgeCheck,
-  Calendar,
   ShoppingCart,
   CircleDollarSign,
-  HelpCircle,
-  Landmark,
-  Factory,
-  Asterisk,
   Layers3,
   DollarSign,
   Users,
   Percent,
   Tags,
   List,
-  Palette,
 } from "lucide-react";
 
 export const menuItems = {
@@ -245,21 +238,21 @@ export const menuItems = {
         },
       ],
     },
-
-    {
-      title: "My brand",
-      url: "/brand",
-      icon: Palette,
-      isActive: false,
-      isExpandable: false,
-    },
-    {
-      title: "Manager",
-      url: "/manager",
-      icon: BadgeCheck,
-      isActive: false,
-      isExpandable: false,
-    },
+    //come in setting page
+    // {
+    //   title: "My brand",
+    //   url: "/brand",
+    //   icon: Palette,
+    //   isActive: false,
+    //   isExpandable: false,
+    // },
+    // {
+    //   title: "Manager",
+    //   url: "/manager",
+    //   icon: BadgeCheck,
+    //   isActive: false,
+    //   isExpandable: false,
+    // },
     {
       title: "Orders",
       url: "/orders",
@@ -274,22 +267,34 @@ export const menuItems = {
       isActive: false,
       isExpandable: false,
     },
-
-    // Optionally, keep these for future expansion:
-
-    {
-      title: "Banking",
-      url: "/banking",
-      icon: Landmark,
-      isActive: false,
-      isExpandable: false,
-    },
+    // come in setting page
+    // {
+    //   title: "Banking",
+    //   url: "/banking",
+    //   icon: Landmark,
+    //   isActive: false,
+    //   isExpandable: false,
+    // },
     {
       title: "Customers",
-      url: "/customers",
       icon: Users,
-      isActive: false,
-      isExpandable: false,
+      isExpandable: true,
+      items: [
+        {
+          title: "List",
+          url: "/customers/customers",
+          icon: List,
+          payloadCollection: "customers",
+          permissionSkip: true,
+        },
+        {
+          title: "Groups",
+          url: "/customers/groups",
+          icon: Users,
+          payloadCollection: "customerGroups",
+          permissionSkip: true,
+        },
+      ],
     },
     {
       title: "Promotion",

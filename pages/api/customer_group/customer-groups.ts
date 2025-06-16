@@ -1,10 +1,12 @@
+// pages/api/customer-groups.ts
+
 import type { NextApiRequest, NextApiResponse } from "next";
 
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
-  const API_URL = `${process.env.NEXT_PUBLIC_MEDUSA_BACKEND_URL}/admin/customers`;
+  const API_URL = `${process.env.NEXT_PUBLIC_MEDUSA_BACKEND_URL}/admin/customer-groups`;
   const ACCESS_TOKEN = process.env.NEXT_PUBLIC_MEDUSA_SECRET_API_KEY;
 
   if (!API_URL || !ACCESS_TOKEN) {
@@ -13,7 +15,6 @@ export default async function handler(
 
   try {
     const encodedToken = Buffer.from(ACCESS_TOKEN).toString("base64");
-    console.log("Encoded Basic Auth token:", encodedToken);
 
     const response = await fetch(API_URL, {
       headers: {
@@ -24,12 +25,13 @@ export default async function handler(
 
     const data = await response.json();
 
-    console.log("API response status:", response.status);
-    console.log("API response data:", data);
-
     res.status(response.status).json(data);
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error("Fetch failed:", error);
-    res.status(500).json({ error: error.message || "Internal Server Error" });
+    if (error instanceof Error) {
+      res.status(500).json({ error: error.message || "Internal Server Error" });
+    } else {
+      res.status(500).json({ error: "Internal Server Error" });
+    }
   }
 }
