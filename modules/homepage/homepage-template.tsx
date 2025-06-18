@@ -53,12 +53,6 @@ import {
   Radar,
 } from "recharts";
 
-import { bookingData } from "./bookingData";
-import {
-  calculateTimeSlotPopularity,
-  calculateCourtUtilization,
-} from "./bookingData";
-
 // Mock data for cricket bookings
 const dailyBookings = [
   { day: "Mon", bookings: 12, revenue: 6000 },
@@ -79,22 +73,22 @@ const monthlyBookings = [
   { month: "Jun", bookings: 250, revenue: 125000 },
 ];
 
-// const timeSlotPopularity = [
-//   { name: "6AM-9AM", value: 15 },
-//   { name: "9AM-12PM", value: 10 },
-//   { name: "12PM-3PM", value: 8 },
-//   { name: "3PM-6PM", value: 12 },
-//   { name: "6PM-9PM", value: 30 },
-//   { name: "9PM-12AM", value: 25 },
-// ];
+const timeSlotPopularity = [
+  { name: "6AM-9AM", value: 15 },
+  { name: "9AM-12PM", value: 10 },
+  { name: "12PM-3PM", value: 8 },
+  { name: "3PM-6PM", value: 12 },
+  { name: "6PM-9PM", value: 30 },
+  { name: "9PM-12AM", value: 25 },
+];
 
-// const courtUtilization = [
-//   { court: "Court 1", utilization: 85 },
-//   { court: "Court 2", utilization: 75 },
-//   { court: "Court 3", utilization: 90 },
-//   { court: "Court 4", utilization: 65 },
-//   { court: "Court 5", utilization: 80 },
-// ];
+const courtUtilization = [
+  { court: "Court 1", utilization: 85 },
+  { court: "Court 2", utilization: 75 },
+  { court: "Court 3", utilization: 90 },
+  { court: "Court 4", utilization: 65 },
+  { court: "Court 5", utilization: 80 },
+];
 
 const customerSegmentation = [
   { name: "Regular", value: 55 },
@@ -122,26 +116,98 @@ const COLORS = [
 export function CricketDashboard() {
   // Default Time Period
   const [timeRange, setTimeRange] = useState("daily");
-  console.log("time range:", timeRange);
 
   // Calender view modal
-  const [events, setEvents] = useState<CalendarEvent[]>([]);
+  const [events, setEvents] = useState<CalendarEvent[]>([
+    {
+      id: "1",
+      title: "Morning Cricket Session",
+      description: "Regular morning practice session",
+      start: new Date(
+        new Date().getFullYear(),
+        new Date().getMonth(),
+        new Date().getDate(),
+        8,
+        0
+      ), // Today at 8:00 AM
+      end: new Date(
+        new Date().getFullYear(),
+        new Date().getMonth(),
+        new Date().getDate(),
+        10,
+        0
+      ), // Today at 10:00 AM
+      color: "sky", // Sky blue color
+      location: "Court 1",
+    },
+    {
+      id: "2",
+      title: "Afternoon Match",
+      description: "Friendly match with local team",
+      start: new Date(
+        new Date().getFullYear(),
+        new Date().getMonth(),
+        new Date().getDate(),
+        14,
+        0
+      ), // Today at 2:00 PM
+      end: new Date(
+        new Date().getFullYear(),
+        new Date().getMonth(),
+        new Date().getDate(),
+        16,
+        0
+      ), // Today at 4:00 PM
+      color: "emerald", // Green color
+      location: "Court 2",
+    },
+    {
+      id: "3",
+      title: "Evening Training",
+      description: "Advanced skills training",
+      start: new Date(
+        new Date().getFullYear(),
+        new Date().getMonth(),
+        new Date().getDate(),
+        22,
+        0
+      ), // Today at 6:00 PM
+      end: new Date(
+        new Date().getFullYear(),
+        new Date().getMonth(),
+        new Date().getDate(),
+        23,
+        59
+      ), // Today at 8:00 PM
+      color: "amber", // Amber color
+      location: "Court 3",
+    },
+    {
+      id: "4",
+      title: "Weekend Tournament",
+      description: "Local cricket tournament",
+      start: new Date(
+        new Date().getFullYear(),
+        new Date().getMonth(),
+        new Date().getDate() + 3,
+        9,
+        0
+      ), // 3 days from today at 9:00 AM
+      end: new Date(
+        new Date().getFullYear(),
+        new Date().getMonth(),
+        new Date().getDate() + 3,
+        17,
+        0
+      ), // 3 days from today at 5:00 PM
+      color: "rose", // Red color
+      location: "All Courts",
+    },
+  ]);
+
   const [isModalOpen, setIsModalOpen] = useState(false);
   const openModal = () => setIsModalOpen(true);
   const closeModal = () => setIsModalOpen(false);
-
-  // All Calender Events
-  const handleEventAdd = (event: CalendarEvent) => {
-    setEvents([...events, event]);
-  };
-
-  const handleEventUpdate = (updatedEvent: CalendarEvent) => {
-    setEvents(events.map((e) => (e.id === updatedEvent.id ? updatedEvent : e)));
-  };
-
-  const handleEventDelete = (eventId: string) => {
-    setEvents(events.filter((e) => e.id !== eventId));
-  };
 
   // PDF Export Handler
   const handleExportPDF = () => {
@@ -178,7 +244,7 @@ export function CricketDashboard() {
     const courtHeaders = ["Court", "Utilization (%)"];
     const courtData = courtUtilization.map((court) => [
       court.court,
-      court.utilization,
+      // court.utilization,
     ]);
 
     autoTable(doc, {
@@ -208,123 +274,41 @@ export function CricketDashboard() {
   console.log("Medusa total revenue: ", medusaTotalRevenue);
 
   // To get data from medusa
-  // useEffect(() => {
-  //   const fetchOrders = async () => {
-  //     try {
-  //       const res = await axios.get("/api/nylas/admin-orders");
-  //       const medusa_orders = res.data.orders;
-  //       const medusa_orders_count = medusa_orders.length;
+  useEffect(() => {
+    const fetchOrders = async () => {
+      try {
+        const res = await axios.get("/api/nylas/admin-orders");
+        const medusa_orders = res.data.orders;
+        const medusa_orders_count = medusa_orders.length;
 
-  //       // Calculate medusa total revenue from `paid_total`
-  //       const medusa_total_revenue = medusa_orders.reduce(
-  //         (sum: number, order: any) => {
-  //           return sum + (order.summary.paid_total || 0);
-  //         },
-  //         0
-  //       );
+        // Calculate medusa total revenue from `paid_total`
+        const medusa_total_revenue = medusa_orders.reduce(
+          (sum: number, order: any) => {
+            return sum + (order.summary.paid_total || 0);
+          },
+          0
+        );
 
-  //       setMedusaOrders(medusa_orders);
-  //       setMedusaTotalBookings(medusa_orders_count);
-  //       setMedusaTotalRevenue(medusa_total_revenue);
-  //     } catch (error) {
-  //       console.error("Failed to fetch orders", error);
-  //     }
-  //   };
-  //   fetchOrders();
-  // }, []);
-  
+        setMedusaOrders(medusa_orders);
+        setMedusaTotalBookings(medusa_orders_count);
+        setMedusaTotalRevenue(medusa_total_revenue);
+      } catch (error) {
+        console.error("Failed to fetch orders", error);
+      }
+    };
+    fetchOrders();
+  }, []);
+
   // Medusa Average Revenue (Total Revenue / Total Bookings)
   const medusa_average_booking_value = medusaTotalRevenue / medusaTotalBookings;
 
-  // Custom Data
-  const [customDataTotalRevenue, setCustomDataTotalRevenue] = useState(0);
-  const [customDataTotalBookings, setCustomDataTotalBookings] = useState(0);
-
-  console.log("Custom Data Total Revenue : ", customDataTotalRevenue);
-  console.log("Custom Data Total Bookings : ", customDataTotalBookings);
-
-  // Custom Data
-  const juneData = bookingData["June"];
-
-  // To get custom data
-  // useEffect(() => {
-  //   const custom_data_total_revenue = juneData.total.revenue;
-  //   const custom_data_total_bookings = juneData.total.bookings;
-
-  //   setCustomDataTotalRevenue(custom_data_total_revenue);
-  //   setCustomDataTotalBookings(custom_data_total_bookings);
-  // }, []);
-  useEffect(() => {
-  let totalRevenue = 0;
-  let totalBookings = 0;
-
-  const today = new Date().toISOString().split("T")[0]; // e.g., "2025-06-15"
-  const currentMonth = "June";
-  const monthData = bookingData[currentMonth];
-
-  monthData.weeks.forEach((week) => {
-    if (timeRange === "weekly") {
-      const currentWeekStart = new Date(today);
-      currentWeekStart.setDate(currentWeekStart.getDate() - currentWeekStart.getDay()); // Sunday
-
-      const currentWeekEnd = new Date(currentWeekStart);
-      currentWeekEnd.setDate(currentWeekStart.getDate() + 6); // Saturday
-
-      const isWeekInRange = week.days.some((day) => {
-        const checkDate = new Date(day.date);
-        return checkDate >= currentWeekStart && checkDate <= currentWeekEnd;
-      });
-
-      if (isWeekInRange) {
-        totalRevenue += week.total.revenue;
-        totalBookings += week.total.bookings;
-      }
-    }
-
-    week.days.forEach((day) => {
-      const date = day.date;
-
-      if (timeRange === "daily" && date === today) {
-        totalRevenue += day.revenue;
-        totalBookings += day.bookings.length;
-      }
-
-      if (timeRange === "monthly") {
-        totalRevenue += day.revenue;
-        totalBookings += day.bookings.length;
-      }
-
-      if (timeRange === "yearly") {
-        totalRevenue += day.revenue;
-        totalBookings += day.bookings.length;
-      }
-    });
-  });
-
-  setCustomDataTotalRevenue(totalRevenue);
-  setCustomDataTotalBookings(totalBookings);
-}, [timeRange]);
-
-
-
-  // Custom Data Average Revenue (Total Revenue / Total Bookings)
-  const custom_data_average_booking_value =
-    customDataTotalRevenue / customDataTotalBookings;
-
-  // Time slot popularity
-  const timeSlotPopularity = calculateTimeSlotPopularity(bookingData["June"]);
-  console.log("time slot: ", timeSlotPopularity);
-
-  // Court Utilization
-  const courtUtilization = calculateCourtUtilization(bookingData["June"]);
-  console.log("Court Utilization: ", courtUtilization);
-
   // Peak Court Utilization
-  //  peakCourt.court        // Court 1
-  // peakCourt.utilization   // 100
   const peakCourt = courtUtilization.reduce((maxCourt, currentCourt) =>
-    currentCourt.utilization > maxCourt.utilization ? currentCourt : maxCourt
+    currentCourt.utilization > maxCourt.utilization
+      ? currentCourt
+      : maxCourt
   );
+  console.log("Peak Court:", peakCourt);
 
   return (
     <div className="min-h-screen bg-gray-50 pt-2 pb-8 px-4 md:px-8 lg:px-12 font-sans antialiased ">
@@ -360,6 +344,26 @@ export function CricketDashboard() {
             </Button>
           </div>
 
+          {/* Calender */}
+          {isModalOpen && (
+            <div className="fixed inset-0 z-50 h-screen w-screen flex items-center justify-center bg-white/30">
+              <div className="bg-white rounded-xl shadow-xl p-6 w-full max-w-4xl max-h-[80vh] overflow-y-auto relative scrollbar-hide border border-black/20">
+                <button
+                  onClick={closeModal}
+                  className="absolute top-4 right-4 text-gray-500 hover:text-gray-800"
+                >
+                  ✕
+                </button>
+
+                <h2 className="text-xl font-semibold mb-4">All Bookings</h2>
+
+                <EventCalendar
+                  events={events}
+                />
+              </div>
+            </div>
+          )}
+
           {/* Export Report Button */}
           <div className="flex items-center gap-3">
             <Button
@@ -372,7 +376,6 @@ export function CricketDashboard() {
           </div>
         </div>
 
-        {/* {juneData.weeks.map((week) => ( */}
         {/* Summary Cards Section */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
           {/* Total Revenue Card */}
@@ -384,14 +387,8 @@ export function CricketDashboard() {
                 </div>
                 <div className="mt-3 flex items-baseline">
                   <span className="text-3xl font-bold text-gray-900">
-                    {/* Medusa Revenue */}
-                    {/* ₹
+                    ₹
                     {medusaTotalRevenue.toLocaleString("en-IN", {
-                      maximumFractionDigits: 0,
-                      minimumFractionDigits: 0,
-                    })} */}
-                    {/* Custom Revenue */}₹
-                    {customDataTotalRevenue.toLocaleString("en-IN", {
                       maximumFractionDigits: 0,
                       minimumFractionDigits: 0,
                     })}
@@ -402,7 +399,7 @@ export function CricketDashboard() {
                   +15.2% from last period
                 </div>
                 <div className="absolute top-6 right-6">
-                  <div className="rounded-fullz bg-blue-100 p-1 shadow-inner">
+                  <div className="rounded-full bg-blue-100 p-1 shadow-inner">
                     <BarChart3 className="w-4 h-4 text-blue-600" />
                   </div>
                 </div>
@@ -419,11 +416,7 @@ export function CricketDashboard() {
                 </div>
                 <div className="mt-3 flex items-baseline">
                   <span className="text-3xl font-bold text-gray-900">
-                    {/* Medusa Bookings*/}
-                    {/* {medusaTotalBookings} */}
-
-                    {/* Custom Bookings */}
-                    {customDataTotalBookings}
+                    {medusaTotalBookings}
                   </span>
                 </div>
                 <div className="mt-3 flex items-center text-sm text-green-600 font-medium">
@@ -448,10 +441,8 @@ export function CricketDashboard() {
                 </div>
                 <div className="mt-3 flex items-baseline">
                   <span className="text-3xl font-bold text-gray-900">
-                    {/* Medusa Avg Booking Value */}
-                    {/* ₹{medusa_average_booking_value.toFixed(2)} */}
-                    {/* Custom Data Avg Booking Value */}₹
-                    {custom_data_average_booking_value.toFixed(2)}
+                    ₹
+                    {medusa_average_booking_value.toFixed(2)}
                   </span>
                 </div>
                 <div className="mt-3 flex items-center text-sm text-green-600 font-medium">
@@ -477,8 +468,7 @@ export function CricketDashboard() {
                 </div>
                 <div className="mt-3 flex items-baseline">
                   <span className="text-3xl font-bold text-gray-900">
-                    {peakCourt.court} {/* Gives Court name */}
-                    {/* {peakCourt.utilization} Gives Max Utilization */}
+                    {peakCourt.court}
                   </span>
                 </div>
                 <div className="mt-3 flex items-center text-sm text-green-600 font-medium">
@@ -494,31 +484,6 @@ export function CricketDashboard() {
             </CardContent>
           </Card>
         </div>
-
-        {/* Calender */}
-        {/* <div className="container mx-auto"> */}
-        {/* <div className="container mx-auto relative border border-gray-200 rounded-xl shadow-lg bg-white overflow-hidden"> */}
-        {isModalOpen && (
-          <div className="fixed inset-0 z-50 h-screen w-screen flex items-center justify-center bg-white/30">
-            <div className="bg-white rounded-xl shadow-xl p-6 w-full max-w-4xl max-h-[80vh] overflow-y-auto relative scrollbar-hide border border-black/20">
-              <button
-                onClick={closeModal}
-                className="absolute top-4 right-4 text-gray-500 hover:text-gray-800"
-              >
-                ✕
-              </button>
-
-              <h2 className="text-xl font-semibold mb-4">All Bookings</h2>
-
-              <EventCalendar
-                events={events}
-                onEventAdd={handleEventAdd}
-                onEventUpdate={handleEventUpdate}
-                onEventDelete={handleEventDelete}
-              />
-            </div>
-          </div>
-        )}
 
         {/* Charts Section - First Row */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
@@ -795,6 +760,7 @@ export function CricketDashboard() {
           </Card>
         </div>
       </div>
+      
       {/* Add CSS for custom scrollbar */}
       <style>{`
         /* Hide scrollbar for Chrome, Safari and Opera */
