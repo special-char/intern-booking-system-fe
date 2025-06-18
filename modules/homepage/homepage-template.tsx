@@ -200,6 +200,7 @@ export function CricketDashboard() {
           isOpen={isModalOpen}
           onClose={closeModal}
           events={events}
+          timeRange={timeRange}
         />
 
         <SummaryCardsSection

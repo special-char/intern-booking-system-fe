@@ -1,6 +1,13 @@
 "use client";
 
 import { Button } from "@/components/shadcn/button";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/shadcn/select";
 import { BookOpen } from "lucide-react";
 
 interface HeaderProps {
@@ -32,16 +39,17 @@ export function Header({
       <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
         {/* View Bookings Button */}
         <div className="flex items-center gap-3">
-          <select
-            value={timeRange}
-            onChange={(e) => onTimeRangeChange(e.target.value)}
-            className="w-36 border border-gray-300 rounded-lg text-gray-700 hover:border-gray-400 transition-colors px-3 py-2 bg-white"
-          >
-            <option value="daily">Daily</option>
-            <option value="weekly">Weekly</option>
-            <option value="monthly">Monthly</option>
-            <option value="yearly">Yearly</option>
-          </select>
+          <Select value={timeRange} onValueChange={onTimeRangeChange}>
+            <SelectTrigger className="w-36">
+              <SelectValue placeholder="Select time range" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="daily">Daily</SelectItem>
+              <SelectItem value="weekly">Weekly</SelectItem>
+              <SelectItem value="monthly">Monthly</SelectItem>
+              <SelectItem value="yearly">Yearly</SelectItem>
+            </SelectContent>
+          </Select>
           <Button onClick={onViewBookings}>
             <BookOpen className="w-4 h-4 mr-2" />
             View Bookings

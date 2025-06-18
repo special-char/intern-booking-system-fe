@@ -41,8 +41,8 @@ export function TimeSlotPopularityChart({
           Time Slot Popularity
         </CardTitle>
       </CardHeader>
-      <CardContent className="pt-6">
-        <div className="h-80">
+      <CardContent className="pt-2">
+        <div className="h-80 flex items-center justify-center">
           <ResponsiveContainer width="90%" height="90%">
             <BarChart
               data={data}

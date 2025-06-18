@@ -6,10 +6,32 @@ interface BookingModalProps {
   isOpen: boolean;
   onClose: () => void;
   events: CalendarEvent[];
+  timeRange: string;
 }
 
-export function BookingModal({ isOpen, onClose, events }: BookingModalProps) {
+export function BookingModal({
+  isOpen,
+  onClose,
+  events,
+  timeRange,
+}: BookingModalProps) {
   if (!isOpen) return null;
+
+  // Map timeRange to calendar view
+  const getInitialView = (timeRange: string) => {
+    switch (timeRange) {
+      case "daily":
+        return "day";
+      case "weekly":
+        return "week";
+      case "monthly":
+        return "month";
+      case "yearly":
+        return "month"; // Yearly view doesn't exist, default to month
+      default:
+        return "day";
+    }
+  };
 
   return (
     <div className="fixed inset-0 z-50 h-screen w-screen flex items-center justify-center bg-white/30">
@@ -23,7 +45,10 @@ export function BookingModal({ isOpen, onClose, events }: BookingModalProps) {
 
         <h2 className="text-xl font-semibold mb-4">All Bookings</h2>
 
-        <EventCalendar events={events} />
+        <EventCalendar
+          events={events}
+          initialView={getInitialView(timeRange)}
+        />
       </div>
     </div>
   );

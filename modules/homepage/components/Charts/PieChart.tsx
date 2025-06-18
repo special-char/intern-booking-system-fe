@@ -36,7 +36,7 @@ export function PieChart({ title, data }: PieChartProps) {
           {title}
         </CardTitle>
       </CardHeader>
-      <CardContent className="pt-4">
+      <CardContent className="pt-2">
         <div className="h-64">
           <ResponsiveContainer width="100%" height="100%">
             <RechartsPieChart>
@@ -45,9 +45,6 @@ export function PieChart({ title, data }: PieChartProps) {
                 cx="50%"
                 cy="50%"
                 labelLine={false}
-                label={({ name, percent }: { name: string; percent: number }) =>
-                  `${name}: ${(percent * 100).toFixed(0)}%`
-                }
                 outerRadius={80}
                 fill="#8884d8"
                 dataKey="value"
@@ -70,6 +67,22 @@ export function PieChart({ title, data }: PieChartProps) {
               />
             </RechartsPieChart>
           </ResponsiveContainer>
+        </div>
+        <div className="flex flex-wrap gap-x-4 gap-y-2 mt-2 justify-center">
+          {data.map((entry, index) => (
+            <div
+              key={entry.name}
+              className="flex items-center min-w-[100px] max-w-full"
+            >
+              <span
+                className="inline-block w-3 h-3 rounded-full mr-2"
+                style={{ backgroundColor: COLORS[index % COLORS.length] }}
+              />
+              <span className="text-sm text-gray-700 whitespace-pre-line break-words">
+                {entry.name}: {entry.value}%
+              </span>
+            </div>
+          ))}
         </div>
       </CardContent>
     </Card>

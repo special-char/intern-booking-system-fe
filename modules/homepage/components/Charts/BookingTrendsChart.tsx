@@ -33,8 +33,8 @@ export function BookingTrendsChart({
           Booking & Revenue Trends
         </CardTitle>
       </CardHeader>
-      <CardContent className="pt-6">
-        <div className="h-80">
+      <CardContent className="pt-2">
+        <div className="h-80 flex items-center justify-center">
           <ResponsiveContainer width="90%" height="90%">
             <LineChart
               data={data}
