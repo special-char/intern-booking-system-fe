@@ -29,6 +29,7 @@ import {
   commonBanks,
 } from "./add-bank-account-form.consts";
 import { Trash2 } from "lucide-react";
+import MultipleSelector, { Option } from "@/components/shadcn/multiselect";
 
 // TODO: Replace with your actual type for a bank account
 export type AddBankAccountFormType = z.infer<typeof addBankAccountFormSchema>;
@@ -37,7 +38,7 @@ export function AddBankAccountForm({
   account,
   isEdit,
   setIsOpen,
-  venues = [], // Pass available venues as a prop
+  venues = [],
   onDelete,
   isOnlyAccount,
   onAddAccount,
@@ -58,7 +59,7 @@ export function AddBankAccountForm({
   const form = useForm<AddBankAccountFormType>({
     resolver: zodResolver(addBankAccountFormSchema),
     defaultValues: account
-      ? addBankAccountFormInitialValues(account)
+      ? addBankAccountFormInitialValues(account, venues)
       : addBankAccountFormDefaultValues,
     mode: "onChange",
   });
@@ -71,21 +72,26 @@ export function AddBankAccountForm({
     try {
       // Create a bank account object
       const bankAccount = {
-        id: account?.id || Date.now(), // Use existing ID for updates
-        bank_name: values.bankName,
-        account_holder: values.accountHolderName,
-        account_number: values.accountNumber,
-        ifsc_code: values.ifscCode,
-        venue: values.venue,
+        bankName: values.bankName,
+        accountHolderName: values.accountHolderName,
+        accountNumber: values.accountNumber,
+        ifscCode: values.ifscCode,
+        venue: values.venue, // This is now an array of venue IDs
         logo_url: account?.logo_url || "",
+        // IMPORTANT: Include the ID when editing
+        ...(isEdit && account?.id && { id: account.id }),
+        // Also include isActive status for updates
+        ...(isEdit && { isActive: account?.isActive !== false }),
       };
+
+      console.log('Submitting bank account:', bankAccount);
 
       if (isEdit && onUpdateAccount) {
         onUpdateAccount(bankAccount);
       } else if (onAddAccount) {
         onAddAccount(bankAccount);
       }
-      
+
       setIsSuccess(true);
       toast({
         title: isEdit ? "Bank account updated successfully" : "Bank account created successfully",
@@ -101,7 +107,10 @@ export function AddBankAccountForm({
   };
 
   const handleDelete = async () => {
-    if (!account?.id || !onDelete) return;
+    if (!account?.id || !onDelete) {
+      console.error('Missing account ID or delete handler:', { accountId: account?.id, hasDeleteHandler: !!onDelete });
+      return;
+    }
 
     if (isOnlyAccount) {
       toast({
@@ -114,12 +123,16 @@ export function AddBankAccountForm({
 
     try {
       setIsDeleting(true);
+      console.log('Attempting to delete account with ID:', account.id);
+
       await onDelete(account.id);
+
       toast({
         title: "Bank account deleted successfully",
       });
       setIsOpen(false);
     } catch (error) {
+      console.error('Delete operation failed:', error);
       toast({
         title: "Error",
         description: "Failed to delete bank account",
@@ -172,9 +185,9 @@ export function AddBankAccountForm({
                   <FormLabel>Bank Name</FormLabel>
                   <FormControl>
                     <div className="relative">
-                      <Input 
-                        placeholder="Enter bank name" 
-                        {...field} 
+                      <Input
+                        placeholder="Enter bank name"
+                        {...field}
                         list="bank-list"
                         className="pr-8"
                         autoComplete="off"
@@ -196,8 +209,8 @@ export function AddBankAccountForm({
                           }
                         }}
                       />
-                      <datalist 
-                        id="bank-list" 
+                      <datalist
+                        id="bank-list"
                         className="absolute z-50 w-full bg-white border border-gray-200 rounded-md shadow-lg mt-1"
                       >
                         {commonBanks.map((bank) => (
@@ -297,28 +310,23 @@ export function AddBankAccountForm({
               name="venue"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Venue</FormLabel>
-                  <Select
-                    onValueChange={field.onChange}
-                    defaultValue={field.value}
-                  >
-                    <FormControl>
-                      <SelectTrigger>
-                        <SelectValue placeholder="Select a venue" />
-                      </SelectTrigger>
-                    </FormControl>
-                    <SelectContent>
-                      {venues.map((venue) => (
-                        <SelectItem key={venue.value} value={venue.value}>
-                          {venue.label}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
+                  <FormLabel>Venues</FormLabel>
+                  <FormControl>
+                    <MultipleSelector
+                      defaultOptions={venues}
+                      placeholder="Select venues"
+                      emptyIndicator={<p className="text-center text-sm">No results found</p>}
+                      value={venues.filter((opt) => field.value?.includes(opt.value))}
+                      onChange={(selected) => {
+                        field.onChange(selected.map((opt) => opt.value));
+                      }}
+                    />
+                  </FormControl>
                   <FormMessage />
                 </FormItem>
               )}
             />
+
           </div>
 
           <SheetFooter className="flex flex-row gap-2 px-4">

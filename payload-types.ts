@@ -77,6 +77,9 @@ export interface Config {
     territory: Territory;
     configurations: Configuration;
     'state-environmental': StateEnvironmental;
+    venues: Venue;
+    address: Address;
+    banking: Banking;
     'payload-locked-documents': PayloadLockedDocument;
     'payload-preferences': PayloadPreference;
     'payload-migrations': PayloadMigration;
@@ -97,6 +100,9 @@ export interface Config {
     territory: TerritorySelect<false> | TerritorySelect<true>;
     configurations: ConfigurationsSelect<false> | ConfigurationsSelect<true>;
     'state-environmental': StateEnvironmentalSelect<false> | StateEnvironmentalSelect<true>;
+    venues: VenuesSelect<false> | VenuesSelect<true>;
+    address: AddressSelect<false> | AddressSelect<true>;
+    banking: BankingSelect<false> | BankingSelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
     'payload-preferences': PayloadPreferencesSelect<false> | PayloadPreferencesSelect<true>;
     'payload-migrations': PayloadMigrationsSelect<false> | PayloadMigrationsSelect<true>;
@@ -348,6 +354,172 @@ export interface StateEnvironmental {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "venues".
+ */
+export interface Venue {
+  id: number;
+  tenant: number | Tenant;
+  name: string;
+  categories: (
+    | 'Cricket'
+    | 'Basketball'
+    | 'Tennis'
+    | 'Badminton'
+    | 'Volleyball'
+    | 'Futsal'
+    | 'Table Tennis'
+    | 'Pickleball'
+    | 'Padel'
+    | 'Squash'
+    | 'Racquetball'
+    | 'Netball'
+    | 'Handball'
+    | 'Swimming Pool'
+    | 'Gymnasium'
+  )[];
+  description: {
+    root: {
+      type: string;
+      children: {
+        type: string;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  };
+  /**
+   * This displays the associated venue details
+   */
+  Address?: (number | null) | Address;
+  photos?: (number | Media)[] | null;
+  amenities: (
+    | 'restrooms'
+    | 'changing-rooms'
+    | 'showers'
+    | 'lockers'
+    | 'drinking-water'
+    | 'waiting-area'
+    | 'first-aid'
+    | 'parking'
+    | 'security'
+    | 'cctv'
+    | 'fire-safety'
+    | 'wifi'
+    | 'digital-scoreboard'
+    | 'mobile-charging'
+    | 'seating-area'
+    | 'snack-bar'
+    | 'pool'
+    | 'equipment-rental'
+    | 'coaching'
+    | 'referee'
+    | 'sports-shop'
+  )[];
+  faqs?:
+    | {
+        question: string;
+        answer: string;
+        id?: string | null;
+      }[]
+    | null;
+  /**
+   * Auto-generated team ID from Cal.com
+   */
+  calcomTeamId?: string | null;
+  /**
+   * Auto-generated Medusa sales channel ID
+   */
+  salesChannelId?: string | null;
+  createdAt: string;
+  updatedAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "address".
+ */
+export interface Address {
+  id: number;
+  address: {
+    street1: string;
+    street2?: string | null;
+    city: string;
+    pincode: string;
+    state:
+      | 'Andhra Pradesh'
+      | 'Arunachal Pradesh'
+      | 'Assam'
+      | 'Bihar'
+      | 'Chhattisgarh'
+      | 'Goa'
+      | 'Gujarat'
+      | 'Haryana'
+      | 'Himachal Pradesh'
+      | 'Jharkhand'
+      | 'Karnataka'
+      | 'Kerala'
+      | 'Madhya Pradesh'
+      | 'Maharashtra'
+      | 'Manipur'
+      | 'Meghalaya'
+      | 'Mizoram'
+      | 'Nagaland'
+      | 'Odisha'
+      | 'Punjab'
+      | 'Rajasthan'
+      | 'Sikkim'
+      | 'Tamil Nadu'
+      | 'Telangana'
+      | 'Tripura'
+      | 'Uttar Pradesh'
+      | 'Uttarakhand'
+      | 'West Bengal'
+      | 'Delhi'
+      | 'Jammu and Kashmir'
+      | 'Ladakh'
+      | 'Puducherry'
+      | 'Chandigarh'
+      | 'Andaman and Nicobar Islands'
+      | 'Dadra and Nagar Haveli and Daman and Diu'
+      | 'Lakshadweep';
+  };
+  contact: {
+    phoneNumber: string;
+    id?: string | null;
+  }[];
+  websiteLinks?:
+    | {
+        url: string;
+        id?: string | null;
+      }[]
+    | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "banking".
+ */
+export interface Banking {
+  id: number;
+  accountHolderName: string;
+  bankName: string;
+  accountNumber: string;
+  ifscCode: string;
+  /**
+   * Select all venues this bank account is linked to.
+   */
+  venues: (number | Venue)[];
+  isActive?: boolean | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "payload-locked-documents".
  */
 export interface PayloadLockedDocument {
@@ -392,6 +564,18 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'state-environmental';
         value: number | StateEnvironmental;
+      } | null)
+    | ({
+        relationTo: 'venues';
+        value: number | Venue;
+      } | null)
+    | ({
+        relationTo: 'address';
+        value: number | Address;
+      } | null)
+    | ({
+        relationTo: 'banking';
+        value: number | Banking;
       } | null);
   globalSlug?: string | null;
   user: {
@@ -600,6 +784,73 @@ export interface StateEnvironmentalSelect<T extends boolean = true> {
         description?: T;
         id?: T;
       };
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "venues_select".
+ */
+export interface VenuesSelect<T extends boolean = true> {
+  tenant?: T;
+  name?: T;
+  categories?: T;
+  description?: T;
+  Address?: T;
+  photos?: T;
+  amenities?: T;
+  faqs?:
+    | T
+    | {
+        question?: T;
+        answer?: T;
+        id?: T;
+      };
+  calcomTeamId?: T;
+  salesChannelId?: T;
+  createdAt?: T;
+  updatedAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "address_select".
+ */
+export interface AddressSelect<T extends boolean = true> {
+  address?:
+    | T
+    | {
+        street1?: T;
+        street2?: T;
+        city?: T;
+        pincode?: T;
+        state?: T;
+      };
+  contact?:
+    | T
+    | {
+        phoneNumber?: T;
+        id?: T;
+      };
+  websiteLinks?:
+    | T
+    | {
+        url?: T;
+        id?: T;
+      };
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "banking_select".
+ */
+export interface BankingSelect<T extends boolean = true> {
+  accountHolderName?: T;
+  bankName?: T;
+  accountNumber?: T;
+  ifscCode?: T;
+  venues?: T;
+  isActive?: T;
   updatedAt?: T;
   createdAt?: T;
 }
