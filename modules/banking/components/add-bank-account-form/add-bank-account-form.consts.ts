@@ -37,7 +37,7 @@ export const addBankAccountFormSchema = z.object({
       /^[A-Z]{4}0[A-Z0-9]{6}$/,
       "IFSC code must start with 4 uppercase letters, followed by 0, and end with 6 alphanumeric characters"
     ),
-  venue: z.string().min(1, "Venue is required"),
+  venue: z.array(z.string()).min(1, "Please select at least one venue"),
 }).refine((data) => data.accountNumber === data.confirmAccountNumber, {
   message: "Account numbers do not match",
   path: ["confirmAccountNumber"],
@@ -51,16 +51,43 @@ export const addBankAccountFormDefaultValues: AddBankAccountFormType = {
   accountNumber: "",
   confirmAccountNumber: "",
   ifscCode: "",
-  venue: "",
+  venue: [],
 };
 
-export const addBankAccountFormInitialValues = (account?: any): AddBankAccountFormType => {
+export const addBankAccountFormInitialValues = (account?: any, venues?: { value: string; label: string }[]): AddBankAccountFormType => {
+  // Handle multiple venues for edit mode
+  let venueValues: string[] = [];
+
+  if (account?.venues && venues) {
+    // If account has venues array (from API response)
+    if (Array.isArray(account.venues)) {
+      venueValues = account.venues.map((v: any) => {
+        // Handle both object and primitive venue formats
+        const venueId = typeof v === 'object' ? v.id : v;
+        return venueId.toString();
+      });
+    }
+  } else if (account?.venue && venues) {
+    // Handle single venue from formatted display data
+    if (typeof account.venue === 'string') {
+      // If venue is a comma-separated string of names, split and find IDs
+      const venueNames = account.venue.split(", ");
+      venueValues = venueNames.map((name: string) => {
+        const venueObj = venues.find(v => v.label === name.trim());
+        return venueObj ? venueObj.value : '';
+      }).filter(Boolean);
+    } else {
+      // Single venue ID
+      venueValues = [account.venue.toString()];
+    }
+  }
+
   return {
-    accountHolderName: account?.accountHolderName || "",
-    bankName: account?.bankName || "",
-    accountNumber: account?.accountNumber || "",
-    confirmAccountNumber: account?.accountNumber || "",
-    ifscCode: account?.ifscCode || "",
-    venue: account?.venue || "",
+    accountHolderName: account?.account_holder || account?.accountHolderName || "",
+    bankName: account?.bank_name || account?.bankName || "",
+    accountNumber: account?.account_number || account?.accountNumber || "",
+    confirmAccountNumber: account?.account_number || account?.accountNumber || "",
+    ifscCode: account?.ifsc_code || account?.ifscCode || "",
+    venue: venueValues,
   };
-}; 
+};
