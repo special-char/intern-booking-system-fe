@@ -506,6 +506,7 @@ export interface Address {
  */
 export interface Banking {
   id: number;
+  tenant?: (number | null) | Tenant;
   accountHolderName: string;
   bankName: string;
   accountNumber: string;
@@ -845,6 +846,7 @@ export interface AddressSelect<T extends boolean = true> {
  * via the `definition` "banking_select".
  */
 export interface BankingSelect<T extends boolean = true> {
+  tenant?: T;
   accountHolderName?: T;
   bankName?: T;
   accountNumber?: T;
