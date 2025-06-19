@@ -42,14 +42,14 @@ import {
   WeekView,
 } from "@/components/event-calendar";
 import { cn } from "@/lib/utils";
-import { Button } from "@/components/ui/button";
+import { Button } from "@/components/shadcn/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuShortcut,
   DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
+} from "@/components/shadcn/dropdown-menu";
 
 export interface EventCalendarProps {
   events?: CalendarEvent[];
@@ -352,7 +352,7 @@ export function EventCalendar({
                 </DropdownMenuItem> */}
               </DropdownMenuContent>
             </DropdownMenu>
-            <Button
+            {/* <Button
               className="aspect-square max-[479px]:p-0!"
               onClick={() => {
                 setSelectedEvent(null); // Ensure we're creating a new event
@@ -365,7 +365,7 @@ export function EventCalendar({
                 aria-hidden="true"
               />
               <span className="max-sm:sr-only">New event</span>
-            </Button>
+            </Button> */}
           </div>
         </div>
 

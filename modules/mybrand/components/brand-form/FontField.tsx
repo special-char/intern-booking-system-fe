@@ -1,54 +1,49 @@
-import { memo } from 'react';
-import { useFormContext } from "react-hook-form";
+import { memo, useMemo } from 'react';
+import { useFormContext, Controller } from "react-hook-form";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/shadcn/select";
-import {
-  FormField,
-  FormItem,
-  FormLabel,
-  FormControl,
-  FormMessage,
-} from "@/components/shadcn/form";
 import { fontFamilies } from "../schema";
 import { BrandFormData } from "../types";
-
-const fontOptions = fontFamilies.map((font) => ({
-  ...font,
-  style: { fontFamily: font.value }
-}));
 
 const FontField = memo(() => {
   const { control } = useFormContext<BrandFormData>();
 
+  const fontOptions = useMemo(() => fontFamilies.map((font) => ({
+    ...font,
+    style: { fontFamily: font.value }
+  })), []);
+
+  const selectContent = useMemo(() => (
+    <SelectContent>
+      {fontOptions.map((font) => (
+        <SelectItem 
+          key={font.value} 
+          value={font.value}
+          style={font.style}
+        >
+          {font.label}
+        </SelectItem>
+      ))}
+    </SelectContent>
+  ), [fontOptions]);
+
   return (
-    <FormField
+    <Controller
       control={control}
       name="fontFamily"
-      render={({ field }) => (
-        <FormItem>
-          <FormLabel>Font Family</FormLabel>
+      render={({ field, fieldState: { error } }) => (
+        <div className="space-y-2">
+          <label className="text-sm font-medium">Font Family</label>
           <Select 
             onValueChange={field.onChange} 
             defaultValue={field.value}
           >
-            <FormControl>
-              <SelectTrigger>
-                <SelectValue placeholder="Select font family" />
-              </SelectTrigger>
-            </FormControl>
-            <SelectContent>
-              {fontOptions.map((font) => (
-                <SelectItem 
-                  key={font.value} 
-                  value={font.value}
-                  style={font.style}
-                >
-                  {font.label}
-                </SelectItem>
-              ))}
-            </SelectContent>
+            <SelectTrigger>
+              <SelectValue placeholder="Select font family" />
+            </SelectTrigger>
+            {selectContent}
           </Select>
-          <FormMessage />
-        </FormItem>
+          {error && <p className="text-sm text-red-500">{error.message}</p>}
+        </div>
       )}
     />
   );

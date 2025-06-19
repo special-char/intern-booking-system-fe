@@ -1,4 +1,4 @@
-import { CricketDashboard } from "@/modules/homepage/templates/homepage-template";
+import { CricketDashboard } from "@/modules/homepage/homepage-template";
 
 export default function HomePage() {
   return <CricketDashboard />;

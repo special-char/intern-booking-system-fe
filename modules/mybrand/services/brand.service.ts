@@ -1,9 +1,13 @@
 import { Brand, BrandResponse } from './types';
 import { BrandFormData, ImageWithAlt, ThemeColors } from '../components/types';
 import { brandFormSchema } from '../components/schema';
+import { getUser } from '@/lib/data/admin';
+import { Tenant } from '@/payload-types';
+import { getPayloadAuthHeaders } from '@/lib/data/cookies';
+import { AppRouterInstance } from 'next/dist/shared/lib/app-router-context.shared-runtime';
 
-const API_BASE_URL = 'http://localhost:3000/api/mybrand';
-const MEDIA_API_URL = 'http://localhost:3000/api/media';
+const API_BASE_URL = 'http://localhost:3000';
+const MEDIA_API_URL = `${API_BASE_URL}/api/media`;
 
 class BrandServiceError extends Error {
   constructor(message: string, public code?: string, public details?: any) {
@@ -13,20 +17,37 @@ class BrandServiceError extends Error {
 }
 
 export class BrandService {
+  private static generateDefaultSVGLogo(initials: string): string {
+    return `
+      <svg width="100" height="100" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="50" cy="50" r="50" fill="#1D4ED8" />
+        <text x="50%" y="55%" text-anchor="middle" fill="white" font-size="35" font-family="Arial" dy=".3em">
+          ${initials.toUpperCase()}
+        </text>
+      </svg>
+    `;
+  }
+
   private static async uploadMedia(imageWithAlt: ImageWithAlt): Promise<string> {
     if (!imageWithAlt?.file) {
       throw new BrandServiceError('No file provided for upload');
     }
 
-    const formData = new FormData();
-    formData.append('file', imageWithAlt.file);
-    formData.append('alt', imageWithAlt.alt);
-
     try {
+      const { user } = await getUser();
+      const tenantId = (user?.tenants?.[0]?.tenant as Tenant)?.id;
+
+      const formData = new FormData();
+      formData.append('file', imageWithAlt.file);
+      formData.append('_payload', JSON.stringify({
+        alt: imageWithAlt.alt || '',
+        tenant: tenantId,
+      }));
+
       const response = await fetch(MEDIA_API_URL, {
         method: 'POST',
-        credentials: 'include', // This will send cookies for tenant context
-        body: formData,
+        credentials: 'include',
+        body: formData
       });
 
       if (!response.ok) {
@@ -45,7 +66,7 @@ export class BrandService {
       }
 
       const data = await response.json();
-      const mediaId = data.doc?.id || data.id;
+      const mediaId = data.doc?.id;
       
       if (!mediaId) {
         throw new BrandServiceError(
@@ -69,10 +90,15 @@ export class BrandService {
 
   static async getBrands(): Promise<BrandResponse> {
     try {
-      const response = await fetch(API_BASE_URL, {
+      const { user } = await getUser();
+      const tenantId = (user?.tenants?.[0]?.tenant as Tenant)?.id;
+      const authHeaders = await getPayloadAuthHeaders();
+
+      const response = await fetch(`${API_BASE_URL}/api/mybrand?depth=1&fallback-locale=null&where[tenant][equals]=${tenantId}`, {
         credentials: 'include',
         headers: {
           'Accept': 'application/json',
+          ...authHeaders
         },
       });
       
@@ -85,7 +111,9 @@ export class BrandService {
         );
       }
 
-      return response.json();
+      const data = await response.json();
+      console.log('Brands API response:', data);
+      return data;
     } catch (error) {
       if (error instanceof BrandServiceError) {
         throw error;
@@ -100,10 +128,15 @@ export class BrandService {
 
   static async getBrand(id: number): Promise<Brand> {
     try {
-      const response = await fetch(`${API_BASE_URL}/${id}`, {
+      const { user } = await getUser();
+      const tenantId = (user?.tenants?.[0]?.tenant as Tenant)?.id;
+      const authHeaders = await getPayloadAuthHeaders();
+
+      const response = await fetch(`${API_BASE_URL}/api/mybrand/${id}?depth=0&fallback-locale=null`, {
         credentials: 'include',
         headers: {
           'Accept': 'application/json',
+          ...authHeaders
         },
       });
 
@@ -129,45 +162,61 @@ export class BrandService {
     }
   }
 
-  static async createBrand(data: BrandFormData): Promise<Brand> {
+  static async createBrand(data: BrandFormData, router: AppRouterInstance): Promise<Brand> {
     try {
       // Validate form data against schema
       const validatedData = brandFormSchema.parse(data);
+      const { user } = await getUser();
+      const tenantId = (user?.tenants?.[0]?.tenant as Tenant)?.id;
+      const authHeaders = await getPayloadAuthHeaders();
 
-      // Validate required files
-      if (!validatedData.brandLogo?.file) {
-        throw new BrandServiceError('Brand logo is required', 'VALIDATION_ERROR');
-      }
-      if (!validatedData.coverImage?.file) {
-        throw new BrandServiceError('Cover image is required', 'VALIDATION_ERROR');
-      }
-
-      // Upload media files
-      const [logoId, coverId] = await Promise.all([
-        this.uploadMedia(validatedData.brandLogo),
-        this.uploadMedia(validatedData.coverImage),
-      ]);
+      // Get tenant name for default logo
+      const tenantName = (user?.tenants?.[0]?.tenant as Tenant)?.name || '';
+      const initials = tenantName.split(' ').map(word => word[0]).join('').slice(0, 2);
 
       // Create brand payload
-      const brandData = {
-        logo: logoId,
-        coverImage: coverId,
+      const brandData: any = {
         colorPalette: this.formatColorPalette(validatedData.themeColors),
-        fontStyle: validatedData.fontFamily,
+        fontStyle: validatedData.fontFamily.toLowerCase(),
+        tenant: tenantId,
+        coverImage: null,
       };
 
-      const response = await fetch(API_BASE_URL, {
+      // Handle logo - use default SVG if no file provided
+      if (validatedData.brandLogo?.file) {
+        brandData.logo = await this.uploadMedia(validatedData.brandLogo);
+      } else {
+        // Create a Blob from the SVG string
+        const svgBlob = new Blob([this.generateDefaultSVGLogo(initials)], { type: 'image/svg+xml' });
+        const svgFile = new File([svgBlob], 'default-logo.svg', { type: 'image/svg+xml' });
+        const defaultLogo: ImageWithAlt = {
+          file: svgFile,
+          alt: `${initials} Logo`
+        };
+        brandData.logo = await this.uploadMedia(defaultLogo);
+      }
+
+      // Handle cover image - make it optional
+      if (validatedData.coverImage?.file) {
+        brandData.coverImage = await this.uploadMedia(validatedData.coverImage);
+      }
+
+      console.log('Brand data being sent to API:', JSON.stringify(brandData, null, 2));
+
+      const response = await fetch(`${API_BASE_URL}/api/mybrand?depth=0&fallback-locale=null`, {
         method: 'POST',
         credentials: 'include',
         headers: {
           'Content-Type': 'application/json',
           'Accept': 'application/json',
+          ...authHeaders
         },
         body: JSON.stringify(brandData),
       });
 
       if (!response.ok) {
         const error = await response.json();
+        console.error('API Error Response:', error);
         throw new BrandServiceError(
           error.message || 'Failed to create brand',
           'CREATE_ERROR',
@@ -175,7 +224,9 @@ export class BrandService {
         );
       }
 
-      return response.json();
+      const result = await response.json();
+      router.refresh();
+      return result;
     } catch (error) {
       if (error instanceof BrandServiceError) {
         throw error;
@@ -188,31 +239,51 @@ export class BrandService {
     }
   }
 
-  static async updateBrand(id: number, data: BrandFormData): Promise<Brand> {
+  static async updateBrand(id: number, data: BrandFormData, router: AppRouterInstance): Promise<Brand> {
     try {
       // Validate form data against schema
       const validatedData = brandFormSchema.parse(data);
+      const { user } = await getUser();
+      const tenantId = (user?.tenants?.[0]?.tenant as Tenant)?.id;
+      const authHeaders = await getPayloadAuthHeaders();
 
-      // Upload any new images if provided
+      // Get tenant name for default logo if needed
+      const tenantName = (user?.tenants?.[0]?.tenant as Tenant)?.name || '';
+      const initials = tenantName.split(' ').map(word => word[0]).join('').slice(0, 2);
+
+      // Create brand payload
       const brandData: any = {
         colorPalette: this.formatColorPalette(validatedData.themeColors),
-        fontStyle: validatedData.fontFamily,
+        fontStyle: validatedData.fontFamily.toLowerCase(),
+        tenant: tenantId,
       };
 
-      if (validatedData.brandLogo) {
+      // Handle logo - use default SVG if no file provided
+      if (validatedData.brandLogo?.file) {
         brandData.logo = await this.uploadMedia(validatedData.brandLogo);
+      } else if (!data.brandLogo?.url) {
+        // Only create default logo if there's no existing logo
+        const svgBlob = new Blob([this.generateDefaultSVGLogo(initials)], { type: 'image/svg+xml' });
+        const svgFile = new File([svgBlob], 'default-logo.svg', { type: 'image/svg+xml' });
+        const defaultLogo: ImageWithAlt = {
+          file: svgFile,
+          alt: `${initials} Logo`
+        };
+        brandData.logo = await this.uploadMedia(defaultLogo);
       }
 
-      if (validatedData.coverImage) {
+      // Handle cover image - make it optional
+      if (validatedData.coverImage?.file) {
         brandData.coverImage = await this.uploadMedia(validatedData.coverImage);
       }
 
-      const response = await fetch(`${API_BASE_URL}/${id}`, {
-        method: 'PUT',
+      const response = await fetch(`${API_BASE_URL}/api/mybrand/${id}?depth=0&fallback-locale=null`, {
+        method: 'PATCH',
         credentials: 'include',
         headers: {
           'Content-Type': 'application/json',
           'Accept': 'application/json',
+          ...authHeaders
         },
         body: JSON.stringify(brandData),
       });
@@ -226,7 +297,9 @@ export class BrandService {
         );
       }
 
-      return response.json();
+      const result = await response.json();
+      router.refresh();
+      return result;
     } catch (error) {
       if (error instanceof BrandServiceError) {
         throw error;
@@ -239,13 +312,18 @@ export class BrandService {
     }
   }
 
-  static async deleteBrand(id: number): Promise<void> {
+  static async deleteBrand(id: number, router: AppRouterInstance): Promise<void> {
     try {
-      const response = await fetch(`${API_BASE_URL}/${id}`, {
+      const { user } = await getUser();
+      const tenantId = (user?.tenants?.[0]?.tenant as Tenant)?.id;
+      const authHeaders = await getPayloadAuthHeaders();
+
+      const response = await fetch(`${API_BASE_URL}/api/mybrand/${id}?depth=0&fallback-locale=null`, {
         method: 'DELETE',
         credentials: 'include',
         headers: {
           'Accept': 'application/json',
+          ...authHeaders
         },
       });
 
@@ -257,6 +335,8 @@ export class BrandService {
           error
         );
       }
+
+      router.refresh();
     } catch (error) {
       if (error instanceof BrandServiceError) {
         throw error;
