@@ -1,4 +1,4 @@
-import { CricketDashboard } from "@/modules/homepage/templates/homepage-template";
+import { CricketDashboard } from "@/modules/homepage/homepage-template";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {

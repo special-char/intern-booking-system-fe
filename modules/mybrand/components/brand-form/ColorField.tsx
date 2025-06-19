@@ -1,5 +1,5 @@
-import { memo, useState, useCallback } from 'react';
-import { useFormContext } from "react-hook-form";
+import { memo, useState, useCallback, useMemo } from 'react';
+import { useFormContext, Controller } from "react-hook-form";
 import { X } from "lucide-react";
 import { Button } from '@/components/shadcn/button';
 import { Input } from '@/components/shadcn/input';
@@ -7,13 +7,6 @@ import { Badge } from "@/components/shadcn/badge";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/shadcn/popover";
 import { HexColorPicker } from 'react-colorful';
 import tinycolor from 'tinycolor2';
-import {
-  FormField,
-  FormItem,
-  FormLabel,
-  FormControl,
-  FormMessage,
-} from "@/components/shadcn/form";
 import { getContrastColor } from "../utils";
 import { BrandFormData } from "../types";
 
@@ -57,13 +50,41 @@ const ColorField = memo(() => {
   }, []);
 
   return (
-    <FormField
+    <Controller
       control={control}
       name="themeColors"
-      render={({ field }) => (
-        <FormItem className="flex flex-col gap-4">
-          <FormLabel>Theme Colors</FormLabel>
-          <FormControl>
+      render={({ field, fieldState: { error } }) => {
+        const colorPickerContent = useMemo(() => (
+          <div className="grid gap-4">
+            <HexColorPicker 
+              color={selectedColor}
+              onChange={setSelectedColor}
+            />
+            <div className="relative">
+              <Input
+                value={selectedColor}
+                onChange={handleColorInputChange}
+                maxLength={7}
+                className="pl-7 uppercase"
+                placeholder="Enter hex code"
+              />
+              <div 
+                className="absolute left-2 top-1/2 -translate-y-1/2 w-4 h-4 rounded-full border"
+                style={{ backgroundColor: selectedColor }}
+              />
+            </div>
+            <Button
+              type="button"
+              onClick={() => handleColorPickerClose(field)}
+            >
+              Add
+            </Button>
+          </div>
+        ), [selectedColor, handleColorInputChange, handleColorPickerClose, field]);
+
+        return (
+          <div className="flex flex-col gap-4">
+            <label className="text-sm font-medium">Theme Colors</label>
             <div className="space-y-4">
               <div className="flex flex-wrap gap-2">
                 {field.value && (
@@ -96,13 +117,6 @@ const ColorField = memo(() => {
                     >
                       Dark
                     </Badge>
-                    <button
-                      type="button"
-                      onClick={() => handleColorReset(field)}
-                      className="ml-1 hover:opacity-75 transition-opacity rounded-full bg-gray-200 p-1"
-                    >
-                      <X className="h-3 w-3" />
-                    </button>
                   </>
                 )}
               </div>
@@ -117,38 +131,14 @@ const ColorField = memo(() => {
                   </Button>
                 </PopoverTrigger>
                 <PopoverContent className="w-auto p-4">
-                  <div className="grid gap-4">
-                    <HexColorPicker 
-                      color={selectedColor}
-                      onChange={setSelectedColor}
-                    />
-                    <div className="relative">
-                      <Input
-                        value={selectedColor}
-                        onChange={handleColorInputChange}
-                        maxLength={7}
-                        className="pl-7 uppercase"
-                        placeholder="Enter hex code"
-                      />
-                      <div 
-                        className="absolute left-2 top-1/2 -translate-y-1/2 w-4 h-4 rounded-full border"
-                        style={{ backgroundColor: selectedColor }}
-                      />
-                    </div>
-                    <Button
-                      type="button"
-                      onClick={() => handleColorPickerClose(field)}
-                    >
-                      Add
-                    </Button>
-                  </div>
+                  {colorPickerContent}
                 </PopoverContent>
               </Popover>
             </div>
-          </FormControl>
-          <FormMessage />
-        </FormItem>
-      )}
+            {error && <p className="text-sm text-red-500">{error.message}</p>}
+          </div>
+        );
+      }}
     />
   );
 });
