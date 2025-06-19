@@ -21,6 +21,9 @@ import { Configurations } from "./collections/Configurations";
 import { StateEnvironmental } from "./collections/State Environmental";
 import { territoryCheckPoint } from "./endpoints/territoryContains";
 import { territoryQuery } from "./endpoints/territoryContains";
+import { Venues } from "./collections/Venue";
+import { Address } from "./collections/Address";
+import { Banking } from "./collections/Banking";
 
 const filename = fileURLToPath(import.meta.url);
 const dirname = path.dirname(filename);
@@ -42,6 +45,9 @@ export default buildConfig({
     Territory,
     Configurations,
     StateEnvironmental,
+    Venues,
+    Address,
+    Banking,
   ],
   db: postgresAdapter({
     pool: {
@@ -71,7 +77,7 @@ export default buildConfig({
         services: {},
         territory: {},
         configurations: {},
-        mybrand:{},
+        banking: {},
         "state-environmental": {},
       },
       tenantField: {

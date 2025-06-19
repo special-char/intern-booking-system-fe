@@ -6,11 +6,11 @@ import { Sheet, SheetTrigger } from "@/components/shadcn/sheet";
 import { AddBankAccountForm } from "../add-bank-account-form";
 import { useState } from "react";
 
-export function AddBankAccount({ 
-  venues = [], 
+export function AddBankAccount({
+  venues = [],
   onAddAccount,
   onUpdateAccount
-}: { 
+}: {
   venues?: { value: string; label: string }[];
   onAddAccount?: (account: any) => void;
   onUpdateAccount?: (account: any) => void;
@@ -25,11 +25,12 @@ export function AddBankAccount({
           Add Bank Account
         </Button>
       </SheetTrigger>
-      <AddBankAccountForm 
-        setIsOpen={setIsOpen} 
-        venues={venues} 
+      <AddBankAccountForm
+        setIsOpen={setIsOpen}
+        venues={venues}
         onAddAccount={onAddAccount}
         onUpdateAccount={onUpdateAccount}
+        isEdit={false}
       />
     </Sheet>
   );
