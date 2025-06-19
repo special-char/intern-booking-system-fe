@@ -330,7 +330,6 @@ export interface Territory {
  */
 export interface Mybrand {
   id: number;
-  tenant?: (number | null) | Tenant;
   logo: number | Media;
   coverImage?: (number | null) | Media;
   colorPalette: {
@@ -800,7 +799,6 @@ export interface ServicesSelect<T extends boolean = true> {
  * via the `definition` "mybrand_select".
  */
 export interface MybrandSelect<T extends boolean = true> {
-  tenant?: T;
   logo?: T;
   coverImage?: T;
   colorPalette?:
