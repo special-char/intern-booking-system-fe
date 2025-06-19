@@ -10,8 +10,9 @@ export type ThemeColors = {
 };
 
 export type ImageWithAlt = {
-  file: File;
-  alt: string;
+  file?: File;
+  alt?: string;
+  url?: string;
 };
 
 export type BrandFormData = z.infer<typeof brandFormSchema>;

@@ -74,6 +74,7 @@ export interface Config {
     media: Media;
     technicians: Technician;
     services: Service;
+    mybrand: Mybrand;
     territory: Territory;
     configurations: Configuration;
     'state-environmental': StateEnvironmental;
@@ -97,6 +98,7 @@ export interface Config {
     media: MediaSelect<false> | MediaSelect<true>;
     technicians: TechniciansSelect<false> | TechniciansSelect<true>;
     services: ServicesSelect<false> | ServicesSelect<true>;
+    mybrand: MybrandSelect<false> | MybrandSelect<true>;
     territory: TerritorySelect<false> | TerritorySelect<true>;
     configurations: ConfigurationsSelect<false> | ConfigurationsSelect<true>;
     'state-environmental': StateEnvironmentalSelect<false> | StateEnvironmentalSelect<true>;
@@ -319,6 +321,53 @@ export interface Territory {
     | boolean
     | null;
   type?: string | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "mybrand".
+ */
+export interface Mybrand {
+  id: number;
+  logo: number | Media;
+  coverImage?: (number | null) | Media;
+  colorPalette: {
+    name: 'primary' | 'light1' | 'light2' | 'dark';
+    value: string;
+    id?: string | null;
+  }[];
+  fontStyle:
+    | 'inter'
+    | 'roboto'
+    | 'opensans'
+    | 'lato'
+    | 'poppins'
+    | 'montserrat'
+    | 'sourcesans'
+    | 'raleway'
+    | 'nunito'
+    | 'rubik'
+    | 'workSans'
+    | 'quicksand'
+    | 'manrope'
+    | 'dmsans'
+    | 'urbanist'
+    | 'playfair'
+    | 'merriweather'
+    | 'lora'
+    | 'crimsonPro'
+    | 'spectral'
+    | 'dmSerif'
+    | 'cormorant'
+    | 'josefinSans'
+    | 'comfortaa'
+    | 'righteous'
+    | 'bebasNeue'
+    | 'pacifico'
+    | 'firaCode'
+    | 'jetBrainsMono'
+    | 'robotomono';
   updatedAt: string;
   createdAt: string;
 }
@@ -555,6 +604,10 @@ export interface PayloadLockedDocument {
         value: number | Service;
       } | null)
     | ({
+        relationTo: 'mybrand';
+        value: number | Mybrand;
+      } | null)
+    | ({
         relationTo: 'territory';
         value: number | Territory;
       } | null)
@@ -738,6 +791,24 @@ export interface ServicesSelect<T extends boolean = true> {
   service?: T;
   territory_id?: T;
   isRefundable?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "mybrand_select".
+ */
+export interface MybrandSelect<T extends boolean = true> {
+  logo?: T;
+  coverImage?: T;
+  colorPalette?:
+    | T
+    | {
+        name?: T;
+        value?: T;
+        id?: T;
+      };
+  fontStyle?: T;
   updatedAt?: T;
   createdAt?: T;
 }

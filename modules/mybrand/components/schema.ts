@@ -35,12 +35,14 @@ export const fontFamilies = [
 
 export const brandFormSchema = z.object({
   brandLogo: z.object({
-    file: z.instanceof(File),
-    alt: z.string().min(1, "Alt text is required for brand logo")
+    file: z.instanceof(File).optional(),
+    alt: z.string().min(1, "Alt text is required for brand logo"),
+    url: z.string().optional()
   }).optional(),
   coverImage: z.object({
-    file: z.instanceof(File),
-    alt: z.string().min(1, "Alt text is required for cover image")
+    file: z.instanceof(File).optional(),
+    alt: z.string().optional(),
+    url: z.string().optional()
   }).optional(),
   themeColors: z.object({
     base: z.string(),
