@@ -1,0 +1,1 @@
+export { default as BrandProfilePage } from './components/BrandProfilePage'; 

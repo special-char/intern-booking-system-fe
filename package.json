@@ -14,6 +14,7 @@
   "dependencies": {
     "@dnd-kit/core": "^6.3.1",
     "@dnd-kit/modifiers": "^9.0.0",
+<<<<<<< HEAD
     "@headlessui/react": "^2.2.4",
     "@hookform/resolvers": "^4.1.3",
     "@medusajs/js-sdk": "^2.8.4",
@@ -22,6 +23,16 @@
     "@payloadcms/payload-cloud": "^3.41.0",
     "@payloadcms/plugin-multi-tenant": "^3.41.0",
     "@payloadcms/richtext-lexical": "^3.41.0",
+=======
+    "@dnd-kit/utilities": "^3.2.2",
+    "@hookform/resolvers": "^4.1.3",
+    "@medusajs/js-sdk": "^2.8.4",
+    "@payloadcms/db-postgres": "^3.42.0",
+    "@payloadcms/next": "^3.42.0",
+    "@payloadcms/payload-cloud": "^3.42.0",
+    "@payloadcms/plugin-multi-tenant": "^3.42.0",
+    "@payloadcms/richtext-lexical": "^3.42.0",
+>>>>>>> a87cc7e33bc06a118baa987098199c063b4d0650
     "@radix-ui/react-accordion": "^1.2.11",
     "@radix-ui/react-alert-dialog": "^1.1.14",
     "@radix-ui/react-avatar": "^1.1.10",
@@ -42,13 +53,19 @@
     "@radix-ui/react-toast": "^1.2.14",
     "@radix-ui/react-tooltip": "^1.2.7",
     "@react-google-maps/api": "^2.20.6",
+<<<<<<< HEAD
     "@tailwindcss/postcss": "^4.1.8",
     "@tanstack/react-query": "^5.80.6",
+=======
+    "@tailwindcss/postcss": "^4.1.10",
+    "@tanstack/react-query": "^5.80.7",
+>>>>>>> a87cc7e33bc06a118baa987098199c063b4d0650
     "@tanstack/react-table": "^8.21.3",
     "@turf/boolean-point-in-polygon": "^7.2.0",
     "@turf/helpers": "^7.2.0",
     "@turf/turf": "^7.2.0",
     "@types/react-big-calendar": "^1.16.2",
+<<<<<<< HEAD
     "axios": "^1.9.0",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
@@ -57,11 +74,24 @@
     "embla-carousel-react": "^8.6.0",
     "framer-motion": "^12.16.0",
     "graphql": "^16.11.0",
+=======
+    "axios": "^1.10.0",
+    "class-variance-authority": "^0.7.1",
+    "clsx": "^2.1.1",
+    "cmdk": "^1.0.0",
+    "date-fns": "^4.1.0",
+    "embla-carousel-react": "^8.6.0",
+    "framer-motion": "^12.18.1",
+    "graphql": "^16.11.0",
+    "jspdf": "^3.0.1",
+    "jspdf-autotable": "^5.0.2",
+>>>>>>> a87cc7e33bc06a118baa987098199c063b4d0650
     "leaflet": "^1.9.4",
     "leaflet-routing-machine": "^3.2.12",
     "leaflet.markercluster": "^1.5.3",
     "lucide-react": "^0.475.0",
     "moment": "^2.30.1",
+<<<<<<< HEAD
     "motion": "^12.16.0",
     "next": "^15.3.3",
     "nylas": "^7.10.0",
@@ -75,15 +105,43 @@
     "react-leaflet-markercluster": "^5.0.0-rc.0",
     "tailwind-merge": "^3.3.0",
     "tailwindcss": "^4.1.8",
+=======
+    "motion": "^12.18.1",
+    "next": "^15.3.3",
+    "nylas": "^7.10.0",
+    "payload": "^3.42.0",
+    "react": "^19.1.0",
+    "react-big-calendar": "^1.19.3",
+    "react-colorful": "^5.6.1",
+    "react-day-picker": "^8.10.1",
+    "react-dom": "^19.1.0",
+    "react-error-boundary": "^6.0.0",
+    "react-hook-form": "^7.58.0",
+    "react-leaflet": "^5.0.0",
+    "react-leaflet-markercluster": "^5.0.0-rc.0",
+    "react-markdown": "^10.1.0",
+    "react-phone-number-input": "^3.4.12",
+    "recharts": "^2.12.0",
+    "sonner": "^2.0.5",
+    "tailwind-merge": "^3.3.1",
+    "tailwindcss": "^4.1.10",
+>>>>>>> a87cc7e33bc06a118baa987098199c063b4d0650
     "tailwindcss-animate": "^1.0.7",
+    "tinycolor2": "^1.6.0",
+    "use-debounce": "^10.0.5",
     "vaul": "^1.1.2",
+<<<<<<< HEAD
     "zod": "^3.25.56"
+=======
+    "zod": "^3.25.64"
+>>>>>>> a87cc7e33bc06a118baa987098199c063b4d0650
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3.3.1",
     "@types/leaflet": "^1.9.18",
     "@types/leaflet-routing-machine": "^3.2.8",
     "@types/node": "^20.19.0",
+<<<<<<< HEAD
     "@types/react": "^19.1.6",
     "@types/react-dom": "^19.1.6",
     "eslint": "^9.28.0",
@@ -91,6 +149,19 @@
     "eslint-plugin-unused-imports": "^4.1.4",
     "postcss": "^8.5.4",
     "typescript": "^5.8.3"
+=======
+    "@types/react": "^19.1.8",
+    "@types/react-dom": "^19.1.6",
+    "@types/tinycolor2": "^1.4.6",
+    "eslint": "^9.29.0",
+    "eslint-config-next": "^15.3.3",
+    "eslint-plugin-unused-imports": "^4.1.4",
+    "postcss": "^8.5.5",
+    "typescript": "^5.8.3"
+  },
+  "overrides": {
+    "react-is": "19.0.0"
+>>>>>>> a87cc7e33bc06a118baa987098199c063b4d0650
   },
   "packageManager": "pnpm@9.14.4+sha512.c8180b3fbe4e4bca02c94234717896b5529740a6cbadf19fa78254270403ea2f27d4e1d46a08a0f56c89b63dc8ebfd3ee53326da720273794e6200fcf0d184ab"
 }

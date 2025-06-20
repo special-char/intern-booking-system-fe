@@ -1,15 +1,11 @@
-import OrdersTemplate from "@/modules/dashboard/all-orders/templates";
+import { CricketDashboard } from "@/modules/homepage/homepage-template";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Treadcommand | Dashboard - all orders",
-  description: "Treadcommand | Dashboard - all orders",
+  title: "Sports Booking | Dashboard",
+  description: "Business insights and daily activity",
 };
 
-export default async function AllOrdersPage() {
-  return (
-    <div className="px-6">
-      <OrdersTemplate />
-    </div>
-  );
+export default function Homepage() {
+  return <CricketDashboard />;
 }

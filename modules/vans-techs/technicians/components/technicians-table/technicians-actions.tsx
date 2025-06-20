@@ -7,18 +7,18 @@ import {
 } from "@/components/shadcn/dropdown-menu";
 import { MoreVertical, Pencil, Trash2 } from "lucide-react";
 import { useState } from "react";
-import { TechnicianForm, TechnicianFormType } from "../technician-form";
+import { ManagerForm, ManagerFormType } from "../technician-form";
 import { Sheet } from "@/components/shadcn/sheet";
-import { deleteTechnician } from "@/lib/data/technicians";
+import { deleteManager } from "@/lib/data/technicians";
 import { ConfirmDialog } from "@/components/common/confirm-dialog";
 import { useToast } from "@/hooks/use-toast";
 
 interface TechniciansActionsProps {
   disabled?: boolean;
-  initialValues: TechnicianFormType & { id: string };
+  initialValues: ManagerFormType & { id: string };
 }
 
-export function TechniciansActions({
+export function ManagersActions({
   disabled,
   initialValues,
 }: TechniciansActionsProps) {
@@ -30,7 +30,7 @@ export function TechniciansActions({
   const handleDelete = async () => {
     setIsDeleting(true);
     try {
-      const response = await deleteTechnician(initialValues.id);
+      const response = await deleteManager(initialValues.id);
       if (response.isSuccess) {
         toast({
           title: "Technician deleted successfully",
@@ -76,7 +76,7 @@ export function TechniciansActions({
         </DropdownMenuContent>
       </DropdownMenu>
       <Sheet open={isSheetOpen} onOpenChange={setSheetOpen}>
-        <TechnicianForm
+        <ManagerForm
           setIsOpen={setSheetOpen}
           isEdit
           initialValues={initialValues}

@@ -8,7 +8,6 @@ const nextConfig: NextConfig = {
         resourceRegExp: /^pg-native$|^cloudflare:sockets$/,
       })
     );
-
     return config;
   },
   eslint: {
@@ -17,7 +16,6 @@ const nextConfig: NextConfig = {
   typescript: {
     ignoreBuildErrors: true,
   },
-  /* config options here */
   async rewrites() {
     return [
       {
@@ -33,7 +31,7 @@ const nextConfig: NextConfig = {
     ];
   },
   images: {
-    domains: ["localhost"],
+    domains: ["localhost", "upload.wikimedia.org", "img.logo.dev"],
   },
 };
 

@@ -2,38 +2,40 @@ import SearchInput from "@/components/common/search-input";
 import { UserIcon } from "lucide-react";
 
 import { PaginatedDataInterface } from "@/types/pagination";
-import { TechnicianFormModal } from "../components/technician-form-modal";
+import { ManagerFormModal } from "../components/technician-form-modal";
 import { getTableLoadingData } from "@/utils/get-table-loading-data";
-import { TechniciansTable } from "../components/technicians-table";
+import { ManagersTable } from "../components/technicians-table";
 import { Suspense } from "react";
-import { TechniciansTableTemplate } from "../components/technicians-table/template";
+import { ManagersTableTemplate } from "../components/technicians-table/template";
 
-interface TechniciansTemplateProps extends PaginatedDataInterface {
+interface ManagersTemplateProps extends PaginatedDataInterface {
   search?: string;
 }
 
-export async function TechniciansTemplate(props: TechniciansTemplateProps) {
+export async function ManagersTemplate(props: ManagersTemplateProps) {
   const { data, pagination } = getTableLoadingData();
   const { search } = props;
 
   return (
-    <div className="py-8 px-6">
-      <div className="flex justify-between md:items-center flex-col md:flex-row gap-4 md:gap-0">
-        <div className="flex items-center gap-2">
+    <div className="py-4 px-2 sm:py-8 sm:px-6 w-full max-w-full">
+      <div className="flex flex-col gap-4 sm:gap-0 sm:flex-row sm:justify-between sm:items-center w-full">
+        <div className="flex items-center gap-2 mb-2 sm:mb-0">
           <UserIcon size={24} />
-          <p className="text-lg font-bold">Technicians</p>
+          <p className="text-lg font-bold">Managers</p>
         </div>
-        <div className="flex gap-5 flex-col md:flex-row">
+        <div className="flex flex-col gap-3 w-full sm:w-auto sm:flex-row sm:gap-5">
           <SearchInput
-            className="md:min-w-[320px]"
+            className="w-full sm:w-[320px]"
             defaultValue={search}
           />
-          <TechnicianFormModal />
+          <ManagerFormModal />
         </div>
       </div>
-      <Suspense fallback={<TechniciansTable data={data as unknown as TechniciansTable['data']} pagination={pagination} isLoading />}>
-        <TechniciansTableTemplate {...props} />
-      </Suspense>
+      <div className="mt-4 sm:mt-8 w-full overflow-x-auto">
+        <Suspense fallback={<ManagersTable data={data as unknown as ManagersTable['data']} pagination={pagination} isLoading />}> 
+          <ManagersTableTemplate {...props} />
+        </Suspense>
+      </div>
     </div>
   );
 }

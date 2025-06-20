@@ -18,15 +18,15 @@ import {
 import { useState, useRef, useEffect } from "react";
 import { UseFormReturn } from "react-hook-form";
 import Image from "next/image";
-import { TechnicianFormType } from ".";
+import { ManagerFormType } from ".";
 import { fetchVans } from "@/lib/data/technicians";
 
-export function TechnicianFields({
+export function ManagerFields({
   form,
   setPreview,
   preview,
 }: {
-  form: UseFormReturn<TechnicianFormType>;
+  form: UseFormReturn<ManagerFormType>;
   setPreview: (preview: string) => void;
   preview: string;
 }) {
@@ -85,7 +85,7 @@ export function TechnicianFields({
             <FormLabel>Full Name</FormLabel>
             <FormControl>
               <Input
-                placeholder="Enter full name for the technician"
+                placeholder="Enter full name for the manager"
                 {...field}
               />
             </FormControl>
@@ -135,24 +135,7 @@ export function TechnicianFields({
             <FormLabel>Mobile Phone</FormLabel>
             <FormControl>
               <Input
-                placeholder="Enter technician's mobile phone number"
-                {...field}
-              />
-            </FormControl>
-            <FormMessage />
-          </FormItem>
-        )}
-      />
-
-      <FormField
-        control={form.control}
-        name="twilioPhone"
-        render={({ field }) => (
-          <FormItem>
-            <FormLabel>Twilio Phone</FormLabel>
-            <FormControl>
-              <Input
-                placeholder="Enter technician's Twilio phone number"
+                placeholder="Enter manager's mobile phone number"
                 {...field}
               />
             </FormControl>
@@ -217,7 +200,7 @@ export function TechnicianFields({
         name="assignMobileTireVan"
         render={({ field }) => (
           <FormItem>
-            <FormLabel>Assign Mobile Tire Van</FormLabel>
+            <FormLabel>Assign Venue</FormLabel>
             <FormControl>
               <Select
                 value={field.value}
@@ -233,12 +216,12 @@ export function TechnicianFields({
                 }}
               >
                 <SelectTrigger>
-                  <SelectValue placeholder="Select van" />
+                  <SelectValue placeholder="Select venue" />
                 </SelectTrigger>
                 <SelectContent>
                   {vans.map((van) => (
                     <SelectItem key={van.id} value={van.vehicleId}>
-                      {`Van ${van.vehicleId}`}
+                      {`Venue ${van.vehicleId}`}
                     </SelectItem>
                   ))}
                 </SelectContent>

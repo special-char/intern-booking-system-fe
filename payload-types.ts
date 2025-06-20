@@ -74,9 +74,13 @@ export interface Config {
     media: Media;
     technicians: Technician;
     services: Service;
+    mybrand: Mybrand;
     territory: Territory;
     configurations: Configuration;
     'state-environmental': StateEnvironmental;
+    venues: Venue;
+    address: Address;
+    banking: Banking;
     'payload-locked-documents': PayloadLockedDocument;
     'payload-preferences': PayloadPreference;
     'payload-migrations': PayloadMigration;
@@ -94,9 +98,13 @@ export interface Config {
     media: MediaSelect<false> | MediaSelect<true>;
     technicians: TechniciansSelect<false> | TechniciansSelect<true>;
     services: ServicesSelect<false> | ServicesSelect<true>;
+    mybrand: MybrandSelect<false> | MybrandSelect<true>;
     territory: TerritorySelect<false> | TerritorySelect<true>;
     configurations: ConfigurationsSelect<false> | ConfigurationsSelect<true>;
     'state-environmental': StateEnvironmentalSelect<false> | StateEnvironmentalSelect<true>;
+    venues: VenuesSelect<false> | VenuesSelect<true>;
+    address: AddressSelect<false> | AddressSelect<true>;
+    banking: BankingSelect<false> | BankingSelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
     'payload-preferences': PayloadPreferencesSelect<false> | PayloadPreferencesSelect<true>;
     'payload-migrations': PayloadMigrationsSelect<false> | PayloadMigrationsSelect<true>;
@@ -318,6 +326,53 @@ export interface Territory {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "mybrand".
+ */
+export interface Mybrand {
+  id: number;
+  logo: number | Media;
+  coverImage?: (number | null) | Media;
+  colorPalette: {
+    name: 'primary' | 'light1' | 'light2' | 'dark';
+    value: string;
+    id?: string | null;
+  }[];
+  fontStyle:
+    | 'inter'
+    | 'roboto'
+    | 'opensans'
+    | 'lato'
+    | 'poppins'
+    | 'montserrat'
+    | 'sourcesans'
+    | 'raleway'
+    | 'nunito'
+    | 'rubik'
+    | 'workSans'
+    | 'quicksand'
+    | 'manrope'
+    | 'dmsans'
+    | 'urbanist'
+    | 'playfair'
+    | 'merriweather'
+    | 'lora'
+    | 'crimsonPro'
+    | 'spectral'
+    | 'dmSerif'
+    | 'cormorant'
+    | 'josefinSans'
+    | 'comfortaa'
+    | 'righteous'
+    | 'bebasNeue'
+    | 'pacifico'
+    | 'firaCode'
+    | 'jetBrainsMono'
+    | 'robotomono';
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "configurations".
  */
 export interface Configuration {
@@ -343,6 +398,173 @@ export interface StateEnvironmental {
         id?: string | null;
       }[]
     | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "venues".
+ */
+export interface Venue {
+  id: number;
+  tenant: number | Tenant;
+  name: string;
+  categories: (
+    | 'Cricket'
+    | 'Basketball'
+    | 'Tennis'
+    | 'Badminton'
+    | 'Volleyball'
+    | 'Futsal'
+    | 'Table Tennis'
+    | 'Pickleball'
+    | 'Padel'
+    | 'Squash'
+    | 'Racquetball'
+    | 'Netball'
+    | 'Handball'
+    | 'Swimming Pool'
+    | 'Gymnasium'
+  )[];
+  description: {
+    root: {
+      type: string;
+      children: {
+        type: string;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  };
+  /**
+   * This displays the associated venue details
+   */
+  Address?: (number | null) | Address;
+  photos?: (number | Media)[] | null;
+  amenities: (
+    | 'restrooms'
+    | 'changing-rooms'
+    | 'showers'
+    | 'lockers'
+    | 'drinking-water'
+    | 'waiting-area'
+    | 'first-aid'
+    | 'parking'
+    | 'security'
+    | 'cctv'
+    | 'fire-safety'
+    | 'wifi'
+    | 'digital-scoreboard'
+    | 'mobile-charging'
+    | 'seating-area'
+    | 'snack-bar'
+    | 'pool'
+    | 'equipment-rental'
+    | 'coaching'
+    | 'referee'
+    | 'sports-shop'
+  )[];
+  faqs?:
+    | {
+        question: string;
+        answer: string;
+        id?: string | null;
+      }[]
+    | null;
+  /**
+   * Auto-generated team ID from Cal.com
+   */
+  calcomTeamId?: string | null;
+  /**
+   * Auto-generated Medusa sales channel ID
+   */
+  salesChannelId?: string | null;
+  createdAt: string;
+  updatedAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "address".
+ */
+export interface Address {
+  id: number;
+  address: {
+    street1: string;
+    street2?: string | null;
+    city: string;
+    pincode: string;
+    state:
+      | 'Andhra Pradesh'
+      | 'Arunachal Pradesh'
+      | 'Assam'
+      | 'Bihar'
+      | 'Chhattisgarh'
+      | 'Goa'
+      | 'Gujarat'
+      | 'Haryana'
+      | 'Himachal Pradesh'
+      | 'Jharkhand'
+      | 'Karnataka'
+      | 'Kerala'
+      | 'Madhya Pradesh'
+      | 'Maharashtra'
+      | 'Manipur'
+      | 'Meghalaya'
+      | 'Mizoram'
+      | 'Nagaland'
+      | 'Odisha'
+      | 'Punjab'
+      | 'Rajasthan'
+      | 'Sikkim'
+      | 'Tamil Nadu'
+      | 'Telangana'
+      | 'Tripura'
+      | 'Uttar Pradesh'
+      | 'Uttarakhand'
+      | 'West Bengal'
+      | 'Delhi'
+      | 'Jammu and Kashmir'
+      | 'Ladakh'
+      | 'Puducherry'
+      | 'Chandigarh'
+      | 'Andaman and Nicobar Islands'
+      | 'Dadra and Nagar Haveli and Daman and Diu'
+      | 'Lakshadweep';
+  };
+  contact: {
+    phoneNumber: string;
+    id?: string | null;
+  }[];
+  websiteLinks?:
+    | {
+        url: string;
+        id?: string | null;
+      }[]
+    | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "banking".
+ */
+export interface Banking {
+  id: number;
+  tenant?: (number | null) | Tenant;
+  accountHolderName: string;
+  bankName: string;
+  accountNumber: string;
+  ifscCode: string;
+  /**
+   * Select all venues this bank account is linked to.
+   */
+  venues: (number | Venue)[];
+  isActive?: boolean | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -382,6 +604,10 @@ export interface PayloadLockedDocument {
         value: number | Service;
       } | null)
     | ({
+        relationTo: 'mybrand';
+        value: number | Mybrand;
+      } | null)
+    | ({
         relationTo: 'territory';
         value: number | Territory;
       } | null)
@@ -392,6 +618,18 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'state-environmental';
         value: number | StateEnvironmental;
+      } | null)
+    | ({
+        relationTo: 'venues';
+        value: number | Venue;
+      } | null)
+    | ({
+        relationTo: 'address';
+        value: number | Address;
+      } | null)
+    | ({
+        relationTo: 'banking';
+        value: number | Banking;
       } | null);
   globalSlug?: string | null;
   user: {
@@ -558,6 +796,24 @@ export interface ServicesSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "mybrand_select".
+ */
+export interface MybrandSelect<T extends boolean = true> {
+  logo?: T;
+  coverImage?: T;
+  colorPalette?:
+    | T
+    | {
+        name?: T;
+        value?: T;
+        id?: T;
+      };
+  fontStyle?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "territory_select".
  */
 export interface TerritorySelect<T extends boolean = true> {
@@ -600,6 +856,74 @@ export interface StateEnvironmentalSelect<T extends boolean = true> {
         description?: T;
         id?: T;
       };
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "venues_select".
+ */
+export interface VenuesSelect<T extends boolean = true> {
+  tenant?: T;
+  name?: T;
+  categories?: T;
+  description?: T;
+  Address?: T;
+  photos?: T;
+  amenities?: T;
+  faqs?:
+    | T
+    | {
+        question?: T;
+        answer?: T;
+        id?: T;
+      };
+  calcomTeamId?: T;
+  salesChannelId?: T;
+  createdAt?: T;
+  updatedAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "address_select".
+ */
+export interface AddressSelect<T extends boolean = true> {
+  address?:
+    | T
+    | {
+        street1?: T;
+        street2?: T;
+        city?: T;
+        pincode?: T;
+        state?: T;
+      };
+  contact?:
+    | T
+    | {
+        phoneNumber?: T;
+        id?: T;
+      };
+  websiteLinks?:
+    | T
+    | {
+        url?: T;
+        id?: T;
+      };
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "banking_select".
+ */
+export interface BankingSelect<T extends boolean = true> {
+  tenant?: T;
+  accountHolderName?: T;
+  bankName?: T;
+  accountNumber?: T;
+  ifscCode?: T;
+  venues?: T;
+  isActive?: T;
   updatedAt?: T;
   createdAt?: T;
 }

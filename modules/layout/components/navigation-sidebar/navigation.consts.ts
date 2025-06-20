@@ -174,6 +174,7 @@
 // };
 import {
   Grid2X2,
+<<<<<<< HEAD
   Map,
   Building2,
   ShoppingCart,
@@ -184,6 +185,13 @@ import {
   Percent,
   Tags,
   List,
+=======
+  Truck,
+  MapPin,
+  ShoppingCart,
+  Asterisk,
+  Landmark,
+>>>>>>> a87cc7e33bc06a118baa987098199c063b4d0650
 } from "lucide-react";
 
 export const menuItems = {
@@ -197,6 +205,7 @@ export const menuItems = {
       matchNested: true,
     },
     {
+<<<<<<< HEAD
       title: "Organisation",
       url: "/organisation",
       icon: Building2,
@@ -207,11 +216,17 @@ export const menuItems = {
       title: "Venues",
       url: "/venues",
       icon: Map,
+=======
+      title: "Managers",
+      url: "/managers",
+      icon: Truck,
+>>>>>>> a87cc7e33bc06a118baa987098199c063b4d0650
       isActive: false,
       isExpandable: false,
       matchNested: true,
     },
     {
+<<<<<<< HEAD
       title: "Court",
       icon: Layers3,
       isExpandable: true,
@@ -237,6 +252,14 @@ export const menuItems = {
           permissionSkip: true,
         },
       ],
+=======
+      title: "Courts",
+      url: "/courts",
+      icon: MapPin,
+      isActive: false,
+      isExpandable: false,
+      matchNested: true,
+>>>>>>> a87cc7e33bc06a118baa987098199c063b4d0650
     },
     //come in setting page
     // {
@@ -255,6 +278,7 @@ export const menuItems = {
     // },
     {
       title: "Orders",
+<<<<<<< HEAD
       url: "/orders",
       icon: ShoppingCart,
       isActive: false,
@@ -300,13 +324,45 @@ export const menuItems = {
       title: "Promotion",
       url: "/promotion",
       icon: Percent,
+=======
+      url: "/orders/list-view",
+      icon: ShoppingCart,
+      isActive: false,
+      isExpandable: false,
+      matchNested: true,
+    },
+    {
+      title: "My brand",
+      url: "/mybrand",
+      icon: Asterisk,
+>>>>>>> a87cc7e33bc06a118baa987098199c063b4d0650
       isActive: false,
       isExpandable: false,
     },
     {
+<<<<<<< HEAD
       title: "Price List",
       url: "/price-list",
       icon: Tags,
+=======
+      title: "Banking",
+      url: "/banking",
+      icon: Landmark,
+      isActive: false,
+      isExpandable: false,
+    },
+    {
+      title: "Offer",
+      url: "/offer",
+      icon: Landmark,
+      isActive: false,
+      isExpandable: false,
+    },
+    {
+      title: "Payment History",
+      url: "/payment",
+      icon: Landmark,
+>>>>>>> a87cc7e33bc06a118baa987098199c063b4d0650
       isActive: false,
       isExpandable: false,
     },
